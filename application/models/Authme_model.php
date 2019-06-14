@@ -11,10 +11,10 @@ class Authme_Model extends CI_Model
         parent::__construct();
     }
 
-    public function _signin($password)
+    public function _get_user_by_email($email, $password)
     {
-        $sp = 'call sp_get_password(?)';
-        $query = $this->db->query($sp, array('password' => $password));
+        $sp = 'call sp_user_by_email(?, ?)';
+        $query = $this->db->query($sp, array('username' => $email, 'password' => $password));
         return ($query->num_rows() > 0) ? $query->row() : false;
     }
 }

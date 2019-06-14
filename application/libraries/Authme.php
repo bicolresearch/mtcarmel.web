@@ -37,7 +37,7 @@ class Authme {
                     'logged_in' => true,
                     'user' => $user
                 ));
-                $this->CI->authme_model->_set_user_login($user->id, array('last_login' => date('Y-m-d H:i:s')));
+                $this->CI->authme_model->_set_user_update($user->id, array('last_login' => date('Y-m-d H:i:s')));
                 return true;
             }
         }
@@ -53,20 +53,20 @@ class Authme {
         }
     }
 
-    public function signup($email, $password)
+    public function create_account($email, $password)
     {
         $user = $this->CI->authme_model->_get_user_by_email($email);
         if($user) return false;
 
         $password = hash('sha512', $password);
-        $this->CI->authme_model->_set_new_user($email, $password);
+        $this->CI->authme_model->_set_user_create($email, $password);
         return true;
     }
 
     public function reset_password($user_id, $new_password)
     {
         $new_password = hash('sha512', $new_password);
-        $this->CI->authme_model->update_user($user_id, array('password' => $new_password));
+        $this->CI->authme_model->_set_user_update($user_id, array('password' => $new_password));
     }
 
 }

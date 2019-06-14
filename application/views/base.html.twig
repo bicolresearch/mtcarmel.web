@@ -166,23 +166,27 @@
                         <i data-feather="x"></i>
                     </button>
                 </div>
-                <div class="modal-body px-lg-5">
-                    <div class="logo text-center mb-4">
-                        <img src="{{ base_url('public/assets/img/icons/borderedlogobrown.svg') }}" alt="Mount Carmel Logo"/>
+                <form>
+                    <div id="ajax-preloader"></div>
+                    <div class="modal-body px-lg-5">
+                        <div class="logo text-center mb-4">
+                            <img src="{{ base_url('public/assets/img/icons/borderedlogobrown.svg') }}" alt="Mount Carmel Logo"/>
+                        </div>
+                        <div id="ajax-response"></div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="text" class="form-control" id="email" name="email" value="{{ set_value('email') }}" placeholder="Email">
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <input type="password" class="form-control" id="password" name="password" value="{{ set_value('password') }}" placeholder="Password">
+                        </div>
+                        <a href="javascript:void(0);" target="_blank">Forgot password?</a> <a class="float-right" href="javascript:void(0);" target="_blank">Create an Account</a>
                     </div>
-                    <div class="form-group">
-                        <label for="inputEmail">Email</label>
-                        <input type="email" class="form-control" id="inputEmail" placeholder="Email">
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-lg btn-brown rounded-pill px-5" id="btn-change-state">Login</button>
                     </div>
-                    <div class="form-group">
-                        <label for="inputPassword">Password</label>
-                        <input type="password" class="form-control" id="inputPassword" placeholder="Password">
-                    </div>
-                    <a href="javascript:void(0);" target="_blank">Forgot password?</a> <a class="float-right" href="javascript:void(0);" target="_blank">Create an Account</a>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-lg btn-brown rounded-pill px-5">Login</button>
-                </div>
+                </form>
             </div>
         </div>
     </div>
@@ -195,12 +199,78 @@
 
     <script>
         $(function () {
+            let baseURL = "{{ base_url() }}";
+
+            // POST: Login
+            let logIn = {
+                init: function () {
+                    this.submitForm();
+                },
+                resetForm: function () {
+                    let el = $('form');
+                    el.find('.form-control').removeClass('is-invalid');
+                },
+                submitForm: function () {
+                    $('#loginModal').on('show.bs.modal', function () {
+                        $('form').on('submit', function (e) {
+                            let el = $(this);
+                            let btn = el.find('#btn-change-state');
+                            let data = el.serialize();
+
+                            $.ajax({
+                                url: baseURL + '/auth/login_ajax',
+                                type: 'POST',
+                                dataType: 'json',
+                                data: data,
+                                cache: false,
+                                processData: false,
+                                beforeSend: function () {
+                                    el.find('#ajax-preloader').html(
+                                        '<div class="loader">' +
+                                        '  <svg class="circular" viewBox="25 25 50 50">' +
+                                        '    <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>' +
+                                        '  </svg>' +
+                                        '</div>').show();
+                                    btn.attr('disabled', 'disabled');
+                                },
+                                complete: function () {
+                                    el.find('#ajax-preloader').html(
+                                        '<div class="loader">' +
+                                        '  <svg class="circular" viewBox="25 25 50 50">' +
+                                        '    <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>' +
+                                        '  </svg>' +
+                                        '</div>').hide('fast');
+                                    btn.removeAttr('disabled');
+                                },
+                                success: function (data) {
+                                    if (data.status === true) {
+                                        logIn.resetForm();
+                                        window.location.replace(baseURL + '/auth');
+                                    } else {
+                                        // Error msg response
+                                        console.log(data.response);
+                                        $('#ajax-response').html('<div class="alert alert-danger"><ul>' + data.response + '</ul></div>');
+                                        (Boolean(data.email)) ? el.find('#email').addClass('is-invalid') : el.find('#email').removeClass('is-invalid');
+                                        (Boolean(data.password)) ? el.find('#password').addClass('is-invalid') : el.find('#password').removeClass('is-invalid');
+                                    }
+                                },
+                                error: function (jqXHR, textStatus, errorThrown) {
+                                    // For debugging
+                                    console.log('The following error occurred: ' + textStatus, errorThrown);
+                                }
+                            });
+                            e.preventDefault();
+                        });
+                    });
+                }
+            };
+
             let methods = {
                 init: function () {
                     this.activeList();
                 },
                 activeList: function () {
-                    var str = location.href.toLowerCase();
+                    let str = location.href.toLowerCase();
                     $('.sidebar-nav li a').each(function () {
                         if (str.indexOf(this.href.toLowerCase()) > -1) {
                             $('.sidebar-nav li.active').removeClass('active');
@@ -215,6 +285,7 @@
                 }
             };
 
+            logIn.init();
             methods.init();
         })
     </script>

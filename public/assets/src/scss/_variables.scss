@@ -1,9 +1,9 @@
 /*
 *   Filename  : _variables.scss
 *   Purpose   : Reusable variables for css styles
-*   Created   : 5/23/2019 by rpbaguio
-*   Updated   : 5/31/2019 by rpbaguio
-*   Changes   : Removed primary font variables
+*   Created   : 5/23/2019 by Sherlock Holmes
+*   Updated   : 6/14/2019 by Sherlock Holmes
+*   Changes   : Added color schemes based on twitter bootstrap
 */
 
 /* Color scheme */
@@ -12,3 +12,31 @@ $dark-khaki: #B88A5A;
 $dark-olive: #442E26;
 $light-steel-blue: #EAEBF0;
 $light-slate-gray: #8D8C91;
+
+// Theme colors
+$blue: #007bff;
+$indigo: #6610f2;
+$purple: #6f42c1;
+$pink: #e83e8c;
+$red: #dc3545;
+$orange: #fd7e14;
+$yellow: #ffc107;
+$green: #28a745;
+$teal: #20c997;
+$cyan: #17a2b8;
+$white: #fff;
+$gray: #6c757d;
+$gray-dark: #343a40;
+$primary: #007bff;
+$secondary: #6c757d;
+$success: #28a745;
+$info: #17a2b8;
+$warning: #ffc107;
+$danger: #dc3545;
+$light: #f8f9fa;
+$dark: #343a40;
+$breakpoint-xs: 0;
+$breakpoint-sm: 576px;
+$breakpoint-md: 768px;
+$breakpoint-lg: 992px;
+$breakpoint-xl: 1200px;

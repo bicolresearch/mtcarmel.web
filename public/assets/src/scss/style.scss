@@ -368,6 +368,21 @@ body {
 /* Alert */
 .alert {
   @include border-radius(0);
+  padding: 16px;
+
+  ul {
+    margin: 0;
+    padding-left: 16px;
+    li {
+
+    }
+  }
+}
+
+.alert-danger {
+  color: darken(#d9543f, 5%);
+  background-color: lighten(#d9543f, 40%);
+  border: none;
 }
 
 .alert-light-brown {
@@ -470,6 +485,85 @@ a {
   }
   to {
     opacity: 0;
+  }
+}
+
+/* Ajax preloader */
+#ajax-preloader {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1000;
+
+  .loader {
+    position: relative;
+    margin: 0 auto;
+    width: 100px;
+
+    &:before {
+      content: '';
+      display: block;
+      padding-top: 100%;
+    }
+  }
+
+  .circular {
+    animation: rotate 2s linear infinite;
+    height: 100%;
+    transform-origin: center center;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+  }
+
+  .path {
+    stroke-dasharray: 1, 200;
+    stroke-dashoffset: 0;
+    animation: dash 1.5s ease-in-out infinite, color 6s ease-in-out infinite;
+    stroke-linecap: round;
+  }
+
+  @keyframes rotate {
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
+  @keyframes dash {
+    0% {
+      stroke-dasharray: 1, 200;
+      stroke-dashoffset: 0;
+    }
+    50% {
+      stroke-dasharray: 89, 200;
+      stroke-dashoffset: -35px;
+    }
+    100% {
+      stroke-dasharray: 89, 200;
+      stroke-dashoffset: -124px;
+    }
+  }
+
+  @keyframes color {
+    100%,
+    0% {
+      stroke: $danger;
+    }
+    40% {
+      stroke: $primary;
+    }
+    66% {
+      stroke: $success;
+    }
+    80%,
+    90% {
+      stroke: $warning;
+    }
   }
 }
 
