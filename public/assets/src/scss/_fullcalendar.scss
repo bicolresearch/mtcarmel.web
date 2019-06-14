@@ -1,0 +1,39 @@
+@import "_variables.scss";
+
+.fc-unthemed {
+  .fc-button {
+    @extend .btn-brown;
+  }
+
+  .fc-button:disabled {
+    background-color: $dark-khaki;
+  }
+
+  .fc-button.fc-state-active {
+    color: white;
+    background-color: $dark-khaki;
+  }
+
+  .fc-center {
+    h2 {
+      color: $sienna;
+    }
+  }
+
+  .fc-title {
+    color: $sienna;
+  }
+
+  .fc-time {
+    color: $sienna;
+  }
+
+  .fc-event {
+    border-color: lighten($dark-khaki, 10%);
+    background-color: lighten($dark-khaki, 35%);
+  }
+
+  .fc-event-dot {
+    background-color: $sienna;
+  }
+}

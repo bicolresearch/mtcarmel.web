@@ -1,0 +1,133 @@
+{#
+    File      : views/basilica/location-map.html.twig
+    Purpose   : basilica/location-map view
+    Created   : 6/06/2019 by Sherlock Holmes
+    Updated   :
+    Changes   :
+#}
+
+{% extends 'base.html.twig' %}
+{% block title %} {{ page_title }} | Mount Carmel {% endblock %}
+{% block contents %}
+    <div class="row">
+        <div class="col-12 col-lg-8">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title text-center">Location Map</h3>
+                </div>
+                <div class="card-body">
+                    <div id="map">
+                        {# map canvas #}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-lg-4">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title text-center">Boundaries</h3>
+                </div>
+                <div class="card-body">
+                    <dl class="row">
+                        <dt class="col-sm-6 text-right">North</dt>
+                        <dd class="col-sm-6">E. Rodriguez Avenue (formerly España Extension)</dd>
+                        <dt class="col-sm-6 text-right">South</dt>
+                        <dd class="col-sm-6">Ermitaño Creek</dd>
+                        <dt class="col-sm-6 text-right">West</dt>
+                        <dd class="col-sm-6">San Juan River</dd>
+                        <dt class="col-sm-6 text-right">East</dt>
+                        <dd class="col-sm-6">Balete Drive through N. Domingo and Horseshoe Drive until Ermitaño Creek</dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block custom_scripts %}
+    <script>
+        // This map shows the boundaries
+        // of Mount Carmel Minor Basilica
+
+        let map;
+        let baseURL = location.origin;
+
+        function initMap(listener) {
+            map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 14,
+                center: {lat: 14.614253, lng: 121.030581},
+                mapTypeId: 'roadmap',
+                mapTypeControl: true,
+                mapTypeControlOptions: {
+                    style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
+                    position: google.maps.ControlPosition.LEFT_TOP
+                },
+                zoomControl: true,
+                zoomControlOptions: {
+                    position: google.maps.ControlPosition.RIGHT_BOTTOM
+                },
+                scaleControl: true,
+                streetViewControl: true,
+                streetViewControlOptions: {
+                    position: google.maps.ControlPosition.RIGHT_BOTTOM
+                },
+                fullscreenControl: true,
+                fullscreenControlOptions: {
+                    position: google.maps.ControlPosition.RIGHT_BOTTOM
+                }
+            });
+
+            let marker = new google.maps.Marker({
+                position: map.center,
+                map: map,
+                title: 'Click to zoom'
+            });
+
+            map.addListener('center_changed', function () {
+                // 3 seconds after the center of the map has changed, pan back to the
+                // marker.
+                window.setTimeout(function () {
+                    map.panTo(marker.getPosition());
+                }, 3000);
+            });
+
+            marker.addListener('click', function () {
+                map.setZoom(17);
+                map.setCenter(marker.getPosition());
+            });
+
+            let boundariesCoords = $(this).serialize();
+
+            $.ajax({
+                url: baseURL + '/basilica/coords',
+                type: 'GET',
+                dataType: 'json',
+                data: boundariesCoords,
+                cache: false,
+                processData: false,
+                beforeSend: function () {
+                    console.log('fetching boundaries coordinates...');
+                },
+                success: function (data) {
+                    if (data) {
+                        // Construct the polygon.
+                        let mountCarmel = new google.maps.Polygon({
+                            paths: data,
+                            strokeColor: '#7E5232',
+                            strokeOpacity: 0.75,
+                            strokeWeight: 3,
+                            fillColor: '#7E5232',
+                            fillOpacity: 0.25
+                        });
+                        mountCarmel.setMap(map);
+                    }
+                    console.log('boundaries coordinates loaded...');
+                    console.table(data);
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.log('The following error occurred: ' + textStatus, errorThrown);
+                }
+            });
+        }
+    </script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD-UCm_ZdIOo6RUyU7TBmgNjH1GHgaDrig&callback=initMap"></script>
+{% endblock %}

@@ -1,0 +1,87 @@
+{#
+    File      : views/services/join-us.html.twig
+    Purpose   : services/join_us view
+    Created   : 6/04/2019 by Band Aid
+    Updated   :
+    Changes   :
+#}
+
+{% extends 'base.html.twig' %}
+{% block title %} {{ page_title }} | Mount Carmel {% endblock %}
+{% block contents %}
+    <div class="row">
+        <div class="col-12 col-lg-4 mb-4">
+            <div class="list-group" id="list-tab" role="tablist">
+                <div class="list-group-item list-group-item-action">
+                    <div class="service">
+                        <i class="icon-joinus icon-96 sienna m-0 p-0"></i>
+                    </div>
+                    <div class="service-info">
+                        <div class="title">Join Us</div>
+                        <div class="desc text-justify">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit non enim feugiat mi placerat.
+                        </div>
+                    </div>
+                </div>
+                <a class="list-group-item list-group-item-action active" id="list-joinus-list" data-toggle="list" href="#list-joinus" role="tab" aria-controls="joinus">Confraternity of Our Lady of Mount Carmel</a>
+            </div>
+        </div>
+        <div class="col-12 col-lg-8">
+            <div class="tab-content" id="nav-tabContent">
+                <div class="tab-pane fade show active" id="list-joinus" role="tabpanel" aria-labelledby="list-joinus-list">
+                    <div class="card">
+                        <div class="card-body px-6">
+                            <p class="text-justify">
+                                As Carmelites We live our life of allegiance to Jesus Christ and to serve Him faithfully with a pure heart and a clear conscience through a commitment to seek the face of the living God (the contemplative dimension of life), through prayer, through fraternity, and through service (diakonia). These three fundamental elements of the charism are not distinct and unrelated values, but closely interwoven.
+                                All of these we live under the protection, inspiration and guidance of Mary, Our Lady of Mount Carmel, whom we honor as "our Mother and sister."
+                            </p>
+
+                            <div class="alert alert-light-brown sienna mx-7" role="alert">
+                                <div class="alert-message">
+                                    <h4 class="alert-heading">Fees:</h4>
+                                    <ul>
+                                        <li>Application Fee</li>
+                                        <li>Scapular</li>
+                                        <li>Confraternity Manual</li>
+                                        <li>Certificate of Confraternity</li>
+                                    </ul>
+                                    <hr>
+                                    <ul style="list-style-type: circle">
+                                        <li>200php</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <p class="text-center mb-0">You may settle your bill using your debit card, credit card or cash.</p>
+                        </div>
+                        <div class="card-footer">
+                            <p class="text-center mb-0">
+                                <a class="btn btn-lg btn-brown rounded-pill px-5" href="javascript:void(0)" data-toggle="modal" data-target="#acceptanceModal">Join Now</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {# Acceptance modal #}
+    <div class="modal fade" id="acceptanceModal" tabindex="-1" data-backdrop="static" role="dialog" aria-labelledby="acceptanceModalTitle" aria-hidden="true">
+        <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title" id="acceptanceModalTitle">Join Us</h3>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <i data-feather="x"></i>
+                    </button>
+                </div>
+                <div class="modal-body p-lg-5">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-lg btn-brown rounded-pill px-5" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,10 @@
+application/cache/*
+!application/cache/index.html
+application/logs/*
+!application/logs/index.html
+!application/*/.htaccess
+composer.lock
+.idea/*
+/composer.phar
+/application/vendor/*
+/public/assets/node_modules/*

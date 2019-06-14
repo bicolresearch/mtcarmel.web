@@ -1,0 +1,582 @@
+/*
+*   Filename  : style.scss
+*   Purpose   : Custom stylesheet
+*   Created   : 5/20/2019 by rpbaguio
+*   Updated   : 6/04/2019 by rpbaguio
+*   Changes   : Added pacejs style
+*/
+/* Imports */
+@import "_fonts.scss";
+@import "_variables.scss";
+@import "_mixins.scss";
+@import "_pace.scss";
+@import "_fullcalendar.scss";
+
+html {
+  /* Support for all WebKit browsers. */
+  -webkit-font-smoothing: antialiased;
+  /* Support for Safari and Chrome. */
+  text-rendering: optimizeLegibility;
+  /* Support for Firefox. */
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: Helvetica, sans-serif;
+  overflow-y: auto;
+}
+
+/* Sidebar */
+.sidebar {
+  background-color: $sienna;
+
+  .sidebar-content {
+    background-color: $sienna;
+
+    .sidebar-brand {
+      height: 66px;
+      padding: 8px 12.5px;
+
+      .logo {
+        float: left;
+        margin-right: 12px;
+
+        img {
+          width: 40px;
+        }
+      }
+
+      .logo-text {
+        height: 48px;
+        margin: 0;
+        padding-top: 13px;
+
+        .title {
+          font-family: Helvetica, sans-serif;
+          font-weight: bold;
+          padding: 0;
+          line-height: 80%;
+          color: white;
+          letter-spacing: .75px;
+        }
+
+        .address {
+          font-size: 12px;
+          font-weight: 400;
+          color: rgba(255, 255, 255, .85);
+        }
+      }
+    }
+
+    .sidebar-nav {
+      .sidebar-item.active {
+        .sidebar-link {
+          background-color: $dark-olive;
+          color: white;
+        }
+      }
+
+      .sidebar-item {
+        .sidebar-link {
+          background-color: $sienna;
+          color: white;
+
+          &:hover,
+          &:active,
+          &:focus {
+            background-color: $dark-olive;
+          }
+
+          img {
+            width: 18px;
+            margin: 0 12px 0 0;
+          }
+        }
+      }
+
+      .sidebar-dropdown {
+        .sidebar-item {
+          .sidebar-link {
+            background-color: $sienna;
+            color: white;
+            padding-left: 58px;
+
+            &:hover {
+              background-color: $dark-khaki;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+/* Main container */
+.main {
+  .navbar {
+    .sidebar-toggle {
+      .hamburger,
+      .hamburger:after,
+      .hamburger:before {
+        height: 2px;
+        background-color: $sienna;
+      }
+
+      &:hover {
+        .hamburger,
+        .hamburger:after,
+        .hamburger:before {
+          background-color: $dark-khaki;
+        }
+      }
+    }
+
+    .dropdown-toggle {
+      color: $sienna;
+
+      &:hover,
+      &:active,
+      &:focus {
+        color: $dark-khaki;
+      }
+
+      img {
+        width: 18px;
+        color: $sienna;
+      }
+    }
+
+    .navbar-collapse {
+      .avatar {
+        width: 32px;
+        height: 32px;
+      }
+    }
+  }
+
+  .content {
+    padding: 45px 40px 40px;
+
+    /* News and updates */
+    .media {
+      .media-body {
+        .media-title {
+          margin: 30px 30px 0;
+          padding: 10px 0;
+          background-color: $sienna;
+
+          p {
+            a {
+              font-size: 20px;
+              font-family: Helvetica, sans-serif;
+              font-weight: bold;
+              color: white;
+
+              &:hover {
+                text-decoration: none;
+              }
+            }
+          }
+        }
+
+        .media-article {
+          margin: 0 30px 20px;
+
+          .cover-photo {
+            margin-bottom: 20px;
+          }
+        }
+      }
+    }
+
+    /* Custom card style */
+    .card {
+      .card-title,
+      .card-subtitle {
+        color: $sienna;
+      }
+
+      .card-title {
+        font-size: 20px;
+        margin-bottom: 0;
+      }
+
+      .card-subtitle {
+        font-size: 14px;
+      }
+
+      .figure {
+        .figure-caption {
+          .figure-title {
+            color: #495057;
+            font-weight: bold;
+          }
+        }
+      }
+
+      .table {
+        margin-bottom: 0;
+      }
+    }
+
+    /* Live streaming */
+    .video-container {
+      .card {
+        .card-body {
+          line-height: 0;
+
+          video {
+            width: 100% !important;
+            height: auto !important;
+          }
+        }
+      }
+    }
+
+    /* Tabs for services */
+    .list-group {
+      .list-group-item {
+        display: flex;
+        .service {
+          float: left;
+          i {
+            line-height: 0;
+            flex: 1;
+          }
+        }
+        .service-info {
+          .title {
+            font-weight: 400;
+            font-size: 20px;
+            color: $sienna;
+          }
+        }
+        &:first-child {
+          padding: 20px;
+        }
+      }
+      .list-group-item:hover {
+        background-color: white;
+      }
+      .list-group-item.active {
+        background-color: $sienna;
+        border: none;
+      }
+    }
+
+    /* Carousel */
+    #sendHelpCarouselCaptions {
+      .carousel-inner {
+        .carousel-caption {
+          width: 25%;
+          height: auto;
+          top: 0;
+          bottom: 0;
+          left: auto;
+          color: $sienna;
+          background-color: rgba(255, 255, 255, .85);
+          padding: 50px 25px;
+          margin: 100px 0;
+          @include border-radius(5px);
+
+          .sendhelp-logo {
+            margin-bottom: 20px;
+          }
+
+          .sendhelp-title {
+            h3 {
+              color: $sienna;
+              margin-bottom: 0;
+            }
+          }
+
+          .sendhelp-subtitle {
+            h4 {
+              font-size: 14px;
+              color: $sienna;
+              margin-bottom: 20px;
+            }
+          }
+
+          .separator {
+            height: 0;
+            margin-bottom: 20px;
+            overflow: hidden;
+            border-top: 1px solid $dark-khaki;
+          }
+
+          .sendhelp-description {
+            margin-bottom: 20px;
+          }
+
+          .sendhelp-button {
+          }
+        }
+      }
+
+      .carousel-indicators {
+        li {
+          width: 12px;
+          height: 12px;
+          @include border-radius(50%);
+        }
+      }
+    }
+
+    /* Location Map */
+    #map {
+      padding: 0;
+      margin: 0;
+      height: 500px;
+      width: 100%;
+    }
+  }
+}
+
+/* Custom button */
+.btn-brown {
+  background-color: $sienna;
+  color: white;
+  border: none;
+
+  &:hover,
+  &:active,
+  &:focus {
+    background-color: $dark-khaki;
+    color: white;
+    border: none;
+  }
+}
+
+/* on focus shadows and borders*/
+.form-control:focus {
+  border-color: rgba(126, 82, 50, .50);
+  box-shadow: 0 0 0 0.2rem rgba(126, 82, 50, .15);
+}
+
+.btn:focus,
+.fc-button:focus {
+  box-shadow: 0 0 0 0.2rem rgba(126, 82, 50, .15) !important;
+}
+
+/* Alert */
+.alert {
+  @include border-radius(0);
+}
+
+.alert-light-brown {
+  background-color: lighten($dark-khaki, 40%);
+  hr {
+    background-color: rgba(184, 138, 90, .15);
+  }
+}
+
+/* Hyperlink */
+a {
+  color: $sienna;
+
+  &:hover,
+  &:active,
+  &:focus {
+    color: $dark-khaki;
+  }
+}
+
+/* Color scheme */
+.sienna {
+  color: $sienna;
+}
+
+.dark-khaki {
+  color: $dark-khaki;
+}
+
+.dark-olive {
+  color: $dark-olive;
+}
+
+/* Modal */
+.modal {
+  .modal-content {
+    -webkit-background-clip: unset;
+    -moz-background-clip: unset;
+    background-clip: unset;
+    @include border-radius(0);
+
+    .modal-header {
+      -webkit-align-items: unset;
+      align-items: unset;
+      .modal-title {
+        color: $sienna;
+      }
+
+      .close {
+        color: $sienna;
+        opacity: .5;
+
+        &:hover,
+        &:active,
+        &:focus {
+          color: $dark-khaki;
+          opacity: 1;
+        }
+      }
+    }
+
+    .modal-body {
+      .logo {
+        img {
+          width: 125px;
+        }
+      }
+    }
+
+    .modal-footer {
+      justify-content: center;
+    }
+  }
+}
+
+/* Live streaming indicator */
+.indicator {
+  height: 12px;
+  width: 12px;
+  @include border-radius(50%);
+  display: inline-block;
+  animation: live 1.5s cubic-bezier(.5, 0, 1, 1) infinite alternate;
+
+  &.indicator-online {
+    background-color: green;
+  }
+
+  &.indicator-offline {
+    background-color: $light-slate-gray;
+  }
+}
+
+/* Keyframes */
+@keyframes live {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+/* Mount Carmel font icons */
+[class^="icon-"]:before, [class*=" icon-"]:before {
+  font-family: "mountcarmel";
+  font-style: normal;
+  font-weight: normal;
+  speak: none;
+
+  display: inline-block;
+  text-decoration: inherit;
+  width: 1em;
+  margin: 0 12px 0 0;
+  text-align: center;
+
+  /* For safety - reset parent styles, that can break glyph codes*/
+  font-variant: normal;
+  text-transform: none;
+
+  /* fix buttons height, for twitter bootstrap */
+  line-height: 1em;
+
+  /* Font smoothing */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Icons sizes */
+.icon-18 {
+  font-size: 18px!important;
+}
+
+.icon-24 {
+  font-size: 24px!important;
+}
+
+.icon-32 {
+  font-size: 32px!important;
+}
+
+.icon-64 {
+  font-size: 64px!important;
+}
+
+.icon-96 {
+  font-size: 96px!important;
+}
+
+/* Location Map */
+#map {
+  padding: 0;
+  margin: 0;
+  height: 500px;
+  width: 100%;
+}
+
+/* Responsive */
+@media (max-width: 575.98px) {
+  .navbar {
+    padding: .875rem 1.25rem;
+  }
+
+  .content {
+    padding: 20px !important;
+
+    .media {
+      .media-body {
+        .media-title {
+          margin: 30px 0 0 !important;
+          padding: 6.5px 0 !important;
+
+          p {
+            margin: 0 !important;
+
+            a {
+              font-size: 14px !important;
+            }
+          }
+        }
+
+        .media-article {
+          margin-left: 0 !important;
+          margin-right: 0 !important;
+        }
+
+        .read-more {
+          p {
+            a {
+              font-size: 14px;
+            }
+          }
+        }
+
+      }
+    }
+
+    .video-container {
+      .card {
+        border: none;
+        background: none;
+
+        .card-body {
+          padding: 0;
+        }
+      }
+    }
+
+    dl {
+      dt {
+        text-align: left !important;
+      }
+    }
+  }
+
+  #map {
+    height: 300px !important;
+  }
+}

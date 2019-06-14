@@ -1,0 +1,108 @@
+/*
+*   Filename  : _fonts.scss
+*   Purpose   : Font-face kit
+*   Created   : 5/23/2019 by rpbaguio
+*   Updated   : 5/31/2019 by rpbaguio
+*   Changes   : removed helvetica web font
+*/
+
+@font-face {
+  font-family: 'mountcarmel';
+  src: url('../fonts/mountcarmel.eot?47011824');
+  src: url('../fonts/mountcarmel.eot?47011824#iefix') format('embedded-opentype'),
+  url('../fonts/mountcarmel.woff2?47011824') format('woff2'),
+  url('../fonts/mountcarmel.woff?47011824') format('woff'),
+  url('../fonts/mountcarmel.ttf?47011824') format('truetype'),
+  url('../fonts/mountcarmel.svg?47011824#mountcarmel') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* Mount Carmel font icons */
+.icon-baptism:before {
+  content: '\e800';
+}
+
+.icon-bible:before {
+  content: '\e801';
+}
+
+.icon-borderedlogo:before {
+  content: '\e802';
+}
+
+.icon-calendar:before {
+  content: '\e803';
+}
+
+.icon-communion:before {
+  content: '\e804';
+}
+
+.icon-confirmation:before {
+  content: '\e805';
+}
+
+.icon-events:before {
+  content: '\e806';
+}
+
+.icon-home:before {
+  content: '\e807';
+}
+
+.icon-joinus:before {
+  content: '\e808';
+}
+
+.icon-logo:before {
+  content: '\e809';
+}
+
+.icon-makearequest:before {
+  content: '\e80a';
+}
+
+.icon-management:before {
+  content: '\e80b';
+}
+
+.icon-marriage:before {
+  content: '\e80c';
+}
+
+.icon-mytransactions:before {
+  content: '\e80d';
+}
+
+.icon-passing:before {
+  content: '\e80e';
+}
+
+.icon-profile:before {
+  content: '\e80f';
+}
+
+.icon-refresh:before {
+  content: '\e810';
+}
+
+.icon-sendhelp:before {
+  content: '\e811';
+}
+
+.icon-services:before {
+  content: '\e812';
+}
+
+.icon-settings:before {
+  content: '\e813';
+}
+
+.icon-thankyou:before {
+  content: '\e814';
+}
+
+.icon-transparency:before {
+  content: '\e815';
+}
