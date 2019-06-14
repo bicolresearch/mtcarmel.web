@@ -1,4 +1,13 @@
 <?php
+
+/*
+    File      : Controller/Home.php
+    Purpose   : Home Controller
+    Created   : 6/03/2019 by Sherlock Holmes
+    Updated   : 6/14/2019 by Band Aid
+    Changes   : Migrate to new framework
+*/
+
 defined('BASEPATH') or exit('No direct script access allowed');
 
 class Home extends CI_Controller
@@ -45,6 +54,16 @@ class Home extends CI_Controller
 
         $this->twig->display('home/live-mass.html', $view_data);
     }
+
+    public function news_details()
+    {
+        $view_data = [
+            'page_title' => 'News Details'
+        ];
+
+        $this->twig->display('home/news-details.html', $view_data);
+    }
+
 }
 
 /* End of file: Home.php */

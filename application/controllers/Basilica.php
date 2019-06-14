@@ -1,4 +1,13 @@
 <?php
+
+/*
+    File      : Controller/Basilica.php
+    Purpose   : Basilica Controller
+    Created   : 6/05/2019 by Sherlock Holmes
+    Updated   : 6/14/2019 by Band Aid
+    Changes   : Migrate to new framework
+*/
+
 defined('BASEPATH') or exit('No direct script access allowed');
 
 class Basilica extends CI_Controller

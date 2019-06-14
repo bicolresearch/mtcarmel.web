@@ -1,4 +1,13 @@
 <?php
+
+/*
+    File      : config/routes.php
+    Purpose   : routes
+    Created   : 6/04/2019 by Sherlock Holmes
+    Updated   : 6/14/2019 by Band Aid
+    Changes   : Add Services and Management
+*/
+
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 /*
@@ -55,6 +64,7 @@ $route['default_controller'] = 'home';
 $route['news'] = 'home/news';
 $route['calendar'] = 'home/calendar';
 $route['live-mass'] = 'home/live_mass';
+$route['news-details'] = 'home/news_details';
 
 // Basilica
 $route['mass-schedule'] = 'basilica/mass_schedule';
@@ -62,6 +72,36 @@ $route['location-map'] = 'basilica/location_map';
 $route['carmelite-priests'] = 'basilica/carmelite_priests';
 $route['contact-details'] = 'basilica/contact_details';
 $route['history'] = 'basilica/history';
+
+// Services
+$route['join-us'] = 'services/join_us';
+$route['request'] = 'services/request';
+$route['baptism'] = 'services/baptism';
+$route['communion'] = 'services/communion';
+$route['confirmation'] = 'services/confirmation';
+$route['marriage'] = 'services/marriage';
+$route['passing'] = 'services/passing';
+$route['events'] = 'services/events';
+
+// Management
+$route['requests'] = 'management/requests';
+$route['my-schedule'] = 'management/my_schedule';
+$route['prayer-request'] = 'management/prayer_request';
+$route['mass-request'] = 'management/mass_request';
+$route['post-news'] = 'management/post_news';
+$route['add-project'] = 'management/add_project';
+$route['add-transaction'] = 'management/add_transaction';
+$route['collective-schedule'] = 'management/collective_schedule';
+$route['service-schedule'] = 'management/service_schedule';
+$route['donations-report'] = 'management/donations_report';
+$route['edit-news'] = 'management/edit_news';
+$route['live-stream'] = 'management/live_stream';
+$route['edit-project'] = 'management/edit_project';
+$route['edit-transaction'] = 'management/edit_transaction';
+$route['add-schedule'] = 'management/add_schedule';
+$route['my-availability'] = 'management/my_availability';
+$route['user-roles'] = 'management/user_roles';
+$route['splash-ads'] = 'management/splash_ads';
 
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
