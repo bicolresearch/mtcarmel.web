@@ -1,9 +1,9 @@
 /*
 *   Filename  : style.scss
 *   Purpose   : Custom stylesheet
-*   Created   : 5/20/2019 by rpbaguio
-*   Updated   : 6/04/2019 by rpbaguio
-*   Changes   : Added pacejs style
+*   Created   : 5/20/2019 by Sherlock Holmes
+*   Updated   : 6/14/2019 by Sherlock Holmes
+*   Changes   : Added padding to modal header
 */
 /* Imports */
 @import "_fonts.scss";
@@ -237,13 +237,16 @@ body {
     .list-group {
       .list-group-item {
         display: flex;
+
         .service {
           float: left;
+
           i {
             line-height: 0;
             flex: 1;
           }
         }
+
         .service-info {
           .title {
             font-weight: 400;
@@ -251,13 +254,16 @@ body {
             color: $sienna;
           }
         }
+
         &:first-child {
           padding: 20px;
         }
       }
+
       .list-group-item:hover {
         background-color: white;
       }
+
       .list-group-item.active {
         background-color: $sienna;
         border: none;
@@ -366,6 +372,7 @@ body {
 
 .alert-light-brown {
   background-color: lighten($dark-khaki, 40%);
+
   hr {
     background-color: rgba(184, 138, 90, .15);
   }
@@ -406,6 +413,8 @@ a {
     .modal-header {
       -webkit-align-items: unset;
       align-items: unset;
+      padding: 16px 40px;
+
       .modal-title {
         color: $sienna;
       }
@@ -491,23 +500,23 @@ a {
 
 /* Icons sizes */
 .icon-18 {
-  font-size: 18px!important;
+  font-size: 18px !important;
 }
 
 .icon-24 {
-  font-size: 24px!important;
+  font-size: 24px !important;
 }
 
 .icon-32 {
-  font-size: 32px!important;
+  font-size: 32px !important;
 }
 
 .icon-64 {
-  font-size: 64px!important;
+  font-size: 64px !important;
 }
 
 .icon-96 {
-  font-size: 96px!important;
+  font-size: 96px !important;
 }
 
 /* Location Map */
