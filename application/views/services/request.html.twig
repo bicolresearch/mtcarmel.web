@@ -1,7 +1,7 @@
 {#
     File      : views/services/requests.html.twig
     Purpose   : services/request view
-    Created   : 6/04/2019 by Band Aid
+    Created   : 6/04/2019 by Constantina
     Updated   :
     Changes   :
 #}
@@ -9,27 +9,63 @@
 {% extends 'base.html.twig' %}
 {% block title %} {{ page_title }} | Mount Carmel {% endblock %}
 {% block contents %}
-    <div class="row justify-content-center">
+    <div class="row">
+        <div class="col-12 col-lg-4 mb-4">
+            <div class="list-group" id="list-tab" role="tablist">
+                <div class="list-group-item list-group-item-action">
+                    <div class="service">
+                        <i class="icon-makearequest icon-96 sienna m-0 p-0"></i>
+                    </div>
+                    <div class="service-info">
+                        <div class="title">Make a Request</div>
+                        <div class="desc text-left">
+                            Be closer to God with the help of the church through prayers, holy masses and liturgy
+                        </div>
+                    </div>
+                </div>
+                <a class="list-group-item list-group-item-action active" id="list-request-list" data-toggle="list" href="#list-request" role="tab" aria-controls="request">Prayer Request</a>
+                <a class="list-group-item list-group-item-action " id="list-request-list" data-toggle="list" href="#list-request" role="tab" aria-controls="request">Mass Request</a>
+                <a class="list-group-item list-group-item-action " id="list-request-list" data-toggle="list" href="#list-request" role="tab" aria-controls="request">Liturgical Service</a>
+                <a class="list-group-item list-group-item-action " id="list-request-list" data-toggle="list" href="#list-request" role="tab" aria-controls="request">Certification</a>
+            </div>
+        </div>
         <div class="col-12 col-lg-8">
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title text-center">Make a Request</h3>
+            <div class="tab-content" id="nav-tabContent">
+                <div class="tab-pane fade show active" id="list-request" role="tabpanel" aria-labelledby="list-request-list">
+                    <div class="card">
+                        <div class="card-body px-6">
+                            <p class="text-center">
+                                Send your prayer request with the help of our Carmelite priests in offering your petitions
+                            </p>
+
+                            <p class="text-center mb-0">Prayer Request is free of charge.</p>
+                        </div>
+                        <div class="card-footer">
+                            <p class="text-center mb-0">
+                                <a class="btn btn-lg btn-brown rounded-pill px-5" href="javascript:void(0)" data-toggle="modal" data-target="#acceptanceModal">Accept</a>
+                            </p>
+                        </div>
+                    </div>
                 </div>
-                <div class="card-body">
-                    <p class="text-center mb-0">
-                        Duis accumsan nibh justo, eu eleifend nisi mattis ut. Nullam congue iaculis
-                        auctor. Interdum et malesuada fames ac ante ipsum primis in faucibus. Duis
-                        nec vulputate arcu. Ut facilisis ligula a blandit bibendum. Etiam maximus
-                        nisi non elementum viverra. Proin metus est, porttitor eu feugiat sit amet,
-                        varius vel ligula. Sed tempor condimentum porta. Donec hendrerit gravida est
-                        at tempor. Suspendisse porttitor lectus sed nisi interdum, luctus vulputate
-                        mauris ullamcorper. Mauris sit amet ante sem.
-                    </p>
+            </div>
+        </div>
+    </div>
+
+    {# Acceptance modal #}
+    <div class="modal fade" id="acceptanceModal" tabindex="-1" data-backdrop="static" role="dialog" aria-labelledby="acceptanceModalTitle" aria-hidden="true">
+        <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title" id="acceptanceModalTitle">Prayer Request</h3>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <i data-feather="x"></i>
+                    </button>
                 </div>
-                <div class="card-footer">
-                    <p class="text-center mb-0">
-                        <a class="btn btn-lg btn-brown rounded-pill px-5" href="services-mass-request.html">Make a Request</a>
-                    </p>
+                <div class="modal-body p-lg-5">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-lg btn-brown rounded-pill px-5" data-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>

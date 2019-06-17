@@ -1,35 +1,88 @@
 {#
     File      : views/services/marriage.html.twig
     Purpose   : services/marriage view
-    Created   : 6/04/2019 by Band Aid
-    Updated   :
-    Changes   :
+    Created   : 6/04/2019 by Constantina
+    Updated   : 6/17/2019 6:55 PM by Constantina
+    Changes   : add services messages/content
 #}
 
 {% extends 'base.html.twig' %}
 {% block title %} {{ page_title }} | Mount Carmel {% endblock %}
 {% block contents %}
-    <div class="row justify-content-center">
+    <div class="row">
+        <div class="col-12 col-lg-4 mb-4">
+            <div class="list-group" id="list-tab" role="tablist">
+                <div class="list-group-item list-group-item-action">
+                    <div class="service">
+                        <i class="icon-marriage icon-96 sienna m-0 p-0"></i>
+                    </div>
+                    <div class="service-info">
+                        <div class="title">Marriage</div>
+                        <div class="desc text-left">
+                            Duis accumsan nibh justo, eu eleifend nisi mattis ut. Nullam congue iaculis
+                            auctor.
+                        </div>
+                    </div>
+                </div>
+                <a class="list-group-item list-group-item-action active" id="list-marriage-list" data-toggle="list" href="#list-marriage" role="tab" aria-controls="marriage">Marriage</a>
+            </div>
+        </div>
         <div class="col-12 col-lg-8">
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title text-center">Marriage</h3>
+            <div class="tab-content" id="nav-tabContent">
+                <div class="tab-pane fade show active" id="list-marriage" role="tabpanel" aria-labelledby="list-marriage-list">
+                    <div class="card">
+                        <div class="card-body px-6">
+                            <p class="text-center">
+                                Wedding Rules and Regulations Agreement
+                            </p>
+                            <p class="text-center">
+                                Version 1
+                            </p>
+
+                            <div class="alert alert-light-brown sienna mx-7" role="alert">
+                                <div class="alert-message">
+                                    <h4 class="alert-heading">Fees:</h4>
+                                    <ul>
+                                        <li>Application Fee</li>
+                                        <li>Scapular</li>
+                                        <li>Confraternity Manual</li>
+                                        <li>Certificate of Confraternity</li>
+                                    </ul>
+                                    <hr>
+                                    <ul style="list-style-type: circle">
+                                        <li>200 php</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <p class="text-center mb-0">You may settle your bill using your debit card, credit card or cash.</p>
+                        </div>
+                        <div class="card-footer">
+                            <p class="text-center mb-0">
+                                <a class="btn btn-lg btn-brown rounded-pill px-5" href="javascript:void(0)" data-toggle="modal" data-target="#acceptanceModal">Accept</a>
+                            </p>
+                        </div>
+                    </div>
                 </div>
-                <div class="card-body">
-                    <p class="text-center mb-0">
-                        Duis accumsan nibh justo, eu eleifend nisi mattis ut. Nullam congue iaculis
-                        auctor. Interdum et malesuada fames ac ante ipsum primis in faucibus. Duis
-                        nec vulputate arcu. Ut facilisis ligula a blandit bibendum. Etiam maximus
-                        nisi non elementum viverra. Proin metus est, porttitor eu feugiat sit amet,
-                        varius vel ligula. Sed tempor condimentum porta. Donec hendrerit gravida est
-                        at tempor. Suspendisse porttitor lectus sed nisi interdum, luctus vulputate
-                        mauris ullamcorper. Mauris sit amet ante sem.
-                    </p>
+            </div>
+        </div>
+    </div>
+
+    {# Acceptance modal #}
+    <div class="modal fade" id="acceptanceModal" tabindex="-1" data-backdrop="static" role="dialog" aria-labelledby="acceptanceModalTitle" aria-hidden="true">
+        <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title" id="acceptanceModalTitle">Marriage</h3>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <i data-feather="x"></i>
+                    </button>
                 </div>
-                <div class="card-footer">
-                    <p class="text-center mb-0">
-                        <a class="btn btn-lg btn-brown rounded-pill px-5" href="services-marriage.html">Make a Request</a>
-                    </p>
+                <div class="modal-body p-lg-5">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-lg btn-brown rounded-pill px-5" data-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>

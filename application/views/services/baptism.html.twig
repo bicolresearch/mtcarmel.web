@@ -1,35 +1,131 @@
 {#
     File      : views/services/baptism.html.twig
     Purpose   : services/baptism view
-    Created   : 6/04/2019 by Band Aid
-    Updated   :
-    Changes   :
+    Created   : 6/04/2019 by Constantina
+    Updated   : 6/17/2019 5:19 PM by Constantina
+    Changes   : add services messages/content
 #}
 
 {% extends 'base.html.twig' %}
 {% block title %} {{ page_title }} | Mount Carmel {% endblock %}
 {% block contents %}
-    <div class="row justify-content-center">
+    <div class="row">
+        <div class="col-12 col-lg-4 mb-4">
+            <div class="list-group" id="list-tab" role="tablist">
+                <div class="list-group-item list-group-item-action">
+                    <div class="service">
+                        <i class="icon-baptism icon-96 sienna m-0 p-0"></i>
+                    </div>
+                    <div class="service-info">
+                        <div class="title">Baptism</div>
+                        <div class="desc text-left">
+                            Be part of the christian community and follow the word of the Lord
+                        </div>
+                    </div>
+                </div>
+                <a class="list-group-item list-group-item-action active" id="list-baptism-list" data-toggle="list" href="#list-baptism" role="tab" aria-controls="baptism">Individual Baptism</a>
+                <a class="list-group-item list-group-item-action " id="list-baptism-list" data-toggle="list" href="#list-baptism" role="tab" aria-controls="baptism">Community Baptism</a>
+                <a class="list-group-item list-group-item-action " id="list-baptism-list" data-toggle="list" href="#list-baptism" role="tab" aria-controls="baptism">Adult Baptism</a>
+            </div>
+        </div>
         <div class="col-12 col-lg-8">
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title text-center">Baptism</h3>
+            <div class="tab-content" id="nav-tabContent">
+                <div class="tab-pane fade show active" id="list-baptism" role="tabpanel" aria-labelledby="list-baptism-list">
+                    <div class="card">
+                        <div class="card-body px-6">
+                            <p class="text-justify">
+                            </p>
+
+                            <div class="alert alert-light-brown sienna mx-7" role="alert">
+                                <div class="alert-message">
+                                    <h4 class="alert-heading">Schedule:</h4>
+                                    <ul>
+                                        <li>Tuesday - Saturdays</li>
+                                        <ul>
+                                            <li>09:00 AM</li>
+                                            <li>10:00 AM</li>
+                                            <li>11:00 AM</li>
+                                            <li>03:00 PM</li>
+                                            <li>04:00 PM</li>
+                                        </ul>
+                                    </ul>
+                                    <ul>
+                                        <li>Sundays</li>
+                                        <ul>
+                                            <li>09:00 AM</li>
+                                            <li>10:00 AM</li>
+                                            <li>11:00 AM</li>
+                                        </ul>
+                                    </ul>
+                                    <ul>
+                                        <li>Additional Requirements:</li>
+                                        <ul>
+                                            <li>Child's Birth Certificate</li>
+                                            <li>Parent's Marriage Contract</li>
+                                            <li>Permission Letter (if needed)</li>
+                                        </ul>
+                                    </ul>
+                                    <ul>
+                                        <li>Venue</li>
+                                        <ul>
+                                            <li>1,000 php</li>
+                                        </ul>
+                                        <li>Stipend for the Priest</li>
+                                        <ul>
+                                            <li>1,000 php</li>
+                                        </ul>
+                                        <li>For every Sponsor</li>
+                                        <ul>
+                                            <li>100 php</li>
+                                        </ul>
+                                        <li>Panyal, Certificate, Candle for the Parents, 2 Candles in glass for the Sponsors (candles for additional sponsors are not included)</li>
+                                        <ul>
+                                            <li>300 php</li>
+                                        </ul>
+                                        <li>Reservation Fee (deductible)</li>
+                                        <ul>
+                                            <li>2,000 php</li>
+                                        </ul>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <p class="text-center mb-0">Baptism will be held in Pilgrim Chapel, St. Joseph Bldg.</p>
+                            <br>
+                            <p class="text-center mb-0">For non-parishioners, permission letter from your parish must be submitted in Mt. Carmel office.</p>
+                            <br>
+                            <p class="text-center mb-0">All sponsors must be catholic and 18 years old or above.</p>
+                            <br>
+                            <p class="text-center mb-0">Requirements and fees must be accomplished a week before the baptism.</p>
+                            <br>
+                            <p class="text-center mb-0">You may settle your bill using your debit card, credit card or cash.</p>
+                        </div>
+                        <div class="card-footer">
+                            <p class="text-center mb-0">
+                                <a class="btn btn-lg btn-brown rounded-pill px-5" href="javascript:void(0)" data-toggle="modal" data-target="#acceptanceModal">Accept</a>
+                            </p>
+                        </div>
+                    </div>
                 </div>
-                <div class="card-body">
-                    <p class="text-center mb-0">
-                        Duis accumsan nibh justo, eu eleifend nisi mattis ut. Nullam congue iaculis
-                        auctor. Interdum et malesuada fames ac ante ipsum primis in faucibus. Duis
-                        nec vulputate arcu. Ut facilisis ligula a blandit bibendum. Etiam maximus
-                        nisi non elementum viverra. Proin metus est, porttitor eu feugiat sit amet,
-                        varius vel ligula. Sed tempor condimentum porta. Donec hendrerit gravida est
-                        at tempor. Suspendisse porttitor lectus sed nisi interdum, luctus vulputate
-                        mauris ullamcorper. Mauris sit amet ante sem.
-                    </p>
+            </div>
+        </div>
+    </div>
+
+    {# Acceptance modal #}
+    <div class="modal fade" id="acceptanceModal" tabindex="-1" data-backdrop="static" role="dialog" aria-labelledby="acceptanceModalTitle" aria-hidden="true">
+        <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title" id="acceptanceModalTitle">Individual Baptism</h3>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <i data-feather="x"></i>
+                    </button>
                 </div>
-                <div class="card-footer">
-                    <p class="text-center mb-0">
-                        <a class="btn btn-lg btn-brown rounded-pill px-5" href="services-baptism.html">Make a Request</a>
-                    </p>
+                <div class="modal-body p-lg-5">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-lg btn-brown rounded-pill px-5" data-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>

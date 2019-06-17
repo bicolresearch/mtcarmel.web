@@ -5,7 +5,7 @@
     File      : Controller/Bible.php
     Purpose   : Bible Controller
     Created   : 6/03/2019 by Sherlock Holmes
-    Updated   : 6/14/2019 by Band Aid
+    Updated   : 6/14/2019 by Constantina
     Changes   : Migrate to new framework
 */
 
