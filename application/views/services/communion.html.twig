@@ -2,8 +2,8 @@
     File      : views/services/communion.html.twig
     Purpose   : services/communion view
     Created   : 6/04/2019 by Constantina
-    Updated   : 2019-06-17 16:31:51 by Constantina
-    Changes   : add services messages/content
+    Updated   : 6/18/2019 12:11 PM by Constantina
+    Changes   : Update sub modules content
 #}
 
 {% extends 'base.html.twig' %}
@@ -23,17 +23,14 @@
                         </div>
                     </div>
                 </div>
-                <a class="list-group-item list-group-item-action active" id="list-communion-list" data-toggle="list" href="#list-communion" role="tab" aria-controls="communion">First Communion</a>
-                <a class="list-group-item list-group-item-action" id="list-communion-list" data-toggle="list" href="#list-communion" role="tab" aria-controls="communion">Communion of the Sick</a>
+                <a class="list-group-item list-group-item-action active" id="list-communion-list" data-toggle="list" href="#list-communion-first-communion" role="tab" aria-controls="communion">First Communion</a>
+                <a class="list-group-item list-group-item-action" id="list-communion-list" data-toggle="list" href="#list-communion-communion-of-the-sick" role="tab" aria-controls="communion">Communion of the Sick</a>
             </div>
         </div>
         <div class="col-12 col-lg-8">
             <div class="tab-content" id="nav-tabContent">
-                <div class="tab-pane fade show active" id="list-communion" role="tabpanel" aria-labelledby="list-communion-list">
+                <div class="tab-pane fade show active" id="list-communion-first-communion" role="tabpanel" aria-labelledby="list-communion-list">
                     <div class="card">
-                        <div class="card-header">
-                            <h3 class="card-title text-center">First Communion</h3>
-                        </div>
                         <div class="card-body px-6">
                             <p class="text-center">
                                 Applicant may only have 1 or 2 sponsors during first communion.
@@ -68,34 +65,20 @@
                         </div>
                     </div>
                 </div>
-                <div class="tab-pane fade show" id="list-communion" role="tabpanel" aria-labelledby="list-communion-list">
+                <div class="tab-pane fade show" id="list-communion-communion-of-the-sick" role="tabpanel" aria-labelledby="list-communion-list">
                     <div class="card">
                         <div class="card-body px-6">
-                            <p class="text-justify">
-                                A Carmelite
+                            <p class="text-center">
+                                Preferred time of visit will only serve as guide and may not always be accurate.
                             </p>
 
-                            <div class="alert alert-light-brown sienna mx-7" role="alert">
-                                <div class="alert-message">
-                                    <h4 class="alert-heading">Fees:</h4>
-                                    <ul>
-                                        <li>Application Fee</li>
-                                        <li>Scapular</li>
-                                        <li>Confraternity Manual</li>
-                                        <li>Certificate of Confraternity</li>
-                                    </ul>
-                                    <hr>
-                                    <ul style="list-style-type: circle">
-                                        <li>200 php</li>
-                                    </ul>
-                                </div>
-                            </div>
-
-                            <p class="text-center mb-0">You may settle your bill using your debit card, credit card or cash.</p>
+                            <p class="text-center mb-0">Communion of the Sick is free of charge</p>
+                            <br>
+                            <p class="text-center mb-0">Exclusive for parishioners of Our Lady of Mount Carmel</p>
                         </div>
                         <div class="card-footer">
                             <p class="text-center mb-0">
-                                <a class="btn btn-lg btn-brown rounded-pill px-5" href="javascript:void(0)" data-toggle="modal" data-target="#acceptanceModal">Join Now</a>
+                                <a class="btn btn-lg btn-brown rounded-pill px-5" href="javascript:void(0)" data-toggle="modal" data-target="#acceptanceModal">Accept</a>
                             </p>
                         </div>
                     </div>
@@ -109,7 +92,7 @@
         <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h3 class="modal-title" id="acceptanceModalTitle">First Communion</h3>
+                    <h3 class="modal-title" id="acceptanceModalTitle">Communion</h3>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <i data-feather="x"></i>
                     </button>

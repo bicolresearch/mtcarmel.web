@@ -2,8 +2,8 @@
     File      : views/services/requests.html.twig
     Purpose   : services/request view
     Created   : 6/04/2019 by Constantina
-    Updated   :
-    Changes   :
+    Updated   : 6/18/2019 11AM by Constantina
+    Changes   : Update sub modules content
 #}
 
 {% extends 'base.html.twig' %}
@@ -23,15 +23,15 @@
                         </div>
                     </div>
                 </div>
-                <a class="list-group-item list-group-item-action active" id="list-request-list" data-toggle="list" href="#list-request" role="tab" aria-controls="request">Prayer Request</a>
-                <a class="list-group-item list-group-item-action " id="list-request-list" data-toggle="list" href="#list-request" role="tab" aria-controls="request">Mass Request</a>
-                <a class="list-group-item list-group-item-action " id="list-request-list" data-toggle="list" href="#list-request" role="tab" aria-controls="request">Liturgical Service</a>
-                <a class="list-group-item list-group-item-action " id="list-request-list" data-toggle="list" href="#list-request" role="tab" aria-controls="request">Certification</a>
+                <a class="list-group-item list-group-item-action active" id="list-request-list" data-toggle="list" href="#list-request-prayer" role="tab" aria-controls="request">Prayer Request</a>
+                <a class="list-group-item list-group-item-action " id="list-request-list" data-toggle="list" href="#list-request-mass" role="tab" aria-controls="request">Mass Request</a>
+                <a class="list-group-item list-group-item-action " id="list-request-list" data-toggle="list" href="#list-request-liturgical" role="tab" aria-controls="request">Liturgical Service</a>
+                <a class="list-group-item list-group-item-action " id="list-request-list" data-toggle="list" href="#list-request-certification" role="tab" aria-controls="request">Certification</a>
             </div>
         </div>
         <div class="col-12 col-lg-8">
             <div class="tab-content" id="nav-tabContent">
-                <div class="tab-pane fade show active" id="list-request" role="tabpanel" aria-labelledby="list-request-list">
+                <div class="tab-pane fade show active" id="list-request-prayer" role="tabpanel" aria-labelledby="list-request-list">
                     <div class="card">
                         <div class="card-body px-6">
                             <p class="text-center">
@@ -40,6 +40,72 @@
 
                             <p class="text-center mb-0">Prayer Request is free of charge.</p>
                         </div>
+                        <div class="card-footer">
+                            <p class="text-center mb-0">
+                                <a class="btn btn-lg btn-brown rounded-pill px-5" href="javascript:void(0)" data-toggle="modal" data-target="#acceptanceModal">Accept</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade show" id="list-request-mass" role="tabpanel" aria-labelledby="list-request-list">
+                    <div class="card">
+                        <div class="card-body px-6">
+                            <p class="text-center">
+                               Send your mass request with the help of our Carmelite priests in offering your intentions
+                            </p>
+
+                            <p class="text-center mb-0">After submission, you may donate any amount as an offering for your requested mass in your mailbox.</p>
+                        </div>
+                        <div class="card-footer">
+                            <p class="text-center mb-0">
+                                <a class="btn btn-lg btn-brown rounded-pill px-5" href="javascript:void(0)" data-toggle="modal" data-target="#acceptanceModal">Accept</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade show" id="list-request-liturgical" role="tabpanel" aria-labelledby="list-request-list">
+                    <div class="card">
+                        <div class="card-body px-6">
+                            <p class="text-center">
+                                Liturgical Service for blessing of houses, businesses and cars, as well as annointing of the sickor for other purposes.
+                            </p>
+
+                            <p class="text-center mb-0">Parishioner may give the officiating priest a donation after the service.</p>
+                            <br>
+                            <p class="text-center mb-0">Exclusive for parishioners of Our Lady of Mount Carmel.</p>
+                        </div>
+                        <div class="card-footer">
+                            <p class="text-center mb-0">
+                                <a class="btn btn-lg btn-brown rounded-pill px-5" href="javascript:void(0)" data-toggle="modal" data-target="#acceptanceModal">Accept</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade show" id="list-request-certification" role="tabpanel" aria-labelledby="list-request-list">
+                    <div class="card">
+                        <div class="card-body px-6">
+                            <p class="text-center">
+                                We furnish baptismal certificate and confirmation certificate for parishioners.
+                            </p>
+                            <p class="text-center mb-0">For Purposes such as for Personal file, School, Confirmation, First Communion, Legal documents, SSS requirement, Travel documents, Issuance of Birth Certificate and Marriage.</p>
+                            <br>
+                            <div class="alert alert-light-brown sienna mx-7" role="alert">
+                                <div class="alert-message">
+                                    <h4 class="alert-heading">Fees:</h4>
+                                    <ul>
+                                        <li>Printing Service</li>
+                                    </ul>
+                                    <hr>
+                                    <ul style="list-style-type: circle">
+                                        <li>50 php</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <p class="text-center mb-0">You may settle your bill using your debit card, credit card or cash.</p>
+
+                        </div>
+
                         <div class="card-footer">
                             <p class="text-center mb-0">
                                 <a class="btn btn-lg btn-brown rounded-pill px-5" href="javascript:void(0)" data-toggle="modal" data-target="#acceptanceModal">Accept</a>
@@ -56,7 +122,7 @@
         <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h3 class="modal-title" id="acceptanceModalTitle">Prayer Request</h3>
+                    <h3 class="modal-title" id="acceptanceModalTitle">Request</h3>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <i data-feather="x"></i>
                     </button>

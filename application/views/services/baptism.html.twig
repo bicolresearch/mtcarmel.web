@@ -2,8 +2,8 @@
     File      : views/services/baptism.html.twig
     Purpose   : services/baptism view
     Created   : 6/04/2019 by Constantina
-    Updated   : 6/17/2019 5:19 PM by Constantina
-    Changes   : add services messages/content
+    Updated   : 6/18/2019 11:21 AM by Constantina
+    Changes   : Update sub modules content
 #}
 
 {% extends 'base.html.twig' %}
@@ -23,9 +23,9 @@
                         </div>
                     </div>
                 </div>
-                <a class="list-group-item list-group-item-action active" id="list-baptism-list" data-toggle="list" href="#list-baptism" role="tab" aria-controls="baptism">Individual Baptism</a>
-                <a class="list-group-item list-group-item-action " id="list-baptism-list" data-toggle="list" href="#list-baptism" role="tab" aria-controls="baptism">Community Baptism</a>
-                <a class="list-group-item list-group-item-action " id="list-baptism-list" data-toggle="list" href="#list-baptism" role="tab" aria-controls="baptism">Adult Baptism</a>
+                <a class="list-group-item list-group-item-action active" id="list-baptism-list" data-toggle="list" href="#list-baptism-individual" role="tab" aria-controls="baptism">Individual Baptism</a>
+                <a class="list-group-item list-group-item-action " id="list-baptism-list" data-toggle="list" href="#list-baptism-community" role="tab" aria-controls="baptism">Community Baptism</a>
+                <a class="list-group-item list-group-item-action " id="list-baptism-list" data-toggle="list" href="#list-baptism-adult" role="tab" aria-controls="baptism">Adult Baptism</a>
             </div>
         </div>
         <div class="col-12 col-lg-8">
@@ -57,14 +57,15 @@
                                             <li>11:00 AM</li>
                                         </ul>
                                     </ul>
+                                    <br>
+                                    <h4 class="alert-heading">Additional Requirements:</h4>
                                     <ul>
-                                        <li>Additional Requirements:</li>
-                                        <ul>
-                                            <li>Child's Birth Certificate</li>
-                                            <li>Parent's Marriage Contract</li>
-                                            <li>Permission Letter (if needed)</li>
-                                        </ul>
+                                        <li>Child's Birth Certificate</li>
+                                        <li>Parent's Marriage Contract</li>
+                                        <li>Permission Letter (if needed)</li>
                                     </ul>
+                                    <br>
+                                    <h4 class="alert-heading">Fees:</h4>
                                     <ul>
                                         <li>Venue</li>
                                         <ul>
@@ -99,6 +100,144 @@
                             <p class="text-center mb-0">Requirements and fees must be accomplished a week before the baptism.</p>
                             <br>
                             <p class="text-center mb-0">You may settle your bill using your debit card, credit card or cash.</p>
+                            <br>
+                            <p class="text-center mb-0">Be punctual, only an hour is alloted for the whole baptism.</p>
+                        </div>
+                        <div class="card-footer">
+                            <p class="text-center mb-0">
+                                <a class="btn btn-lg btn-brown rounded-pill px-5" href="javascript:void(0)" data-toggle="modal" data-target="#acceptanceModal">Accept</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade show " id="list-baptism-community" role="tabpanel" aria-labelledby="list-baptism-list">
+                    <div class="card">
+                        <div class="card-body px-6">
+                            <p class="text-justify">
+                            </p>
+
+                            <div class="alert alert-light-brown sienna mx-7" role="alert">
+                                <div class="alert-message">
+                                    <h4 class="alert-heading">Schedule:</h4>
+                                    <ul>
+                                        <li>Sundays</li>
+                                        <ul>
+                                            <li>02:00 PM</li>
+                                        </ul>
+                                    </ul>
+                                    <br>
+                                    <h4 class="alert-heading">Additional Requirements:</h4>
+                                    <ul>
+                                        <li>Child's Birth Certificate</li>
+                                        <li>Parent's Marriage Contract</li>
+                                        <li>Permission Letter (if needed)</li>
+                                    </ul>
+                                    <br>
+                                    <h4 class="alert-heading">Fees:</h4>
+                                    <ul>
+                                        <li>For every Sponsor</li>
+                                        <ul>
+                                            <li>100 php</li>
+                                        </ul>
+                                        <li>Registration, Panyal, Certificate, Candle for the Parents, 2 Candles in glass for the Sponsors (candles for additional sponsors are not included)</li>
+                                        <ul>
+                                            <li>400 php</li>
+                                        </ul>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <p class="text-center mb-0">For non-parishioners, permission letter from your parish must be submitted in Mt. Carmel office.</p>
+                            <br>
+                            <p class="text-center mb-0">All sponsors must be catholic and 18 years old or above.</p>
+                            <br>
+                            <p class="text-center mb-0">Requirements and fees must be accomplished a week before the baptism.</p>
+                            <br>
+                            <p class="text-center mb-0">You may settle your bill using your debit card, credit card or cash.</p>
+                            <br>
+                            <p class="text-center mb-0">Be punctual, only an hour is alloted for the whole baptism.</p>
+                        </div>
+                        <div class="card-footer">
+                            <p class="text-center mb-0">
+                                <a class="btn btn-lg btn-brown rounded-pill px-5" href="javascript:void(0)" data-toggle="modal" data-target="#acceptanceModal">Accept</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade show " id="list-baptism-adult" role="tabpanel" aria-labelledby="list-baptism-list">
+                    <div class="card">
+                        <div class="card-body px-6">
+                            <p class="text-justify">
+                            </p>
+
+                            <div class="alert alert-light-brown sienna mx-7" role="alert">
+                                <div class="alert-message">
+                                        <h4 class="alert-heading">Schedule:</h4>
+                                        <ul>
+                                            <li>Tuesday - Saturdays</li>
+                                            <ul>
+                                                <li>09:00 AM</li>
+                                                <li>10:00 AM</li>
+                                                <li>11:00 AM</li>
+                                                <li>03:00 PM</li>
+                                                <li>04:00 PM</li>
+                                            </ul>
+                                        </ul>
+                                        <ul>
+                                            <li>Sundays</li>
+                                            <ul>
+                                                <li>09:00 AM</li>
+                                                <li>10:00 AM</li>
+                                                <li>11:00 AM</li>
+                                            </ul>
+                                        </ul>
+                                        <br>
+                                        <h4 class="alert-heading">Additional Requirements:</h4>
+                                        <ul>
+                                            <li>Adult's Birth Certificate</li>
+                                            <li>4 Session Catechesis</li>
+                                            <li>Certification of No Records (from 3 parishes from the Vicariate of Holy Family)</li>
+                                        </ul>
+                                        <br>
+                                        <h4 class="alert-heading">Fees:</h4>
+                                        <ul>
+                                            <li>Venue</li>
+                                            <ul>
+                                                <li>1,000 php</li>
+                                            </ul>
+                                            <li>Stipend for the Priest</li>
+                                            <ul>
+                                                <li>1,000 php</li>
+                                            </ul>
+                                            <li>For every Sponsor</li>
+                                            <ul>
+                                                <li>100 php</li>
+                                            </ul>
+                                            <li>Panyal, Certificate, Candle for the Parents</li>
+                                            <ul>
+                                                <li>150 php</li>
+                                            </ul>
+                                            <li>Candle for every Sponsor</li>
+                                            <ul>
+                                                <li>10 php</li>
+                                            </ul>
+                                        </ul>
+                                </div>
+                            </div>
+
+                            <p class="text-center mb-0">Upon submission,you maycontact Catechetical Ministry office to schedule your catethesis.</p>
+                            <br>
+                            <p class="text-center mb-0">Call 727-94-32 local 411</p>
+                            <p class="text-center mb-0">Tuesdays to Saturdays</p>
+                            <p class="text-center mb-0">9am-5pm</p>
+                            <br>
+                            <p class="text-center mb-0">All sponsors must be catholic and 18 years old or above.</p>
+                            <br>
+                            <p class="text-center mb-0">Requirements and fees must be accomplished a week before the baptism.</p>
+                            <br>
+                            <p class="text-center mb-0">You may settle your bill using your debit card, credit card or cash.</p>
+                            <br>
+                            <p class="text-center mb-0">Be punctual, only an hour is alloted for the whole baptism.</p>
                         </div>
                         <div class="card-footer">
                             <p class="text-center mb-0">
@@ -116,7 +255,7 @@
         <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h3 class="modal-title" id="acceptanceModalTitle">Individual Baptism</h3>
+                    <h3 class="modal-title" id="acceptanceModalTitle">Baptism</h3>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <i data-feather="x"></i>
                     </button>
