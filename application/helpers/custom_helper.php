@@ -4,7 +4,7 @@ if (!defined('BASEPATH')) {
     exit('No direct script access allowed');
 }
 
-if (!function_exists('is_connected' || 'str_to_title' || 'convert_number_to_words' || 'noun_forms')) {
+if (!function_exists('is_connected' || 'str_to_title' || 'convert_number_to_words' || 'randomizer')) {
 
     function is_connected()
     {
@@ -43,7 +43,6 @@ if (!function_exists('is_connected' || 'str_to_title' || 'convert_number_to_word
 
     function convert_number_to_words($number)
     {
-
         $hyphen = '-';
         $conjunction = ' and ';
         $separator = ', ';
@@ -153,8 +152,13 @@ if (!function_exists('is_connected' || 'str_to_title' || 'convert_number_to_word
         return $string;
     }
 
-    function noun_forms($param)
+    function randomizer($char, $offset, $length)
     {
-        return $n = ($param > 1) ? 's' : '';
+        $arr = str_split($char); // get all the characters into an array
+        shuffle($arr); // randomize the array
+        $arr = array_slice($arr, $offset, $length);
+        $str = implode('', $arr);
+
+        return $str;
     }
 }

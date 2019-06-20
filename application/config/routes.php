@@ -59,6 +59,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |		my-controller/my-method	-> my_controller/my_method
 */
 $route['default_controller'] = 'home';
+$route['404_override'] = '';
+$route['translate_uri_dashes'] = FALSE;
 
 // Home
 $route['news'] = 'home/news';
@@ -102,6 +104,3 @@ $route['add-schedule'] = 'management/add_schedule';
 $route['my-availability'] = 'management/my_availability';
 $route['user-roles'] = 'management/user_roles';
 $route['splash-ads'] = 'management/splash_ads';
-
-$route['404_override'] = '';
-$route['translate_uri_dashes'] = FALSE;

@@ -49,7 +49,7 @@
         // of Mount Carmel Minor Basilica
 
         let map;
-        let baseURL = location.origin.toLowerCase();
+        let baseURL = '{{ base_url() }}';
 
         function initMap(listener) {
             map = new google.maps.Map(document.getElementById('map'), {
