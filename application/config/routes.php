@@ -1,13 +1,5 @@
 <?php
 
-/*
-    File      : config/routes.php
-    Purpose   : routes
-    Created   : 6/04/2019 by Sherlock Holmes
-    Updated   : 6/14/2019 by Constantina
-    Changes   : Add Services and Management
-*/
-
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 /*
@@ -60,7 +52,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 */
 $route['default_controller'] = 'home';
 $route['404_override'] = '';
-$route['translate_uri_dashes'] = FALSE;
+$route['translate_uri_dashes'] = TRUE;
 
 // Home
 $route['news'] = 'home/news';

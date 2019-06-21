@@ -2,54 +2,16 @@
     File      : views/home/news.html.twig
     Purpose   : home/news view
     Created   : 6/03/2019 by Sherlock Holmes
-    Updated   : 6/13/2019 by Constantina
-    Changes   : Update news, migrate to new framework
+    Updated   : 6/21/2019 by Sherlock Holmes
+    Changes   : Implement GET method to fetch data from API endpoint
 #}
 
 {% extends 'base.html.twig' %}
 {% block title %} {{ page_title }} | Mount Carmel {% endblock %}
 {% block contents %}
     <div class="row">
-        <div class="col-12 col-lg-8">
-            <div class="card">
-                <div class="card-body">
-
-                    <div class="media">
-
-                        <div class="media-body">
-                            <small class="float-right text-navy">5m ago</small>
-
-                            <div class="media-title">
-                                <p class="text-center mb-0">
-                                    <a href="#" target="_blank">Official Web and Mobile App</a>
-                                </p>
-                            </div>
-
-                            <div class="media-article">
-                                <div class="cover-photo">
-                                    <img src="{{ base_url('public/assets/img/photos/2.jpg') }}" class="img-fluid" alt="Unsplash">
-                                </div>
-                                <div class="media-content p-0">
-                                    <p class="text-justify">
-                                        We have released the new official web and mobile applications of Minor Basilica of the National Shrine of Our Lady of Mount Carmel, located at 90 4th Street, New Manila, Quezon City, Philippines.
-                                    </p>
-                                    <p class="text-justify">
-                                        Our vision for the new system will help the church improve its security, sustainability, and efficiency.
-                                    </p>
-                                </div>
-                            </div>
-
-                            <div class="read-more">
-                                <p class="text-center mb-0">
-                                    <a class="btn btn-lg btn-brown rounded-pill px-5" href="news-details">Read More</a>
-                                </p>
-                            </div>
-
-                        </div>
-                    </div>
-
-                </div>
-            </div>
+        <div id="posts" class="col-12 col-lg-8">
+            <!-- Dynamic content here -->
         </div>
         <div class="col-12 col-lg-4">
             <div class="card">
@@ -75,4 +37,74 @@
             </div>
         </div>
     </div>
+{% endblock %}
+{% block custom_scripts %}
+    <script>
+        $(function () {
+            let baseURL = '{{ base_url() }}';
+
+            // GET: Posts
+            let posts = {
+                init: function () {
+                    this.displayPosts();
+                },
+                displayPosts: function () {
+
+                    let el = $('#posts');
+                    let data = el.serialize();
+
+                    let api = 'https://api.mountcarmel.ph/';
+
+                    $.ajax({
+                        url: api + 'posts',
+                        type: 'GET',
+                        dataType: 'json',
+                        data: data,
+                        cache: false,
+                        processData: false,
+                        beforeSend: function () {},
+                        complete: function () {},
+                        success: function (data) {
+                            if (data) {
+                                $.each(data, function (key, value) {
+                                    el.append(
+                                        '<div class="card">' +
+                                        '   <div class="card-body">' +
+                                        '       <div class="media">' +
+                                        '           <div class="media-body">' +
+                                        '              <small class="float-right text-navy">' + moment(value.posted_on, "YYYY-MM-DD h:mm:ss").fromNow() + '</small>' +
+                                        '              <div class="media-title">' +
+                                        '                 <p class="text-center mb-0">' +
+                                        '                    <a href="' + baseURL + "news/id/" + value.id + '" target="_self">' + value.title + '</a>' +
+                                        '                 </p>' +
+                                        '              </div>' +
+                                        '              <div class="media-article">' +
+                                        '                 <div class="cover-photo">' +
+                                        '                    <img class="img-fluid" src="' + api + value.cover_photo + '" alt=""/>' +
+                                        '                 </div>' +
+                                        '                 <div class="media-content fade-out-ellipses p-0">' + value.content + '</div>' +
+                                        '              </div>' +
+                                        '              <div class="read-more">' +
+                                        '                  <p class="text-center mb-0">' +
+                                        '                     <a class="btn btn-lg btn-brown rounded-pill px-5" href="' + baseURL + "news/id/" + value.id + '" target="_self">Read More</a>' +
+                                        '                  </p>' +
+                                        '              </div>' +
+                                        '           </div>' +
+                                        '       </div>' +
+                                        '   </div>' +
+                                        '</div>'
+                                    );
+                                });
+                            }
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            console.log('The following error occurred: ' + textStatus, errorThrown);
+                        }
+                    });
+                }
+            };
+
+            posts.init();
+        })
+    </script
 {% endblock %}
