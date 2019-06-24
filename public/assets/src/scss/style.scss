@@ -2,10 +2,11 @@
 *   Filename  : style.scss
 *   Purpose   : Custom stylesheet
 *   Created   : 5/20/2019 by Sherlock Holmes
-*   Updated   : 6/14/2019 by Sherlock Holmes
-*   Changes   : Added padding to modal header
+*   Updated   : 6/24/2019 by Sherlock Holmes
+*   Changes   : Import corporate.css
 */
 /* Imports */
+@import "_corporate.css";
 @import "_fonts.scss";
 @import "_variables.scss";
 @import "_mixins.scss";
@@ -159,32 +160,34 @@ body {
     padding: 45px 40px 40px;
 
     /* News and updates */
-    .media {
-      .media-body {
-        .media-title {
-          margin: 30px 30px 0;
-          padding: 10px 0;
-          background-color: $sienna;
+    #media {
+      .media {
+        .media-body {
+          .media-title {
+            margin: 30px 30px 0;
+            padding: 10px 0;
+            background-color: $sienna;
 
-          p {
-            a {
-              font-size: 20px;
-              font-family: Helvetica, sans-serif;
-              font-weight: bold;
-              color: white;
+            p {
+              a {
+                font-size: 20px;
+                font-family: Helvetica, sans-serif;
+                font-weight: bold;
+                color: white;
 
-              &:hover {
-                text-decoration: none;
+                &:hover {
+                  text-decoration: none;
+                }
               }
             }
           }
-        }
 
-        .media-article {
-          margin: 0 30px 20px;
+          .media-article {
+            margin: 0 30px 20px;
 
-          .cover-photo {
-            margin-bottom: 20px;
+            .cover-photo {
+              margin-bottom: 20px;
+            }
           }
         }
       }
@@ -221,7 +224,7 @@ body {
     }
 
     /* Live streaming */
-    .video-container {
+    #video-container {
       .card {
         .card-body {
           line-height: 0;
@@ -651,38 +654,41 @@ a {
   .content {
     padding: 20px !important;
 
-    .media {
-      .media-body {
-        .media-title {
-          margin: 30px 0 0 !important;
-          padding: 6.5px 0 !important;
+    #media {
+      .media {
+        .media-body {
+          .media-title {
+            margin: 30px 0 0 !important;
+            padding: 6.5px !important;
 
-          p {
-            margin: 0 !important;
+            p {
+              margin: 0 !important;
 
-            a {
-              font-size: 14px !important;
+              a {
+                font-size: 14px !important;
+              }
             }
           }
-        }
 
-        .media-article {
-          margin-left: 0 !important;
-          margin-right: 0 !important;
-        }
+          .media-article {
+            margin-left: 0 !important;
+            margin-right: 0 !important;
+          }
 
-        .read-more {
-          p {
-            a {
-              font-size: 14px;
+          .read-more {
+            p {
+              a {
+                font-size: 14px;
+              }
             }
           }
-        }
 
+        }
       }
+
     }
 
-    .video-container {
+    #video-container {
       .card {
         border: none;
         background: none;
@@ -702,5 +708,13 @@ a {
 
   #map {
     height: 300px !important;
+  }
+}
+
+@media (max-width: 991px) {
+  .content {
+    #ads {
+      display: none;
+    }
   }
 }

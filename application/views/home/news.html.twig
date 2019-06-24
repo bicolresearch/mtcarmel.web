@@ -2,18 +2,18 @@
     File      : views/home/news.html.twig
     Purpose   : home/news view
     Created   : 6/03/2019 by Sherlock Holmes
-    Updated   : 6/21/2019 by Sherlock Holmes
-    Changes   : Implement GET method to fetch data from API endpoint
+    Updated   : 6/24/2019 by Sherlock Holmes
+    Changes   :
 #}
 
 {% extends 'base.html.twig' %}
 {% block title %} {{ page_title }} | Mount Carmel {% endblock %}
 {% block contents %}
     <div class="row">
-        <div id="posts" class="col-12 col-lg-8">
+        <div id="media" class="col-12 col-lg-8">
             <!-- Dynamic content here -->
         </div>
-        <div class="col-12 col-lg-4">
+        <div id="ads" class="col-12 col-lg-4">
             <div class="card">
                 <div class="card-header">
                     <h4 class="card-title text-center">Powered By</h4>
@@ -50,9 +50,8 @@
                 },
                 displayPosts: function () {
 
-                    let el = $('#posts');
+                    let el = $('#media');
                     let data = el.serialize();
-
                     let api = 'https://api.mountcarmel.ph/';
 
                     $.ajax({
@@ -62,8 +61,10 @@
                         data: data,
                         cache: false,
                         processData: false,
-                        beforeSend: function () {},
-                        complete: function () {},
+                        beforeSend: function () {
+                        },
+                        complete: function () {
+                        },
                         success: function (data) {
                             if (data) {
                                 $.each(data, function (key, value) {
@@ -72,23 +73,23 @@
                                         '   <div class="card-body">' +
                                         '       <div class="media">' +
                                         '           <div class="media-body">' +
-                                        '              <small class="float-right text-navy">' + moment(value.posted_on, "YYYY-MM-DD h:mm:ss").fromNow() + '</small>' +
-                                        '              <div class="media-title">' +
-                                        '                 <p class="text-center mb-0">' +
-                                        '                    <a href="' + baseURL + "news/id/" + value.id + '" target="_self">' + value.title + '</a>' +
-                                        '                 </p>' +
-                                        '              </div>' +
-                                        '              <div class="media-article">' +
-                                        '                 <div class="cover-photo">' +
-                                        '                    <img class="img-fluid" src="' + api + value.cover_photo + '" alt=""/>' +
-                                        '                 </div>' +
-                                        '                 <div class="media-content fade-out-ellipses p-0">' + value.content + '</div>' +
-                                        '              </div>' +
-                                        '              <div class="read-more">' +
-                                        '                  <p class="text-center mb-0">' +
-                                        '                     <a class="btn btn-lg btn-brown rounded-pill px-5" href="' + baseURL + "news/id/" + value.id + '" target="_self">Read More</a>' +
-                                        '                  </p>' +
-                                        '              </div>' +
+                                        '               <small class="float-right text-navy">' + moment(value.posted_on, "YYYY-MM-DD h:mm:ss").fromNow() + '</small>' +
+                                        '               <div class="media-title">' +
+                                        '                   <p class="text-center mb-0">' +
+                                        '                       <a href="' + baseURL + "news/id/" + value.id + '" target="_self">' + value.title + '</a>' +
+                                        '                   </p>' +
+                                        '               </div>' +
+                                        '               <div class="media-article">' +
+                                        '                  <div class="cover-photo">' +
+                                        '                     <img class="img-fluid" src="' + api + value.cover_photo + '" alt=""/>' +
+                                        '                  </div>' +
+                                        '                  <div class="media-content fade-out-ellipses p-0">' + value.content + '</div>' +
+                                        '               </div>' +
+                                        '               <div class="read-more">' +
+                                        '                   <p class="text-center mb-0">' +
+                                        '                      <a class="btn btn-lg btn-brown rounded-pill px-5" href="' + baseURL + "news/id/" + value.id + '" target="_self">Read More</a>' +
+                                        '                   </p>' +
+                                        '               </div>' +
                                         '           </div>' +
                                         '       </div>' +
                                         '   </div>' +
@@ -106,5 +107,5 @@
 
             posts.init();
         })
-    </script
+    </script>
 {% endblock %}

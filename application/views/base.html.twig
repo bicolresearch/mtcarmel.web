@@ -2,7 +2,7 @@
     File      : views/base.html.twig
     Purpose   : Base template
     Created   : 6/03/2019 by Sherlock Holmes
-    Updated   :
+    Updated   : 6/24/2019 by Sherlock Holmes
     Changes   :
 #}
 
@@ -14,13 +14,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="Mount Carmel System">
     <meta name="author" content="Bicol Research">
-    <title>
-        {% block title %}
-            Mount Carmel
-        {% endblock %}
-    </title>
+    <title>{% block title %}Mount Carmel{% endblock %}</title>
     {% block stylesheets %}
-        <link href="{{ base_url('public/assets/css/corporate.css') }}" rel="stylesheet">
         <link href="{{ base_url('public/assets/css/style.css') }}" rel="stylesheet">
     {% endblock %}
 </head>
@@ -195,8 +190,6 @@
 {% block javascripts %}
     <script src="{{ base_url('public/assets/js/app.js') }}"></script>
     <script src="{{ base_url('public/assets/js/pace.min.js') }}"></script>
-    <script src="{{ base_url('public/assets/js/holder.min.js') }}"></script>
-
     <script>
         $(function () {
             let baseURL = '{{ base_url() }}';
@@ -204,63 +197,64 @@
             // POST: Login
             let logIn = {
                 init: function () {
-                    this.submitForm();
+                    this.bindFunction();
                 },
                 resetForm: function () {
                     let el = $('form');
                     el.find('.form-control').removeClass('is-invalid');
                 },
+                bindFunction: function () {
+                    $('#loginModal').on('show.bs.modal', this.submitForm());
+                },
                 submitForm: function () {
-                    $('#loginModal').on('show.bs.modal', function () {
-                        $('form').on('submit', function (e) {
-                            let el = $(this);
-                            let btn = el.find('#btn-change-state');
-                            let data = el.serialize();
+                    $('form').on('submit', function (e) {
+                        let el = $(this);
+                        let btn = el.find('#btn-change-state');
+                        let data = el.serialize();
 
-                            $.ajax({
-                                url: baseURL + '/auth/login_ajax',
-                                type: 'POST',
-                                dataType: 'json',
-                                data: data,
-                                cache: false,
-                                processData: false,
-                                beforeSend: function () {
-                                    el.find('#ajax-preloader').html(
-                                        '<div class="loader">' +
-                                        '  <svg class="circular" viewBox="25 25 50 50">' +
-                                        '    <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>' +
-                                        '  </svg>' +
-                                        '</div>').show();
-                                    btn.attr('disabled', 'disabled');
-                                },
-                                complete: function () {
-                                    el.find('#ajax-preloader').html(
-                                        '<div class="loader">' +
-                                        '  <svg class="circular" viewBox="25 25 50 50">' +
-                                        '    <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>' +
-                                        '  </svg>' +
-                                        '</div>').hide('fast');
-                                    btn.removeAttr('disabled');
-                                },
-                                success: function (data) {
-                                    if (data.status === true) {
-                                        logIn.resetForm();
-                                        window.location.replace(baseURL + '/auth');
-                                    } else {
-                                        // Error msg response
-                                        console.log(data.response);
-                                        $('#ajax-response').html('<div class="alert alert-danger"><ul>' + data.response + '</ul></div>');
-                                        (Boolean(data.email)) ? el.find('#email').addClass('is-invalid') : el.find('#email').removeClass('is-invalid');
-                                        (Boolean(data.password)) ? el.find('#password').addClass('is-invalid') : el.find('#password').removeClass('is-invalid');
-                                    }
-                                },
-                                error: function (jqXHR, textStatus, errorThrown) {
-                                    // For debugging
-                                    console.log('The following error occurred: ' + textStatus, errorThrown);
+                        $.ajax({
+                            url: baseURL + '/auth/login_ajax',
+                            type: 'POST',
+                            dataType: 'json',
+                            data: data,
+                            cache: false,
+                            processData: false,
+                            beforeSend: function () {
+                                el.find('#ajax-preloader').html(
+                                    '<div class="loader">' +
+                                    '  <svg class="circular" viewBox="25 25 50 50">' +
+                                    '    <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>' +
+                                    '  </svg>' +
+                                    '</div>').show();
+                                btn.attr('disabled', 'disabled');
+                            },
+                            complete: function () {
+                                el.find('#ajax-preloader').html(
+                                    '<div class="loader">' +
+                                    '  <svg class="circular" viewBox="25 25 50 50">' +
+                                    '    <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>' +
+                                    '  </svg>' +
+                                    '</div>').hide('fast');
+                                btn.removeAttr('disabled');
+                            },
+                            success: function (data) {
+                                if (data.status === true) {
+                                    logIn.resetForm();
+                                    window.location.replace(baseURL + '/auth');
+                                } else {
+                                    // Error msg response
+                                    console.log(data.response);
+                                    $('#ajax-response').html('<div class="alert alert-danger"><ul>' + data.response + '</ul></div>');
+                                    (Boolean(data.email)) ? el.find('#email').addClass('is-invalid') : el.find('#email').removeClass('is-invalid');
+                                    (Boolean(data.password)) ? el.find('#password').addClass('is-invalid') : el.find('#password').removeClass('is-invalid');
                                 }
-                            });
-                            e.preventDefault();
+                            },
+                            error: function (jqXHR, textStatus, errorThrown) {
+                                // For debugging
+                                console.log('The following error occurred: ' + textStatus, errorThrown);
+                            }
                         });
+                        e.preventDefault();
                     });
                 }
             };
