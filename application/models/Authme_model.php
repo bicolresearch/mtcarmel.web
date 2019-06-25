@@ -11,11 +11,34 @@ class Authme_Model extends CI_Model
         parent::__construct();
     }
 
-    public function _get_user_by_email($email, $password)
+    /**
+     * @param $username
+     * @param $password
+     * @return bool
+     */
+    public function _get_by_username($username, $password)
     {
-        $sp = 'call sp_user_by_email(?, ?)';
-        $query = $this->db->query($sp, array('username' => $email, 'password' => $password));
-        return ($query->num_rows() > 0) ? $query->row() : false;
+
+        $query = $this->db->get_where('users', [
+            'username' => $username,
+            'password' => $password
+        ]);
+        return ($query->num_rows()) ? $query->row() : false;
+    }
+
+    /**
+     * @param $id
+     * @param $data
+     */
+    public function _update($id, $data)
+    {
+        $this->db->trans_begin();
+
+        $this->db
+            ->where('id', $id)
+            ->update('users', $data);
+
+        ($this->db->trans_status() === false) ? $this->db->trans_rollback() : $this->db->trans_commit();
     }
 }
 

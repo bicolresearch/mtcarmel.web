@@ -5,6 +5,9 @@ class Auth extends CI_Controller
 {
     private $id = '';
 
+    /**
+     * Auth constructor.
+     */
     public function __construct()
     {
         parent::__construct();
@@ -19,6 +22,11 @@ class Auth extends CI_Controller
 
     public function login()
     {
+        if (logged_in()) {
+            $this->_user_role();
+        } else {
+            redirect('home', 'refresh');
+        }
     }
 
     public function login_ajax()
@@ -28,12 +36,12 @@ class Auth extends CI_Controller
         }
 
         $this->form_validation
-            ->set_rules('email', 'Email', 'trim|required|valid_email|xss_clean|', array('required' => '%s field is required.'))
+            ->set_rules('email', 'Email', 'trim|required|valid_email|xss_clean', array('required' => '%s field is required.'))
             ->set_rules('password', 'Password', 'trim|required|xss_clean', array('required' => '%s field is required.'))
             ->set_error_delimiters('<li>', '</li>');
 
         if ($this->form_validation->run()) {
-            if ($this->authme->signin(set_value('email'), set_value('password'))) {
+            if ($this->authme->login(set_value('email'), set_value('password'))) {
                 $view_data = [
                     'status' => true
                 ];
