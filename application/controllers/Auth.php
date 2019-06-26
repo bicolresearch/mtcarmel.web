@@ -5,9 +5,6 @@ class Auth extends CI_Controller
 {
     private $id = '';
 
-    /**
-     * Auth constructor.
-     */
     public function __construct()
     {
         parent::__construct();
@@ -66,7 +63,7 @@ class Auth extends CI_Controller
     public function logout()
     {
         if (logged_in()) {
-            redirect('home');
+            redirect('home', 'refresh');
         } else {
             $this->authme->logout('auth');
         }
@@ -77,10 +74,10 @@ class Auth extends CI_Controller
     {
         switch (user('role_id')) {
             case 1:
-                redirect('admin/dashboard', 'refresh');
+                redirect('home', 'refresh');
                 break;
             case 2:
-                redirect('user/dashboard', 'refresh');
+                redirect('home', 'refresh');
                 break;
             default:
                 break;
