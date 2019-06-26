@@ -52,19 +52,15 @@
 
                     let el = $('#media');
                     let data = el.serialize();
-                    let api = 'https://api.mountcarmel.ph/';
+                    let api = 'https://api.mountcarmel.ph';
 
                     $.ajax({
-                        url: api + 'posts',
+                        url: api + '/posts',
                         type: 'GET',
                         dataType: 'json',
                         data: data,
                         cache: false,
                         processData: false,
-                        beforeSend: function () {
-                        },
-                        complete: function () {
-                        },
                         success: function (data) {
                             if (data) {
                                 $.each(data, function (key, value) {
@@ -81,7 +77,7 @@
                                         '               </div>' +
                                         '               <div class="media-article">' +
                                         '                  <div class="cover-photo">' +
-                                        '                     <img class="img-fluid" src="' + api + value.cover_photo + '" alt=""/>' +
+                                        '                     <img class="img-fluid" src="' + api + '/' + value.cover_photo + '" alt=""/>' +
                                         '                  </div>' +
                                         '                  <div class="media-content fade-out-ellipses p-0">' + value.content + '</div>' +
                                         '               </div>' +

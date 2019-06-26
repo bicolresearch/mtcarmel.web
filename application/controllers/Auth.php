@@ -11,7 +11,6 @@ class Auth extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->output->enable_profiler(FALSE);
         $this->id = (int)user('id');
     }
 
@@ -66,7 +65,11 @@ class Auth extends CI_Controller
 
     public function logout()
     {
-        $this->authme->logout('home');
+        if (logged_in()) {
+            redirect('home');
+        } else {
+            $this->authme->logout('auth');
+        }
     }
 
     #helper

@@ -66,9 +66,9 @@ class Basilica extends CI_Controller
 
     public function coords()
     {
-        if (!$this->input->is_ajax_request()) {
-            redirect('auth', 'refresh');
-        }
+        //if (!$this->input->is_ajax_request()) {
+        //    redirect('auth', 'refresh');
+        //}
 
         $response = [
             [

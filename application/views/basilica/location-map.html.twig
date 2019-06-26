@@ -50,6 +50,9 @@
 
         let map;
         let baseURL = '{{ base_url() }}';
+        let el = $('#map'); 
+        let boundariesCoords = el.serialize();
+        let apiURL = 'http://api.mountcarmel.ph';
 
         function initMap(listener) {
             map = new google.maps.Map(document.getElementById('map'), {
@@ -95,8 +98,6 @@
                 map.setCenter(marker.getPosition());
             });
 
-            let boundariesCoords = $(this).serialize();
-
             $.ajax({
                 url: baseURL + '/basilica/coords',
                 type: 'GET',
@@ -105,7 +106,8 @@
                 cache: false,
                 processData: false,
                 beforeSend: function () {
-                    console.log('fetching boundaries coordinates...');
+                },
+                complete: function () {
                 },
                 success: function (data) {
                     if (data) {
@@ -120,8 +122,6 @@
                         });
                         mountCarmel.setMap(map);
                     }
-                    console.log('boundaries coordinates loaded...');
-                    console.table(data);
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
                     console.log('The following error occurred: ' + textStatus, errorThrown);

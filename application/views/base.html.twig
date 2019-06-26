@@ -133,8 +133,12 @@
                                 <img src="{{ base_url('public/assets/img/avatars/profile.svg') }}" class="avatar img-fluid rounded-circle mr-1" alt="Profile"/>
                             </a>
                             <div class="dropdown-menu dropdown-menu-right">
-                                <a class="dropdown-item" href="javascript:void(0)" data-toggle="modal" data-target="#createAccountModal">New Account</a>
-                                <a class="dropdown-item" href="javascript:void(0)" data-toggle="modal" data-target="#loginModal">Login</a>
+                                {% if '{{ logged_in() }}' %}
+                                    <a class="dropdown-item" href="javascript:void(0)" data-toggle="modal" data-target="#createAccountModal">New Account</a>
+                                    <a class="dropdown-item" href="javascript:void(0)" data-toggle="modal" data-target="#loginModal">Login</a>
+                                {% else %}
+                                    <a class="dropdown-item" href="{{ base_url('auth/logout') }}" target="_self">Logout</a>
+                                {% endif %}
                             </div>
                         </li>
                     </ul>
@@ -243,7 +247,6 @@
                                     window.location.replace(baseURL + '/auth');
                                 } else {
                                     // Error msg response
-                                    console.log(data.response);
                                     $('#ajax-response').html('<div class="alert alert-danger"><ul>' + data.response + '</ul></div>');
                                     (Boolean(data.email)) ? el.find('#email').addClass('is-invalid') : el.find('#email').removeClass('is-invalid');
                                     (Boolean(data.password)) ? el.find('#password').addClass('is-invalid') : el.find('#password').removeClass('is-invalid');
