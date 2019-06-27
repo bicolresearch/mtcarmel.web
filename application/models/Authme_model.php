@@ -1,5 +1,14 @@
 <?php
 
+/*
+    Filename    : Authme_model.php
+    Location    : application/models/Authme_model.php
+    Purpose     : Authme Model
+    Created     : 6/24/2019 by Sherlock Holmes
+    Updated     : 6/27/2019 by Sherlock Holmes
+    Changes     : Changed commenting format
+*/
+
 if (!defined('BASEPATH')) {
     exit('No direct script access allowed');
 }
@@ -23,6 +32,7 @@ class Authme_Model extends CI_Model
             'username' => $username,
             'password' => $password
         ]);
+        
         return ($query->num_rows()) ? $query->row() : false;
     }
 
@@ -41,8 +51,3 @@ class Authme_Model extends CI_Model
         ($this->db->trans_status() === false) ? $this->db->trans_rollback() : $this->db->trans_commit();
     }
 }
-
-/* 
- * end of file 
- * location: models/Authme_model.php
- */
