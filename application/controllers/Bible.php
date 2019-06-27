@@ -2,11 +2,12 @@
 <?php
 
 /*
-    File      : Controller/Bible.php
-    Purpose   : Bible Controller
-    Created   : 6/03/2019 by Sherlock Holmes
-    Updated   : 6/14/2019 by Constantina
-    Changes   : Migrate to new framework
+    Filename    : Bible.php
+    Location    : application/controller/Bible.php
+    Purpose     : Bible Controller
+    Created     : 6/24/2019 by Sherlock Holmes
+    Updated     : 6/27/2019 by Sherlock Holmes
+    Changes     : Changed commenting format
 */
 
 defined('BASEPATH') or exit('No direct script access allowed');
@@ -30,6 +31,3 @@ class Bible extends CI_Controller
     }
 
 }
-
-/* End of file: Bible.php */
-/* Location: application/controller/Bible.php */

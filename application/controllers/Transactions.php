@@ -1,11 +1,12 @@
 <?php
 
 /*
-    File      : Controller/Transactions.php
-    Purpose   : Transactions Controller
-    Created   : 6/03/2019 by Sherlock Holmes
-    Updated   : 6/14/2019 by Constantina
-    Changes   : Migrate to new framework
+    Filename    : Transactions.php
+    Location    : application/controller/Transactions.php
+    Purpose     : Transactions Controller
+    Created     : 6/24/2019 by Sherlock Holmes
+    Updated     : 6/27/2019 by Sherlock Holmes
+    Changes     : Changed commenting format
 */
 
 defined('BASEPATH') or exit('No direct script access allowed');
@@ -29,6 +30,3 @@ class Transactions extends CI_Controller
     }
 
 }
-
-/* End of file: Transactions.php */
-/* Location: application/controller/Transactions.php */

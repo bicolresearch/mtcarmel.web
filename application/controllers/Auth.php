@@ -1,4 +1,14 @@
 <?php
+
+/*
+    Filename    : Auth.php
+    Location    : application/controller/Auth.php
+    Purpose     : Auth Controller
+    Created     : 6/24/2019 by Sherlock Holmes
+    Updated     : 6/27/2019 by Sherlock Holmes
+    Changes     : Changed commenting format
+*/
+
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Auth extends CI_Controller
@@ -62,11 +72,7 @@ class Auth extends CI_Controller
 
     public function logout()
     {
-        if (logged_in()) {
-            redirect('home', 'refresh');
-        } else {
-            $this->authme->logout('auth');
-        }
+        $this->authme->logout('home');
     }
 
     #helper
@@ -74,7 +80,7 @@ class Auth extends CI_Controller
     {
         switch (user('role_id')) {
             case 1:
-                redirect('home', 'refresh');
+                redirect('admin/dashboard', 'refresh');
                 break;
             case 2:
                 redirect('home', 'refresh');
@@ -85,6 +91,3 @@ class Auth extends CI_Controller
     }
     #end helper
 }
-
-/* End of file: Auth.php */
-/* Location: application/controller/Auth.php */

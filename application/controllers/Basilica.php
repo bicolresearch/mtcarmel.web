@@ -1,11 +1,12 @@
 <?php
 
 /*
-    File      : Controller/Basilica.php
-    Purpose   : Basilica Controller
-    Created   : 6/05/2019 by Sherlock Holmes
-    Updated   : 6/14/2019 by Constantina
-    Changes   : Migrate to new framework
+    Filename    : Basilica.php
+    Location    : application/controller/Basilica.php
+    Purpose     : Basilica Controller
+    Created     : 6/24/2019 by Sherlock Holmes
+    Updated     : 6/27/2019 by Sherlock Holmes
+    Changes     : Changed commenting format
 */
 
 defined('BASEPATH') or exit('No direct script access allowed');
@@ -66,9 +67,9 @@ class Basilica extends CI_Controller
 
     public function coords()
     {
-        //if (!$this->input->is_ajax_request()) {
-        //    redirect('auth', 'refresh');
-        //}
+        if (!$this->input->is_ajax_request()) {
+           redirect('auth', 'refresh');
+        }
 
         $response = [
             [
@@ -500,6 +501,3 @@ class Basilica extends CI_Controller
         echo json_encode($response);
     }
 }
-
-/* End of file: Basilica.php */
-/* Location: application/controller/Basilica.php */

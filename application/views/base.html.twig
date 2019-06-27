@@ -26,7 +26,7 @@
             <div class="sidebar-content js-simplebar">
                 <a class="sidebar-brand" href="{{ base_url('home') }}">
                     <div class="logo">
-                        <img src="{{ base_url('public/assets/img/brands/mount-carmel-logo.svg') }}" alt="Mt. Carmel Logo"/>
+                        <img src="{{ base_url('public/assets/img/brands/mount-carmel-logo.svg') }}" alt="Mount Carmel Logo"/>
                     </div>
                     <div class="logo-text">
                         <div class="title">Mount Carmel</div>
@@ -39,7 +39,7 @@
                             <i class="align-middle icon-home icon-18"></i> <span class="align-middle">Home</span>
                         </a>
                         <ul id="home" class="sidebar-dropdown list-unstyled collapse">
-                            <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('news') }}">News & Updates</a></li>
+                            <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('news') }}">News &amp; Updates</a></li>
                             <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('calendar') }}">Calendar</a></li>
                             <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('live-mass') }}">Live Mass</a></li>
                         </ul>
@@ -133,7 +133,7 @@
                                 <img src="{{ base_url('public/assets/img/avatars/profile.svg') }}" class="avatar img-fluid rounded-circle mr-1" alt="Profile"/>
                             </a>
                             <div class="dropdown-menu dropdown-menu-right">
-                                {% if '{{ logged_in() }}' %}
+                                {% if not 'logged_in()' %}
                                     <a class="dropdown-item" href="javascript:void(0)" data-toggle="modal" data-target="#createAccountModal">New Account</a>
                                     <a class="dropdown-item" href="javascript:void(0)" data-toggle="modal" data-target="#loginModal">Login</a>
                                 {% else %}

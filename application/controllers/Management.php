@@ -1,11 +1,12 @@
 <?php
 
 /*
-    File      : Controller/Management.php
-    Purpose   : Management Controller
-    Created   : 6/04/2019 by Constantina
-    Updated   : 6/14/2019 by Constantina
-    Changes   : Migrate to new framework
+    Filename    : Management.php
+    Location    : application/controller/Management.php
+    Purpose     : Management Controller
+    Created     : 6/24/2019 by Sherlock Holmes
+    Updated     : 6/27/2019 by Sherlock Holmes
+    Changes     : Changed commenting format
 */
 
 defined('BASEPATH') or exit('No direct script access allowed');
@@ -192,6 +193,3 @@ class Management extends CI_Controller
     }
 
 }
-
-/* End of file: Management.php */
-/* Location: application/controller/Management.php */

@@ -1,13 +1,14 @@
 <?php
 
 /*
-    File      : Controller/Home.php
-    Purpose   : Home Controller
-    Created   : 6/03/2019 by Sherlock Holmes
-    Updated   : 6/14/2019 by Constantina
-    Changes   : Migrate to new framework
+    Filename    : Home.php
+    Location    : application/controller/Home.php
+    Purpose     : Home Controller
+    Created     : 6/03/2019 by Sherlock Holmes
+    Updated     : 6/27/2019 by Sherlock Holmes
+    Changes     : Changed commenting format
 */
-
+ 
 defined('BASEPATH') or exit('No direct script access allowed');
 
 class Home extends CI_Controller
@@ -16,7 +17,7 @@ class Home extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->output->enable_profiler(FALSE);
+        $this->output->enable_profiler(TRUE);
     }
 
     public function index()
@@ -65,6 +66,3 @@ class Home extends CI_Controller
     }
 
 }
-
-/* End of file: Home.php */
-/* Location: application/controller/Home.php */

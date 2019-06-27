@@ -1,11 +1,12 @@
 <?php
 
 /*
-    File      : Controller/Help.php
-    Purpose   : Send Help Controller
-    Created   : 6/03/2019 by Sherlock Holmes
-    Updated   : 6/14/2019 by Constantina
-    Changes   : Migrate to new framework
+    Filename    : Help.php
+    Location    : application/controller/Help.php
+    Purpose     : Help Controller
+    Created     : 6/24/2019 by Sherlock Holmes
+    Updated     : 6/27/2019 by Sherlock Holmes
+    Changes     : Changed commenting format
 */
 
 defined('BASEPATH') or exit('No direct script access allowed');
@@ -29,6 +30,3 @@ class Help extends CI_Controller
     }
 
 }
-
-/* End of file: Help.php */
-/* Location: application/controller/Help.php */
