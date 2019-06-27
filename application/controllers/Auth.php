@@ -72,7 +72,7 @@ class Auth extends CI_Controller
 
     public function logout()
     {
-        $this->authme->logout('home');
+        $this->authme->logout('home', 'refresh');
     }
 
     #helper
@@ -80,12 +80,13 @@ class Auth extends CI_Controller
     {
         switch (user('role_id')) {
             case 1:
-                redirect('admin/dashboard', 'refresh');
+                redirect('admin', 'refresh');
                 break;
             case 2:
-                redirect('home', 'refresh');
+                redirect('user', 'refresh');
                 break;
             default:
+                redirect('home', 'refresh');
                 break;
         }
     }

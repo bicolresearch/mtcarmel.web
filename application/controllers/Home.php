@@ -17,7 +17,7 @@ class Home extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->output->enable_profiler(TRUE);
+        $this->output->enable_profiler(FALSE);
     }
 
     public function index()
@@ -25,7 +25,7 @@ class Home extends CI_Controller
         $view_data = [
             'page_title' => 'Homepage'
         ];
-
+    
         $this->twig->display('home/index.html', $view_data);
     }
 
@@ -55,14 +55,4 @@ class Home extends CI_Controller
 
         $this->twig->display('home/live-mass.html', $view_data);
     }
-
-    public function news_details()
-    {
-        $view_data = [
-            'page_title' => 'News Details'
-        ];
-
-        $this->twig->display('home/news-details.html', $view_data);
-    }
-
 }

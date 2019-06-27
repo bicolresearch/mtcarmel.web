@@ -1,0 +1,90 @@
+{#
+    Filename    : base.html.twig
+    Location    : application/views/admin/base.html.twig
+    Purpose     : Admin base template
+    Created     : 6/27/2019 by Sherlock Holmes
+    Updated     : 
+    Changes     : 
+#}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Mount Carmel System">
+    <meta name="author" content="Bicol Research">
+    <title>{% block title %}Mount Carmel{% endblock %}</title>
+    {% block stylesheets %}
+        <link href="{{ base_url('public/assets/css/style.css') }}" rel="stylesheet">
+    {% endblock %}
+</head>
+<body>
+<div class="wrapper">
+    {% block sidebar %}
+        <nav class="sidebar sidebar-sticky">
+            <div class="sidebar-content js-simplebar">
+                <a class="sidebar-brand" href="{{ base_url('home') }}">
+                    <div class="logo">
+                        <img src="{{ base_url('public/assets/img/brands/mount-carmel-logo.svg') }}" alt="Mount Carmel Logo"/>
+                    </div>
+                    <div class="logo-text">
+                        <div class="title">Mount Carmel</div>
+                        <div class="address">Quezon City, Philippines</div>
+                    </div>
+                </a>
+                <ul class="sidebar-nav">
+                    <li class="sidebar-item active">
+                        <a href="#management" data-toggle="collapse" class="sidebar-link collapsed">
+                            <i class="align-middle icon-management icon-18"></i> <span class="align-middle">Management</span>
+                        </a>
+                        <ul id="management" class="sidebar-dropdown list-unstyled collapse">
+                            <li class="sidebar-item"><a class="sidebar-link" href="javascript:void(0)">Link 1</a></li>
+                            <li class="sidebar-item"><a class="sidebar-link" href="javascript:void(0)">Link 2</a></li>
+                            <li class="sidebar-item"><a class="sidebar-link" href="javascript:void(0)">Link 3</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    {% endblock %}
+    <div class="main">
+        {% block navbar %}
+            <nav class="navbar navbar-expand navbar-light bg-white">
+                <a class="sidebar-toggle d-flex mr-2">
+                    <i class="hamburger align-self-center"></i>
+                </a>
+                <div class="navbar-collapse collapse">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle mr-0 pr-0" href="javascript:void(0)" data-toggle="dropdown">
+                                <img src="{{ base_url('public/assets/img/avatars/profile.svg') }}" class="avatar img-fluid rounded-circle mr-1" alt="Profile"/>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right">
+                                <a class="dropdown-item" href="{{ base_url('auth/logout') }}" target="_self">Logout</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        {% endblock %}
+        <main class="content">
+            <div class="container-fluid p-0">
+                {% block contents %}
+                    {# load content here #}
+                {% endblock %}
+            </div>
+        </main>
+    </div>
+</div>
+
+{% block javascripts %}
+    <script src="{{ base_url('public/assets/js/app.js') }}"></script>
+    <script src="{{ base_url('public/assets/js/pace.min.js') }}"></script>
+{% endblock %}
+
+{% block custom_scripts %}
+{% endblock %}
+</body>
+</html>

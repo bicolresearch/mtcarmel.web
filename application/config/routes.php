@@ -96,3 +96,9 @@ $route['add-schedule'] = 'management/add_schedule';
 $route['my-availability'] = 'management/my_availability';
 $route['user-roles'] = 'management/user_roles';
 $route['splash-ads'] = 'management/splash_ads';
+
+// Admin
+$route['admin'] = 'admin/admin/index';
+
+// User
+$route['user'] = 'user/user/index';
