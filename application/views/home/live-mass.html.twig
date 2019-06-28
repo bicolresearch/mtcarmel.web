@@ -1,9 +1,11 @@
 {#
-    File      : views/home/mass-schedule.html.twig
-    Purpose   : home/live-mass view
-    Created   : 6/03/2019 by Sherlock Holmes
-    Updated   :
-    Changes   :
+    Filename    : live-mass.html.twig
+    Location    : application/views/home/live-mass.html.twig
+    Purpose     : Live mass template
+    Created     : 6/03/2019 by Sherlock Holmes
+    Updated     : 6/28/2019 by Sherlock Holmes
+    Changes     : Changed commenting format
+                : Video poster path
 #}
 
 {% extends 'base.html.twig' %}
@@ -13,7 +15,7 @@
         <div id="video-container" class="col-12 col-lg-8">
             <div class="card">
                 <div class="card-body">
-                    <video controls preload='auto' poster='{{ base_url('public/assets/src/img/photos/live-mass.jpg') }}' data-setup='{}'>
+                    <video controls preload='auto' poster='{{ base_url('public/assets/img/photos/live-mass.jpg') }}' data-setup='{}'>
                         <source src='{{ base_url('public/assets/video/mtcarmel.mp4') }}' type='video/mp4'>
                         <p class='vjs-no-js'>
                             To view this video please enable JavaScript, and consider upgrading to a web browser that

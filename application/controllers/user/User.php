@@ -23,7 +23,7 @@ class User extends CI_Controller
 
     public function index()
     {
-        if(logged_in() && user('role_id') === 2) {
+        if(logged_in()) {
             $view_data = [
                 'page_title' => 'User'
             ];
@@ -33,5 +33,4 @@ class User extends CI_Controller
             redirect('auth', 'refresh');
         }
     }
-
 }
