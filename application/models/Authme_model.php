@@ -3,9 +3,9 @@
 /*
     Filename    : Authme_model.php
     Location    : application/models/Authme_model.php
-    Purpose     : Authme Model
+    Purpose     : Authme model
     Created     : 6/24/2019 by Sherlock Holmes
-    Updated     : 6/27/2019 by Sherlock Holmes
+    Updated     : 6/28/2019 by Sherlock Holmes
     Changes     : Changed commenting format
 */
 
