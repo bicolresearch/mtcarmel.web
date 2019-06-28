@@ -14,11 +14,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Auth extends CI_Controller
 {
     private $id = '';
+    private $role_id = '';
 
     public function __construct()
     {
         parent::__construct();
         $this->id = (int)user('id');
+        $this->role_id = (int)user('role_id');
     }
 
     public function index()
@@ -78,7 +80,7 @@ class Auth extends CI_Controller
     #helper
     private function _user_role()
     {
-        switch (user('role_id')) {
+        switch ($this->role_id) {
             case 1:
                 redirect('admin', 'refresh');
                 break;
