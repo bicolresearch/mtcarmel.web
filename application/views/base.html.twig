@@ -2,8 +2,8 @@
     Filename    : base.html.twig
     Location    : application/views/base.html.twig
     Purpose     : Base template
-    Created     : 6/03/2019 by Sherlock Holmes
-    Updated     : 6/27/2019 by Sherlock Holmes
+    Created     : 6/03/2019 by Spiderman
+    Updated     : 7/01/2019 by Spiderman
     Changes     : Changed commenting format
 #}
 
@@ -167,7 +167,7 @@
     <script src="{{ base_url('public/assets/js/pace.min.js') }}"></script>
     <script>
         $(function () {
-            let baseURL = '{{ base_url() }}';
+            let baseURL = location.origin.toLowerCase();
 
             // POST: Login
             let logIn = {

@@ -2,8 +2,8 @@
     Filename    : location-map.html.twig
     Location    : application/views/basilica/location-map.html.twig
     Purpose     : Location map partial page
-    Created     : 6/03/2019 by Sherlock Holmes
-    Updated     : 6/28/2019 by Sherlock Holmes
+    Created     : 6/03/2019 by Spiderman
+    Updated     : 7/01/2019 by Spiderman
     Changes     : Changed commenting format
 #}
 
@@ -50,10 +50,8 @@
         // of Mount Carmel Minor Basilica
 
         let map;
-        let baseURL = '{{ base_url() }}';
-        let el = $('#map'); 
-        let boundariesCoords = el.serialize();
-        let apiURL = 'http://api.mountcarmel.ph';
+        let baseURL = location.origin.toLowerCase();
+        let apiURL = 'https://api.mountcarmel.ph';
 
         function initMap(listener) {
             map = new google.maps.Map(document.getElementById('map'), {
@@ -98,6 +96,9 @@
                 map.setZoom(17);
                 map.setCenter(marker.getPosition());
             });
+
+            let el = $('#map'); 
+            let boundariesCoords = el.serialize();
 
             $.ajax({
                 url: baseURL + '/basilica/coords',

@@ -2,15 +2,15 @@
     Filename    : contact-details.html.twig
     Location    : application/views/basilica/contact-details.html.twig
     Purpose     : Contact details partial page
-    Created     : 6/03/2019 by Sherlock Holmes
-    Updated     : 6/28/2019 by Sherlock Holmes
-    Changes     : Changed commenting format
+    Created     : 6/03/2019 by Spiderman
+    Updated     : 7/01/2019 by Spiderman
+    Changes     : Implement contacts API
 #}
 
 {% extends 'base.html.twig' %}
 {% block title %} {{ page_title }} | Mount Carmel {% endblock %}
 {% block contents %}
-    <div class="row justify-content-center">
+    <div id="contacts" class="row justify-content-center">
         <div class="col-12 col-lg-8">
             <div class="card">
                 <div class="card-header">
@@ -19,31 +19,61 @@
                 <div class="card-body">
                     <dl class="row">
                         <dt class="col-sm-6 text-right">Landline</dt>
-                        <dd class="col-sm-6">(632) 7245938</dd>
-
-                        <dt class="col-sm-6 text-right"></dt>
-                        <dd class="col-sm-6">(632) 7015867</dd>
-
-                        <dt class="col-sm-6 text-right"></dt>
-                        <dd class="col-sm-6">(632) 7015868</dd>
-
-                        <dt class="col-sm-6 text-right"></dt>
-                        <dd class="col-sm-6">(632) 7015869</dd>
+                        <dd id="landline" class="col-sm-6"></dd>
 
                         <dt class="col-sm-6 text-right">Mobile</dt>
-                        <dd class="col-sm-6">0918-4077760</dd>
-
-                        <dt class="col-sm-6 text-right"></dt>
-                        <dd class="col-sm-6">0956-6583660</dd>
+                        <dd id="mobile" class="col-sm-6"></dd>
 
                         <dt class="col-sm-6 text-right">Email Address</dt>
-                        <dd class="col-sm-6">basilica@mountcarmel.ph</dd>
+                        <dd id="email" class="col-sm-6"></dd>
 
                         <dt class="col-sm-6 text-right">Social Media</dt>
-                        <dd class="col-sm-6">@mountcarmel.ph</dd>
+                        <dd id="social" class="col-sm-6"></dd>
                     </dl>
                 </div>
             </div>
         </div>
     </div>
+{% endblock %}
+
+{% block custom_scripts %}
+    <script>
+        $(function () {
+            let baseURL = location.origin.toLowerCase();
+            let apiURL = 'https://api.mountcarmel.ph';
+
+            // GET: Contacts
+            let contacts = {
+                init: function () {
+                    this.displayContacts();
+                },
+                displayContacts: function() {
+                    let el = $('#contacts');
+                    let data = el.serialize();
+
+                    $.ajax({
+                        url: apiURL + '/contacts/id/1',
+                        type: 'GET',
+                        dataType: 'json',
+                        data: data,
+                        cache: false,
+                        processData: false,
+                        success: function (data) {
+                            if (data) {
+                                el.find('#landline').html(data[0].landline);
+                                el.find('#mobile').html(data[0].mobile);
+                                el.find('#email').html(data[0].email);
+                                el.find('#social').html(data[0].social_media);
+                            }
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            console.log('The following error occurred: ' + textStatus, errorThrown);
+                        }
+                    });
+                }
+            };
+
+            contacts.init();
+        })
+    </script>
 {% endblock %}

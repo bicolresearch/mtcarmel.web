@@ -2,9 +2,9 @@
     Filename    : news.html.twig
     Location    : application/views/home/news.html.twig
     Purpose     : News partial page
-    Created     : 6/03/2019 by Sherlock Holmes
-    Updated     : 6/28/2019 by Sherlock Holmes
-    Changes     : Changed commenting format
+    Created     : 6/03/2019 by Spiderman
+    Updated     : 7/01/2019 by Spiderman
+    Changes     : Implement advertisement API
 #}
 
 {% extends 'base.html.twig' %}
@@ -12,27 +12,16 @@
 {% block contents %}
     <div class="row">
         <div id="media" class="col-12 col-lg-8">
-            <!-- Dynamic content here -->
+            <!-- News and updates -->
         </div>
-        <div id="ads" class="col-12 col-lg-4">
+        <div class="col-12 col-lg-4">
             <div class="card">
                 <div class="card-header">
                     <h4 class="card-title text-center">Powered By</h4>
                 </div>
                 <div class="card-body">
-                    <div class="row">
-                        <div class="col-12 mb-4 text-center">
-                            <img class="img-fluid" src="{{ base_url('public/assets/img/brands/companylogo.jpg') }}" alt="Company Logo"/>
-                        </div>
-                        <div class="col-12 mb-4 text-center">
-                            <img class="img-fluid" src="{{ base_url('public/assets/img/brands/companylogo.jpg') }}" alt="Company Logo"/>
-                        </div>
-                        <div class="col-12 mb-4 text-center">
-                            <img class="img-fluid" src="{{ base_url('public/assets/img/brands/companylogo.jpg') }}" alt="Company Logo"/>
-                        </div>
-                        <div class="col-12 text-center">
-                            <img class="img-fluid" src="{{ base_url('public/assets/img/brands/companylogo.jpg') }}" alt="Company Logo"/>
-                        </div>
+                    <div id="ads" class="row">
+                        <!-- Advertisements -->
                     </div>
                 </div>
             </div>
@@ -42,7 +31,8 @@
 {% block custom_scripts %}
     <script>
         $(function () {
-            let baseURL = '{{ base_url() }}';
+            let baseURL = location.origin.toLowerCase();
+            let apiURL = 'https://api.mountcarmel.ph';
 
             // GET: Posts
             let posts = {
@@ -50,13 +40,11 @@
                     this.displayPosts();
                 },
                 displayPosts: function () {
-
                     let el = $('#media');
                     let data = el.serialize();
-                    let api = 'https://api.mountcarmel.ph';
 
                     $.ajax({
-                        url: api + '/posts',
+                        url: apiURL + '/posts',
                         type: 'GET',
                         dataType: 'json',
                         data: data,
@@ -78,7 +66,7 @@
                                         '               </div>' +
                                         '               <div class="media-article">' +
                                         '                  <div class="cover-photo">' +
-                                        '                     <img class="img-fluid" src="' + api + '/' + value.cover_photo + '" alt=""/>' +
+                                        '                     <img class="img-fluid" src="' + apiURL + '/' + value.cover_photo + '" alt=""/>' +
                                         '                  </div>' +
                                         '                  <div class="media-content fade-out-ellipses p-0">' + value.content + '</div>' +
                                         '               </div>' +
@@ -102,7 +90,42 @@
                 }
             };
 
+            // GET: Ads
+            let ads = {
+                init: function () {
+                    this.displayAds();
+                },
+                displayAds: function() {
+                    let el = $('#ads');
+                    let data = el.serialize();
+
+                    $.ajax({
+                        url: apiURL + '/ads',
+                        type: 'GET',
+                        dataType: 'json',
+                        data: data,
+                        cache: false,
+                        processData: false,
+                        success: function (data) {
+                            if (data) {
+                                $.each(data, function (key, value) {
+                                    el.append(
+                                        '<div class="col-12 text-center">' +
+                                            '<img class="img-fluid" src="' + apiURL + '/' + value.cover_photo + '" alt="Company Logo"/>' +
+                                        '</div>'
+                                    );
+                                });
+                            }
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            console.log('The following error occurred: ' + textStatus, errorThrown);
+                        }
+                    });
+                }
+            };
+
             posts.init();
+            ads.init();
         })
     </script>
 {% endblock %}
