@@ -33,7 +33,6 @@
         $(function () {
             let baseURL = location.origin.toLowerCase();
             let apiURL = 'https://api.mountcarmel.ph';
-
             // GET: Posts
             let posts = {
                 init: function () {
@@ -42,7 +41,6 @@
                 displayPosts: function () {
                     let el = $('#media');
                     let data = el.serialize();
-
                     $.ajax({
                         url: apiURL + '/posts',
                         type: 'GET',
@@ -72,11 +70,7 @@
                                         '               </div>' +
                                         '               <div class="read-more">' +
                                         '                   <p class="text-center mb-0">' +
-<<<<<<< HEAD
-                                        '                      <a class="btn btn-lg btn-brown rounded-pill px-5" href="#" target="_self">Read More</a>' +
-=======
                                         '                      <a class="btn btn-lg btn-brown rounded-pill px-5" href="' + baseURL + "/news/id/" + value.id + '" target="_self">Read More</a>' +
->>>>>>> 89a45820e659452c84e6bd1e9fa9b0e3cfdb7286
                                         '                   </p>' +
                                         '               </div>' +
                                         '           </div>' +
@@ -93,7 +87,6 @@
                     });
                 }
             };
-
             // GET: Ads
             let ads = {
                 init: function () {
@@ -102,7 +95,6 @@
                 displayAds: function() {
                     let el = $('#ads');
                     let data = el.serialize();
-
                     $.ajax({
                         url: apiURL + '/ads',
                         type: 'GET',
@@ -127,7 +119,6 @@
                     });
                 }
             };
-
             posts.init();
             ads.init();
         })
