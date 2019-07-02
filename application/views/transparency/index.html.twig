@@ -39,7 +39,8 @@
 {% block custom_scripts %}
     <script>
         $(function () {
-            let baseURL = location.origin.toLowerCase();
+            
+            let baseURL = (location.origin + location.pathname).toLowerCase();
             let apiURL = 'https://api.mountcarmel.ph';
 
             // GET: Donations

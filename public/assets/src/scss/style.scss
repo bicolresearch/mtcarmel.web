@@ -1,10 +1,12 @@
 /*
-*   Filename  : style.scss
-*   Purpose   : Custom stylesheet
-*   Created   : 5/20/2019 by Sherlock Holmes
-*   Updated   : 6/24/2019 by Sherlock Holmes
-*   Changes   : Import corporate.css
+* Filename    : style.scss
+* Location    : public/assets/scss/style.scss
+* Purpose     : Default stylesheet
+* Created     : 5/20/2019 by Spiderman
+* Updated     : 7/02/2019 by Spiderman
+* Changes     : Change commenting format
 */
+
 /* Imports */
 @import "_corporate.css";
 @import "_fonts.scss";
@@ -377,10 +379,6 @@ body {
   ul {
     margin: 0;
     padding-left: 16px;
-
-    li {
-
-    }
   }
 }
 

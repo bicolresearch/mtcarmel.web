@@ -2,13 +2,13 @@
 
 /*
     Filename    : Home.php
-    Location    : application/controller/Home.php
+    Location    : application/controllers/Home.php
     Purpose     : Home Controller
-    Created     : 6/03/2019 by Sherlock Holmes
-    Updated     : 6/27/2019 by Sherlock Holmes
-    Changes     : Changed commenting format
+    Created     : 6/03/2019 by Spiderman
+    Updated     : 7/02/2019 by Spiderman
+    Changes     : Add sample implementation of guzzle
 */
- 
+
 defined('BASEPATH') or exit('No direct script access allowed');
 
 class Home extends CI_Controller
@@ -54,5 +54,49 @@ class Home extends CI_Controller
         ];
 
         $this->twig->display('home/live-mass.html', $view_data);
+    }
+
+    // Sample implementation of GET request using Guzzle
+    public function posts() {
+
+        // Create a client with a base URI
+        $client = new GuzzleHttp\Client(['base_uri' => 'https://api.mountcarmel.ph']);
+
+        $options = [
+            'headers' => [
+                'Content-Type' => 'application/json'
+            ]
+        ];
+
+        // GET request with headers
+        $response = $client->request('GET', '/posts', $options);
+
+        // Return $response
+        echo $response->getBody();
+    }
+
+    // Sample implementation of POST request using Guzzle
+    public function create() {
+
+        // Create a client with a base URI
+        $client = new GuzzleHttp\Client(['base_uri' => 'https://api.mountcarmel.ph']);
+
+        $options = [
+            'headers' => [
+                'Content-Type' => 'application/x-www-form-urlencoded'
+            ],
+            'form_params' => [
+                'branch_id' => 1,
+                'title' => 'Sample create post with guzzle',
+                'content' => 'Sample create post with guzzle',
+                'media_id' => 1,
+                'user_id' => 1
+            ]
+        ];
+
+        $response = $client->request('POST', 'posts/create', $options);
+
+        // Return $response
+        echo $response->getBody();
     }
 }

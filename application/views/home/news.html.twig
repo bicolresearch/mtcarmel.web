@@ -14,13 +14,13 @@
         <div id="media" class="col-12 col-lg-8">
             <!-- News and updates -->
         </div>
-        <div class="col-12 col-lg-4">
+        <div id="ads" class="col-12 col-lg-4">
             <div class="card">
                 <div class="card-header">
                     <h4 class="card-title text-center">Powered By</h4>
                 </div>
                 <div class="card-body">
-                    <div id="ads" class="row">
+                    <div class="row">
                         <!-- Advertisements -->
                     </div>
                 </div>
@@ -31,8 +31,10 @@
 {% block custom_scripts %}
     <script>
         $(function () {
-            let baseURL = location.origin.toLowerCase();
+
+            let baseURL = (location.origin + location.pathname).toLowerCase();
             let apiURL = 'https://api.mountcarmel.ph';
+
             // GET: Posts
             let posts = {
                 init: function () {
@@ -44,7 +46,7 @@
                     $.ajax({
                         url: apiURL + '/posts',
                         type: 'GET',
-                        dataType: 'json',
+                        dataType: 'json', 
                         data: data,
                         cache: false,
                         processData: false,
@@ -59,18 +61,18 @@
                                         '               <small class="float-right text-navy">' + moment(value.posted_on, "YYYY-MM-DD h:mm:ss").fromNow() + '</small>' +
                                         '               <div class="media-title">' +
                                         '                   <p class="text-center mb-0">' +
-                                        '                       <a href="' + baseURL + "/news/id/" + value.id + '" target="_self">' + value.title + '</a>' +
+                                        '                       <a href="' + baseURL + "/id/" + value.id + '" target="_self">' + value.title + '</a>' +
                                         '                   </p>' +
                                         '               </div>' +
                                         '               <div class="media-article">' +
                                         '                  <div class="cover-photo">' +
-                                        '                     <img class="img-fluid" src="' + apiURL + '/' + value.cover_photo + '" alt=""/>' +
+                                        '                     <img class="img-fluid" src="' + apiURL + '/' + value.cover_photo + '" alt="' + value.title + '"/>' +
                                         '                  </div>' +
                                         '                  <div class="media-content fade-out-ellipses p-0">' + value.content + '</div>' +
                                         '               </div>' +
                                         '               <div class="read-more">' +
                                         '                   <p class="text-center mb-0">' +
-                                        '                      <a class="btn btn-lg btn-brown rounded-pill px-5" href="' + baseURL + "/news/id/" + value.id + '" target="_self">Read More</a>' +
+                                        '                      <a class="btn btn-lg btn-brown rounded-pill px-5" href="' + baseURL + "/id/" + value.id + '" target="_self">Read More</a>' +
                                         '                   </p>' +
                                         '               </div>' +
                                         '           </div>' +
@@ -87,7 +89,8 @@
                     });
                 }
             };
-            // GET: Ads
+
+            // GET: Advertisements
             let ads = {
                 init: function () {
                     this.displayAds();
@@ -105,9 +108,9 @@
                         success: function (data) {
                             if (data) {
                                 $.each(data, function (key, value) {
-                                    el.append(
+                                    el.find('.row').append(
                                         '<div class="col-12 text-center">' +
-                                            '<img class="img-fluid" src="' + apiURL + '/' + value.cover_photo + '" alt="Company Logo"/>' +
+                                            '<img class="img-fluid" src="' + apiURL + '/' + value.cover_photo + '" alt="' + value.name + '"/>' +
                                         '</div>'
                                     );
                                 });
@@ -119,6 +122,7 @@
                     });
                 }
             };
+
             posts.init();
             ads.init();
         })

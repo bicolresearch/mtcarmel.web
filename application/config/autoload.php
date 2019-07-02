@@ -69,7 +69,8 @@ $autoload['libraries'] = array(
     'excel',
     'fpdf',
     'ciqrcode',
-    'twig'
+    'twig',
+    'guzzle_http'
 );
 
 /*
