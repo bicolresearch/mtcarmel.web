@@ -7,6 +7,7 @@
     Created     : 6/03/2019 by Spiderman
     Updated     : 7/02/2019 by Spiderman
     Changes     : Add sample implementation of guzzle
+                : Added try and catch to properly trap the exception
 */
 
 defined('BASEPATH') or exit('No direct script access allowed');
@@ -75,11 +76,19 @@ class Home extends CI_Controller
             ]
         ];
 
-        // GET request
-        $response = $client->request('GET', '/posts', $options);
+        try {
+            // GET request
+            $response = $client->request('GET', '/posts', $options);
 
-        // Return $response
-        echo $response->getBody();
+            // Return $response  
+            echo $response->getBody()->getContents();
+
+        } catch (GuzzleHttp\Exception\ClientException $e) {
+            $response = $e->getResponse();
+
+            // Return $response 
+            echo $response->getBody()->getContents();
+        }
     }
 
     // Sample implementation of POST request using Guzzle
@@ -102,10 +111,18 @@ class Home extends CI_Controller
             ]
         ];
 
-        // POST request
-        $response = $client->request('POST', '/posts/create', $options);
+        try {
+            // POST request
+            $response = $client->request('POST', '/posts/create', $options);  
+            
+            // Return $response  
+            echo $response->getBody()->getContents();
+        }
+        catch (GuzzleHttp\Exception\ClientException $e) {
+            $response = $e->getResponse();
 
-        // Return $response
-        echo $response->getBody();
+            // Return $response 
+            echo $response->getBody()->getContents();
+        }
     }
 }
