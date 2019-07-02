@@ -14,10 +14,16 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class Home extends CI_Controller
 {
 
+    private $api_url = '';
+    private $api_key = '';
+    private $user_id = '';
+
     public function __construct()
     {
         parent::__construct();
-        $this->output->enable_profiler(FALSE);
+        $this->api_url = 'https://api.mountcarmel.ph';
+        $this->api_key = '365-Days';
+        $this->user_id = user('id');
     }
 
     public function index()
@@ -60,15 +66,16 @@ class Home extends CI_Controller
     public function posts() {
 
         // Create a client with a base URI
-        $client = new GuzzleHttp\Client(['base_uri' => 'https://api.mountcarmel.ph']);
+        $client = new GuzzleHttp\Client(['base_uri' => $this->api_url]);
 
         $options = [
             'headers' => [
-                'Content-Type' => 'application/json'
+                'Content-Type' => 'application/json',
+                'X-API-KEY' => $this->api_key
             ]
         ];
 
-        // GET request with headers
+        // GET request
         $response = $client->request('GET', '/posts', $options);
 
         // Return $response
@@ -79,22 +86,24 @@ class Home extends CI_Controller
     public function create() {
 
         // Create a client with a base URI
-        $client = new GuzzleHttp\Client(['base_uri' => 'https://api.mountcarmel.ph']);
+        $client = new GuzzleHttp\Client(['base_uri' => $this->api_url]);
 
         $options = [
             'headers' => [
-                'Content-Type' => 'application/x-www-form-urlencoded'
+                'Content-Type' => 'application/x-www-form-urlencoded',
+                'X-API-KEY' => $this->api_key
             ],
             'form_params' => [
-                'branch_id' => 1,
-                'title' => 'Sample create post with guzzle',
-                'content' => 'Sample create post with guzzle',
-                'media_id' => 1,
-                'user_id' => 1
+                'branch_id' => $this->input->post('branch_id'),
+                'title' => $this->input->post('title'),
+                'content' => $this->input->post('content'),
+                'media_id' => $this->input->post('media_id'),
+                'user_id' => $this->user_id
             ]
         ];
 
-        $response = $client->request('POST', 'posts/create', $options);
+        // POST request
+        $response = $client->request('POST', '/posts/create', $options);
 
         // Return $response
         echo $response->getBody();
