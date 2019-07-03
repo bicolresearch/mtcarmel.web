@@ -4,8 +4,8 @@
     Filename    : Auth.php
     Location    : application/controller/Auth.php
     Purpose     : Auth Controller
-    Created     : 6/24/2019 by Sherlock Holmes
-    Updated     : 6/27/2019 by Sherlock Holmes
+    Created     : 6/24/2019 by Spiderman
+    Updated     : 6/27/2019 by Spiderman
     Changes     : Changed commenting format
 */
 
@@ -82,7 +82,7 @@ class Auth extends CI_Controller
     {
         switch ($this->role_id) {
             case 1:
-                redirect('admin', 'refresh');
+                redirect('admin/management', 'refresh');
                 break;
             case 2:
                 redirect('user', 'refresh');

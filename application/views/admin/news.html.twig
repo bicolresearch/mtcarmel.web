@@ -1,0 +1,109 @@
+{#
+    Filename    : news.html.twig
+    Location    : application/views/admin/news.html.twig
+    Purpose     : News partial page
+    Created     : 7/03/2019 by Spiderman
+    Updated     : 
+    Changes     : 
+#}
+
+{% extends 'admin/base.html.twig' %}
+{% block title %} {{ page_title }} | Mount Carmel {% endblock %}
+{% block contents %}
+    <div class="row">
+        <div id="media" class="col-12 col-lg-12">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title mb-2">News</h4>
+                    <h4 class="card-subtitle">List of News</h4>
+                </div>
+                <div class="card-body">
+                    <table id="datatables-basic" class="table table-striped" width="100%">
+                        <thead>
+                            <tr>
+                                <td>#</td>
+                                <td>Title</td>
+                                <td>Posted on</td>
+                                <td>Updated on</td>
+                                <td>Author</td>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block custom_scripts %}
+    <script>
+        $(function () {
+
+            let baseURL = location.origin.toLowerCase() + '/mountcarmel.web';
+
+            // GET: List of News
+            let newsList = {
+                init: function () {
+                    this.displayNewsList();
+                },
+                displayNewsList: function () {
+
+                    let el = $('#datatables-basic');
+
+                    el.DataTable({
+                        "processing": true,
+                        "serverSide": true,
+                        "ajax": {
+                            "url": baseURL + "/admin/news/posts",
+                            "type": "POST"
+                        },
+                        "columns": [
+                            {
+                                searchable: false,
+                                data: null
+                            },
+                            {"data": "title"},
+                            {"data": "posted_on"},
+                            {"data": "updated_on"},
+                            {"data": "author"}
+                        ],
+                        "lengthMenu": [[10, 25, 50, 75, 100, -1], [10, 25, 50, 75, 100, "All"]],
+                        "order": [[2, "desc"]],
+                        "columnDefs": [
+                            {"orderable": false, "targets": [0]}
+                        ],
+                        "fnCreatedRow": function (row, data, index) {
+                            $('td', row).eq(0).html(index + 1);
+                        },
+                        "responsive": true,
+                        "language": {
+                            "decimal": "",
+                            "emptyTable": "No data available in table",
+                            "info": "Showing _START_ to _END_ of _TOTAL_ entries",
+                            "infoEmpty": "Showing 0 to 0 of 0 entries",
+                            "infoFiltered": "(filtered from _MAX_ total entries)",
+                            "infoPostFix": "",
+                            "thousands": ",",
+                            "lengthMenu": "Show _MENU_ entries",
+                            "loadingRecords": "Loading...",
+                            "processing": "Processing...",
+                            "search": "Search:",
+                            "zeroRecords": "No matching records found",
+                            "paginate": {
+                                "first": "First",
+                                "last": "Last",
+                                "next": "Next",
+                                "previous": "Previous"
+                            },
+                            "aria": {
+                                "sortAscending": ": activate to sort column ascending",
+                                "sortDescending": ": activate to sort column descending"
+                            }
+                        }
+                    });
+                }
+            }
+
+            newsList.init();
+        })
+    </script>
+{% endblock %}

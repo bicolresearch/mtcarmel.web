@@ -77,28 +77,9 @@ $route['marriage'] = 'services/marriage';
 $route['passing'] = 'services/passing';
 $route['events'] = 'services/events';
 
-// Management
-$route['requests'] = 'management/requests';
-$route['my-schedule'] = 'management/my_schedule';
-$route['prayer-request'] = 'management/prayer_request';
-$route['mass-request'] = 'management/mass_request';
-$route['post-news'] = 'management/post_news';
-$route['add-project'] = 'management/add_project';
-$route['add-transaction'] = 'management/add_transaction';
-$route['collective-schedule'] = 'management/collective_schedule';
-$route['service-schedule'] = 'management/service_schedule';
-$route['donations-report'] = 'management/donations_report';
-$route['edit-news'] = 'management/edit_news';
-$route['live-stream'] = 'management/live_stream';
-$route['edit-project'] = 'management/edit_project';
-$route['edit-transaction'] = 'management/edit_transaction';
-$route['add-schedule'] = 'management/add_schedule';
-$route['my-availability'] = 'management/my_availability';
-$route['user-roles'] = 'management/user_roles';
-$route['splash-ads'] = 'management/splash_ads';
-
 // Admin
-$route['admin'] = 'admin/admin/index';
+$route['admin/management'] = 'admin/management/index';
+$route['admin/management/news'] = 'admin/news/index';
 
 // User
 $route['user'] = 'user/user/index';

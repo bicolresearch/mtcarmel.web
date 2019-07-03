@@ -167,7 +167,8 @@
     <script src="{{ base_url('public/assets/js/pace.min.js') }}"></script>
     <script>
         $(function () {
-            let baseURL = location.origin.toLowerCase();
+
+            let baseURL = location.origin.toLowerCase() + '/mountcarmel.web';
 
             // POST: Login
             let logIn = {

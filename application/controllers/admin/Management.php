@@ -1,19 +1,18 @@
 <?php
 
 /*
-    Filename    : Admin.php
-    Location    : application/controller/admin/Admin.php
-    Purpose     : Admin Controller
-    Created     : 6/27/2019 by Sherlock Holmes
-    Updated     : 
-    Changes     : 
+    Filename    : Management.php
+    Location    : application/controller/admin/Management.php
+    Purpose     : Management controller
+    Created     : 6/27/2019 by Spiderman
+    Updated     : 7/03/2019 by Spiderman
+    Changes     : Renamed from Admin to Management
 */
 
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Admin extends CI_Controller
+class Management extends CI_Controller
 {
-
     public function __construct()
     {
         parent::__construct();
@@ -24,7 +23,7 @@ class Admin extends CI_Controller
     {
         if(logged_in()) {
             $view_data = [
-                'page_title' => 'Admin'
+                'page_title' => 'Management'
             ];
     
             $this->twig->display('admin/index.html', $view_data);
@@ -32,5 +31,4 @@ class Admin extends CI_Controller
             redirect('auth', 'refresh');
         }
     }
-
 }
