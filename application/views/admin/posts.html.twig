@@ -1,10 +1,10 @@
 {#
-    Filename    : news.html.twig
-    Location    : application/views/admin/news.html.twig
-    Purpose     : News partial page
+    Filename    : posts.html.twig
+    Location    : application/views/admin/posts.html.twig
+    Purpose     : Posts partial page
     Created     : 07/03/2019 19:30:07 by Spiderman
-    Updated     : 07/04/2019 19:30:16 by Spiderman
-    Changes     : Implement datatables
+    Updated     : 07/05/2019 15:13:02 by Spiderman
+    Changes     : Page renamed to posts
 #}
 
 {% extends 'admin/base.html.twig' %}
@@ -62,7 +62,7 @@
                         "processing": true,
                         "serverSide": false,
                         "ajax": {
-                            "url": baseURL + "/admin/news/posts",
+                            "url": baseURL + "/admin/posts/posts",
                             "type": "GET"
                         },
                         "columns": [

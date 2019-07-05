@@ -79,7 +79,7 @@ $route['events'] = 'services/events';
 
 // Admin
 $route['admin/management'] = 'admin/management/index';
-$route['admin/management/news'] = 'admin/news/index';
+$route['admin/management/posts'] = 'admin/posts/index';
 
 // User
 $route['user'] = 'user/user/index';

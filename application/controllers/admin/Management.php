@@ -4,9 +4,9 @@
     Filename    : Management.php
     Location    : application/controller/admin/Management.php
     Purpose     : Management controller
-    Created     : 6/27/2019 by Spiderman
-    Updated     : 7/03/2019 by Spiderman
-    Changes     : Renamed from Admin to Management
+    Created     : 06/27/2019 15:11:03 by Spiderman
+    Updated     : 07/05/2019 15:10:59 by Spiderman
+    Changes     : Class renamed to Management
 */
 
 defined('BASEPATH') or exit('No direct script access allowed');

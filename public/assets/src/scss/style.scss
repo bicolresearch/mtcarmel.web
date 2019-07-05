@@ -673,3 +673,17 @@ a {
     }
   }
 }
+
+.ql-toolbar.ql-snow {
+  padding: 0;
+
+  .ql-formats {
+    border-right: 1px solid #eee;
+    margin-right: 8px;
+    padding: 8px 0;
+
+    &:last-child {
+      border: none;
+    }
+  }
+}

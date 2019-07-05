@@ -1,52 +1,50 @@
 <?php
 
 /*
-    Filename    : News.php
-    Location    : application/controllers/admin/News.php
-    Purpose     : News controller
-    Created     : 7/03/2019 by Spiderman
-    Updated     : 07/04/2019 16:04:12 by Spiderman
-    Changes     : Sample implementation of GET request using Guzzle
+    Filename    : Posts.php
+    Location    : application/controllers/admin/Posts.php
+    Purpose     : Posts controller
+    Created     : 07/03/2019 15:09:39 by Spiderman
+    Updated     : 07/05/2019 15:09:32 by Spiderman
+    Changes     : Class renamed to Posts
 */
 
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class News extends CI_Controller
+class Posts extends CI_Controller
 {
 
-    private $api_url = '';
+    private $client = '';
     private $api_key = '';
     private $user_id = '';
+    private $query = '';
 
     public function __construct()
     {
         parent::__construct();
         $this->output->enable_profiler(FALSE);
-        $this->api_url = 'http://localhost/mountcarmel.api/';
+        $this->client = new GuzzleHttp\Client(['base_uri' => 'http://localhost/mountcarmel.api/']);
         $this->api_key = '365-Days';
         $this->user_id = user('id');
+        $this->query = $this->uri->segment(5);
     }
 
     public function index()
     {
         if(logged_in()) {
             $view_data = [
-                'page_title' => 'News & Updates',
-                'page_subtitle' => 'list of news'
+                'page_title' => 'Posts',
+                'page_subtitle' => 'list of posts'
             ];
     
-            $this->twig->display('admin/news.html', $view_data);
+            $this->twig->display('admin/posts.html', $view_data);
         } else {
             redirect('auth', 'refresh');
         }
     }
     
-    // Sample implementation of GET request using Guzzle
-    public function posts() {
-
-        // Create a client with a base URI
-        $client = new GuzzleHttp\Client(['base_uri' => $this->api_url]);
-
+    public function posts() 
+    {
         $options = [
             'headers' => [
                 'Content-Type' => 'application/json',
@@ -57,7 +55,37 @@ class News extends CI_Controller
 
         try {
             // GET request
-            $response = $client->request('GET', 'posts', $options);
+            $response = $this->client->request('GET', 'posts', $options);
+
+            $response = json_decode($response->getBody()->getContents());
+
+            // Return $response
+            echo json_encode($response, true);
+
+        } catch (GuzzleHttp\Exception\ClientException $e) {
+            $response = $e->getResponse();
+
+            // Return $response 
+            echo $response->getBody()->getContents();
+        }
+    }
+
+    public function post() 
+    {
+        $options = [
+            'headers' => [
+                'Content-Type' => 'application/json',
+                'Accept' => 'application/json',
+                'X-API-KEY' => $this->api_key
+            ],
+            'query' => [
+                'id' => $this->query
+            ]
+        ];
+
+        try {
+            // GET request
+            $response = $this->client->request('GET', 'posts/post', $options);
 
             $response = json_decode($response->getBody()->getContents());
 
@@ -73,11 +101,8 @@ class News extends CI_Controller
     }
 
     // Sample implementation of POST request using Guzzle
-    public function create() {
-
-        // Create a client with a base URI
-        $client = new GuzzleHttp\Client(['base_uri' => $this->api_url]);
-
+    public function create() 
+    {
         $options = [
             'headers' => [
                 'Content-Type' => 'application/x-www-form-urlencoded',
@@ -94,7 +119,7 @@ class News extends CI_Controller
 
         try {
             // POST request
-            $response = $client->request('POST', '/posts/create', $options);  
+            $response = $this->client->request('POST', 'posts/create', $options);  
             
             // Return $response  
             echo $response->getBody()->getContents();
