@@ -2,9 +2,9 @@
     Filename    : news.html.twig
     Location    : application/views/admin/news.html.twig
     Purpose     : News partial page
-    Created     : 7/03/2019 by Spiderman
-    Updated     : 
-    Changes     : 
+    Created     : 07/03/2019 19:30:07 by Spiderman
+    Updated     : 07/04/2019 19:30:16 by Spiderman
+    Changes     : Implement datatables
 #}
 
 {% extends 'admin/base.html.twig' %}
@@ -14,18 +14,27 @@
         <div id="media" class="col-12 col-lg-12">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title mb-2">News</h4>
-                    <h4 class="card-subtitle">List of News</h4>
+                <div class="row">
+                    <div class="col-6">
+                        <h3 class="card-title mb-2">{{ page_title }}</h3>
+                        <h4 class="card-subtitle">{{ page_subtitle }}</h4>
+                    </div>
+                    <div class="col-6">
+                        <a class="btn btn-brown mt-2 float-right" href="#create" data-toggle="modal" data-toggle="tooltip" data-placement="top" target="_blank" title="Add New Post">Add New Post</a>
+                    </div>
+                </div>
                 </div>
                 <div class="card-body">
                     <table id="datatables-basic" class="table table-striped" width="100%">
                         <thead>
                             <tr>
-                                <td>#</td>
-                                <td>Title</td>
-                                <td>Posted on</td>
-                                <td>Updated on</td>
-                                <td>Author</td>
+                                <th>#</th>
+                                <th>Title</th>
+                                <th>Posted on</th>
+                                <th>Updated on</th>
+                                <th>Author</th>
+                                <th></th>
+                                <th></th>
                             </tr>
                         </thead>
                     </table>
@@ -51,25 +60,44 @@
 
                     el.DataTable({
                         "processing": true,
-                        "serverSide": true,
+                        "serverSide": false,
                         "ajax": {
                             "url": baseURL + "/admin/news/posts",
-                            "type": "POST"
+                            "type": "GET"
                         },
                         "columns": [
                             {
-                                searchable: false,
-                                data: null
+                                "searchable": false,
+                                "data": null
                             },
                             {"data": "title"},
-                            {"data": "posted_on"},
+                            {
+                                "data": "posted_on",
+                                "mRender": function (data) {
+                                    return moment(data);
+                                }
+                            },
                             {"data": "updated_on"},
-                            {"data": "author"}
+                            {"data": "author"},
+                            {
+                                "searchable": false,
+                                "data": "id",
+                                "mRender": function (data) {
+                                    return '<a data-toggle="modal" data-param="' + data + '" data-toggle="tooltip" data-placement="top" title="Update" href="#update"><i class="align-middle material-icons md-22">mode_edit</i></a>';
+                                }
+                            },
+                            {
+                                "searchable": false,
+                                "data": "id",
+                                "mRender": function (data) {
+                                    return '<a data-toggle="modal" data-param="' + data + '" data-toggle="tooltip" data-placement="top" title="Delete" href="#delete"><i class="align-middle material-icons md-22">remove_circle_outline</i></a>';
+                                }
+                            }
                         ],
-                        "lengthMenu": [[10, 25, 50, 75, 100, -1], [10, 25, 50, 75, 100, "All"]],
+                        "lengthMenu": [[10, 25, 50, 75, 100], [10, 25, 50, 75, 100]],
                         "order": [[2, "desc"]],
                         "columnDefs": [
-                            {"orderable": false, "targets": [0]}
+                            {"orderable": false, "targets": [0, 5, 6]}
                         ],
                         "fnCreatedRow": function (row, data, index) {
                             $('td', row).eq(0).html(index + 1);

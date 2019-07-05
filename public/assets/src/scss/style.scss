@@ -1,10 +1,10 @@
 /*
-* Filename    : style.scss
-* Location    : public/assets/scss/style.scss
-* Purpose     : Default stylesheet
-* Created     : 5/20/2019 by Spiderman
-* Updated     : 7/02/2019 by Spiderman
-* Changes     : Change commenting format
+    Filename    : style.scss
+    Location    : public/assets/src/scss/style.scss
+    Purpose     : Default stylesheet
+    Created     : 5/20/2019 by Spiderman
+    Updated     : 7/04/2019 by Spiderman
+    Changes     : Change commenting format
 */
 
 /* Imports */
@@ -348,23 +348,25 @@ body {
 
 /* Custom button */
 .btn-brown {
-  background-color: $sienna;
+  background-color: lighten($sienna, 10%);
   color: white;
   border: none;
 
   &:hover,
   &:active,
   &:focus {
-    background-color: $dark-khaki;
+    background-color: $sienna;
     color: white;
-    border: none;
   }
 }
 
-/* on focus shadows and borders*/
-.form-control:focus {
-  border-color: rgba(126, 82, 50, .50);
-  box-shadow: 0 0 0 0.2rem rgba(126, 82, 50, .15);
+/* Input */
+.form-control {
+  @include border-radius(0);
+  &:focus {
+    border-color: rgba(126, 82, 50, .50);
+    box-shadow: 0 0 0 0.2rem rgba(126, 82, 50, .15);
+  }
 }
 
 .btn:focus,
@@ -432,7 +434,7 @@ a {
     .modal-header {
       -webkit-align-items: unset;
       align-items: unset;
-      padding: 16px 40px;
+      padding: 16px 48px;
 
       .modal-title {
         color: $sienna;
@@ -588,52 +590,6 @@ a {
   height: 1.5em;
   background: linear-gradient(to right, rgba(255, 255, 255, 0), white 100%);
   pointer-events: none;
-}
-
-/* Mount Carmel font icons */
-[class^="icon-"]:before, [class*=" icon-"]:before {
-  font-family: "mountcarmel";
-  font-style: normal;
-  font-weight: normal;
-  speak: none;
-
-  display: inline-block;
-  text-decoration: inherit;
-  width: 1em;
-  margin: 0 12px 0 0;
-  text-align: center;
-
-  /* For safety - reset parent styles, that can break glyph codes*/
-  font-variant: normal;
-  text-transform: none;
-
-  /* fix buttons height, for twitter bootstrap */
-  line-height: 1em;
-
-  /* Font smoothing */
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-/* Icons sizes */
-.icon-18 {
-  font-size: 18px !important;
-}
-
-.icon-24 {
-  font-size: 24px !important;
-}
-
-.icon-32 {
-  font-size: 32px !important;
-}
-
-.icon-64 {
-  font-size: 64px !important;
-}
-
-.icon-96 {
-  font-size: 96px !important;
 }
 
 /* Location Map */

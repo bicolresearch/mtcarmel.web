@@ -23,7 +23,8 @@ class Transparency extends CI_Controller
     public function index()
     {
         $view_data = [
-            'page_title' => 'Transparency'
+            'page_title' => 'Transparency',
+            'page_subtitle' => 'total help received online for this year'
         ];
 
         $this->twig->display('transparency/index.html', $view_data);

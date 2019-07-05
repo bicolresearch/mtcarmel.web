@@ -2,11 +2,11 @@
 
 /*
     Filename    : News.php
-    Location    : application/controller/admin/News.php
+    Location    : application/controllers/admin/News.php
     Purpose     : News controller
     Created     : 7/03/2019 by Spiderman
-    Updated     : 
-    Changes     : 
+    Updated     : 07/04/2019 16:04:12 by Spiderman
+    Changes     : Sample implementation of GET request using Guzzle
 */
 
 defined('BASEPATH') or exit('No direct script access allowed');
@@ -31,7 +31,8 @@ class News extends CI_Controller
     {
         if(logged_in()) {
             $view_data = [
-                'page_title' => 'News & Updates'
+                'page_title' => 'News & Updates',
+                'page_subtitle' => 'list of news'
             ];
     
             $this->twig->display('admin/news.html', $view_data);
@@ -58,8 +59,10 @@ class News extends CI_Controller
             // GET request
             $response = $client->request('GET', 'posts', $options);
 
+            $response = json_decode($response->getBody()->getContents());
+
             // Return $response
-            echo $response->getBody()->getContents();
+            echo json_encode($response, true);
 
         } catch (GuzzleHttp\Exception\ClientException $e) {
             $response = $e->getResponse();
