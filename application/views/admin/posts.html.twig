@@ -14,15 +14,18 @@
         <div id="media" class="col-12 col-lg-12">
             <div class="card">
                 <div class="card-header">
-                <div class="row">
-                    <div class="col-6">
+                    <div class="clearfix">
+                        <form class="form-inline float-right mt-1 d-none d-md-flex">
+                            <a class="btn btn-brown mr-2" data-toggle="modal" href="#create">
+                                <i class="align-middle" data-feather="plus"></i> Add New Post
+                            </a>
+                            <a id="reload" class="btn btn-brown" href="javascript:void(0)">
+                                <i class="align-middle" data-feather="rotate-ccw"></i> Reload
+                            </a>
+                        </form>
                         <h3 class="card-title mb-2">{{ page_title }}</h3>
                         <h4 class="card-subtitle">{{ page_subtitle }}</h4>
                     </div>
-                    <div class="col-6">
-                        <a class="btn btn-brown mt-2 float-right" href="#create" data-toggle="modal" data-toggle="tooltip" data-placement="top" target="_blank" title="Add New Post">Add New Post</a>
-                    </div>
-                </div>
                 </div>
                 <div class="card-body">
                     <table id="datatables-basic" class="table table-striped" width="100%">
@@ -49,12 +52,13 @@
 
             let baseURL = location.origin.toLowerCase() + '/mountcarmel.web';
 
-            // GET: List of News
-            let newsList = {
+            // GET: Posts
+            let posts = {
                 init: function () {
-                    this.displayNewsList();
+                    this.displayPosts();
+                    this.reloadPosts();
                 },
-                displayNewsList: function () {
+                displayPosts: function () {
 
                     let el = $('#datatables-basic');
 
@@ -128,10 +132,16 @@
                             }
                         }
                     });
+                },
+                reloadPosts: function () {
+                    $('#reload').on('click', function (e) {
+                        $('#datatables-basic').DataTable().ajax.reload(null, true); // user paging will reset on reload				                                
+                        e.preventDefault();
+                    })
                 }
             }
 
-            newsList.init();
+            posts.init();
         })
     </script>
 {% endblock %}

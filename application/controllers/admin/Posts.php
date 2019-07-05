@@ -5,7 +5,7 @@
     Location    : application/controllers/admin/Posts.php
     Purpose     : Posts controller
     Created     : 07/03/2019 15:09:39 by Spiderman
-    Updated     : 07/05/2019 15:09:32 by Spiderman
+    Updated     : 07/05/2019 16:00:33 by Spiderman
     Changes     : Class renamed to Posts
 */
 
@@ -13,18 +13,12 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Posts extends CI_Controller
 {
-
-    private $client = '';
-    private $api_key = '';
-    private $user_id = '';
-    private $query = '';
+    private $user_id;
+    private $query;
 
     public function __construct()
     {
         parent::__construct();
-        $this->output->enable_profiler(FALSE);
-        $this->client = new GuzzleHttp\Client(['base_uri' => 'http://localhost/mountcarmel.api/']);
-        $this->api_key = '365-Days';
         $this->user_id = user('id');
         $this->query = $this->uri->segment(5);
     }
@@ -49,13 +43,13 @@ class Posts extends CI_Controller
             'headers' => [
                 'Content-Type' => 'application/json',
                 'Accept' => 'application/json',
-                'X-API-KEY' => $this->api_key
+                'X-API-KEY' => $this->guzzle->key()
             ]
         ];
 
         try {
             // GET request
-            $response = $this->client->request('GET', 'posts', $options);
+            $response = $this->guzzle->client()->request('GET', 'posts', $options);
 
             $response = json_decode($response->getBody()->getContents());
 
@@ -76,7 +70,7 @@ class Posts extends CI_Controller
             'headers' => [
                 'Content-Type' => 'application/json',
                 'Accept' => 'application/json',
-                'X-API-KEY' => $this->api_key
+                'X-API-KEY' => $this->guzzle->key()
             ],
             'query' => [
                 'id' => $this->query
@@ -85,7 +79,7 @@ class Posts extends CI_Controller
 
         try {
             // GET request
-            $response = $this->client->request('GET', 'posts/post', $options);
+            $response = $this->guzzle->client()->request('GET', 'posts/post', $options);
 
             $response = json_decode($response->getBody()->getContents());
 
@@ -103,10 +97,13 @@ class Posts extends CI_Controller
     // Sample implementation of POST request using Guzzle
     public function create() 
     {
+        // Create a client with a base URI
+        $client = $this->guzzle->client();
+
         $options = [
             'headers' => [
                 'Content-Type' => 'application/x-www-form-urlencoded',
-                'X-API-KEY' => $this->api_key
+                'X-API-KEY' => $this->guzzle->key()
             ],
             'form_params' => [
                 'branch_id' => $this->input->post('branch_id'),
@@ -119,7 +116,7 @@ class Posts extends CI_Controller
 
         try {
             // POST request
-            $response = $this->client->request('POST', 'posts/create', $options);  
+            $response = $this->guzzle->client()->request('POST', 'posts/create', $options);  
             
             // Return $response  
             echo $response->getBody()->getContents();

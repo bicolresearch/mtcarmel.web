@@ -70,7 +70,7 @@ $autoload['libraries'] = array(
     'fpdf',
     'ciqrcode',
     'twig',
-    'guzzle_http'
+    'guzzle'
 );
 
 /*
