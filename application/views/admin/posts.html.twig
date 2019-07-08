@@ -52,14 +52,13 @@
 
             let baseURL = location.origin.toLowerCase() + '/mountcarmel.web';
 
-            // GET: Posts
+            // GET: Display list of posts with datatables
             let posts = {
-                init: function () {
+                init: function() {
                     this.displayPosts();
-                    this.displayPost();
                     this.reloadPosts();
                 },
-                displayPosts: function () {
+                displayPosts: function() {
 
                     let el = $('#datatables-basic');
 
@@ -79,7 +78,7 @@
                             {
                                 "data": "posted_on",
                                 "mRender": function (data) {
-                                    return moment(data);
+                                    return data
                                 }
                             },
                             {"data": "updated_on"},
@@ -134,8 +133,29 @@
                         }
                     });
                 },
+                reloadPosts: function() {
+                    $('#reload').on('click', function (e) {
+                        $('#datatables-basic').DataTable().ajax.reload(null, true); // user paging will reset on reload				                                
+                        e.preventDefault();
+                    })
+                }
+            }
+
+            // GET: Display post
+            let post = {
+                init: function() {
+                    this.displayPost();
+                },
+                resetForm: function() {
+                    let el = $('#update');
+                    el.find('form').each(function() { this.reset() });
+                    el.find('.form-control').removeClass('is-invalid');
+                },
                 displayPost: function() {
                     $('#update').on('show.bs.modal', function (e) {
+
+                        post.resetForm();
+                        
                         let el = $(this);
                         let btn = el.find('#btn-change-state');
                         let id = $(e.relatedTarget).data('param');
@@ -179,23 +199,148 @@
                             }
                         });
                     });
+                }
+            }
+
+            // POST: Add new post
+            let addPost = {
+                init: function() {
+                    this.submitForm();
                 },
-                reloadPosts: function () {
-                    $('#reload').on('click', function (e) {
-                        $('#datatables-basic').DataTable().ajax.reload(null, true); // user paging will reset on reload				                                
+                submitForm: function() {
+                    $('#create-form').on('submit', function(e){
+
+                        let el = $('#create');
+                        let btn = el.find('#btn-change-state');
+                        let data = el.serialize();
+                        
+                        $.ajax({
+                            url: baseURL + '/admin/posts/create',
+                            type: 'POST',
+                            dataType: 'json',
+                            data: data,
+                            cache: false,
+                            processData: false,
+                            beforeSend: function () {
+                                el.find('#ajax-preloader').html(
+                                    '<div class="loader">' +
+                                    '  <svg class="circular" viewBox="25 25 50 50">' +
+                                    '    <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>' +
+                                    '  </svg>' +
+                                    '</div>').show();
+                                btn.attr('disabled', 'disabled');
+                            },
+                            complete: function () {
+                                el.find('#ajax-preloader').html(
+                                    '<div class="loader">' +
+                                    '  <svg class="circular" viewBox="25 25 50 50">' +
+                                    '    <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>' +
+                                    '  </svg>' +
+                                    '</div>').hide('fast');
+                                btn.removeAttr('disabled');
+                            },
+                            success: function (data) {
+                                if (data.status === true) {
+                                    // Reload datatables
+                                    $('#datatables-basic').DataTable().ajax.reload(null, false); // user paging is not reset on reload
+
+                                    // Clear the form
+                                    el.find('.form-control').removeClass('is-invalid');
+
+                                    // Hide this modal
+                                    el.modal('hide');
+                                } else {
+                                    console.log(data.status);
+                                }
+                            },
+                            error: function (jqXHR, textStatus, errorThrown) {
+                                console.log('The following error occurred: ' + textStatus, errorThrown);
+                            }
+                        });
                         e.preventDefault();
-                    })
+                    });
+                }
+            }
+
+            // PUT: Update post
+            let updatePost = {
+                init: function() {
+                    this.submitForm();
+                },
+                submitForm: function() {
+                    $('#update-form').on('submit', function(e){
+
+                        let el = $(this);
+                        let btn = el.find('#btn-change-state');
+                        let id = el.find('input:hidden[name="id"]').val();
+                        let data = el.serialize();
+                        
+                        $.ajax({
+                            url: baseURL + '/admin/posts/update/id/' + id,
+                            type: 'PUT',
+                            dataType: 'json',
+                            data: data,
+                            cache: false,
+                            processData: false,
+                            beforeSend: function () {
+                                el.find('#ajax-preloader').html(
+                                    '<div class="loader">' +
+                                    '  <svg class="circular" viewBox="25 25 50 50">' +
+                                    '    <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>' +
+                                    '  </svg>' +
+                                    '</div>').show();
+                                btn.attr('disabled', 'disabled');
+                            },
+                            complete: function () {
+                                el.find('#ajax-preloader').html(
+                                    '<div class="loader">' +
+                                    '  <svg class="circular" viewBox="25 25 50 50">' +
+                                    '    <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>' +
+                                    '  </svg>' +
+                                    '</div>').hide('fast');
+                                btn.removeAttr('disabled');
+                            },
+                            success: function (data) {
+                                if (data.status === true) {
+                                    // Reload datatables
+                                    $('#datatables-basic').DataTable().ajax.reload(null, false); // user paging is not reset on reload
+
+                                    // Clear the form
+                                    el.find('.form-control').removeClass('is-invalid');
+
+                                    // Hide this modal
+                                    $('#update').modal('hide');
+                                } else {
+                                    console.log(data.status);
+                                }
+                            },
+                            error: function (jqXHR, textStatus, errorThrown) {
+                                console.log('The following error occurred: ' + textStatus, errorThrown);
+                            }
+                        });
+                        e.preventDefault();
+                    });
                 }
             }
 
             posts.init();
+            post.init();
+            addPost.init();
+            updatePost.init();
 
             let toolbarOptions = [
-                ['bold', 'italic', 'underline', 'strike', 'link'],  // toggled buttons
-                [{ 'list': 'ordered'}, { 'list': 'bullet' }],       // list
-                ['blockquote'],                                     // qoute
-                ['image', 'video'],                                 // embeds
-                ['clean']                                           // remove formatting button
+                [
+                    'bold', 
+                    'italic', 
+                    'underline', 
+                    'strike', 
+                    'link',
+                    {'list': 'ordered'}, 
+                    {'list': 'bullet' },
+                    'blockquote',
+                    'image', 
+                    'video','clean'
+                ]
             ];
 
             let quill = new Quill('#editor', {
@@ -205,8 +350,6 @@
                 theme: 'snow',
                 placeholder: 'Compose here...'
             });
-
-            $('.ql-editor').addClass('js-simplebar');
 
             // Sample post
             // https://quilljs.com/playground/#form-submit

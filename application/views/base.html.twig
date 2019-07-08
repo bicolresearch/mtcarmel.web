@@ -173,13 +173,14 @@
             // POST: Login
             let logIn = {
                 init: function () {
-                    this.bindFunction();
+                    this.bindForm();
                 },
                 resetForm: function () {
                     let el = $('form');
+                    el.find('form').each(function() { this.reset() });
                     el.find('.form-control').removeClass('is-invalid');
                 },
-                bindFunction: function () {
+                bindForm: function () {
                     $('#loginModal').on('show.bs.modal', this.submitForm());
                 },
                 submitForm: function () {
