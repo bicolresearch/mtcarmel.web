@@ -48,4 +48,3 @@
     # Javascript
     ExpiresByType application/javascript "access plus 1 year"
 </IfModule>
-

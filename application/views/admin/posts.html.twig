@@ -46,11 +46,13 @@
         </div>
     </div>
 {% endblock %}
+
 {% block custom_scripts %}
     <script>
         $(function () {
 
             let baseURL = location.origin.toLowerCase() + '/mountcarmel.web';
+            let isProcessing = false;
 
             // GET: Display list of posts with datatables
             let posts = {
@@ -205,12 +207,19 @@
             // POST: Add new post
             let addPost = {
                 init: function() {
-                    this.submitForm();
+                    this.bindForm();
+                },
+                bindForm: function () {
+                    $('#create').on('show.bs.modal', this.submitForm());
                 },
                 submitForm: function() {
-                    $('#create-form').on('submit', function(e){
 
-                        let el = $('#create');
+                    //Prevent multiple ajax request
+                    if (isProcessing) return;
+                    isProcessing = true;
+
+                    $('#create-form').on('submit', function(e){
+                        let el = $(this);
                         let btn = el.find('#btn-change-state');
                         let data = el.serialize();
                         
@@ -248,7 +257,7 @@
                                     el.find('.form-control').removeClass('is-invalid');
 
                                     // Hide this modal
-                                    el.modal('hide');
+                                    $('#create').modal('hide');
                                 } else {
                                     console.log(data.status);
                                 }
@@ -265,16 +274,18 @@
             // PUT: Update post
             let updatePost = {
                 init: function() {
-                    this.submitForm();
+                    this.bindForm();
+                },
+                bindForm: function () {
+                    $('#update').on('shown.bs.modal', this.submitForm());
                 },
                 submitForm: function() {
                     $('#update-form').on('submit', function(e){
-
                         let el = $(this);
                         let btn = el.find('#btn-change-state');
                         let id = el.find('input:hidden[name="id"]').val();
                         let data = el.serialize();
-                        
+                    
                         $.ajax({
                             url: baseURL + '/admin/posts/update/id/' + id,
                             type: 'PUT',

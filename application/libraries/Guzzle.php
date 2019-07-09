@@ -29,7 +29,7 @@ class Guzzle
 
     // Return client with a base URI
     public function client() {
-        return new GuzzleHttp\Client(['base_uri' => $this->endpoint]);
+        return new GuzzleHttp\Client(['base_uri' => $this->endpoint], ['time' => 5]);
     }
 
     // Return key
