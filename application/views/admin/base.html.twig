@@ -4,7 +4,7 @@
     Purpose     : Admin base template
     Created     : 06/27/2019 16:45:42 by Spiderman
     Updated     : 07/04/2019 16:45:31 by Spiderman
-    Changes     : Add delete and view modal
+    Changes     : Add notif modal
 #}
 
 <!DOCTYPE html>
@@ -89,10 +89,14 @@
                     </button>
                 </div>
                 <form id="create-form">
+                    <input type="hidden" name="content">
                     <div id="ajax-preloader"></div>
                     <div class="modal-body px-5">
                         <div class="form-group">
                             <input type="text" class="form-control form-control-lg" id="title" name="title" value="{{ set_value('title') }}" placeholder="Post Title">
+                        </div>
+                        <div id="create-editor">
+                            <!-- WYSIWYG Editor -->
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -116,12 +120,13 @@
                 </div>
                 <form id="update-form">
                     <input type="hidden" name="id">
+                    <input type="hidden" name="content">
                     <div id="ajax-preloader"></div>
                     <div class="modal-body px-5">
                         <div class="form-group">
                             <input type="text" class="form-control form-control-lg" id="title" name="title" value="{{ set_value('title') }}" placeholder="Post Title">
                         </div>
-                        <div id="editor">
+                        <div id="update-editor">
                             <!-- WYSIWYG Editor -->
                         </div>
                     </div>
@@ -145,14 +150,38 @@
                     </button>
                 </div>
                 <form id="delete-form">
+                    <input type="hidden" name="id">
                     <div id="ajax-preloader"></div>
-                    <div class="modal-body">
-                        
+                    <div class="modal-body p-5">
+                        <p class="text-center m-0">
+                            Are you sure you want to delete this post?
+                        </p>
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-lg btn-danger rounded-pill px-5" id="btn-change-state">Delete</button>
                     </div>
                 </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block notif %}
+    <div class="modal fade" id="notif" tabindex="-1" data-backdrop="static" role="dialog" aria-labelledby="deleteModalTitle" aria-hidden="true">
+        <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title" id="deleteModalTitle">Notification</h3>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <i data-feather="x"></i>
+                    </button>
+                </div>
+                <div id="ajax-preloader"></div>
+                <div class="modal-body p-5">
+                    <p class="text-center m-0">
+                        <!-- Notif message --> 
+                    </p>
+                </div>
             </div>
         </div>
     </div>

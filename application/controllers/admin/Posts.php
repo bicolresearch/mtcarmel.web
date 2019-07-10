@@ -5,8 +5,8 @@
     Location    : application/controllers/admin/Posts.php
     Purpose     : Posts controller
     Created     : 07/03/2019 15:09:39 by Spiderman
-    Updated     : 07/10/2019 00:06:44 by Spiderman
-    Changes     : Add PUT and DELETE request
+    Updated     : 07/10/2019 19:09:10 by Spiderman
+    Changes     : Implemented GET, POST, and PUT methods
 */
 
 defined('BASEPATH') or exit('No direct script access allowed');
@@ -114,7 +114,7 @@ class Posts extends CI_Controller
             'form_params' => [
                 'branch_id' => 1,
                 'title' => $this->input->post('title'),
-                'content' => 'Created', //$this->input->post('content'),
+                'content' => $this->input->post('content'),
                 'media_id' => 1,
                 'user_id' => user('id')
             ],
@@ -148,10 +148,10 @@ class Posts extends CI_Controller
                 'X-API-KEY' => $this->guzzle->key()
             ],
             'form_params' => [
-                'branch_id' => 1, //$this->input->put('branch_id'),
+                'branch_id' => 1,
                 'title' => $this->input->put('title'),
-                'content' => 'Edited', //$this->input->put('content'),
-                'media_id' => 1, //$this->input->put('media_id'),
+                'content' => $this->input->put('content'),
+                'media_id' => 1,
                 'user_id' => user('id')
             ]
         ];
@@ -175,7 +175,7 @@ class Posts extends CI_Controller
     } 
     
     // PUT request
-    public function soft_delete() 
+    public function delete() 
     {
         // Create a client with a base URI
         $client = $this->guzzle->client();
@@ -196,37 +196,6 @@ class Posts extends CI_Controller
 
             // PUT request
             $response = $client->put('posts/soft_delete/id/' . $id, $options);
-
-            // Return $response  
-            echo $response->getBody()->getContents();
-        }
-        catch (GuzzleHttp\Exception\ClientException $e) {
-            $response = $e->getResponse();
-
-            // Return $response 
-            echo $response->getBody()->getContents();
-        }
-    }
-
-    // DELETE request
-    public function hard_delete() 
-    {
-        // Create a client with a base URI
-        $client = $this->guzzle->client();
-
-        $options = [
-            'headers' => [
-                'Content-Type' => 'application/x-www-form-urlencoded',
-                'X-API-KEY' => $this->guzzle->key()
-            ]
-        ];
-        
-        try {
-
-            $id = $this->uri->segment(5);
-
-            // PUT request
-            $response = $client->put('posts/hard_delete/id/' . $id, $options);
 
             // Return $response  
             echo $response->getBody()->getContents();
