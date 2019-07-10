@@ -48,13 +48,11 @@
     <script>
         // This map shows the boundaries
         // of Mount Carmel Minor Basilica
-
-        let map;
-        let baseURL = location.origin.toLowerCase();
-        let apiURL = 'https://api.mountcarmel.ph';
+        let baseURL = location.origin.toLowerCase() + '/mountcarmel.web';
+        let apiURL = location.origin.toLowerCase() + '/mountcarmel.api';
 
         function initMap(listener) {
-            map = new google.maps.Map(document.getElementById('map'), {
+            let map = new google.maps.Map(document.getElementById('map'), {
                 zoom: 14,
                 center: {lat: 14.614253, lng: 121.030581},
                 mapTypeId: 'roadmap',

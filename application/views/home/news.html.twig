@@ -33,7 +33,7 @@
         $(function () {
 
             let baseURL = location.origin.toLowerCase() + '/mountcarmel.web';
-            let apiURL = 'https://api.mountcarmel.ph';
+            let apiURL = location.origin.toLowerCase() + '/mountcarmel.api';
 
             // GET: Posts
             let posts = {
@@ -52,7 +52,7 @@
                         processData: false,
                         success: function (data) {
                             if (data) {
-                                $.each(data, function (key, value) {
+                                $.each(data.data, function (key, value) {
                                     el.append(
                                         '<div class="card">' +
                                         '   <div class="card-body">' +
