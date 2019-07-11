@@ -137,7 +137,7 @@ class Ads extends CI_Controller
                     'branch_id' => 1,
                     'name' => $this->input->post('name'),
                     'description' => $this->input->post('description'),
-                    'media_id' => 1,
+                    'media_id' => 5,
                     'user_id' => user('id')
                 ],
                 'debug' => fopen('php://stderr', 'w')
@@ -164,6 +164,8 @@ class Ads extends CI_Controller
                 'description' => form_error('description')
             ];
             echo json_encode($view_data);
+
+            //echo $this->form_validation->get_json();
         }
     }
 
@@ -200,7 +202,7 @@ class Ads extends CI_Controller
                     'branch_id' => 1,
                     'name' => $this->input->put('name'),
                     'description' => $this->input->put('description'),
-                    'media_id' => 1,
+                    'media_id' => 5,
                     'user_id' => user('id')
                 ]
             ];

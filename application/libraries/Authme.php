@@ -40,7 +40,7 @@ class Authme
      */
     public function login($username, $password)
     {
-        $user = $this->CI->authme_model->_get_by_username($username, hash('sha512', $password));
+        $user = $this->CI->authme_model->_login($username, hash('sha512', $password));
         if ($user) {
             unset($user->password);
             $this->CI->session->set_userdata([

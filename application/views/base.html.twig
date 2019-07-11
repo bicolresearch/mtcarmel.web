@@ -2,9 +2,9 @@
     Filename    : base.html.twig
     Location    : application/views/base.html.twig
     Purpose     : Base template
-    Created     : 6/03/2019 by Spiderman
-    Updated     : 7/01/2019 by Spiderman
-    Changes     : Changed commenting format
+    Created     : 06/03/2019 22:09:22 by Spiderman
+    Updated     : 07/11/2019 22:09:40 by Spiderman
+    Changes     : Add signup
 #}
 
 <!DOCTYPE html>
@@ -105,7 +105,7 @@
                             </a>
                             <div class="dropdown-menu dropdown-menu-right">
                                 {% if x is empty %}
-                                    <a class="dropdown-item" href="javascript:void(0)" data-toggle="modal" data-target="#createAccountModal">New Account</a>
+                                    <a class="dropdown-item" href="javascript:void(0)" data-toggle="modal" data-target="#signupModal">Signup</a>
                                     <a class="dropdown-item" href="javascript:void(0)" data-toggle="modal" data-target="#loginModal">Login</a>
                                 {% else %}
                                     <a class="dropdown-item" href="{{ base_url('auth/logout') }}" target="_self">Logout</a>
@@ -118,9 +118,7 @@
         {% endblock %}
         <main class="content">
             <div class="container-fluid p-0">
-                {% block contents %}
-                    {# load content here #}
-                {% endblock %}
+                {% block contents %}{% endblock %}
             </div>
         </main>
     </div>
@@ -136,7 +134,7 @@
                         <i data-feather="x"></i>
                     </button>
                 </div>
-                <form>
+                <form id="login-form">
                     <div id="ajax-preloader"></div>
                     <div class="modal-body px-5">
                         <div class="logo text-center mb-4">
@@ -145,16 +143,53 @@
                         <div id="ajax-response"></div>
                         <div class="form-group">
                             <label for="email">Email</label>
-                            <input type="text" class="form-control" id="email" name="email" value="{{ set_value('email') }}" placeholder="Email">
+                            <input type="text" class="form-control" id="email" name="email" value="{{ set_value('email') }}" placeholder="Email" autocomplete="username">
                         </div>
                         <div class="form-group">
                             <label for="password">Password</label>
-                            <input type="password" class="form-control" id="password" name="password" value="{{ set_value('password') }}" placeholder="Password">
+                            <input type="password" class="form-control" id="password" name="password" value="{{ set_value('password') }}" placeholder="Password" autocomplete="current-password">
                         </div>
-                        <a href="javascript:void(0);" target="_blank">Forgot password?</a> <a class="float-right" href="javascript:void(0);" target="_blank">Create an Account</a>
+                        <a href="javascript:void(0);" target="_blank">Forgot password?</a> <a class="float-right" href="javascript:void(0)" data-toggle="modal" data-target="#signupModal">Signup</a>
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-lg btn-brown rounded-pill px-5" id="btn-change-state">Login</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block signup %}
+    <div class="modal fade" id="signupModal" tabindex="-1" data-backdrop="static" role="dialog" aria-labelledby="signupModalModalTitle" aria-hidden="true">
+        <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title" id="signupModalTitle">Signup</h3>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <i data-feather="x"></i>
+                    </button>
+                </div>
+                <form id="signup-form">
+                    <div id="ajax-preloader"></div>
+                    <div class="modal-body px-5">
+                        <div id="ajax-response"></div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="text" class="form-control" id="email" name="email" value="{{ set_value('email') }}" placeholder="Email" autocomplete="username">
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <input type="password" class="form-control" id="password" name="password" value="{{ set_value('password') }}" placeholder="Password" autocomplete="current-password">
+                        </div>
+                        <div class="form-group">
+                            <label for="passconf">Confirm Password</label>
+                            <input type="password" class="form-control" id="passconf" name="passconf" value="{{ set_value('passconf') }}" placeholder="Confirm Password" autocomplete="new-password">
+                        </div>
+                        <a href="javascript:void(0);" target="_blank">Forgot password?</a> <a class="float-right" href="javascript:void(0)" data-toggle="modal" data-target="#loginModal">Login</a>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-lg btn-brown rounded-pill px-5" id="btn-change-state">Submit</button>
                     </div>
                 </form>
             </div>
@@ -175,22 +210,17 @@
                 init: function () {
                     this.bindForm();
                 },
-                resetForm: function () {
-                    let el = $('form');
-                    el.find('form').each(function() { this.reset() });
-                    el.find('.form-control').removeClass('is-invalid');
-                },
                 bindForm: function () {
                     $('#loginModal').on('show.bs.modal', this.submitForm());
                 },
                 submitForm: function () {
-                    $('form').on('submit', function (e) {
+                    $('#login-form').on('submit', function (e) {
                         let el = $(this);
                         let btn = el.find('#btn-change-state');
                         let data = el.serialize();
 
                         $.ajax({
-                            url: baseURL + '/auth/login_ajax',
+                            url: baseURL + '/auth/login',
                             type: 'POST',
                             dataType: 'json',
                             data: data,
@@ -216,11 +246,16 @@
                             },
                             success: function (data) {
                                 if (data.status === true) {
-                                    logIn.resetForm();
+                                    // Hide modal after successful login
+                                    $('#loginModal').modal('hide');
+
+                                    // Redirect to user page
                                     window.location.replace(baseURL + '/auth');
                                 } else {
+                                    console.log(data.status);
+
                                     // Error msg response
-                                    $('#ajax-response').html('<div class="alert alert-danger"><ul>' + data.response + '</ul></div>');
+                                    el.find('#ajax-response').html('<div class="alert alert-danger"><ul>' + data.response + '</ul></div>');
                                     (Boolean(data.email)) ? el.find('#email').addClass('is-invalid') : el.find('#email').removeClass('is-invalid');
                                     (Boolean(data.password)) ? el.find('#password').addClass('is-invalid') : el.find('#password').removeClass('is-invalid');
                                 }
@@ -235,9 +270,78 @@
                 }
             };
 
-            let methods = {
+            // POST: signup
+            let signup = {
+                init: function () {
+                    this.bindForm();
+                },
+                bindForm: function () {
+                    $('#signupModal').on('show.bs.modal', this.submitForm());
+                },
+                submitForm: function () {
+                    $('#signup-form').on('submit', function (e) {
+                        let el = $(this);
+                        let btn = el.find('#btn-change-state');
+                        let data = el.serialize();
+
+                        $.ajax({
+                            url: baseURL + '/auth/signup',
+                            type: 'POST',
+                            dataType: 'json',
+                            data: data,
+                            cache: false,
+                            processData: false,
+                            beforeSend: function () {
+                                el.find('#ajax-preloader').html(
+                                    '<div class="loader">' +
+                                    '  <svg class="circular" viewBox="25 25 50 50">' +
+                                    '    <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>' +
+                                    '  </svg>' +
+                                    '</div>').show();
+                                btn.attr('disabled', 'disabled');
+                            },
+                            complete: function () {
+                                el.find('#ajax-preloader').html(
+                                    '<div class="loader">' +
+                                    '  <svg class="circular" viewBox="25 25 50 50">' +
+                                    '    <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>' +
+                                    '  </svg>' +
+                                    '</div>').hide('fast');
+                                btn.removeAttr('disabled');
+                            },
+                            success: function (data) {
+                                if (data.status === true) {
+
+                                    // Clear the form
+                                    el.find('.form-control').removeClass('is-invalid');
+
+                                    // Success msg response
+                                    el.find('#ajax-response').html('<div class="alert alert-success"><ul>' + data.response + '</ul></div>');
+                                } else {
+                                    console.log(data.status);
+
+                                    // Error msg response
+                                    el.find('#ajax-response').html('<div class="alert alert-danger"><ul>' + data.response + '</ul></div>');
+                                    (Boolean(data.email)) ? el.find('#email').addClass('is-invalid') : el.find('#email').removeClass('is-invalid');
+                                    (Boolean(data.password)) ? el.find('#password').addClass('is-invalid') : el.find('#password').removeClass('is-invalid');
+                                    (Boolean(data.passconf)) ? el.find('#passconf').addClass('is-invalid') : el.find('#passconf').removeClass('is-invalid');
+                                }
+                            },
+                            error: function (jqXHR, textStatus, errorThrown) {
+                                // For debugging
+                                console.log('The following error occurred: ' + textStatus, errorThrown);
+                            }
+                        });
+                        e.preventDefault();
+                    });
+                }
+            };
+
+            let app = {
                 init: function () {
                     this.activeList();
+                    this.showLoginModal();
+                    this.showSignupModal();
                 },
                 activeList: function () {
                     let str = location.href.toLowerCase();
@@ -252,11 +356,22 @@
                             $(this).addClass('active');
                         }
                     });
+                },
+                showLoginModal: function() {
+                    $('#loginModal').on('show.bs.modal', function () {
+                        $('#signupModal').modal('hide');
+                    })  
+                },
+                showSignupModal: function() {
+                    $('#signupModal').on('show.bs.modal', function () {
+                        $('#loginModal').modal('hide');
+                    })
                 }
             };
 
             logIn.init();
-            methods.init();
+            signup.init();
+            app.init();
         })
     </script>
 {% endblock %}

@@ -20,12 +20,7 @@ class Authme_Model extends CI_Model
         parent::__construct();
     }
 
-    /**
-     * @param $username
-     * @param $password
-     * @return bool
-     */
-    public function _get_by_username($username, $password)
+    public function _login($username, $password)
     {
 
         $query = $this->db->get_where('users', [
@@ -36,10 +31,15 @@ class Authme_Model extends CI_Model
         return ($query->num_rows()) ? $query->row() : false;
     }
 
-    /**
-     * @param $id
-     * @param $data
-     */
+    public function _signup($data)
+    {
+        $this->db->trans_begin();
+
+        $this->db->insert('users', $data);
+
+        ($this->db->trans_status() === false) ? $this->db->trans_rollback() : $this->db->trans_commit();
+    }
+
     public function _update($id, $data)
     {
         $this->db->trans_begin();
