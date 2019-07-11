@@ -80,6 +80,7 @@ $route['events'] = 'services/events';
 // Admin
 $route['admin/management'] = 'admin/management/index';
 $route['admin/management/posts'] = 'admin/posts/index';
+$route['admin/management/ads'] = 'admin/ads/index';
 
 // User
 $route['user'] = 'user/user/index';

@@ -1,13 +1,14 @@
 {#
-    Filename    : posts.html.twig
-    Location    : application/views/admin/posts.html.twig
-    Purpose     : Posts partial page
-    Created     : 07/03/2019 19:30:07 by Spiderman
-    Updated     : 07/10/2019 19:08:15 by Spiderman
+    Filename    : ads.html.twig
+    Location    : application/views/admin/ads.html.twig
+    Purpose     : Ads partial page
+    Created     : 07/11/2019 17:24:13 by Spiderman
+    Updated     : 07/11/2019 19:48:41 by Spiderman
     Changes     : Implemented GET, POST, and PUT methods
 #}
 
 {% extends 'admin/base.html.twig' %}
+
 {% block title %} {{ page_title }} | Mount Carmel {% endblock %}
 
 {% block contents %}
@@ -33,10 +34,9 @@
                         <thead>
                             <tr>
                                 <th>#</th>
-                                <th>Title</th>
+                                <th>Name</th>
                                 <th>Posted on</th>
                                 <th>Updated on</th>
-                                <th>Author</th>
                                 <th></th>
                                 <th></th>
                             </tr>
@@ -53,12 +53,11 @@
         <div id="ajax-preloader"></div>
         <div class="modal-body px-5">
             <input type="hidden" name="id">
-            <input type="hidden" name="content">
             <div class="form-group">
-                <input type="text" class="form-control form-control-lg" id="title" name="title" value="{{ set_value('title') }}" placeholder="Post Title">
+                <input type="text" class="form-control" id="name" name="name" value="{{ set_value('name') }}" placeholder="Advertisement Title">
             </div>
-            <div id="create-editor">
-                <!--  WYSIWYG editor -->
+            <div class="form-group">
+                <textarea class="form-control" id="description" name="description" rows="4" maxlength="255" placeholder="Advertisement Description"></textarea>
             </div>
         </div>
         <div class="modal-footer">
@@ -72,12 +71,11 @@
         <div id="ajax-preloader"></div>
         <div class="modal-body px-5">
             <input type="hidden" name="id">
-            <input type="hidden" name="content">
             <div class="form-group">
-                <input type="text" class="form-control form-control-lg" id="title" name="title" value="{{ set_value('title') }}" placeholder="Post Title">
+                <input type="text" class="form-control" id="name" name="name" value="{{ set_value('name') }}" placeholder="Advertisement Title">
             </div>
-            <div id="update-editor">
-                <!--  WYSIWYG editor -->
+            <div class="form-group">
+                <textarea class="form-control" id="description" name="description" rows="4" maxlength="255" placeholder="Advertisement Description"></textarea>
             </div>
         </div>
         <div class="modal-footer">
@@ -107,7 +105,7 @@
                         "processing": true,
                         "serverSide": false,
                         "ajax": {
-                            "url": baseURL + "/admin/posts/posts",
+                            "url": baseURL + "/admin/ads/advertisements",
                             "type": "GET"
                         },
                         "columns": [
@@ -115,7 +113,7 @@
                                 "searchable": false,
                                 "data": "id"
                             },
-                            {"data": "title"},
+                            {"data": "name"},
                             {
                                 "data": "posted_on",
                                 "mRender": function (data) {
@@ -123,7 +121,6 @@
                                 }
                             },
                             {"data": "updated_on"},
-                            {"data": "author"},
                             {
                                 "searchable": false,
                                 "data": "id",
@@ -142,7 +139,7 @@
                         "lengthMenu": [[10, 25, 50, 75, 100], [10, 25, 50, 75, 100]],
                         "order": [[2, "desc"]],
                         "columnDefs": [
-                            {"orderable": false, "targets": [0, 5, 6]}
+                            {"orderable": false, "targets": [0, 4, 5]}
                         ],
                         // "fnCreatedRow": function (row, data, index) {
                         //     $('td', row).eq(0).html(index + 1);
@@ -203,7 +200,7 @@
                         let data = el.serialize();
 
                         $.ajax({
-                            url: baseURL + '/admin/posts/post/id/' + id,
+                            url: baseURL + '/admin/ads/advertisement/id/' + id,
                             type: 'GET',
                             dataType: 'json',
                             data: data,
@@ -231,8 +228,8 @@
                                 if (data) {
                                     // Populate form
                                     el.find('input:hidden[name="id"]').val(data.id);
-                                    el.find('input[name="title"]').val(data.title);
-                                    el.find('.ql-editor').html(data.content);
+                                    el.find('input[name="name"]').val(data.name);
+                                   el.find('textarea[name="description"]').html(data.description);
                                 }
                             },
                             error: function (jqXHR, textStatus, errorThrown) {
@@ -243,7 +240,7 @@
                 }
             }
 
-            // POST: Add new post
+            // POST: Add new advertisement
             let create = {
                 init: function() {
                     this.bindForm();
@@ -252,20 +249,6 @@
                     $('#create').on('show.bs.modal', this.submitForm());
                 },
                 submitForm: function() {
-                    
-                    // Initialize quill
-                    let quill = new Quill('#create-editor', {
-                        modules: { 
-                            toolbar: [
-                                [
-                                    'bold', 'italic', 'underline', 'strike', 'link', {'list': 'ordered'}, {'list': 'bullet'},'blockquote','image', 'video','clean'
-                                ]
-                            ] 
-                        },
-                        theme: 'snow',
-                        placeholder: 'Compose here'
-                    });
-
                     // Prevent multiple ajax request
                     if (isProcessing) return;
                     isProcessing = true;
@@ -274,11 +257,10 @@
 
                         let el = $(this);
                         let btn = el.find('#btn-change-state');
-                        let content = el.find('input:hidden[name="content"]').val(quill.root.innerHTML);
                         let data = el.serialize();
                         
                         $.ajax({
-                            url: baseURL + '/admin/posts/create',
+                            url: baseURL + '/admin/ads/create',
                             type: 'POST',
                             dataType: 'json',
                             data: data,
@@ -314,7 +296,7 @@
                                     $('#create').modal('hide');
 
                                     // Show and append notif msg  
-                                    $('#notif').modal('show').find('.modal-body p').text('A new post has been published');
+                                    $('#notif').modal('show').find('.modal-body p').text('A new ads has been published');
                                     
                                     // Hide notif after (x) number of seconds 
                                     setTimeout(function(){ 
@@ -325,8 +307,8 @@
                                     console.log(data.status);
 
                                     // Form error
-                                    (Boolean(data.title)) ? el.find('#title').addClass('is-invalid') : el.find('#title').removeClass('is-invalid');
-                                    (quill.editor.isBlank()) ? el.find('#create-editor').css({'border':'1px solid #f00'}) : el.find('#create-editor').css({'border-color':'#ccc'});     
+                                    (Boolean(data.name)) ? el.find('#name').addClass('is-invalid') : el.find('#name').removeClass('is-invalid');  
+                                    (Boolean(data.description)) ? el.find('#description').addClass('is-invalid') : el.find('#description').removeClass('is-invalid');   
                                 }
                             },
                             error: function (jqXHR, textStatus, errorThrown) {
@@ -338,7 +320,7 @@
                 }
             }
 
-            // PUT: Update post
+            // PUT: Update advertisement
             let update = {
                 init: function() {
                     this.bindForm();
@@ -347,29 +329,14 @@
                     $('#update').on('show.bs.modal', this.submitForm());
                 },
                 submitForm: function() {
-
-                    // Initialize quill
-                    let quill = new Quill('#update-editor', {
-                        modules: { 
-                            toolbar: [
-                                [
-                                    'bold', 'italic', 'underline', 'strike', 'link', {'list': 'ordered'}, {'list': 'bullet'},'blockquote','image', 'video','clean'
-                                ]
-                            ] 
-                        },
-                        theme: 'snow',
-                        placeholder: 'Compose here'
-                    });
-
                     $('#update-form').on('submit', function(e){
                         let el = $(this);
                         let btn = el.find('#btn-change-state');
                         let id = el.find('input:hidden[name="id"]').val();
-                        let content = el.find('input:hidden[name="content"]').val(quill.root.innerHTML);
                         let data = el.serialize();
                     
                         $.ajax({
-                            url: baseURL + '/admin/posts/update/id/' + id,
+                            url: baseURL + '/admin/ads/update/id/' + id,
                             type: 'PUT',
                             dataType: 'json',
                             data: data,
@@ -405,7 +372,7 @@
                                     $('#update').modal('hide');
 
                                     // Show and append notif msg  
-                                    $('#notif').modal('show').find('.modal-body p').text('Post #' + id + ' has been updated');
+                                    $('#notif').modal('show').find('.modal-body p').text('Ads #' + id + ' has been updated');
                                     
                                     // Hide notif after (x) number of seconds 
                                     setTimeout(function(){ 
@@ -416,8 +383,8 @@
                                     console.log(data.status);
 
                                     // Form error
-                                    (Boolean(data.title)) ? el.find('#title').addClass('is-invalid') : el.find('#title').removeClass('is-invalid');
-                                    (quill.editor.isBlank()) ? el.find('#update-editor').css({'border':'1px solid #f00'}) : el.find('#update-editor').css({'border-color':'#ccc'});   
+                                    (Boolean(data.name)) ? el.find('#name').addClass('is-invalid') : el.find('#name').removeClass('is-invalid');  
+                                    (Boolean(data.description)) ? el.find('#description').addClass('is-invalid') : el.find('#description').removeClass('is-invalid'); 
                                 }
                             },
                             error: function (jqXHR, textStatus, errorThrown) {
@@ -429,7 +396,7 @@
                 }
             }
 
-            // PUT: Delete post
+            // PUT: Delete advertisement
             let softDelete = {
                 init: function() {
                     this.bindForm();
@@ -438,7 +405,7 @@
                     $('#delete').on('show.bs.modal', this.submitForm(), function(e){
                         $(this).find('#ajax-response').empty();
                         $(this).find('input:hidden[name="id"]').val($(e.relatedTarget).data('param'));
-                        $(this).find('.modal-body p').text('Are you sure you want to delete post #' + $(e.relatedTarget).data('param') + '?');
+                                                $(this).find('.modal-body p').text('Are you sure you want to delete ads #' + $(e.relatedTarget).data('param') + '?');
                     });
                 },
                 submitForm: function() {
@@ -449,7 +416,7 @@
                         let data = el.serialize();
                     
                         $.ajax({
-                            url: baseURL + '/admin/posts/delete/id/' + id,
+                            url: baseURL + '/admin/ads/delete/id/' + id,
                             type: 'PUT',
                             dataType: 'json',
                             data: data,
@@ -482,7 +449,7 @@
                                     $('#delete').modal('hide');
 
                                     // Show and append notif msg  
-                                    $('#notif').modal('show').find('.modal-body p').text('Post #' + id + ' has been moved to trash');
+                                    $('#notif').modal('show').find('.modal-body p').text('Ads #' + id + ' has been moved to trash');
                                     
                                     // Hide notif after (x) number of seconds 
                                     setTimeout(function(){ 
@@ -499,43 +466,6 @@
                         });
                         e.preventDefault();
                     });
-                }
-            }
-
-            // TODO: Multiple instance of quill
-            let app = {
-                init: function() {
-                    this.wysiwyg();
-                },
-                wysiwyg: function() {
-                    let containers = ['#create-editor', '#update-editor'];
-        
-                    let toolbarOptions = [
-                        [
-                            'bold', 
-                            'italic', 
-                            'underline', 
-                            'strike', 
-                            'link',
-                            {'list': 'ordered'}, 
-                            {'list': 'bullet' },
-                            'blockquote',
-                            'image', 
-                            'video','clean'
-                        ]
-                    ];
-
-                    let options = {
-                        modules: { 
-                            toolbar: toolbarOptions 
-                        },
-                        theme: 'snow',
-                        placeholder: 'Compose here'
-                    }
-
-                    for(let i = 0; i <= containers.length; i++) {
-                        let quill = new Quill(containers[i], options);
-                    }
                 }
             }
 

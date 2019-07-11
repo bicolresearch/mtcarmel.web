@@ -1,17 +1,17 @@
 <?php
 
 /*
-    Filename    : Posts.php
-    Location    : application/controllers/admin/Posts.php
-    Purpose     : Posts controller
-    Created     : 07/03/2019 15:09:39 by Spiderman
-    Updated     : 07/10/2019 19:09:10 by Spiderman
+    Filename    : Ads.php
+    Location    : application/controllers/admin/Ads.php
+    Purpose     : Ads controller
+    Created     : 07/11/2019 17:03:40 by Spiderman
+    Updated     : 
     Changes     : Implemented GET, POST, and PUT methods
 */
 
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Posts extends CI_Controller
+class Ads extends CI_Controller
 {
     private $user_id;
 
@@ -25,18 +25,18 @@ class Posts extends CI_Controller
     {
         if(logged_in()) {
             $view_data = [
-                'page_title' => 'Posts',
-                'page_subtitle' => 'list of posts'
+                'page_title' => 'Advertisements',
+                'page_subtitle' => 'list of advertisements'
             ];
     
-            $this->twig->display('admin/posts.html', $view_data);
+            $this->twig->display('admin/ads.html', $view_data);
         } else {
             redirect('auth', 'refresh');
         }
     }
     
     // GET request
-    public function posts() 
+    public function advertisements() 
     {
         // Redirect to auth if not ajax request
         if (!$this->input->is_ajax_request()) {
@@ -56,7 +56,7 @@ class Posts extends CI_Controller
 
         try {
             // GET request
-            $response = $client->get('posts', $options);
+            $response = $client->get('ads', $options);
 
             $response = json_decode($response->getBody()->getContents());
 
@@ -72,7 +72,7 @@ class Posts extends CI_Controller
     }
 
     // GET request
-    public function post() 
+    public function advertisement() 
     {
         // Redirect to auth if not ajax request
         if (!$this->input->is_ajax_request()) {
@@ -95,7 +95,7 @@ class Posts extends CI_Controller
 
         try {
             // GET request
-            $response = $client->get('posts/post', $options);
+            $response = $client->get('ads/ads', $options);
 
             $response = json_decode($response->getBody()->getContents());
 
@@ -119,8 +119,8 @@ class Posts extends CI_Controller
         }
 
         $this->form_validation
-            ->set_rules('title', 'Title', 'trim|required|xss_clean')
-            ->set_rules('content', 'Content', 'trim|required|xss_clean')
+            ->set_rules('name', 'Name', 'trim|required|xss_clean')
+            ->set_rules('description', 'Description', 'trim|required|xss_clean')
             ->set_error_delimiters('<li>', '</li>');
 
         if ($this->form_validation->run()) {
@@ -135,8 +135,8 @@ class Posts extends CI_Controller
                 ],
                 'form_params' => [
                     'branch_id' => 1,
-                    'title' => $this->input->post('title'),
-                    'content' => $this->input->post('content'),
+                    'name' => $this->input->post('name'),
+                    'description' => $this->input->post('description'),
                     'media_id' => 1,
                     'user_id' => user('id')
                 ],
@@ -145,7 +145,7 @@ class Posts extends CI_Controller
 
             try {
                 // POST request
-                $response = $client->post('posts/create', $options);  
+                $response = $client->post('ads/create', $options);  
     
                 // Return $response  
                 echo $response->getBody()->getContents();
@@ -160,8 +160,8 @@ class Posts extends CI_Controller
             $view_data = [
                 'status' => false,
                 'message' => validation_errors(),
-                'title' => form_error('title'),
-                'content' => form_error('content')
+                'name' => form_error('name'),
+                'description' => form_error('description')
             ];
             echo json_encode($view_data);
         }
@@ -176,14 +176,14 @@ class Posts extends CI_Controller
         }
 
         $set_data = array(
-            'title' => $this->input->put('title'),
-            'content' => $this->input->put('content')
+            'name' => $this->input->put('name'),
+            'description' => $this->input->put('description')
         );
-        
+
         $this->form_validation
             ->set_data($set_data)
-            ->set_rules('title', 'Title', 'trim|required|xss_clean')
-            ->set_rules('content', 'Content', 'trim|required|xss_clean')
+            ->set_rules('name', 'name', 'trim|required|xss_clean')
+            ->set_rules('description', 'description', 'trim|required|xss_clean')
             ->set_error_delimiters('<li>', '</li>');
 
         if ($this->form_validation->run()) {
@@ -198,8 +198,8 @@ class Posts extends CI_Controller
                 ],
                 'form_params' => [
                     'branch_id' => 1,
-                    'title' => $this->input->put('title'),
-                    'content' => $this->input->put('content'),
+                    'name' => $this->input->put('name'),
+                    'description' => $this->input->put('description'),
                     'media_id' => 1,
                     'user_id' => user('id')
                 ]
@@ -210,7 +210,7 @@ class Posts extends CI_Controller
                 $id = $this->uri->segment(5);
 
                 // PUT request
-                $response = $client->put('posts/update/id/' . $id, $options);
+                $response = $client->put('ads/update/id/' . $id, $options);
 
                 // Return $response  
                 echo $response->getBody()->getContents();
@@ -225,8 +225,8 @@ class Posts extends CI_Controller
             $view_data = [
                 'status' => false,
                 'message' => validation_errors(),
-                'title' => form_error('title'),
-                'content' => form_error('content')
+                'name' => form_error('name'),
+                'description' => form_error('description')
             ];
             echo json_encode($view_data);
         }
@@ -258,7 +258,7 @@ class Posts extends CI_Controller
             $id = $this->uri->segment(5);
 
             // PUT request
-            $response = $client->put('posts/soft_delete/id/' . $id, $options);
+            $response = $client->put('ads/soft_delete/id/' . $id, $options);
 
             // Return $response  
             echo $response->getBody()->getContents();
