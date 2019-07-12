@@ -62,7 +62,7 @@
             </div>
         </div>
         <div class="modal-footer">
-            <button type="submit" class="btn btn-lg btn-brown rounded-pill px-5" id="btn-change-state">Publish</button>
+            <button type="submit" class="btn btn-lg btn-brown rounded-pill px-5 btn-change-state">Publish</button>
         </div>
     </form>
 {% endblock %}
@@ -81,7 +81,7 @@
             </div>
         </div>
         <div class="modal-footer">
-            <button type="submit" class="btn btn-lg btn-brown rounded-pill px-5" id="btn-change-state">Update</button>
+            <button type="submit" class="btn btn-lg btn-brown rounded-pill px-5 btn-change-state">Update</button>
         </div>
     </form>
 {% endblock %}
@@ -113,7 +113,7 @@
                         "columns": [
                             {
                                 "searchable": false,
-                                "data": "id"
+                                "data": null
                             },
                             {"data": "title"},
                             {
@@ -144,9 +144,9 @@
                         "columnDefs": [
                             {"orderable": false, "targets": [0, 5, 6]}
                         ],
-                        // "fnCreatedRow": function (row, data, index) {
-                        //     $('td', row).eq(0).html(index + 1);
-                        // },
+                        "fnCreatedRow": function (row, data, index) {
+                            $('td', row).eq(0).html(index + 1);
+                        },
                         "responsive": true,
                         "language": {
                             "decimal": "",
@@ -187,18 +187,14 @@
                 init: function() {
                     this.display();
                 },
-                resetForm: function() {
-                    let el = $('#update');
-                    el.find('form').each(function() { this.reset() });
-                    el.find('.form-control').removeClass('is-invalid');
-                },
                 display: function() {
                     $('#update').on('show.bs.modal', function (e) {
-                        // Reset the form
-                        getById.resetForm();
-                        
                         let el = $(this);
-                        let btn = el.find('#btn-change-state');
+
+                        // Reset form
+                        el.find('form').each(function() { this.reset() });
+                        el.find('.form-control').removeClass('is-invalid');
+
                         let id = $(e.relatedTarget).data('param');
                         let data = el.serialize();
 
@@ -216,7 +212,6 @@
                                     '    <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>' +
                                     '  </svg>' +
                                     '</div>').show();
-                                btn.attr('disabled', 'disabled');
                             },
                             complete: function () {
                                 el.find('#ajax-preloader').html(
@@ -225,7 +220,6 @@
                                     '    <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>' +
                                     '  </svg>' +
                                     '</div>').hide('fast');
-                                btn.removeAttr('disabled');
                             },
                             success: function (data) {
                                 if (data) {
@@ -249,7 +243,14 @@
                     this.bindForm();
                 },
                 bindForm: function () {
-                    $('#create').on('show.bs.modal', this.submitForm());
+                    $('#create').on('shown.bs.modal', this.submitForm(), function() {
+                        // Reset form
+                        $(this).find('form').each(function() { this.reset() });
+                        $(this).find('.form-control').removeClass('is-invalid');
+                        $(this).find('#create-editor').css({'border-color':'#ccc', 'border-top':'none'}); 
+                        // Auto focus
+                        $(this).find('input').trigger('focus');
+                    });
                 },
                 submitForm: function() {
                     
@@ -273,7 +274,7 @@
                     $('#create-form').on('submit', function(e){
 
                         let el = $(this);
-                        let btn = el.find('#btn-change-state');
+                        let btn = el.find('.btn-change-state');
                         let content = el.find('input:hidden[name="content"]').val(quill.root.innerHTML);
                         let data = el.serialize();
                         
@@ -307,9 +308,6 @@
                                     // Reload datatables
                                     $('#datatables-basic').DataTable().ajax.reload(null, false); // user paging is not reset on reload
 
-                                    // Clear the form
-                                    el.find('.form-control').removeClass('is-invalid');
-
                                     // Hide this modal
                                     $('#create').modal('hide');
 
@@ -321,12 +319,12 @@
                                         $('#notif').modal('hide');
                                     }, 3000);
                                 } else {
-                                    // Error msg response
-                                    console.log(data.status);
-
                                     // Form error
                                     (Boolean(data.title)) ? el.find('#title').addClass('is-invalid') : el.find('#title').removeClass('is-invalid');
-                                    (quill.editor.isBlank()) ? el.find('#create-editor').css({'border':'1px solid #f00'}) : el.find('#create-editor').css({'border-color':'#ccc'});     
+                                    (quill.editor.isBlank()) ? el.find('#create-editor').css({'border':'1px solid #f00'}) : el.find('#create-editor').css({'border-color':'#ccc', 'border-top':'none'});      
+
+                                    // For debugging
+                                    console.log(data.status);
                                 }
                             },
                             error: function (jqXHR, textStatus, errorThrown) {
@@ -344,7 +342,11 @@
                     this.bindForm();
                 },
                 bindForm: function () {
-                    $('#update').on('show.bs.modal', this.submitForm());
+                    $('#update').on('show.bs.modal', this.submitForm(), function() {
+                        // Reset form
+                        $(this).find('form').each(function() { this.reset() });
+                        $(this).find('.form-control').removeClass('is-invalid');
+                    });
                 },
                 submitForm: function() {
 
@@ -363,7 +365,7 @@
 
                     $('#update-form').on('submit', function(e){
                         let el = $(this);
-                        let btn = el.find('#btn-change-state');
+                        let btn = el.find('.btn-change-state');
                         let id = el.find('input:hidden[name="id"]').val();
                         let content = el.find('input:hidden[name="content"]').val(quill.root.innerHTML);
                         let data = el.serialize();
@@ -398,9 +400,6 @@
                                     // Reload datatables
                                     $('#datatables-basic').DataTable().ajax.reload(null, false); // user paging is not reset on reload
 
-                                    // Clear the form
-                                    el.find('.form-control').removeClass('is-invalid');
-
                                     // Hide this modal
                                     $('#update').modal('hide');
 
@@ -412,15 +411,16 @@
                                         $('#notif').modal('hide');
                                     }, 3000);
                                 } else {
-                                    // Error msg response
-                                    console.log(data.status);
-
                                     // Form error
                                     (Boolean(data.title)) ? el.find('#title').addClass('is-invalid') : el.find('#title').removeClass('is-invalid');
                                     (quill.editor.isBlank()) ? el.find('#update-editor').css({'border':'1px solid #f00'}) : el.find('#update-editor').css({'border-color':'#ccc'});   
+                                
+                                     // For debugging
+                                    console.log(data.status);
                                 }
                             },
                             error: function (jqXHR, textStatus, errorThrown) {
+                                // For debugging
                                 console.log('The following error occurred: ' + textStatus, errorThrown);
                             }
                         });
@@ -444,7 +444,7 @@
                 submitForm: function() {
                     $('#delete-form').on('submit', function(e){
                         let el = $(this);
-                        let btn = el.find('#btn-change-state');
+                        let btn = el.find('.btn-change-state');
                         let id = el.find('input:hidden[name="id"]').val();
                         let data = el.serialize();
                     
@@ -490,10 +490,12 @@
                                     }, 3000);
                                     
                                 } else {
+                                    // For debugging
                                     console.log(data.status);
                                 }
                             },
                             error: function (jqXHR, textStatus, errorThrown) {
+                                // For debugging
                                 console.log('The following error occurred: ' + textStatus, errorThrown);
                             }
                         });

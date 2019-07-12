@@ -70,7 +70,9 @@
         {% endblock %}
         <main class="content">
             <div class="container-fluid p-0">
-                {% block contents %}{% endblock %}
+                {% block contents %}
+                    {# This is where the partial page load #}
+                {% endblock %}
             </div>
         </main>
     </div>
@@ -127,7 +129,7 @@
                         </p>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-lg btn-danger rounded-pill px-5" id="btn-change-state">Delete</button>
+                        <button type="submit" class="btn btn-lg btn-danger rounded-pill px-5 btn-change-state">Delete</button>
                     </div>
                 </form>
             </div>
@@ -162,6 +164,7 @@
 {% endblock %}
 
 {% block custom_scripts %}
+    {# This is where the custom scripts load #}
 {% endblock %}
 </body>
 </html>

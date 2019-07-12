@@ -5,7 +5,7 @@
     Location    : application/controllers/admin/Ads.php
     Purpose     : Ads controller
     Created     : 07/11/2019 17:03:40 by Spiderman
-    Updated     : 
+    Updated     : 07/12/2019 15:56:08 by Spiderman
     Changes     : Implemented GET, POST, and PUT methods
 */
 
