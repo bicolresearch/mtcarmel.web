@@ -25,7 +25,7 @@
     {% block sidebar %}
         <nav class="sidebar sidebar-sticky">
             <div class="sidebar-content js-simplebar">
-                <a class="sidebar-brand" href="{{ base_url('home') }}">
+                <a class="sidebar-brand" href="{{ base_url('admin') }}">
                     <div class="logo">
                         <img src="{{ base_url('public/assets/img/brands/mount-carmel-logo.svg') }}" alt="Mount Carmel Logo"/>
                     </div>
@@ -40,8 +40,8 @@
                             <i class="align-middle icon-management icon-18"></i> <span class="align-middle">Management</span>
                         </a>
                         <ul id="management" class="sidebar-dropdown list-unstyled collapse">
-                            <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('admin/management/posts') }}">Posts</a></li>
-                            <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('admin/management/ads') }}">Advertisements</a></li>
+                            <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('admin/posts') }}">Posts</a></li>
+                            <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('admin/ads') }}">Advertisements</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -58,7 +58,7 @@
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle mr-0 pr-0" href="javascript:void(0)" data-toggle="dropdown">
-                                <img src="{{ base_url('public/assets/img/avatars/profile.svg') }}" class="avatar img-fluid rounded-circle mr-1" alt="Profile"/>
+                                <img src="https://api.mountcarmel.ph/{{ avatar }}" class="avatar img-fluid rounded-circle mr-1" alt="Profile"/>
                             </a>
                             <div class="dropdown-menu dropdown-menu-right">
                                 <a class="dropdown-item" href="{{ base_url('auth/logout') }}" target="_self">Logout</a>

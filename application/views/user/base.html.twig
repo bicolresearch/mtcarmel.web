@@ -2,7 +2,7 @@
     Filename    : base.html.twig
     Location    : application/views/user/base.html.twig
     Purpose     : User base template
-    Created     : 6/28/2019 by Sherlock Holmes
+    Created     : 06/28/2019 17:39:36 by Spiderman
     Updated     : 
     Changes     : 
 #}
@@ -25,7 +25,7 @@
     {% block sidebar %}
         <nav class="sidebar sidebar-sticky">
             <div class="sidebar-content js-simplebar">
-                <a class="sidebar-brand" href="{{ base_url('home') }}">
+                <a class="sidebar-brand" href="{{ base_url('user') }}">
                     <div class="logo">
                         <img src="{{ base_url('public/assets/img/brands/mount-carmel-logo.svg') }}" alt="Mount Carmel Logo"/>
                     </div>
@@ -36,60 +36,8 @@
                 </a>
                 <ul class="sidebar-nav">
                     <li class="sidebar-item active">
-                        <a href="#home" data-toggle="collapse" class="sidebar-link collapsed">
+                        <a class="sidebar-link" href="{{ base_url('user') }}">
                             <i class="align-middle icon-home icon-18"></i> <span class="align-middle">Home</span>
-                        </a>
-                        <ul id="home" class="sidebar-dropdown list-unstyled collapse">
-                            <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('news') }}">News &amp; Updates</a></li>
-                            <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('calendar') }}">Calendar</a></li>
-                            <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('live-mass') }}">Live Mass</a></li>
-                        </ul>
-                    </li>
-                    <li class="sidebar-item">
-                        <a class="sidebar-link" href="{{ base_url('help') }}">
-                            <i class="align-middle icon-sendhelp icon-18"></i> <span class="align-middle">Send Help</span>
-                        </a>
-                    </li>
-                    <li class="sidebar-item">
-                        <a href="#services" data-toggle="collapse" class="sidebar-link collapsed">
-                            <i class="align-middle icon-services icon-18"></i> <span class="align-middle">Services</span>
-                        </a>
-                        <ul id="services" class="sidebar-dropdown list-unstyled collapse">
-                            <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('join-us') }}">Join Us!</a></li>
-                            <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('request') }}">Make a Request</a></li>
-                            <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('baptism') }}">Baptism</a></li>
-                            <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('communion') }}">Communion</a></li>
-                            <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('confirmation') }}">Confirmation</a></li>
-                            <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('marriage') }}">Marriage</a></li>
-                            <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('passing') }}">Passing</a></li>
-                            <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('events') }}">Events</a></li>
-                        </ul>
-                    </li>
-                    <li class="sidebar-item">
-                        <a class="sidebar-link" href="{{ base_url('transparency') }}">
-                            <i class="align-middle icon-transparency icon-18"></i> <span class="align-middle">Transparency</span>
-                        </a>
-                    </li>
-                    <li class="sidebar-item">
-                        <a class="sidebar-link" href="{{ base_url('transactions') }}">
-                            <i class="align-middle icon-mytransactions icon-18"></i> <span class="align-middle">My Transactions</span>
-                        </a>
-                    </li>
-                    <li class="sidebar-item">
-                        <a href="#basilica" data-toggle="collapse" class="sidebar-link collapsed">
-                            <i class="align-middle icon-logo icon-18"></i> <span class="align-middle">Basilica</span>
-                        </a>
-                        <ul id="basilica" class="sidebar-dropdown list-unstyled collapse">
-                            <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('mass-schedule') }}">Mass Schedule</a></li>
-                            <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('location-map') }}">Location Map</a></li>
-                            <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('carmelite-priests') }}">Carmelite Priests</a></li>
-                            <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('contact-details') }}">Contact Details</a></li>
-                            <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('history') }}">History</a></li>
-                        </ul>
-                    </li>
-                    <li class="sidebar-item">
-                        <a class="sidebar-link" href="{{ base_url('bible') }}">
-                            <i class="align-middle icon-bible icon-18"></i> <span class="align-middle">Holy Bible</span>
                         </a>
                     </li>
                 </ul>
@@ -106,7 +54,7 @@
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle mr-0 pr-0" href="javascript:void(0)" data-toggle="dropdown">
-                                <img src="{{ base_url('public/assets/img/avatars/profile.svg') }}" class="avatar img-fluid rounded-circle mr-1" alt="Profile"/>
+                                <img src="https://api.mountcarmel.ph/{{ avatar }}" class="avatar img-fluid rounded-circle mr-1" alt="Profile"/>
                             </a>
                             <div class="dropdown-menu dropdown-menu-right">
                                 <a class="dropdown-item" href="{{ base_url('auth/logout') }}" target="_self">Logout</a>
@@ -119,7 +67,7 @@
         <main class="content">
             <div class="container-fluid p-0">
                 {% block contents %}
-                    {# load content here #}
+                    {# This is where the partial page load #}
                 {% endblock %}
             </div>
         </main>
@@ -132,6 +80,7 @@
 {% endblock %}
 
 {% block custom_scripts %}
+    {# This is where the custom scripts load #}
 {% endblock %}
 </body>
 </html>

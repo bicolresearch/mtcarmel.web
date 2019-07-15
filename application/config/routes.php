@@ -78,9 +78,9 @@ $route['passing'] = 'services/passing';
 $route['events'] = 'services/events';
 
 // Admin
-$route['admin/management'] = 'admin/management/index';
-$route['admin/management/posts'] = 'admin/posts/index';
-$route['admin/management/ads'] = 'admin/ads/index';
+$route['admin'] = 'admin/admin/index';
+$route['admin/posts'] = 'admin/posts/index';
+$route['admin/ads'] = 'admin/ads/index';
 
 // User
 $route['user'] = 'user/user/index';

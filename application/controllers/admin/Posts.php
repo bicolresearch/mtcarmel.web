@@ -13,12 +13,9 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Posts extends CI_Controller
 {
-    private $user_id;
-
     public function __construct()
     {
         parent::__construct();
-        $this->user_id = user('id');
     }
 
     public function index()
@@ -26,7 +23,8 @@ class Posts extends CI_Controller
         if(logged_in()) {
             $view_data = [
                 'page_title' => 'Posts',
-                'page_subtitle' => 'list of posts'
+                'page_subtitle' => 'list of posts',
+                'avatar' => user('cover_photo')
             ];
     
             $this->twig->display('admin/posts.html', $view_data);

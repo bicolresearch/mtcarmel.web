@@ -2,9 +2,9 @@
 
 /*
     Filename    : User.php
-    Location    : application/controller/user/User.php
+    Location    : application/controllers/user/User.php
     Purpose     : User Controller
-    Created     : 6/27/2019 by Sherlock Holmes
+    Created     : 06/27/2019 17:27:57 by Spiderman
     Updated     : 
     Changes     : 
 */
@@ -17,14 +17,14 @@ class User extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->output->enable_profiler(FALSE);
     }
 
     public function index()
     {
         if(logged_in()) {
             $view_data = [
-                'page_title' => 'User'
+                'page_title' => 'User',
+                'avatar' => user('cover_photo')
             ];
     
             $this->twig->display('user/index.html', $view_data);

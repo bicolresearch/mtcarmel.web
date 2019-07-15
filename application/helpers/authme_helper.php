@@ -1,13 +1,13 @@
 <?php
-/**
- * Authme Authentication Library
- *
- * @package Authentication
- * @category Libraries
- * @author Gilbert Pellegrom
- * @link http://dev7studios.com
- * @version 1.0
- */
+
+/*
+    Filename    : authme_helper.php
+    Location    : application/helpers/authme_helper.php
+    Purpose     : Authme authentication helper
+    Created     : 07/15/2019 11:29:25 by Spiderman
+    Updated     : 
+    Changes     : 
+*/
 
 function logged_in()
 {
@@ -25,9 +25,7 @@ function user($key = '')
 	$user = $CI->session->userdata('user');
 	if ($key && isset($user->$key)) {
         return $user->$key;
-    }
+	}
+	
     return $user;
 }
-
-/* End of file: authme_helper.php */
-/* Location: application/helpers/authme_helper.php */

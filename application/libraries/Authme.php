@@ -27,6 +27,7 @@ class Authme
         return $this->CI->session->userdata('logged_in');
     }
 
+    // GET request
     public function login($username, $password)
     {
         // Redirect to home if not ajax request
@@ -63,6 +64,7 @@ class Authme
                     'updated_by' => $user->id,
                     'dt_updated' => date('Y-m-d H:i:s')
                 ]);
+
                 return true;
             }
 

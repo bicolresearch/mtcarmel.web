@@ -44,26 +44,20 @@ class Auth extends CI_Controller
             ->set_error_delimiters('<li>', '</li>');
 
         if ($this->form_validation->run()) {
-            if ($this->authme->login(set_value('email'), set_value('password'))) {
-                $view_data = [
+            if($this->authme->login(set_value('email'), set_value('password'))) {
+                $response = [
                     'status' => true
                 ];
-                echo json_encode($view_data);
-            } else {
-                $view_data = [
-                    'status' => false,
-                    'response' => 'Unable to login, please double check your login credentials.',
-                ];
-                echo json_encode($view_data);
+                echo json_encode($response);
             }
         } else {
-            $view_data = [
+            $response = [
                 'status' => false,
-                'response' => validation_errors(),
+                'message' => validation_errors(),
                 'email' => form_error('email'),
                 'password' => form_error('password')
             ];
-            echo json_encode($view_data);
+            echo json_encode($response);
         }
     }
 
@@ -74,38 +68,56 @@ class Auth extends CI_Controller
         }
 
         $this->form_validation
+            ->set_rules('first_name', 'First Name', 'trim|required|max_length[20]|xss_clean', array('required' => '%s field is required.'))
+            ->set_rules('last_name', 'Last Name', 'trim|required|max_length[20]|xss_clean', array('required' => '%s field is required.'))
             ->set_rules('email', 'Email', 'trim|required|valid_email|is_unique[users.username]|xss_clean', array('required' => '%s field is required.'))
             ->set_rules('password', 'Password', 'trim|required|max_length[20]|xss_clean', array('required' => '%s field is required.'))
             ->set_rules('passconf', 'Password Confirmation', 'trim|required|matches[password]|max_length[20]|xss_clean', array('required' => '%s field is required.'))
             ->set_error_delimiters('<li>', '</li>');
 
         if ($this->form_validation->run()) {
-            
-            $data = [
-                'username' => $this->input->post('email'),
-                'password' => hash('sha512', $this->input->post('password')), 
-                'branch_id' => 1,
-                'role_id' => 2,
-                'created_by' => 1,
-                'dt_created' => date('Y-m-d H:i:s'),
+
+            // Create a client with a base URI
+            $client = $this->guzzle->client();
+
+            $options = [
+                'headers' => [
+                    'Content-Type' => 'application/x-www-form-urlencoded',
+                    'X-API-KEY' => $this->guzzle->key()
+                ],
+                'form_params' => [
+                    'first_name' => $this->input->post('first_name'),
+                    'last_name' => $this->input->post('last_name'),
+                    'email' => $this->input->post('email'),
+                    'password' => hash('sha512', $this->input->post('password')), 
+                    'branch_id' => 1,
+                    'role_id' => 2,
+                    'user_id' => 1
+                ]
             ];
 
-            $this->authme_model->_signup($data);
-            
-            $view_data = [
-                'status' => true,
-                'response' => 'Account created. <a href="javascript:void(0)" data-toggle="modal" data-target="#loginModal">Click here to login</a>'
-            ];
-            echo json_encode($view_data);
+            try {
+                // POST request
+                $response = $client->post('users/create', $options);  
+
+                // Return $response 
+                 echo $response->getBody()->getContents();
+            }
+            catch (GuzzleHttp\Exception\ClientException $e) {
+                $response = $e->getResponse();
+
+                // Return $response 
+                echo $response->getBody()->getContents();
+            }
         } else {
-            $view_data = [
+            $response = [
                 'status' => false,
-                'response' => validation_errors(),
+                'message' => validation_errors(),
                 'email' => form_error('email'),
                 'password' => form_error('password'),
                 'passconf' => form_error('passconf')
             ];
-            echo json_encode($view_data);
+            echo json_encode($response);
         }
     }
 
@@ -119,7 +131,7 @@ class Auth extends CI_Controller
     {
         switch ($this->role_id) {
             case 1:
-                redirect('admin/management/posts', 'refresh');
+                redirect('admin', 'refresh');
                 break;
             case 2:
                 redirect('user', 'refresh');

@@ -176,6 +176,20 @@
                     <div id="ajax-preloader"></div>
                     <div class="modal-body px-5">
                         <div id="ajax-response"></div>
+                        <div class="row">
+                            <div class="col-12 col-md-6 col-lg-6">
+                                <div class="form-group">
+                                    <label for="first-name">First Name</label>
+                                    <input type="text" class="form-control" id="first-name" name="first_name" value="{{ set_value('first_name') }}" placeholder="First Name">
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6 col-lg-6">
+                                <div class="form-group">
+                                    <label for="last-name">Last Name</label>
+                                    <input type="text" class="form-control" id="last-name" name="last_name" value="{{ set_value('last_name') }}" placeholder="First Name">
+                                </div>
+                            </div>
+                        </div>
                         <div class="form-group">
                             <label for="username">Email</label>
                             <input type="text" class="form-control" id="username" name="email" value="{{ set_value('email') }}" placeholder="Email" autocomplete="username">
@@ -213,14 +227,16 @@
                     this.bindForm();
                 },
                 bindForm: function () {
-                    $('#loginModal').on('shown.bs.modal', this.submitForm(), function(){
+                    $('#loginModal').on('show.bs.modal', this.submitForm(), function(){
                         // Clear the form
                         let el = $('#login-form');
                         el.find('#ajax-response').empty();
                         el.find('.form-control').removeClass('is-invalid');
                         el[0].reset();
-                        // Auto focus
-                        el.find('input[name="email"]').trigger('focus');
+                        $(this).on('shown.bs.modal', function(){
+                            // Auto focus
+                            el.find('input[name="email"]').trigger('focus');
+                        }) 
                     });
                 },
                 submitForm: function () {
@@ -263,7 +279,7 @@
                                     window.location.replace(baseURL + '/auth');
                                 } else {
                                     // Error msg response
-                                    el.find('#ajax-response').html('<div class="alert alert-danger"><ul>' + data.response + '</ul></div>');
+                                    el.find('#ajax-response').html('<div class="alert alert-danger"><ul>' + data.message + '</ul></div>');
                                     (Boolean(data.email)) ? el.find('#email').addClass('is-invalid') : el.find('#email').removeClass('is-invalid');
                                     (Boolean(data.password)) ? el.find('#password').addClass('is-invalid') : el.find('#password').removeClass('is-invalid');
 
@@ -287,14 +303,16 @@
                     this.bindForm();
                 },
                 bindForm: function () {
-                    $('#signupModal').on('shown.bs.modal', this.submitForm(), function(){
+                    $('#signupModal').on('show.bs.modal', this.submitForm(), function(){
                         // Clear the form
                         let el = $('#signup-form');
                         el.find('#ajax-response').empty();
                         el.find('.form-control').removeClass('is-invalid');
                         el[0].reset();
-                        // Auto focus
-                        el.find('input[name="email"]').trigger('focus');
+                        $(this).on('shown.bs.modal', function(){
+                            // Auto focus
+                            el.find('input[name="first_name"]').trigger('focus');
+                        }) 
                     });
                 },
                 submitForm: function () {
@@ -335,10 +353,12 @@
                                     el[0].reset();
 
                                     // Success msg response
-                                    el.find('#ajax-response').html('<div class="alert alert-success"><ul>' + data.response + '</ul></div>');
+                                    el.find('#ajax-response').html('<div class="alert alert-success"><ul>' + data.message + '</ul></div>');
                                 } else {
                                     // Error msg response
-                                    el.find('#ajax-response').html('<div class="alert alert-danger"><ul>' + data.response + '</ul></div>');
+                                    el.find('#ajax-response').html('<div class="alert alert-danger"><ul>' + data.message + '</ul></div>');
+                                    (Boolean(data.email)) ? el.find('#first-name').addClass('is-invalid') : el.find('#first-name').removeClass('is-invalid');
+                                    (Boolean(data.email)) ? el.find('#last-name').addClass('is-invalid') : el.find('#last-name').removeClass('is-invalid');
                                     (Boolean(data.email)) ? el.find('#username').addClass('is-invalid') : el.find('#username').removeClass('is-invalid');
                                     (Boolean(data.password)) ? el.find('#pass').addClass('is-invalid') : el.find('#pass').removeClass('is-invalid');
                                     (Boolean(data.passconf)) ? el.find('#passconf').addClass('is-invalid') : el.find('#passconf').removeClass('is-invalid');
