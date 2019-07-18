@@ -5,20 +5,17 @@
     Location    : application/controllers/admin/Ads.php
     Purpose     : Ads controller
     Created     : 07/11/2019 17:03:40 by Spiderman
-    Updated     : 07/12/2019 15:56:08 by Spiderman
-    Changes     : Implemented GET, POST, and PUT methods
+    Updated     : 07/17/2019 22:36:37 by Spiderman
+    Changes     : Fix avatar
 */
 
 defined('BASEPATH') or exit('No direct script access allowed');
 
 class Ads extends CI_Controller
 {
-    private $user_id;
-
     public function __construct()
     {
         parent::__construct();
-        $this->user_id = user('id');
     }
 
     public function index()
@@ -27,7 +24,7 @@ class Ads extends CI_Controller
             $view_data = [
                 'page_title' => 'Advertisements',
                 'page_subtitle' => 'list of advertisements',
-                'avatar' => user('cover_photo')
+                'user' => user()
             ];
     
             $this->twig->display('admin/ads.html', $view_data);

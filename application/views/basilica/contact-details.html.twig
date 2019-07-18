@@ -11,25 +11,15 @@
 {% block title %} {{ page_title }} | Mount Carmel {% endblock %}
 {% block contents %}
     <div id="contacts" class="row justify-content-center">
-        <div class="col-12 col-lg-8">
+        <div class="col-12 col-lg-10">
             <div class="card">
                 <div class="card-header">
                     <h3 class="card-title text-center">Parish Office</h3>
                 </div>
                 <div class="card-body">
-                    <dl class="row">
-                        <dt class="col-sm-6 text-right">Landline</dt>
-                        <dd id="landline" class="col-sm-6"></dd>
-
-                        <dt class="col-sm-6 text-right">Mobile</dt>
-                        <dd id="mobile" class="col-sm-6"></dd>
-
-                        <dt class="col-sm-6 text-right">Email Address</dt>
-                        <dd id="email" class="col-sm-6"></dd>
-
-                        <dt class="col-sm-6 text-right">Social Media</dt>
-                        <dd id="social" class="col-sm-6"></dd>
-                    </dl>
+                    <div id="details">
+                        <!-- This is where the contact details load -->
+                    </div>
                 </div>
             </div>
         </div>
@@ -39,15 +29,17 @@
 {% block custom_scripts %}
     <script>
         $(function () {
-            let baseURL = location.origin.toLowerCase();
-            let apiURL = 'https://api.mountcarmel.ph';
 
-            // GET: Contacts
-            let contacts = {
+            let baseURL = location.origin.toLowerCase() + '/mountcarmel.web';
+            let apiURL = location.origin.toLowerCase() + '/mountcarmel.api';
+
+            let app = {
                 init: function () {
-                    this.displayContacts();
+                    this.contacts();
                 },
-                displayContacts: function() {
+                // GET: Contacts
+                contacts: function() {
+
                     let el = $('#contacts');
                     let data = el.serialize();
 
@@ -60,10 +52,18 @@
                         processData: false,
                         success: function (data) {
                             if (data) {
-                                el.find('#landline').html(data[0].landline);
-                                el.find('#mobile').html(data[0].mobile);
-                                el.find('#email').html(data[0].email);
-                                el.find('#social').html(data[0].social_media);
+                                el.find('#details').html(
+                                    '<dl class="row">' +
+                                    '<dt class="col-sm-6 text-right">Landline</dt>' +
+                                    '<dd class="col-sm-6">' + data[0].landline + '</dd>' +
+                                    '<dt class="col-sm-6 text-right">Mobile</dt>' +
+                                    '<dd class="col-sm-6">' + data[0].mobile + '</dd>' +
+                                    '<dt class="col-sm-6 text-right">Email Address</dt>' +
+                                    '<dd class="col-sm-6">' + data[0].email + '</dd>' +
+                                    '<dt class="col-sm-6 text-right">Social Media</dt>' +
+                                    '<dd class="col-sm-6">' + data[0].social_media + '</dd>' +
+                                    '</dl>'
+                                );
                             }
                         },
                         error: function (jqXHR, textStatus, errorThrown) {
@@ -73,7 +73,7 @@
                 }
             };
 
-            contacts.init();
+            app.init();
         })
     </script>
 {% endblock %}

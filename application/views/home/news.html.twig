@@ -2,9 +2,9 @@
     Filename    : news.html.twig
     Location    : application/views/home/news.html.twig
     Purpose     : News partial page
-    Created     : 6/03/2019 by Spiderman
-    Updated     : 7/01/2019 by Spiderman
-    Changes     : Implement advertisement API
+    Created     : 06/03/2019 13:29:55 by Spiderman
+    Updated     : 07/17/2019 13:29:50 by Spiderman
+    Changes     : 
 #}
 
 {% extends 'base.html.twig' %}
@@ -12,7 +12,7 @@
 {% block contents %}
     <div class="row">
         <div id="media" class="col-12 col-lg-8">
-            <!-- News and updates -->
+            <!-- This is where the news feeds load -->
         </div>
         <div id="ads" class="col-12 col-lg-4">
             <div class="card">
@@ -21,7 +21,7 @@
                 </div>
                 <div class="card-body">
                     <div class="row">
-                        <!-- Advertisements -->
+                        <!-- This is where the ads load -->
                     </div>
                 </div>
             </div>
@@ -35,14 +35,17 @@
             let baseURL = location.origin.toLowerCase() + '/mountcarmel.web';
             let apiURL = location.origin.toLowerCase() + '/mountcarmel.api';
 
-            // GET: Posts
-            let posts = {
-                init: function () {
-                    this.displayPosts();
+            let app = {
+                init: function() {
+                    this.news();
+                    this.ads();
                 },
-                displayPosts: function () {
+                // GET: News feeds
+                news: function () {
+
                     let el = $('#media');
                     let data = el.serialize();
+
                     $.ajax({
                         url: apiURL + '/posts',
                         type: 'GET',
@@ -87,17 +90,13 @@
                             console.log('The following error occurred: ' + textStatus, errorThrown);
                         }
                     });
-                }
-            };
-
-            // GET: Advertisements
-            let ads = {
-                init: function () {
-                    this.displayAds();
                 },
-                displayAds: function() {
+                // GET: Advertisements
+                ads: function() {
+
                     let el = $('#ads');
                     let data = el.serialize();
+
                     $.ajax({
                         url: apiURL + '/ads',
                         type: 'GET',
@@ -121,10 +120,9 @@
                         }
                     });
                 }
-            };
+            }
 
-            posts.init();
-            ads.init();
+            app.init();
         })
     </script>
 {% endblock %}

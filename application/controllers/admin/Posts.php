@@ -5,8 +5,8 @@
     Location    : application/controllers/admin/Posts.php
     Purpose     : Posts controller
     Created     : 07/03/2019 15:09:39 by Spiderman
-    Updated     : 07/10/2019 19:09:10 by Spiderman
-    Changes     : Implemented GET, POST, and PUT methods
+    Updated     : 07/17/2019 22:36:37 by Spiderman
+    Changes     : Fix avatar
 */
 
 defined('BASEPATH') or exit('No direct script access allowed');
@@ -24,7 +24,7 @@ class Posts extends CI_Controller
             $view_data = [
                 'page_title' => 'Posts',
                 'page_subtitle' => 'list of posts',
-                'avatar' => user('cover_photo')
+                'user' => user()
             ];
     
             $this->twig->display('admin/posts.html', $view_data);

@@ -20,26 +20,6 @@ class Authme_Model extends CI_Model
         parent::__construct();
     }
 
-    public function _login($username, $password)
-    {
-
-        $query = $this->db->get_where('users', [
-            'username' => $username,
-            'password' => $password
-        ]);
-        
-        return ($query->num_rows()) ? $query->row() : false;
-    }
-
-    public function _signup($data)
-    {
-        $this->db->trans_begin();
-
-        $this->db->insert('users', $data);
-
-        ($this->db->trans_status() === false) ? $this->db->trans_rollback() : $this->db->trans_commit();
-    }
-
     public function _update($id, $data)
     {
         $this->db->trans_begin();

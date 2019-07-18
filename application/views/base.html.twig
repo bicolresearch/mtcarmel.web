@@ -27,7 +27,7 @@
             <div class="sidebar-content js-simplebar">
                 <a class="sidebar-brand" href="{{ base_url('home') }}">
                     <div class="logo">
-                        <img src="{{ base_url('public/assets/img/brands/mount-carmel-logo.svg') }}" alt="Mount Carmel Logo"/>
+                        <img src="{{ base_url('public/assets/images/brands/mount-carmel-logo.svg') }}" alt="Mount Carmel Logo"/>
                     </div>
                     <div class="logo-text">
                         <div class="title">Mount Carmel</div>
@@ -101,7 +101,7 @@
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle mr-0 pr-0" href="javascript:void(0)" data-toggle="dropdown">
-                                <img src="{{ base_url('public/assets/img/avatars/profile.svg') }}" class="avatar img-fluid rounded-circle mr-1" alt="Profile"/>
+                                <img src="{{ base_url('public/assets/images/avatars/profile.svg') }}" class="avatar img-fluid rounded-circle mr-1" alt="Profile"/>
                             </a>
                             <div class="dropdown-menu dropdown-menu-right">
                                 {% if x is empty %}
@@ -140,7 +140,7 @@
                     <div id="ajax-preloader"></div>
                     <div class="modal-body px-5">
                         <div class="logo text-center mb-4">
-                            <img src="{{ base_url('public/assets/img/brands/mount-carmel-logo.svg') }}" alt="Mount Carmel Logo"/>
+                            <img src="{{ base_url('public/assets/images/brands/mount-carmel-logo.svg') }}" alt="Mount Carmel Logo"/>
                         </div>
                         <div id="ajax-response"></div>
                         <div class="form-group">
@@ -357,8 +357,8 @@
                                 } else {
                                     // Error msg response
                                     el.find('#ajax-response').html('<div class="alert alert-danger"><ul>' + data.message + '</ul></div>');
-                                    (Boolean(data.email)) ? el.find('#first-name').addClass('is-invalid') : el.find('#first-name').removeClass('is-invalid');
-                                    (Boolean(data.email)) ? el.find('#last-name').addClass('is-invalid') : el.find('#last-name').removeClass('is-invalid');
+                                    (Boolean(data.first_name)) ? el.find('#first-name').addClass('is-invalid') : el.find('#first-name').removeClass('is-invalid');
+                                    (Boolean(data.last_name)) ? el.find('#last-name').addClass('is-invalid') : el.find('#last-name').removeClass('is-invalid');
                                     (Boolean(data.email)) ? el.find('#username').addClass('is-invalid') : el.find('#username').removeClass('is-invalid');
                                     (Boolean(data.password)) ? el.find('#pass').addClass('is-invalid') : el.find('#pass').removeClass('is-invalid');
                                     (Boolean(data.passconf)) ? el.find('#passconf').addClass('is-invalid') : el.find('#passconf').removeClass('is-invalid');

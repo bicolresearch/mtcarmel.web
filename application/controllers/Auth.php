@@ -68,8 +68,8 @@ class Auth extends CI_Controller
         }
 
         $this->form_validation
-            ->set_rules('first_name', 'First Name', 'trim|required|max_length[20]|xss_clean', array('required' => '%s field is required.'))
-            ->set_rules('last_name', 'Last Name', 'trim|required|max_length[20]|xss_clean', array('required' => '%s field is required.'))
+            ->set_rules('first_name', 'First Name', 'trim|required|max_length[50]|xss_clean', array('required' => '%s field is required.'))
+            ->set_rules('last_name', 'Last Name', 'trim|required|max_length[50]|xss_clean', array('required' => '%s field is required.'))
             ->set_rules('email', 'Email', 'trim|required|valid_email|is_unique[users.username]|xss_clean', array('required' => '%s field is required.'))
             ->set_rules('password', 'Password', 'trim|required|max_length[20]|xss_clean', array('required' => '%s field is required.'))
             ->set_rules('passconf', 'Password Confirmation', 'trim|required|matches[password]|max_length[20]|xss_clean', array('required' => '%s field is required.'))
@@ -90,9 +90,10 @@ class Auth extends CI_Controller
                     'last_name' => $this->input->post('last_name'),
                     'email' => $this->input->post('email'),
                     'password' => hash('sha512', $this->input->post('password')), 
-                    'branch_id' => 1,
-                    'role_id' => 2,
-                    'user_id' => 1
+                    'branch_id' => 1, // Main branch_id
+                    'role_id' => 2, // Default role_id
+                    'user_id' => 1, // Default created_by
+                    'media_id' => 14 // Default media_id (if no avatar selected)
                 ]
             ];
 
@@ -113,6 +114,8 @@ class Auth extends CI_Controller
             $response = [
                 'status' => false,
                 'message' => validation_errors(),
+                'first_name' => form_error('first_name'),
+                'last_name' => form_error('last_name'),
                 'email' => form_error('email'),
                 'password' => form_error('password'),
                 'passconf' => form_error('passconf')

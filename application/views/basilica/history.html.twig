@@ -18,7 +18,7 @@
                 </div>
                 <div class="card-body">
                     <div id="content">
-                        <!-- History -->
+                        <!-- This is where the history content load -->
                     </div>
                 </div>
             </div>
@@ -29,19 +29,9 @@
                     <h3 class="card-title text-center">Details</h3>
                 </div>
                 <div class="card-body">
-                    <dl class="row">
-                        <dt class="col-sm-6 text-right">Date of Establishment</dt>
-                        <dd id="dt-established" class="col-sm-6"></dd>
-
-                        <dt class="col-sm-6 text-right">Feast Day</dt>
-                        <dd id="feast-day" class="col-sm-6"></dd>
-
-                        <dt class="col-sm-6 text-right">Titular</dt>
-                        <dd id="titular" class="col-sm-6"></dd>
-
-                        <dt class="col-sm-6 text-right">Diocese</dt>
-                        <dd id="diocese" class="col-sm-6"></dd>
-                    </dl>
+                    <div id="details">
+                        <!-- This is where the history details load -->
+                    </div>
                 </div>
             </div>
         </div>
@@ -50,15 +40,17 @@
 {% block custom_scripts %}
     <script>
         $(function () {
-            let baseURL = location.origin.toLowerCase();
-            let apiURL = 'https://api.mountcarmel.ph';
 
-            // GET: History
-            let history = {
+            let baseURL = location.origin.toLowerCase() + '/mountcarmel.web';
+            let apiURL = location.origin.toLowerCase() + '/mountcarmel.api';
+
+            let app = {
                 init: function () {
-                    this.displayHistory();
+                    this.history();
                 },
-                displayHistory: function() {
+                // GET: history
+                history: function() {
+                    
                     let el = $('#history');
                     let data = el.serialize();
 
@@ -72,10 +64,18 @@
                         success: function (data) {
                             if (data) {
                                 el.find('#content').html(data[0].content);
-                                el.find('#dt-established').html(data[0].date_of_establishment);
-                                el.find('#feast-day').html(data[0].feast_day);
-                                el.find('#titular').html(data[0].titular);
-                                el.find('#diocese').html(data[0].diocese);
+                                el.find('#details').html(
+                                    '<dl class="row">' +
+                                    '<dt class="col-sm-6 text-right">Date of Establishment</dt>' +
+                                    '<dd class="col-sm-6">' + data[0].date_of_establishment + '</dd>' +
+                                    '<dt class="col-sm-6 text-right">Feast Day</dt>' +
+                                    '<dd class="col-sm-6">' + data[0].feast_day + '</dd>' +
+                                    '<dt class="col-sm-6 text-right">Titular</dt>' +
+                                    '<dd class="col-sm-6">' + data[0].titular + '</dd>' +
+                                    '<dt class="col-sm-6 text-right">Diocese</dt>' +
+                                    '<dd class="col-sm-6">' + data[0].diocese + '</dd>' +
+                                    '</dl>'
+                                );
                             }
                         },
                         error: function (jqXHR, textStatus, errorThrown) {
@@ -85,7 +85,7 @@
                 }
             };
 
-            history.init();
+            app.init();
         })
     </script>
 {% endblock %}

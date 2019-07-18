@@ -2,164 +2,93 @@
     Filename    : index.html.twig
     Location    : application/views/help/index.html.twig
     Purpose     : Send help partial page
-    Created     : 6/03/2019 by Sherlock Holmes
-    Updated     : 07/04/2019 16:33:24 by Scarlet Witch
-    Changes     : Changed the donation photos
+    Created     : 06/03/2019 23:00:04 by Spiderman
+    Updated     : 07/17/2019 22:59:49 by Spiderman
+    Changes     : Refactor UI
 #}
 
 {% extends 'base.html.twig' %}
 {% block title %} {{ page_title }} | Mount Carmel {% endblock %}
 {% block contents %}
-    <div class="row">
-        <div class="col-12">
-            <!-- Carousel -->
-            <div id="sendHelpCarouselCaptions" class="carousel slide" data-ride="carousel">
-                <ol class="carousel-indicators">
-                    <li data-target="#sendHelpCarouselCaptions" data-slide-to="0" class="active"></li>
-                    <li data-target="#sendHelpCarouselCaptions" data-slide-to="1"></li>
-                    <li data-target="#sendHelpCarouselCaptions" data-slide-to="2"></li>
-                    <li data-target="#sendHelpCarouselCaptions" data-slide-to="3"></li>
-                    <li data-target="#sendHelpCarouselCaptions" data-slide-to="4"></li>
-                </ol>
-                <div class="carousel-inner">
-                    <div class="carousel-item active">
-                        <img src="{{ base_url('public/assets/img/photos/Mount Carmel Basilica.jpg') }}" class="d-block w-100" alt="Mt. Carmel Shrine">
-                        <div class="carousel-caption d-none d-md-block">
-                            <div class="sendhelp-logo">
-                                <img src="{{ base_url('public/assets/img/icons/borderedlogobrown.svg') }}" style="width: 100px;" alt="Mt. Carmel Shrine">
-                            </div>
-                            <div class="sendhelp-title">
-                                <h3>Mt. Carmel Shrine</h3>
-                            </div>
-                            <div class="sendhelp-subtitle">
-                                <h4>Quezon City, Philippines</h4>
-                            </div>
-                            <div class="separator"></div>
-                            <div class="sendhelp-description">
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vehicula fermentum auctor.</p>
-                                <p>Aliquam pretium pretium est, ac suscipit felis tincidunt at. Suspendisse hendrerit, dolor sed imperdiet dictum, nibh sem condimentum metus, eget gravida est augue non arcu.</p>
-                            </div>
-                            <div class="sendhelp-button">
-                                <p class="text-center">
-                                    <a class="btn btn-lg btn-brown rounded-pill px-5" href="javascript:void(0)">Help Now</a>
+    <div class="row justify-content-center">
+        <div class="col-12 col-lg-10">
+            <div class="row">
+                <div class="col-12 p-0" style="height: 400px; background: url({{ base_url('public/assets/images/photos/mtcarmel1.jpg') }}) no-repeat top; background-size: cover;">
+                    <div class="card border border-0 h-100" style="background-color: rgba(255, 255, 255, .75);">
+                        <div class="card-body d-flex flex-column">
+                            <div class="mt-auto text-center">
+                                <img class="mb-2" src="{{ base_url('public/assets/images/brands/mount-carmel-logo.svg') }}" width="100px" alt="Mount Carmel Logo"/>
+                                <h5 class="card-title mb-2">Mt. Carmel Shrine</h5>
+                                <p class="card-text">
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vehicula fermentum auctor.<br/>
+                                    Aliquam pretium pretium est, ac suscipit felis tincidunt at. Suspendisse hendrerit, dolor sed imperdiet dictum, nibh sem condimentum metus, eget gravida est augue non
                                 </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="carousel-item">
-                        <img src="{{ base_url('public/assets/img/photos/Feeding Program.jpg') }}" class="d-block w-100" alt="Mt. Carmel Shrine">
-                        <div class="carousel-caption d-none d-md-block">
-                            <div class="sendhelp-logo">
-                                <img src="{{ base_url('public/assets/img/icons/borderedlogobrown.svg') }}" style="width: 100px;" alt="Mt. Carmel Shrine">
-                            </div>
-                            <div class="sendhelp-title">
-                                <h3>Feeding Program</h3>
-                            </div>
-                            <div class="sendhelp-subtitle">
-                                <h4>Quezon City, Philippines</h4>
-                            </div>                           
-                            <div class="separator"></div>
-                            <div class="sendhelp-description">
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vehicula fermentum auctor.</p>
-                                <p>Aliquam pretium pretium est, ac suscipit felis tincidunt at.</p>
-                            </div>
-                            <div class="sendhelp-button">
-                                <p class="text-center">
-                                    <a class="btn btn-lg btn-brown rounded-pill px-5" href="javascript:void(0)">Help Now</a>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="carousel-item">
-                        <img src="{{ base_url('public/assets/img/photos/Carefund.jpg') }}" class="d-block w-100" alt="Mt. Carmel Shrine">
-                        <div class="carousel-caption d-none d-md-block">
-                            <div class="sendhelp-logo">
-                                <img src="{{ base_url('public/assets/img/icons/borderedlogobrown.svg') }}" style="width: 100px;" alt="Mt. Carmel Shrine">
-                            </div>
-                            <div class="sendhelp-title">
-                                <h3>Carefund</h3>
-                            </div>
-                            <div class="sendhelp-subtitle">
-                                <h4>Quezon City, Philippines</h4>
-                            </div>                            
-                            <div class="separator"></div>
-                            <div class="sendhelp-description">
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vehicula fermentum auctor.</p>
-                                <p>Aliquam pretium pretium est, ac suscipit felis tincidunt at.</p>
-                            </div>
-                            <div class="sendhelp-button">
-                                <p class="text-center">
-                                    <a class="btn btn-lg btn-brown rounded-pill px-5" href="javascript:void(0)">Help Now</a>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="carousel-item">
-                        <img src="{{ base_url('public/assets/img/photos/Scholastics.JPG') }}" class="d-block w-100" alt="Mt. Carmel Shrine">
-                        <div class="carousel-caption d-none d-md-block">
-                            <div class="sendhelp-logo">
-                                <img src="{{ base_url('public/assets/img/icons/borderedlogobrown.svg') }}" style="width: 100px;" alt="Mt. Carmel Shrine">
-                            </div>
-                            <div class="sendhelp-title">
-                                <h3>Scholastics</h3>
-                            </div>
-                            <div class="sendhelp-subtitle">
-                                <h4>Quezon City, Philippines</h4>
-                            </div>                            
-                            <div class="separator"></div>
-                            <div class="sendhelp-description">
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                            </div>
-                            <div class="sendhelp-button">
-                                <p class="text-center">
-                                    <a class="btn btn-lg btn-brown rounded-pill px-5" href="javascript:void(0)">Help Now</a>
-                                </p>
-                            </div>
-                        </div>
-                    </div>                    
-                    <div class="carousel-item">
-                        <img src="{{ base_url('public/assets/img/photos/Fiesta.jpg') }}" class="d-block w-100" alt="Mt. Carmel Shrine">
-                        <div class="carousel-caption d-none d-md-block">
-                            <div class="sendhelp-logo">
-                                <img src="{{ base_url('public/assets/img/icons/borderedlogobrown.svg') }}" style="width: 100px;" alt="Mt. Carmel Shrine">
-                            </div>
-                            <div class="sendhelp-title">
-                                <h3>Fiesta</h3>
-                            </div>
-                            <div class="sendhelp-subtitle">
-                                <h4>Quezon City, Philippines</h4>
-                            </div>                            
-                            <div class="separator"></div>
-                            <div class="sendhelp-description">
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vehicula fermentum auctor.</p>
-                                <p>Aliquam pretium pretium est, ac suscipit felis tincidunt at.</p>
-                            </div>
-                            <div class="sendhelp-button">
-                                <p class="text-center">
-                                    <a class="btn btn-lg btn-brown rounded-pill px-5" href="javascript:void(0)">Help Now</a>
-                                </p>
+                                <button type="submit" class="btn btn-brown btn-lg rounded-pill px-5">Send Help</button>
                             </div>
                         </div>
                     </div>
                 </div>
-                <a class="carousel-control-prev" href="#sendHelpCarouselCaptions" role="button" data-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="sr-only">Previous</span>
-                </a>
-                <a class="carousel-control-next" href="#sendHelpCarouselCaptions" role="button" data-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="sr-only">Next</span>
-                </a>
+                <div class="col-12">
+                    <div class="row">
+                        <div class="col-6 p-0" style="height: 200px; background: url({{ base_url('public/assets/images/photos/care-fund.jpg') }}) no-repeat center; background-size: cover;">
+                            <div class="card border border-0 h-100" style="background-color: rgba(255, 255, 255, .10);">
+                                <div class="card-body d-flex flex-column">
+                                    <div class="mt-auto text-center">
+                                        <button type="submit" class="btn btn-brown rounded-pill px-3">Send Help</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6 p-0" style="height: 200px; background: url({{ base_url('public/assets/images/photos/scholastic.jpg') }}) no-repeat center; background-size: cover;">                           
+                            <div class="card border border-0 h-100" style="background-color: rgba(255, 255, 255, .10);">
+                                <div class="card-body d-flex flex-column">
+                                    <div class="mt-auto text-center">
+                                        <button type="submit" class="btn btn-brown rounded-pill px-3">Send Help</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6 p-0" style="height: 200px; background: url({{ base_url('public/assets/images/photos/xmas-gift.jpg') }}) no-repeat center; background-size: cover;">                           
+                            <div class="card border border-0 h-100" style="background-color: rgba(255, 255, 255, .10);">
+                                <div class="card-body d-flex flex-column">
+                                    <div class="mt-auto text-center">
+                                        <button type="submit" class="btn btn-brown rounded-pill px-3">Send Help</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6 p-0" style="height: 200px; background: url({{ base_url('public/assets/images/photos/feeding-program.jpg') }}) no-repeat center; background-size: cover;">                           
+                            <div class="card border border-0 h-100" style="background-color: rgba(255, 255, 255, .10);">
+                                <div class="card-body d-flex flex-column">
+                                    <div class="mt-auto text-center">
+                                        <button type="submit" class="btn btn-brown rounded-pill px-3">Send Help</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6 p-0" style="height: 200px; background: url({{ base_url('public/assets/images/photos/noche-buena.png') }}) no-repeat center; background-size: cover;">                           
+                            <div class="card border border-0 h-100" style="background-color: rgba(255, 255, 255, .10);">
+                                <div class="card-body d-flex flex-column">
+                                    <div class="mt-auto text-center">
+                                        <button type="submit" class="btn btn-brown rounded-pill px-3">Send Help</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6 p-0" style="height: 200px; background: url({{ base_url('public/assets/images/photos/mtcarmel1.jpg') }}) no-repeat center; background-size: cover;">                           
+                            <div class="card border border-0 h-100" style="background-color: rgba(255, 255, 255, .10);">
+                                <div class="card-body d-flex flex-column">
+                                    <div class="mt-auto text-center">
+                                        <button type="submit" class="btn btn-brown rounded-pill px-3">Send Help</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 {% endblock %}
 {% block custom_scripts %}
-    <script>
-        $(function() {
-            $(".carousel").carousel({
-                interval: 10000
-            });
-        });
-    </script>
 {% endblock %}

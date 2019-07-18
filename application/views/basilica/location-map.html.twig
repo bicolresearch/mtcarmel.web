@@ -2,9 +2,9 @@
     Filename    : location-map.html.twig
     Location    : application/views/basilica/location-map.html.twig
     Purpose     : Location map partial page
-    Created     : 6/03/2019 by Spiderman
-    Updated     : 7/01/2019 by Spiderman
-    Changes     : Changed commenting format
+    Created     : 06/03/2019 13:07:29 by Spiderman
+    Updated     : 07/17/2019 13:07:20 by Spiderman
+    Changes     : 
 #}
 
 {% extends 'base.html.twig' %}
@@ -18,7 +18,7 @@
                 </div>
                 <div class="card-body">
                     <div id="map">
-                        <!-- Map canvas -->
+                        <!-- This is where the location map load -->
                     </div>
                 </div>
             </div>
@@ -46,8 +46,7 @@
 {% endblock %}
 {% block custom_scripts %}
     <script>
-        // This map shows the boundaries
-        // of Mount Carmel Minor Basilica
+
         let baseURL = location.origin.toLowerCase() + '/mountcarmel.web';
         let apiURL = location.origin.toLowerCase() + '/mountcarmel.api';
 
@@ -96,13 +95,13 @@
             });
 
             let el = $('#map'); 
-            let boundariesCoords = el.serialize();
+            let boundaries = el.serialize();
 
             $.ajax({
                 url: baseURL + '/basilica/coords',
                 type: 'GET',
                 dataType: 'json',
-                data: boundariesCoords,
+                data: boundaries,
                 cache: false,
                 processData: false,
                 success: function (data) {

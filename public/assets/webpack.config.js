@@ -47,7 +47,7 @@ module.exports = {
     // Copy fonts and images to dist
     new CopyWebpackPlugin([
       { from: "src/fonts", to: "fonts" },
-      { from: "src/img", to: "img" }
+      { from: "src/images", to: "images" }
     ]),
     // Speed up webpack build
     new HardSourceWebpackPlugin(),
@@ -92,8 +92,8 @@ module.exports = {
             loader: "file-loader",
             options: {
               name: "[name].[ext]",
-              outputPath: "img/",
-              publicPath: "../img/"
+              outputPath: "images/",
+              publicPath: "../images/"
             }
           }
         ]
