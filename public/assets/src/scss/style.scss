@@ -485,7 +485,7 @@ a {
   animation: live 1.5s cubic-bezier(.5, 0, 1, 1) infinite alternate;
 
   &.indicator-online {
-    background-color: $success;
+    background-color: $danger;
   }
 
   &.indicator-offline {
