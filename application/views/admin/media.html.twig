@@ -1,9 +1,9 @@
 {#
-    Filename    : ads.html.twig
-    Location    : application/views/admin/ads.html.twig
-    Purpose     : Ads partial page
-    Created     : 07/11/2019 17:24:13 by Spiderman
-    Updated     : 07/22/2019 23:06:02 by Spiderman
+    Filename    : media.twig
+    Location    : application/views/admin/media.twig
+    Purpose     : Media partial page
+    Created     : 07/22/2019 16:54:47 by Spiderman
+    Updated     : 
     Changes     : 
 #}
 
@@ -34,9 +34,11 @@
                         <thead>
                             <tr>
                                 <th>#</th>
+                                <th></th>
                                 <th>Name</th>
-                                <th>Posted on</th>
-                                <th>Updated on</th>
+                                <th>Type</th>
+                                <th>Size</th>
+                                <th>Modified</th>
                                 <th></th>
                                 <th></th>
                             </tr>
@@ -59,7 +61,11 @@
             </div>
             <div class="form-group">
                 <label for="description">Description</label>
-                <textarea class="form-control" id="description" name="description" rows="4" maxlength="255"></textarea>
+                <textarea class="form-control" id="description" name="description" rows="2" maxlength="255"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="file-upload">File Upload</label>
+                <input type="file" class="form-control-file" id="file-upload" />
             </div>
         </div>
         <div class="modal-footer">
@@ -73,13 +79,42 @@
         <div id="ajax-preloader"></div>
         <div class="modal-body px-5">
             <input type="hidden" name="id">
-            <div class="form-group">
-                <label for="Name">Name</label>
-                <input type="text" class="form-control" id="name" name="name" value="{{ set_value('name') }}" />
-            </div>
-            <div class="form-group">
-                <label for="description">Description</label>
-                <textarea class="form-control" id="description" name="description" rows="4" maxlength="255"></textarea>
+            <div class="row">
+                <div class="col-12 col-lg-6">
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" class="form-control" id="name" name="name" value="{{ set_value('name') }}" />
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Description</label>
+                        <textarea class="form-control" id="description" name="description" rows="2" maxlength="255"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>File Name</label>
+                        <input type="text" readonly class="form-control-plaintext" name="file_name" />
+                    </div>
+                    <div class="form-group">
+                        <label>File Type</label>
+                        <input type="text" readonly class="form-control-plaintext" name="file_type" />
+                    </div>
+                    <div class="form-group">
+                        <label>File Path</label>
+                        <input type="text" readonly class="form-control-plaintext" name="file_path" />
+                    </div>
+                    <div class="form-group">
+                        <label>Full Path</label>
+                        <input type="text" readonly class="form-control-plaintext" name="full_path" />
+                    </div>
+                    <div class="form-group">
+                        <label>File Size</label>
+                        <input type="text" readonly class="form-control-plaintext" name="file_size" />
+                    </div>
+                </div>
+                <div class="col-12 col-lg-6">
+                    <div id="placeholder">
+                        <!-- This is where the image preview load -->
+                    </div>
+                </div>
             </div>
         </div>
         <div class="modal-footer">
@@ -93,6 +128,7 @@
         $(function () {
 
             let baseURL = location.origin.toLowerCase() + '/mountcarmel.web';
+            let apiURL = location.origin.toLowerCase() + '/mountcarmel.api';
             let isProcessing = false;
 
             // GET: Display all
@@ -109,7 +145,7 @@
                         "processing": true,
                         "serverSide": false,
                         "ajax": {
-                            "url": baseURL + "/admin/ads/advertisements",
+                            "url": baseURL + "/admin/media/media",
                             "type": "GET"
                         },
                         "columns": [
@@ -117,14 +153,17 @@
                                 "searchable": false,
                                 "data": null
                             },
-                            {"data": "name"},
                             {
-                                "data": "posted_on",
+                                "searchable": false,
+                                "data": "full_path",
                                 "mRender": function (data) {
-                                    return data
+                                    return '<img class="mx-auto d-block" src="'+ apiURL + '/' + data + '" width="32px" alt="' + data.name + '" />';
                                 }
                             },
-                            {"data": "updated_on"},
+                            {"data": "name"},
+                            {"data": "file_type"},
+                            {"data": "file_size"},
+                            {"data": "dt_updated"},
                             {
                                 "searchable": false,
                                 "data": "id",
@@ -143,7 +182,7 @@
                         "lengthMenu": [[10, 25, 50, 75, 100], [10, 25, 50, 75, 100]],
                         "order": [[2, "desc"]],
                         "columnDefs": [
-                            {"orderable": false, "targets": [0, 4, 5]}
+                            {"orderable": false, "targets": [0, 1, 6, 7]}
                         ],
                         "fnCreatedRow": function (row, data, index) {
                             $('td', row).eq(0).html(index + 1);
@@ -200,7 +239,7 @@
                         let data = el.serialize();
 
                         $.ajax({
-                            url: baseURL + '/admin/ads/advertisement/id/' + id,
+                            url: baseURL + '/admin/media/medium/id/' + id,
                             type: 'GET',
                             dataType: 'json',
                             data: data,
@@ -228,6 +267,12 @@
                                     el.find('input:hidden[name="id"]').val(data.id);
                                     el.find('input[name="name"]').val(data.name);
                                     el.find('textarea[name="description"]').html(data.description);
+                                    el.find('input[name="file_name"]').val(data.file_name);
+                                    el.find('input[name="file_type"]').val(data.file_type);
+                                    el.find('input[name="file_path"]').val(data.file_path);
+                                    el.find('input[name="full_path"]').val(data.full_path);
+                                    el.find('input[name="file_size"]').val(data.file_size);
+                                    el.find('#placeholder').html('<img class="img-fluid mx-auto d-block" src="' + apiURL + '/' + data.full_path + '" alt="' + data.name + '" />');
                                 }
                             },
                             error: function (jqXHR, textStatus, errorThrown) {

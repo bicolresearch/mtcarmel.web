@@ -104,7 +104,7 @@
                         success: function (data) {
                             if (data) {
                                 el.find('.profile').append(
-                                    '<img src="'+ apiURL +'/'+ data.avatar + '" alt="' + data.first_name + ' ' + data.last_name +'" class="img-fluid rounded-circle mr-1 avatar" />'
+                                    '<img class="img-fluid rounded-circle mr-1 avatar" src="' + apiURL + '/' + data.avatar + '" alt="' + data.first_name + ' ' + data.last_name + '" />'
                                 );
                             }
                         },

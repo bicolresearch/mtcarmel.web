@@ -42,6 +42,7 @@
                         <ul id="management" class="sidebar-dropdown list-unstyled collapse">
                             <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('admin/posts') }}">Posts</a></li>
                             <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('admin/ads') }}">Advertisements</a></li>
+                            <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('admin/media') }}">Media</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -188,7 +189,7 @@
                         success: function (data) {
                             if (data) {
                                 el.find('.profile').append(
-                                    '<img src="'+ apiURL +'/'+ data.avatar + '" alt="' + data.first_name + ' ' + data.last_name +'" class="img-fluid rounded-circle mr-1 avatar" />'
+                                    '<img class="img-fluid rounded-circle mr-1 avatar" src="' + apiURL +'/'+ data.avatar + '" alt="' + data.first_name + ' ' + data.last_name + '" />'
                                 );
                             }
                         },
