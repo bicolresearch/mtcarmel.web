@@ -116,51 +116,67 @@ class Media extends CI_Controller
             redirect('auth', 'refresh');
         }
 
-        $this->form_validation
-            ->set_rules('name', 'Name', 'trim|required|xss_clean')
-            ->set_rules('description', 'Description', 'trim|required|xss_clean')
-            ->set_error_delimiters('<li>', '</li>');
+        $config['upload_path']      = './public/assets/images/';
+        $config['allowed_types']    = 'gif|jpg|png';
+        $config['file_ext_tolower'] = TRUE;
+        $config['max_size']         = 2048; // 2MB
+        $config['remove_spaces']    = TRUE;
+        $config['detect_mime']      = TRUE;
+        $config['mod_mime_fix']     = TRUE;
 
-        if ($this->form_validation->run()) {
+        $this->load->library('upload', $config);
 
-            // Create a client with a base URI
-            $client = $this->guzzle->client();
+        // $this->form_validation
+        //     ->set_rules('name', 'Name', 'trim|required|xss_clean')
+        //     ->set_rules('description', 'Description', 'trim|required|xss_clean')
+        //     ->set_error_delimiters('<li>', '</li>');
 
-            $options = [
-                'headers' => [
-                    'Content-Type' => 'application/x-www-form-urlencoded',
-                    'X-API-KEY' => $this->guzzle->key()
-                ],
-                'form_params' => [
-                    'branch_id' => 1,
-                    'name' => $this->input->post('name'),
-                    'description' => $this->input->post('description'),
-                    'media_id' => 5,
-                    'user_id' => user('id')
-                ]
-            ];
+        if (!$this->upload->do_upload('userfile')) {
 
-            try {
-                // POST request
-                $response = $client->post('media/create', $options);  
-    
-                // Return $response  
-                echo $response->getBody()->getContents();
-            }
-            catch (GuzzleHttp\Exception\ClientException $e) {
-                $response = $e->getResponse();
-    
-                // Return $response 
-                echo $response->getBody()->getContents();
-            }
-        } else {
             $view_data = [
                 'status' => false,
-                'message' => validation_errors(),
+                'message' => $this->upload->display_errors(),
                 'name' => form_error('name'),
-                'description' => form_error('description')
+                'description' => form_error('description'),
+                'userfile' => form_error('userfile')
             ];
             echo json_encode($view_data);
+
+            // // Create a client with a base URI
+            // $client = $this->guzzle->client();
+
+            // $options = [
+            //     'headers' => [
+            //         'Content-Type' => 'multipart/form-data',
+            //         'X-API-KEY' => $this->guzzle->key()
+            //     ],
+            //     'multipart' => [
+            //         [
+            //             'branch_id' => 1,
+            //             'name' => $this->input->post('name'),
+            //             'description' => $this->input->post('description'),
+            //             'user_id' => user('id'),
+            //             'contents' => fopen($data['file_path'], 'r'),
+            //             'file_name' => $this->upload->data('file_name')
+            //         ]
+            //     ]
+            // ];
+
+            // try {
+            //     // POST request
+            //     $response = $client->post('media/create', $options);  
+    
+            //     // Return $response  
+            //     echo $response->getBody()->getContents();
+            // }
+            // catch (GuzzleHttp\Exception\ClientException $e) {
+            //     $response = $e->getResponse();
+    
+            //     // Return $response 
+            //     echo $response->getBody()->getContents();
+            // }
+        } else {
+            echo json_encode(array('upload_data' => $this->upload->data()));
         }
     }
 

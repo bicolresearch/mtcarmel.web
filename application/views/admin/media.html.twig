@@ -64,8 +64,8 @@
                 <textarea class="form-control" id="description" name="description" rows="2" maxlength="255"></textarea>
             </div>
             <div class="form-group">
-                <label for="file-upload">File Upload</label>
-                <input type="file" class="form-control-file" id="file-upload" />
+                <label for="userfile">File Upload</label>
+                <input type="file" class="form-control-file" id="userfile" name="userfile" />
             </div>
         </div>
         <div class="modal-footer">
@@ -157,7 +157,7 @@
                                 "searchable": false,
                                 "data": "full_path",
                                 "mRender": function (data) {
-                                    return '<img class="mx-auto d-block" src="'+ apiURL + '/' + data + '" width="32px" alt="' + data.name + '" />';
+                                    return '<img class="mx-auto d-block" src="'+ apiURL + '/' + data + '" height="32px" alt="' + data.name + '" />';
                                 }
                             },
                             {"data": "name"},
@@ -306,14 +306,17 @@
 
                         let el = $(this);
                         let btn = el.find('.btn-change-state');
-                        let data = el.serialize();
+                        let data = new FormData($(this)[0]);
+
+                        console.log(data);
                         
                         $.ajax({
-                            url: baseURL + '/admin/ads/create',
+                            url: baseURL + '/admin/media/create',
                             type: 'POST',
                             dataType: 'json',
                             data: data,
                             cache: false,
+                            contentType: false,
                             processData: false,
                             beforeSend: function () {
                                 el.find('#ajax-preloader').html(
@@ -351,7 +354,8 @@
                                 } else {
                                     // Form error
                                     (Boolean(data.name)) ? el.find('#name').addClass('is-invalid') : el.find('#name').removeClass('is-invalid');  
-                                    (Boolean(data.description)) ? el.find('#description').addClass('is-invalid') : el.find('#description').removeClass('is-invalid');   
+                                    (Boolean(data.description)) ? el.find('#description').addClass('is-invalid') : el.find('#description').removeClass('is-invalid');
+                                    (Boolean(data.userfile)) ? el.find('#userfile').addClass('is-invalid') : el.find('#userfile').removeClass('is-invalid');   
 
                                     // For debugging
                                     console.log(data.status);
