@@ -63,6 +63,7 @@ $autoload['libraries'] = array(
     'form_validation',
     'session',
     'email',
+    'upload',
     'authme',
     'datatables',
     'user_agent',
