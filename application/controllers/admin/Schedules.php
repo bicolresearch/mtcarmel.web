@@ -5,8 +5,8 @@
     Location    : application/controllers/admin/Schedules.php
     Purpose     : Schedules controller
     Created     : 07/23/2019 12:27:08 by Scarlet Witch
-    Updated     : 
-    Changes     : 
+    Updated     : 07/24/2019 19:30:29 by Scarlet Witch
+    Changes     : add fields
 */
 
 defined('BASEPATH') or exit('No direct script access allowed');
@@ -118,7 +118,10 @@ class Schedules extends CI_Controller
 
         $this->form_validation
             ->set_rules('name', 'Name', 'trim|required|xss_clean')
-            ->set_rules('description', 'Description', 'trim|required|xss_clean')
+            ->set_rules('description', 'Description', 'trim|required|xss_clean')            
+            ->set_rules('time_from', 'Time_from', 'trim|required|xss_clean')                              
+            ->set_rules('time_to', 'Time_to', 'trim|required|xss_clean')
+            ->set_rules('day', 'Day', 'trim|required|xss_clean')
             ->set_error_delimiters('<li>', '</li>');
 
         if ($this->form_validation->run()) {
@@ -135,7 +138,9 @@ class Schedules extends CI_Controller
                     'branch_id' => 1,
                     'name' => $this->input->post('name'),
                     'description' => $this->input->post('description'),
-                    'media_id' => 5,
+                    'time_from' => $this->input->post('time_from'),
+                    'time_to' => $this->input->post('time_to'),
+                    'day' => $this->input->post('day'),
                     'user_id' => user('id')
                 ],
                 'debug' => fopen('php://stderr', 'w')
@@ -190,6 +195,9 @@ class Schedules extends CI_Controller
             ->set_data($set_data)
             ->set_rules('name', 'name', 'trim|required|xss_clean')
             ->set_rules('description', 'description', 'trim|required|xss_clean')
+            ->set_rules('time_from', 'time_from', 'trim|required|xss_clean')
+            ->set_rules('time_to', 'time_to', 'trim|required|xss_clean')            
+            ->set_rules('day', 'day', 'trim|required|xss_clean')
             ->set_error_delimiters('<li>', '</li>');
 
         if ($this->form_validation->run()) {
