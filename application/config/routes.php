@@ -65,7 +65,7 @@ $route['mass-schedule'] = 'basilica/mass_schedule';
 $route['location-map'] = 'basilica/location_map';
 $route['carmelite-priests'] = 'basilica/carmelite_priests';
 $route['contact-details'] = 'basilica/contact_details';
-$route['history'] = 'basilica/history';
+$route['history-details'] = 'basilica/history_details';
 
 // Services
 $route['join-us'] = 'services/join_us';

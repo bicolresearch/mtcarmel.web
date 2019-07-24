@@ -192,4 +192,13 @@ class Management extends CI_Controller
         $this->twig->display('management/splash-ads.html', $view_data);
     }
 
+    public function history()
+    {
+        $view_data = [
+            'page_title' => 'History'
+        ];
+
+        $this->twig->display('management/history.html', $view_data);
+    }
+
 }

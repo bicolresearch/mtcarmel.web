@@ -56,13 +56,13 @@ class Basilica extends CI_Controller
         $this->twig->display('basilica/contact-details.html', $view_data);
     }
 
-    public function history()
+    public function history_details()
     {
         $view_data = [
             'page_title' => 'History'
         ];
 
-        $this->twig->display('basilica/history.html', $view_data);
+        $this->twig->display('basilica/history-details.html', $view_data);
     }
 
     public function coords()
