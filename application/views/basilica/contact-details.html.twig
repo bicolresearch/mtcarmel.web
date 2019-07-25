@@ -3,8 +3,8 @@
     Location    : application/views/basilica/contact-details.html.twig
     Purpose     : Contact details partial page
     Created     : 6/03/2019 by Spiderman
-    Updated     : 07/24/2019 15:45:45 by Scarlet Witch
-    Changes     : Update contacts details API URL
+    Updated     : 07/25/2019 13:10:13 by Scarlet Witch
+    Changes     : Update the baseURL and apiURL
 #}
 
 {% extends 'base.html.twig' %}
@@ -30,8 +30,8 @@
     <script>
         $(function () {
 
-            let baseURL = location.origin.toLowerCase() + '/mountcarmel.web';
-            let apiURL = location.origin.toLowerCase() + '/mountcarmel.api';
+            let baseURL = location.origin.toLowerCase();
+            let apiURL = 'https://api.mountcarmel.ph';
 
             let app = {
                 init: function () {

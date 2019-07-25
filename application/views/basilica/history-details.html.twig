@@ -1,16 +1,16 @@
 {#
-    Filename    : history.html.twig
-    Location    : application/views/basilica/history.html.twig
-    Purpose     : history partial page
+    Filename    : historyd.html.twig
+    Location    : application/views/basilica/historyd.html.twig
+    Purpose     : historyd partial page
     Created     : 6/03/2019 by Spiderman
-    Updated     : 7/01/2019 by Spiderman
-    Changes     : Implement history API
+    Updated     : 2019-07-25 13:08:58 by Scarlet Witch 
+    Changes     : Update the baseURL and apiURL
 #}
 
 {% extends 'base.html.twig' %}
 {% block title %} {{ page_title }} | Mount Carmel {% endblock %}
 {% block contents %}
-    <div id="history" class="row">
+    <div id="historyd" class="row">
         <div class="col-12 col-lg-8">
             <div class="card">
                 <div class="card-header">
@@ -18,7 +18,7 @@
                 </div>
                 <div class="card-body">
                     <div id="content">
-                        <!-- This is where the history content load -->
+                        <!-- This is where the historyd content load -->
                     </div>
                 </div>
             </div>
@@ -30,7 +30,7 @@
                 </div>
                 <div class="card-body">
                     <div id="details">
-                        <!-- This is where the history details load -->
+                        <!-- This is where the historyd details load -->
                     </div>
                 </div>
             </div>
@@ -41,17 +41,17 @@
     <script>
         $(function () {
 
-            let baseURL = location.origin.toLowerCase() + '/mountcarmel.web';
-            let apiURL = location.origin.toLowerCase() + '/mountcarmel.api';
+            let baseURL = location.origin.toLowerCase();
+            let apiURL = 'https://api.mountcarmel.ph';
 
             let app = {
                 init: function () {
-                    this.history();
+                    this.historyd();
                 },
-                // GET: history
-                history: function() {
+                // GET: historyd
+                historyd: function() {
                     
-                    let el = $('#history');
+                    let el = $('#historyd');
                     let data = el.serialize();
 
                     $.ajax({
