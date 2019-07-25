@@ -3,8 +3,9 @@
     Location    : application/views/base.html.twig
     Purpose     : Base template
     Created     : 06/03/2019 22:09:22 by Spiderman
-    Updated     : 07/12/2019 14:33:05 by Spiderman
-    Changes     : Add input auto focus in login and signup modal
+    Updated     : 07/25/2019 13:16:03 by Scarlet Witch
+    Changes     : Update the baseURL g
+    
 #}
 
 <!DOCTYPE html>
@@ -219,7 +220,8 @@
     <script>
         $(function () {
 
-            let baseURL = location.origin.toLowerCase() + '/mountcarmel.web';
+            //let baseURL = location.origin.toLowerCase() + '/mountcarmel.web';
+            let baseURL = location.origin.toLowerCase();
 
             // POST: Login
             let login = {
