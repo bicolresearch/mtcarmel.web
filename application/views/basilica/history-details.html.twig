@@ -1,7 +1,7 @@
 {#
     Filename    : history.html.twig
     Location    : application/views/basilica/history.html.twig
-    Purpose     : History partial page
+    Purpose     : history partial page
     Created     : 6/03/2019 by Spiderman
     Updated     : 7/01/2019 by Spiderman
     Changes     : Implement history API
@@ -55,7 +55,7 @@
                     let data = el.serialize();
 
                     $.ajax({
-                        url: apiURL + '/history',
+                        url: apiURL + '/history_details/id/1',
                         type: 'GET',
                         dataType: 'json',
                         data: data,
