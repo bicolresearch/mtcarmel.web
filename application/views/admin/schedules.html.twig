@@ -3,8 +3,8 @@
     Location    : application/views/admin/schedules.html.twig
     Purpose     : schedules page, , Implemented GET, POST, and PUT methods
     Created     : 07/23/2019 12:25:29 by Scarlet Witch
-    Updated     : 
-    Changes     : 
+    Updated     : 07/25/2019 13:32:56 by Scarlet Witch
+    Changes     : Update the baseURL
 #}
 
 
@@ -108,7 +108,8 @@
     <script>
         $(function () {
 
-            let baseURL = location.origin.toLowerCase() + '/mountcarmel.web';
+            //let baseURL = location.origin.toLowerCase() + '/mountcarmel.web';           
+            let baseURL = location.origin.toLowerCase();
             let isProcessing = false;
 
             // GET: Display all

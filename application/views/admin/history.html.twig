@@ -3,8 +3,8 @@
     Location    : application/views/admin/history.html.twig
     Purpose     : History page, , Implemented GET, POST, and PUT methods
     Created     : 2019-07-22 11:36:22 by Scarlet Witch 
-    Updated     : 
-    Changes     : 
+    Updated     : 07/25/2019 13:25:41 by Scarlet Witch
+    Changes     : Update the baseURL
 #}
 
 
@@ -109,7 +109,8 @@
     <script>
         $(function () {
 
-            let baseURL = location.origin.toLowerCase() + '/mountcarmel.web';
+            //let baseURL = location.origin.toLowerCase() + '/mountcarmel.web';            
+            let baseURL = location.origin.toLowerCase();
             let isProcessing = false;
 
             // GET: Display all

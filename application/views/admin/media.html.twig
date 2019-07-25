@@ -3,8 +3,8 @@
     Location    : application/views/admin/media.twig
     Purpose     : Media partial page
     Created     : 07/22/2019 16:54:47 by Spiderman
-    Updated     : 
-    Changes     : 
+    Updated     : 07/25/2019 13:30:18 by Scarlet Witch
+    Changes     : Update the baseURL and apiURL
 #}
 
 {% extends 'admin/base.html.twig' %}
@@ -127,8 +127,10 @@
     <script>
         $(function () {
 
-            let baseURL = location.origin.toLowerCase() + '/mountcarmel.web';
-            let apiURL = location.origin.toLowerCase() + '/mountcarmel.api';
+            //let baseURL = location.origin.toLowerCase() + '/mountcarmel.web';
+            //let apiURL = location.origin.toLowerCase() + '/mountcarmel.api';                       
+            let baseURL = location.origin.toLowerCase();            
+            let apiURL = 'https://api.mountcarmel.ph';
             let isProcessing = false;
 
             // GET: Display all

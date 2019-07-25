@@ -3,8 +3,8 @@
     Location    : application/views/admin/pastors.html.twig
     Purpose     : pastors page, Implemented GET, POST, and PUT methods
     Created     : 07/23/2019 13:23:24 by Scarlet Witch
-    Updated     : 
-    Changes     : 
+    Updated     : 07/25/2019 13:31:35 by Scarlet Witch
+    Changes     : Update the baseURL
 #}
 
 {% extends 'admin/base.html.twig' %}
@@ -95,7 +95,8 @@
     <script>
         $(function () {
 
-            let baseURL = location.origin.toLowerCase() + '/mountcarmel.web';
+            //let baseURL = location.origin.toLowerCase() + '/mountcarmel.web';                       
+            let baseURL = location.origin.toLowerCase();
             let isProcessing = false;
 
             // GET: Display all
