@@ -23,7 +23,7 @@ class Media extends CI_Controller
         if(logged_in()) {
             $view_data = [
                 'page_title' => 'Media',
-                'page_subtitle' => '',
+                'page_subtitle' => 'Media Manager',
                 'user' => user()
             ];
     
@@ -116,67 +116,80 @@ class Media extends CI_Controller
             redirect('auth', 'refresh');
         }
 
-        $config['upload_path']      = './public/assets/images/';
-        $config['allowed_types']    = 'gif|jpg|png';
-        $config['file_ext_tolower'] = TRUE;
-        $config['max_size']         = 2048; // 2MB
-        $config['remove_spaces']    = TRUE;
-        $config['detect_mime']      = TRUE;
-        $config['mod_mime_fix']     = TRUE;
+        $this->form_validation
+            ->set_rules('name', 'Name', 'trim|required|xss_clean')
+            ->set_rules('description', 'Description', 'trim|required|xss_clean')
+            ->set_error_delimiters('<li>', '</li>');
+        if (empty($_FILES['userfile']['name'])){
+            $this->form_validation->set_rules('userfile', 'Image', 'required');
+        }
 
-        $this->load->library('upload', $config);
+        if ($this->form_validation->run()) {
 
-        // $this->form_validation
-        //     ->set_rules('name', 'Name', 'trim|required|xss_clean')
-        //     ->set_rules('description', 'Description', 'trim|required|xss_clean')
-        //     ->set_error_delimiters('<li>', '</li>');
+            if (!empty($_FILES['userfile']['name'])) {
+                
+                $this->_set_upload_config('bmp|jpg|gif|png', 10240, 0, 0);
 
-        if (!$this->upload->do_upload('userfile')) {
+                if ($this->upload->do_upload('userfile')) {
 
+                    $data = $this->upload->data();
+
+                    // Create a client with a base URI
+                    $client = $this->guzzle->client();
+        
+                    $options = [
+                        'headers' => [
+                            'Content-Type' => 'application/x-www-form-urlencoded',
+                            'X-API-KEY' => $this->guzzle->key()
+                        ],
+                        'form_params' => [
+                            'branch_id' => 1,
+                            'name' => $this->input->post('name'),
+                            'description' => $this->input->post('description'),
+                            'file_name' => $data['file_name'],
+                            'file_type' => $data['file_type'],
+                            'file_ext' => $data['file_ext'],
+                            'file_size' => $data['file_size'],
+                            'file_path' => $data['file_path'],
+                            'full_path' => $data['full_path'],
+                            'base64' => $this->image_to_base64($data['file_type'], $data['full_path']),
+                            'user_id' => user('id')
+                        ]
+                    ];
+
+                    try {
+                        // POST request
+                        $response = $client->post('media/create', $options);  
+            
+                        // Return $response  
+                        echo $response->getBody()->getContents();
+
+                        // Delete file after successfull upload
+                        @unlink($data['full_path']);
+                    }
+                    catch (GuzzleHttp\Exception\ClientException $e) {
+                        $response = $e->getResponse();
+            
+                        // Return $response 
+                        echo $response->getBody()->getContents();
+                    }
+                } else {
+                    $view_data = [
+                        'status' => false,
+                        'message' => $this->upload->display_errors('<li>', '</li>')
+                    ];
+                    echo json_encode($view_data);
+                }
+            }
+        } else {
             $view_data = [
                 'status' => false,
-                'message' => $this->upload->display_errors(),
+                'message' => validation_errors(),
                 'name' => form_error('name'),
                 'description' => form_error('description'),
                 'userfile' => form_error('userfile')
             ];
             echo json_encode($view_data);
-
-            // // Create a client with a base URI
-            // $client = $this->guzzle->client();
-
-            // $options = [
-            //     'headers' => [
-            //         'Content-Type' => 'multipart/form-data',
-            //         'X-API-KEY' => $this->guzzle->key()
-            //     ],
-            //     'multipart' => [
-            //         [
-            //             'branch_id' => 1,
-            //             'name' => $this->input->post('name'),
-            //             'description' => $this->input->post('description'),
-            //             'user_id' => user('id'),
-            //             'contents' => fopen($data['file_path'], 'r'),
-            //             'file_name' => $this->upload->data('file_name')
-            //         ]
-            //     ]
-            // ];
-
-            // try {
-            //     // POST request
-            //     $response = $client->post('media/create', $options);  
-    
-            //     // Return $response  
-            //     echo $response->getBody()->getContents();
-            // }
-            // catch (GuzzleHttp\Exception\ClientException $e) {
-            //     $response = $e->getResponse();
-    
-            //     // Return $response 
-            //     echo $response->getBody()->getContents();
-            // }
-        } else {
-            echo json_encode(array('upload_data' => $this->upload->data()));
         }
     }
 
@@ -282,5 +295,25 @@ class Media extends CI_Controller
             // Return $response 
             echo $response->getBody()->getContents();
         }
+    }
+
+    // TODO: This should be in the custom helper
+    private function _set_upload_config($type, $max_size, $max_width, $max_height)
+    {
+        $config['upload_path']      = './public/assets/images/';
+        $config['allowed_types']    = $type;
+        $config['max_size']         = $max_size;
+        $config['max_width']        = $max_width;
+        $config['max_height']       = $max_height;
+        $config['file_ext_tolower'] = TRUE;
+        $config['overwrite']        = TRUE;
+        $config['detect_mime']      = TRUE;
+        $config['mod_mime_fix']     = TRUE;
+
+        return $this->upload->initialize($config);
+    }
+
+    private function image_to_base64($file_type, $full_path) {
+        return 'data:' . $file_type . ';base64,' . base64_encode(file_get_contents($full_path));
     }
 }

@@ -54,7 +54,7 @@
     <form id="create-form">
         <div id="ajax-preloader"></div>
         <div class="modal-body px-5">
-            <input type="hidden" name="id">
+            <div id="ajax-response"></div>
             <div class="form-group">
                 <label for="name">Name</label>
                 <input type="text" class="form-control" id="name" name="name" value="{{ set_value('name') }}" />
@@ -155,9 +155,9 @@
                             },
                             {
                                 "searchable": false,
-                                "data": "full_path",
+                                "data": "file_name",
                                 "mRender": function (data) {
-                                    return '<img class="mx-auto d-block" src="'+ apiURL + '/' + data + '" height="32px" alt="' + data.name + '" />';
+                                    return '<img class="mx-auto d-block" src="' + apiURL + '/public/assets/images/' + data + '" height="32px" alt="' + data + '" />';
                                 }
                             },
                             {"data": "name"},
@@ -272,7 +272,7 @@
                                     el.find('input[name="file_path"]').val(data.file_path);
                                     el.find('input[name="full_path"]').val(data.full_path);
                                     el.find('input[name="file_size"]').val(data.file_size);
-                                    el.find('#placeholder').html('<img class="img-fluid mx-auto d-block" src="' + apiURL + '/' + data.full_path + '" alt="' + data.name + '" />');
+                                    el.find('#placeholder').html('<img class="img-fluid mx-auto d-block" src="' + data.full_path + '" alt="' + data.name + '" />');
                                 }
                             },
                             error: function (jqXHR, textStatus, errorThrown) {
@@ -289,26 +289,32 @@
                     this.bindForm();
                 },
                 bindForm: function () {
-                    $('#create').on('shown.bs.modal', this.submitForm(), function(){
+                    $('#create').on('show.bs.modal', this.submitForm(), function(){
                         // Reset form
                         $(this).find('form').each(function() { this.reset() });
                         $(this).find('.form-control').removeClass('is-invalid');
+                        $(this).find('#ajax-response').empty();
                         // Auto focus
-                        $(this).find('input').trigger('focus');
+                        $(this).on('shown.bs.modal', function(){
+                            $(this).find('input[name="name"]').trigger('focus');
+                        }) 
                     });
                 },
                 submitForm: function() {
                     // Prevent multiple ajax request
-                    if (isProcessing) return;
-                    isProcessing = true;
+                    //if (isProcessing) return;
+                    //isProcessing = true;
 
                     $('#create-form').on('submit', function(e){
 
                         let el = $(this);
                         let btn = el.find('.btn-change-state');
-                        let data = new FormData($(this)[0]);
+                        let data = new FormData(el[0]);
 
-                        console.log(data);
+                        // For debugging.
+                        for (var [key, value] of data.entries()) {
+                            console.log(key, value);
+                        }
                         
                         $.ajax({
                             url: baseURL + '/admin/media/create',
@@ -345,14 +351,15 @@
                                     $('#create').modal('hide');
 
                                     // Show and append notif msg  
-                                    $('#notif').modal('show').find('.modal-body p').text('A new ads has been published');
+                                    $('#notif').modal('show').find('.modal-body p').text('A new media has been uploaded');
                                     
                                     // Hide notif after (x) number of seconds 
                                     setTimeout(function(){ 
                                         $('#notif').modal('hide');
                                     }, 3000);
                                 } else {
-                                    // Form error
+                                    // Error msg response
+                                    el.find('#ajax-response').html('<div class="alert alert-danger"><ul>' + data.message + '</ul></div>');
                                     (Boolean(data.name)) ? el.find('#name').addClass('is-invalid') : el.find('#name').removeClass('is-invalid');  
                                     (Boolean(data.description)) ? el.find('#description').addClass('is-invalid') : el.find('#description').removeClass('is-invalid');
                                     (Boolean(data.userfile)) ? el.find('#userfile').addClass('is-invalid') : el.find('#userfile').removeClass('is-invalid');   
@@ -424,7 +431,7 @@
                                     $('#update').modal('hide');
 
                                     // Show and append notif msg  
-                                    $('#notif').modal('show').find('.modal-body p').text('Ads #' + id + ' has been updated');
+                                    $('#notif').modal('show').find('.modal-body p').text('Record #' + id + ' has been updated');
                                     
                                     // Hide notif after (x) number of seconds 
                                     setTimeout(function(){ 
@@ -458,7 +465,7 @@
                     $('#delete').on('show.bs.modal', this.submitForm(), function(e){
                         $(this).find('#ajax-response').empty();
                         $(this).find('input:hidden[name="id"]').val($(e.relatedTarget).data('param'));
-                        $(this).find('.modal-body p').text('Are you sure you want to delete ads #' + $(e.relatedTarget).data('param') + '?');
+                        $(this).find('.modal-body p').text('Are you sure you want to delete record #' + $(e.relatedTarget).data('param') + '?');
                     });
                 },
                 submitForm: function() {
@@ -469,7 +476,7 @@
                         let data = el.serialize();
                     
                         $.ajax({
-                            url: baseURL + '/admin/ads/delete/id/' + id,
+                            url: baseURL + '/admin/media/delete/id/' + id,
                             type: 'PUT',
                             dataType: 'json',
                             data: data,
@@ -502,7 +509,7 @@
                                     $('#delete').modal('hide');
 
                                     // Show and append notif msg  
-                                    $('#notif').modal('show').find('.modal-body p').text('Ads #' + id + ' has been moved to trash');
+                                    $('#notif').modal('show').find('.modal-body p').text('Record #' + id + ' has been moved to trash');
                                     
                                     // Hide notif after (x) number of seconds 
                                     setTimeout(function(){ 

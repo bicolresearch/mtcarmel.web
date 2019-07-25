@@ -63,7 +63,6 @@ $autoload['libraries'] = array(
     'form_validation',
     'session',
     'email',
-    'upload',
     'authme',
     'datatables',
     'user_agent',
@@ -71,7 +70,8 @@ $autoload['libraries'] = array(
     'fpdf',
     'ciqrcode',
     'twig',
-    'guzzle'
+    'guzzle',
+    'upload'
 );
 
 /*

@@ -189,7 +189,7 @@
                         success: function (data) {
                             if (data) {
                                 el.find('.profile').append(
-                                    '<img class="img-fluid rounded-circle mr-1 avatar" src="' + apiURL +'/'+ data.avatar + '" alt="' + data.first_name + ' ' + data.last_name + '" />'
+                                    '<img class="img-fluid rounded-circle mr-1 avatar" src="' + apiURL + '/public/assets/images/' + data.avatar + '" alt="' + data.first_name + ' ' + data.last_name + '" />'
                                 );
                             }
                         },
