@@ -145,11 +145,11 @@
 {% endblock %}
 
 {% block notif %}
-    <div class="modal fade" id="notif" tabindex="-1" data-backdrop="static" role="dialog" aria-labelledby="deleteModalTitle" aria-hidden="true">
+    <div class="modal fade" id="notif" tabindex="-1" data-backdrop="static" role="dialog" aria-labelledby="notifModalTitle" aria-hidden="true">
         <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h3 class="modal-title" id="deleteModalTitle">Notification</h3>
+                    <h3 class="modal-title" id="notifModalTitle">Notification</h3>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <i data-feather="x"></i>
                     </button>
@@ -159,6 +159,25 @@
                     <p class="text-center m-0">
                         <!-- Notif message --> 
                     </p>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block gallery %}
+    <div class="modal fade" id="gallery" tabindex="-1" data-backdrop="static" role="dialog" aria-labelledby="galleryModalTitle" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title" id="galleryModalTitle">Media Gallery</h3>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <i data-feather="x"></i>
+                    </button>
+                </div>
+                <div id="ajax-preloader"></div>
+                <div class="modal-body p-5">
+
                 </div>
             </div>
         </div>
@@ -195,7 +214,7 @@
                         success: function (data) {
                             if (data) {
                                 el.find('.profile').append(
-                                    '<img class="img-fluid rounded-circle mr-1 avatar" src="' + apiURL + '/public/assets/images/' + data.avatar + '" alt="' + data.first_name + ' ' + data.last_name + '" />'
+                                    '<img class="img-fluid rounded-circle mr-1 avatar" src="' + apiURL + '/' + data.avatar + '" alt="' + data.first_name + ' ' + data.last_name + '" />'
                                 );
                             }
                         },

@@ -52,13 +52,23 @@
     <form id="create-form">
         <div id="ajax-preloader"></div>
         <div class="modal-body px-5">
-            <div class="form-group">
-                <label for="name">Name</label>
-                <input type="text" class="form-control" id="name" name="name" value="{{ set_value('name') }}" />
-            </div>
-            <div class="form-group">
-                <label for="description">Description</label>
-                <textarea class="form-control" id="description" name="description" rows="4" maxlength="255"></textarea>
+            <div id="ajax-response"></div>
+            <div class="row">
+                <div class="col-12 col-lg-6">
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" class="form-control" id="name" name="name" value="{{ set_value('name') }}" />
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Description</label>
+                        <textarea class="form-control" id="description" name="description" rows="4" maxlength="255"></textarea>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-6">
+                    <div id="placeholder">
+                        <!-- This is where the image preview load -->
+                    </div>
+                </div>
             </div>
         </div>
         <div class="modal-footer">
@@ -72,13 +82,26 @@
         <div id="ajax-preloader"></div>
         <div class="modal-body px-5">
             <input type="hidden" name="id">
-            <div class="form-group">
-                <label for="Name">Name</label>
-                <input type="text" class="form-control" id="name" name="name" value="{{ set_value('name') }}" />
-            </div>
-            <div class="form-group">
-                <label for="description">Description</label>
-                <textarea class="form-control" id="description" name="description" rows="4" maxlength="255"></textarea>
+            <div id="ajax-response"></div>
+            <div class="row">
+                <div class="col-12 col-lg-6">
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" class="form-control" id="name" name="name" value="{{ set_value('name') }}" />
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Description</label>
+                        <textarea class="form-control" id="description" name="description" rows="4" maxlength="255"></textarea>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-6">
+                    <div id="placeholder" class="mb-2">
+                        <!-- This is where the image preview load -->
+                    </div>
+                    <div class="form-group text-center">
+                        <a class="btn btn-sm btn-brown rounded-pill px-3" href="#gallery" data-toggle="modal"><i class="align-middle" data-feather="edit-3"></i> Change Logo</a>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="modal-footer">
@@ -92,6 +115,7 @@
         $(function () {
 
             let baseURL = location.origin.toLowerCase() + '/mountcarmel.web';
+            let apiURL = location.origin.toLowerCase() + '/mountcarmel.api';
             let isProcessing = false;
 
             // GET: Display all
@@ -114,7 +138,7 @@
                         "columns": [
                             {
                                 "searchable": false,
-                                "data": null
+                                "data": "id"
                             },
                             {"data": "name"},
                             {
@@ -128,25 +152,22 @@
                                 "searchable": false,
                                 "data": "id",
                                 "mRender": function (data) {
-                                    return '<a data-toggle="modal" data-param="' + data + '" data-toggle="tooltip" data-placement="top" title="Update" href="#update"><i class="align-middle material-icons md-22">mode_edit</i></a>';
+                                    return '<a href="#update" data-toggle="modal" data-param="' + data + '" data-toggle="tooltip" data-placement="top" title="Update" ><i class="align-middle material-icons md-22">mode_edit</i></a>';
                                 }
                             },
                             {
                                 "searchable": false,
                                 "data": "id",
                                 "mRender": function (data) {
-                                    return '<a data-toggle="modal" data-param="' + data + '" data-toggle="tooltip" data-placement="top" title="Delete" href="#delete"><i class="align-middle material-icons md-22">remove_circle_outline</i></a>';
+                                    return '<a href="#delete" data-toggle="modal" data-param="' + data + '" data-toggle="tooltip" data-placement="top" title="Delete"><i class="align-middle material-icons md-22">remove_circle_outline</i></a>';
                                 }
                             }
                         ],
                         "lengthMenu": [[10, 25, 50, 75, 100], [10, 25, 50, 75, 100]],
-                        "order": [[2, "desc"]],
+                        "order": [[0, "desc"]],
                         "columnDefs": [
-                            {"orderable": false, "targets": [0, 4, 5]}
+                            {"orderable": false, "targets": [4, 5]}
                         ],
-                        "fnCreatedRow": function (row, data, index) {
-                            $('td', row).eq(0).html(index + 1);
-                        },
                         "responsive": true,
                         "language": {
                             "decimal": "",
@@ -194,6 +215,7 @@
                         // Reset form
                         el.find('form').each(function() { this.reset() });
                         el.find('.form-control').removeClass('is-invalid');
+                        el.find('#ajax-response').empty();
 
                         let id = $(e.relatedTarget).data('param');
                         let data = el.serialize();
@@ -227,6 +249,7 @@
                                     el.find('input:hidden[name="id"]').val(data.id);
                                     el.find('input[name="name"]').val(data.name);
                                     el.find('textarea[name="description"]').html(data.description);
+                                    el.find('#placeholder').html('<img class="img-fluid mx-auto d-block" src="' + apiURL + '/' + data.full_path + '" alt="' + data.name + '" />');
                                 }
                             },
                             error: function (jqXHR, textStatus, errorThrown) {
@@ -243,12 +266,15 @@
                     this.bindForm();
                 },
                 bindForm: function () {
-                    $('#create').on('shown.bs.modal', this.submitForm(), function(){
+                    $('#create').on('show.bs.modal', this.submitForm(), function(){
                         // Reset form
                         $(this).find('form').each(function() { this.reset() });
                         $(this).find('.form-control').removeClass('is-invalid');
+                        $(this).find('#ajax-response').empty();
                         // Auto focus
-                        $(this).find('input').trigger('focus');
+                        $(this).on('shown.bs.modal', function(){
+                            $(this).find('input[name="name"]').trigger('focus');
+                        }) 
                     });
                 },
                 submitForm: function() {
@@ -303,12 +329,10 @@
                                         $('#notif').modal('hide');
                                     }, 3000);
                                 } else {
-                                    // Form error
+                                    // Error msg response
+                                    el.find('#ajax-response').html('<div class="alert alert-danger"><ul>' + data.message + '</ul></div>');
                                     (Boolean(data.name)) ? el.find('#name').addClass('is-invalid') : el.find('#name').removeClass('is-invalid');  
                                     (Boolean(data.description)) ? el.find('#description').addClass('is-invalid') : el.find('#description').removeClass('is-invalid');   
-
-                                    // For debugging
-                                    console.log(data.status);
                                 }
                             },
                             error: function (jqXHR, textStatus, errorThrown) {
@@ -329,8 +353,8 @@
                 bindForm: function () {
                     $('#update').on('show.bs.modal', this.submitForm(), function(){
                         // Reset form
-                        $(this).find('form').each(function() { this.reset() });
                         $(this).find('.form-control').removeClass('is-invalid');
+                        $(this).find('#ajax-response').empty();
                     });
                 },
                 submitForm: function() {
@@ -381,12 +405,10 @@
                                         $('#notif').modal('hide');
                                     }, 3000);
                                 } else {
-                                    // Form error
+                                    // Error msg response
+                                    el.find('#ajax-response').html('<div class="alert alert-danger"><ul>' + data.message + '</ul></div>');
                                     (Boolean(data.name)) ? el.find('#name').addClass('is-invalid') : el.find('#name').removeClass('is-invalid');  
                                     (Boolean(data.description)) ? el.find('#description').addClass('is-invalid') : el.find('#description').removeClass('is-invalid'); 
-                                   
-                                    // For debugging
-                                    console.log(data.status);
                                }
                             },
                             error: function (jqXHR, textStatus, errorThrown) {
@@ -406,7 +428,6 @@
                 },
                 bindForm: function () {
                     $('#delete').on('show.bs.modal', this.submitForm(), function(e){
-                        $(this).find('#ajax-response').empty();
                         $(this).find('input:hidden[name="id"]').val($(e.relatedTarget).data('param'));
                         $(this).find('.modal-body p').text('Are you sure you want to delete ads #' + $(e.relatedTarget).data('param') + '?');
                     });
@@ -473,6 +494,14 @@
                     });
                 }
             }
+
+            $('#gallery').on('show.bs.modal', function(){
+                $('#update').modal('hide');
+            });
+
+            $('#gallery').on('hide.bs.modal', function(){
+                $('#update').modal('show');
+            });
 
             getAll.init();
             getById.init();

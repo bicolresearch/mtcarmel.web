@@ -5,8 +5,8 @@
     Location    : application/controllers/admin/Ads.php
     Purpose     : Ads controller
     Created     : 07/11/2019 17:03:40 by Spiderman
-    Updated     : 07/17/2019 22:36:37 by Spiderman
-    Changes     : Fix avatar
+    Updated     : 07/25/2019 18:56:57 by Spiderman
+    Changes     : 
 */
 
 defined('BASEPATH') or exit('No direct script access allowed');
@@ -135,10 +135,9 @@ class Ads extends CI_Controller
                     'branch_id' => 1,
                     'name' => $this->input->post('name'),
                     'description' => $this->input->post('description'),
-                    'media_id' => 5,
+                    'media_id' => $this->input->post('media_id'),
                     'user_id' => user('id')
-                ],
-                'debug' => fopen('php://stderr', 'w')
+                ]
             ];
 
             try {
@@ -162,7 +161,6 @@ class Ads extends CI_Controller
                 'description' => form_error('description')
             ];
             echo json_encode($view_data);
-
             //echo $this->form_validation->get_json();
         }
     }
@@ -177,7 +175,8 @@ class Ads extends CI_Controller
 
         $set_data = array(
             'name' => $this->input->put('name'),
-            'description' => $this->input->put('description')
+            'description' => $this->input->put('description'),
+            'media_id' => $this->input->put('media_id')
         );
 
         $this->form_validation
@@ -200,13 +199,13 @@ class Ads extends CI_Controller
                     'branch_id' => 1,
                     'name' => $this->input->put('name'),
                     'description' => $this->input->put('description'),
-                    'media_id' => 5,
+                    'media_id' => $this->input->put('media_id'),
                     'user_id' => user('id')
                 ]
             ];
 
             try {
-
+                // Get the id parameter
                 $id = $this->uri->segment(5);
 
                 // PUT request
@@ -254,7 +253,7 @@ class Ads extends CI_Controller
         ];
         
         try {
-
+            // Get the id parameter
             $id = $this->uri->segment(5);
 
             // PUT request
