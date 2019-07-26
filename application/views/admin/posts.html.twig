@@ -3,8 +3,8 @@
     Location    : application/views/admin/posts.html.twig
     Purpose     : Posts partial page
     Created     : 07/03/2019 19:30:07 by Spiderman
-    Updated     : 07/10/2019 19:08:15 by Spiderman
-    Changes     : Implemented GET, POST, and PUT methods
+    Updated     : 07/25/2019 18:13:12 by Spiderman
+    Changes     : 
 #}
 
 {% extends 'admin/base.html.twig' %}
@@ -52,10 +52,9 @@
     <form id="create-form">
         <div id="ajax-preloader"></div>
         <div class="modal-body px-5">
-            <input type="hidden" name="id">
             <input type="hidden" name="content">
             <div class="form-group">
-                <input type="text" class="form-control form-control-lg" id="title" name="title" value="{{ set_value('title') }}" placeholder="Post Title">
+                <input type="text" class="form-control" id="title" name="title" value="{{ set_value('title') }}" placeholder="Post Title">
             </div>
             <div id="create-editor">
                 <!--  WYSIWYG editor -->
@@ -74,7 +73,7 @@
             <input type="hidden" name="id">
             <input type="hidden" name="content">
             <div class="form-group">
-                <input type="text" class="form-control form-control-lg" id="title" name="title" value="{{ set_value('title') }}" placeholder="Post Title">
+                <input type="text" class="form-control" id="title" name="title" value="{{ set_value('title') }}" placeholder="Post Title">
             </div>
             <div id="update-editor">
                 <!--  WYSIWYG editor -->
@@ -113,7 +112,7 @@
                         "columns": [
                             {
                                 "searchable": false,
-                                "data": null
+                                "data": "id"
                             },
                             {"data": "title"},
                             {
@@ -140,13 +139,10 @@
                             }
                         ],
                         "lengthMenu": [[10, 25, 50, 75, 100], [10, 25, 50, 75, 100]],
-                        "order": [[2, "desc"]],
+                        "order": [[0, "desc"]],
                         "columnDefs": [
-                            {"orderable": false, "targets": [0, 5, 6]}
+                            {"orderable": false, "targets": [5, 6]}
                         ],
-                        "fnCreatedRow": function (row, data, index) {
-                            $('td', row).eq(0).html(index + 1);
-                        },
                         "responsive": true,
                         "language": {
                             "decimal": "",
@@ -243,13 +239,17 @@
                     this.bindForm();
                 },
                 bindForm: function () {
-                    $('#create').on('shown.bs.modal', this.submitForm(), function() {
+                    $('#create').on('show.bs.modal', this.submitForm(), function() {
                         // Reset form
                         $(this).find('form').each(function() { this.reset() });
                         $(this).find('.form-control').removeClass('is-invalid');
                         $(this).find('#create-editor').css({'border-color':'#ccc', 'border-top':'none'}); 
+                        $(this).find('input:hidden[name="content"]').val();
+                        $(this).find('.ql-editor').empty();
                         // Auto focus
-                        $(this).find('input').trigger('focus');
+                        $(this).on('shown.bs.modal', function(){
+                            $(this).find('input[name="title"]').trigger('focus');
+                        }) 
                     });
                 },
                 submitForm: function() {
@@ -319,12 +319,9 @@
                                         $('#notif').modal('hide');
                                     }, 3000);
                                 } else {
-                                    // Form error
+                                    // Error msg response
                                     (Boolean(data.title)) ? el.find('#title').addClass('is-invalid') : el.find('#title').removeClass('is-invalid');
-                                    (quill.editor.isBlank()) ? el.find('#create-editor').css({'border':'1px solid #f00'}) : el.find('#create-editor').css({'border-color':'#ccc', 'border-top':'none'});      
-
-                                    // For debugging
-                                    console.log(data.status);
+                                    (quill.editor.isBlank()) ? el.find('#create-editor').css({'border':'1px solid #f00'}) : el.find('#create-editor').css({'border-color':'#ccc', 'border-top':'none'});                
                                 }
                             },
                             error: function (jqXHR, textStatus, errorThrown) {
@@ -344,7 +341,6 @@
                 bindForm: function () {
                     $('#update').on('show.bs.modal', this.submitForm(), function() {
                         // Reset form
-                        $(this).find('form').each(function() { this.reset() });
                         $(this).find('.form-control').removeClass('is-invalid');
                     });
                 },
@@ -411,12 +407,9 @@
                                         $('#notif').modal('hide');
                                     }, 3000);
                                 } else {
-                                    // Form error
+                                    // Error msg response
                                     (Boolean(data.title)) ? el.find('#title').addClass('is-invalid') : el.find('#title').removeClass('is-invalid');
                                     (quill.editor.isBlank()) ? el.find('#update-editor').css({'border':'1px solid #f00'}) : el.find('#update-editor').css({'border-color':'#ccc'});   
-                                
-                                     // For debugging
-                                    console.log(data.status);
                                 }
                             },
                             error: function (jqXHR, textStatus, errorThrown) {
@@ -436,7 +429,6 @@
                 },
                 bindForm: function () {
                     $('#delete').on('show.bs.modal', this.submitForm(), function(e){
-                        $(this).find('#ajax-response').empty();
                         $(this).find('input:hidden[name="id"]').val($(e.relatedTarget).data('param'));
                         $(this).find('.modal-body p').text('Are you sure you want to delete post #' + $(e.relatedTarget).data('param') + '?');
                     });

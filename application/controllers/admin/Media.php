@@ -150,8 +150,8 @@ class Media extends CI_Controller
                             'file_type' => $data['file_type'],
                             'file_ext' => $data['file_ext'],
                             'file_size' => $data['file_size'],
-                            'file_path' => $data['file_path'],
-                            'full_path' => $data['full_path'],
+                            'file_path' => 'public/assets/uploads/',
+                            'full_path' => 'public/assets/uploads/' . $data['file_name'],
                             'base64' => $this->image_to_base64($data['file_type'], $data['full_path']),
                             'user_id' => user('id')
                         ]
@@ -159,7 +159,7 @@ class Media extends CI_Controller
 
                     try {
                         // POST request
-                        $response = $client->post('media/create', $options);  
+                        $response = $client->post('media/create', $options);
             
                         // Return $response  
                         echo $response->getBody()->getContents();
@@ -176,7 +176,8 @@ class Media extends CI_Controller
                 } else {
                     $view_data = [
                         'status' => false,
-                        'message' => $this->upload->display_errors('<li>', '</li>')
+                        'message' => $this->upload->display_errors('<li>', '</li>'),
+                        'userfile' => form_error('userfile')
                     ];
                     echo json_encode($view_data);
                 }
@@ -223,16 +224,14 @@ class Media extends CI_Controller
                     'X-API-KEY' => $this->guzzle->key()
                 ],
                 'form_params' => [
-                    'branch_id' => 1,
                     'name' => $this->input->put('name'),
                     'description' => $this->input->put('description'),
-                    'media_id' => 5,
                     'user_id' => user('id')
                 ]
             ];
 
             try {
-
+                // Get the id parameter
                 $id = $this->uri->segment(5);
 
                 // PUT request
@@ -242,6 +241,7 @@ class Media extends CI_Controller
                 echo $response->getBody()->getContents();
             }
             catch (GuzzleHttp\Exception\ClientException $e) {
+                // Get $response
                 $response = $e->getResponse();
 
                 // Return $response 
@@ -280,7 +280,7 @@ class Media extends CI_Controller
         ];
         
         try {
-
+            // Get the id parameter
             $id = $this->uri->segment(5);
 
             // PUT request

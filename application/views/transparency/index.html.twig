@@ -69,7 +69,7 @@
                                     el.find('tbody').append(
                                         '<tr>' +
                                         '   <td>' +
-                                        '       <img src="' + apiURL + '/' + value.profile_photo + '" width="32" height="32" class="rounded-circle mr-2" alt="Avatar" />' + value.first_name + ' ' + value.last_name +
+                                        '       <img class="rounded-circle mr-2" src="' + apiURL + '/' + value.profile_photo + '" width="32" height="32" alt="' + value.first_name + ' ' + value.last_name + '" />' + value.first_name + ' ' + value.last_name +
                                         '   </td>' +
                                         '   <td>' + '₱' + value.amount + '</td>' +
                                         '   <td>' + moment(value.posted_on, "YYYY-MM-DD h:mm:ss").fromNow() + '</td>' +
