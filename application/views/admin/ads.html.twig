@@ -3,7 +3,7 @@
     Location    : application/views/admin/ads.html.twig
     Purpose     : Ads partial page
     Created     : 07/11/2019 17:24:13 by Spiderman
-    Updated     : 07/22/2019 23:06:02 by Spiderman
+    Updated     : 07/29/2019 14:58:20 by Spiderman
     Changes     : 
 #}
 
@@ -50,8 +50,8 @@
 
 {% block createModalForm %}
     <form id="create-form">
-        <div id="ajax-preloader"></div>
         <div class="modal-body px-5">
+            <div id="ajax-preloader"></div>
             <div id="ajax-response"></div>
             <div class="row">
                 <div class="col-12 col-lg-6">
@@ -79,10 +79,11 @@
 
 {% block updateModalForm %}
     <form id="update-form">
-        <div id="ajax-preloader"></div>
         <div class="modal-body px-5">
-            <input type="hidden" name="id">
+            <div id="ajax-preloader"></div>
             <div id="ajax-response"></div>
+            <input type="hidden" name="id">
+            <input type="hidden" name="media_id">
             <div class="row">
                 <div class="col-12 col-lg-6">
                     <div class="form-group">
@@ -116,6 +117,7 @@
 
             let baseURL = location.origin.toLowerCase() + '/mountcarmel.web';
             let apiURL = location.origin.toLowerCase() + '/mountcarmel.api';
+            
             let isProcessing = false;
 
             // GET: Display all
@@ -218,6 +220,7 @@
                         el.find('#ajax-response').empty();
 
                         let id = $(e.relatedTarget).data('param');
+                        if(id == null) id = $('body').data('param');
                         let data = el.serialize();
 
                         $.ajax({
@@ -246,7 +249,9 @@
                             success: function (data) {
                                 if (data) {
                                     // Populate form
+                                    $('body').attr('data-param', data.id);
                                     el.find('input:hidden[name="id"]').val(data.id);
+                                    el.find('input:hidden[name="media_id"]').val(data.media_id);
                                     el.find('input[name="name"]').val(data.name);
                                     el.find('textarea[name="description"]').html(data.description);
                                     el.find('#placeholder').html('<img class="img-fluid mx-auto d-block" src="' + apiURL + '/' + data.full_path + '" alt="' + data.name + '" />');
@@ -495,19 +500,34 @@
                 }
             }
 
-            $('#gallery').on('show.bs.modal', function(){
-                $('#update').modal('hide');
-            });
-
-            $('#gallery').on('hide.bs.modal', function(){
-                $('#update').modal('show');
-            });
+            let app = {
+                init: function() {
+                    this.updateModal();
+                    this.galleryModal();
+                },
+                updateModal: function() {
+                    $('#update').on('show.bs.modal', function(){
+                        $('#gallery').modal('hide');
+                    }).on('hidden.bs.modal', function(){
+                        $('body').addClass('modal-open');
+                    });
+                },
+                galleryModal: function() {
+                    $('#gallery').on('show.bs.modal', function(){
+                        $('#update').modal('hide');
+                    }).on('hidden.bs.modal', function(){
+                        $('body').addClass('modal-open');
+                        $('#update').modal('show');
+                    });
+                }
+            }
 
             getAll.init();
             getById.init();
             create.init();
             update.init();
             softDelete.init();
+            app.init();
         })
     </script>
 {% endblock %}

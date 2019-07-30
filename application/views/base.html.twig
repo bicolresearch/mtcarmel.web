@@ -3,9 +3,8 @@
     Location    : application/views/base.html.twig
     Purpose     : Base template
     Created     : 06/03/2019 22:09:22 by Spiderman
-    Updated     : 07/25/2019 13:16:03 by Scarlet Witch
-    Changes     : Update the baseURL g
-    
+    Updated     : 07/29/2019 15:20:25 by Spiderman
+    Changes     : 
 #}
 
 <!DOCTYPE html>
@@ -105,12 +104,8 @@
                                 <img src="{{ base_url('public/assets/images/avatars/profile.svg') }}" class="avatar img-fluid rounded-circle mr-1" alt="Profile"/>
                             </a>
                             <div class="dropdown-menu dropdown-menu-right">
-                                {% if x is empty %}
-                                    <a class="dropdown-item" href="javascript:void(0)" data-toggle="modal" data-target="#signupModal">Signup</a>
-                                    <a class="dropdown-item" href="javascript:void(0)" data-toggle="modal" data-target="#loginModal">Login</a>
-                                {% else %}
-                                    <a class="dropdown-item" href="{{ base_url('auth/logout') }}" target="_self">Logout</a>
-                                {% endif %}
+                                <a class="dropdown-item" href="javascript:void(0)" data-toggle="modal" data-target="#signupModal">Signup</a>
+                                <a class="dropdown-item" href="javascript:void(0)" data-toggle="modal" data-target="#loginModal">Login</a>
                             </div>
                         </li>
                     </ul>
@@ -138,11 +133,11 @@
                     </button>
                 </div>
                 <form id="login-form">
-                    <div id="ajax-preloader"></div>
                     <div class="modal-body px-5">
                         <div class="logo text-center mb-4">
                             <img src="{{ base_url('public/assets/images/brands/mount-carmel-logo.svg') }}" alt="Mount Carmel Logo"/>
                         </div>
+                        <div id="ajax-preloader"></div>
                         <div id="ajax-response"></div>
                         <div class="form-group">
                             <label for="email">Email</label>
@@ -174,8 +169,8 @@
                     </button>
                 </div>
                 <form id="signup-form">
-                    <div id="ajax-preloader"></div>
                     <div class="modal-body px-5">
+                        <div id="ajax-preloader"></div>
                         <div id="ajax-response"></div>
                         <div class="row">
                             <div class="col-12 col-md-6 col-lg-6">
@@ -220,8 +215,7 @@
     <script>
         $(function () {
 
-            //let baseURL = location.origin.toLowerCase() + '/mountcarmel.web';
-            let baseURL = location.origin.toLowerCase();
+            let baseURL = location.origin.toLowerCase() + '/mountcarmel.web';
 
             // POST: Login
             let login = {
@@ -246,7 +240,7 @@
                         let el = $(this);
                         let btn = el.find('.btn-change-state');
                         let data = el.serialize();
-                        console.log(data);
+
                         $.ajax({
                             url: baseURL + '/auth/login',
                             type: 'POST',
@@ -284,9 +278,6 @@
                                     el.find('#ajax-response').html('<div class="alert alert-danger"><ul>' + data.message + '</ul></div>');
                                     (Boolean(data.email)) ? el.find('#email').addClass('is-invalid') : el.find('#email').removeClass('is-invalid');
                                     (Boolean(data.password)) ? el.find('#password').addClass('is-invalid') : el.find('#password').removeClass('is-invalid');
-
-                                    // For debugging
-                                    console.log(data.status);
                                 }
                             },
                             error: function (jqXHR, textStatus, errorThrown) {
@@ -364,9 +355,6 @@
                                     (Boolean(data.email)) ? el.find('#username').addClass('is-invalid') : el.find('#username').removeClass('is-invalid');
                                     (Boolean(data.password)) ? el.find('#pass').addClass('is-invalid') : el.find('#pass').removeClass('is-invalid');
                                     (Boolean(data.passconf)) ? el.find('#passconf').addClass('is-invalid') : el.find('#passconf').removeClass('is-invalid');
-
-                                    // For debugging
-                                    console.log(data.status);
                                 }
                             },
                             error: function (jqXHR, textStatus, errorThrown) {
@@ -400,16 +388,18 @@
                     });
                 },
                 showLoginModal: function() {
-                    $('#loginModal').on('show.bs.modal', function () {
-                        // Hide previous modal
+                    $('#loginModal').on('show.bs.modal', function(){
                         $('#signupModal').modal('hide');
-                    })  
+                    }).on('hidden.bs.modal', function(){
+                        $('body').addClass('modal-open');
+                    });
                 },
                 showSignupModal: function() {
-                    $('#signupModal').on('show.bs.modal', function () {
-                        // Hide previous modal
+                    $('#signupModal').on('show.bs.modal', function(){
                         $('#loginModal').modal('hide');
-                    })
+                    }).on('hidden.bs.modal', function(){
+                        $('body').addClass('modal-open');
+                    });
                 }
             };
 

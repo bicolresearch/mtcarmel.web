@@ -277,56 +277,7 @@ body {
       }
     }
 
-    /* Carousel */
-    #sendHelpCarouselCaptions {
-      .carousel-inner {
-        .carousel-caption {
-          width: 25%;
-          height: auto;
-          top: 0;
-          bottom: 0;
-          left: auto;
-          color: $sienna;
-          background-color: rgba(255, 255, 255, .85);
-          padding: 50px 25px;
-          margin: 100px 0;
-          @include border-radius(5px);
-
-          .sendhelp-logo {
-            margin-bottom: 20px;
-          }
-
-          .sendhelp-title {
-            h3 {
-              color: $sienna;
-              margin-bottom: 0;
-            }
-          }
-
-          .sendhelp-subtitle {
-            h4 {
-              font-size: 14px;
-              color: $sienna;
-              margin-bottom: 20px;
-            }
-          }
-
-          .separator {
-            height: 0;
-            margin-bottom: 20px;
-            overflow: hidden;
-            border-top: 1px solid $dark-khaki;
-          }
-
-          .sendhelp-description {
-            margin-bottom: 20px;
-          }
-
-          .sendhelp-button {
-          }
-        }
-      }
-
+    #carousel {
       .carousel-indicators {
         li {
           width: 12px;
@@ -336,7 +287,6 @@ body {
       }
     }
 
-    /* Location Map */
     #map {
       padding: 0;
       margin: 0;
