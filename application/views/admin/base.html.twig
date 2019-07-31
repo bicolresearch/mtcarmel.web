@@ -3,8 +3,8 @@
     Location    : application/views/admin/base.html.twig
     Purpose     : Admin base template
     Created     : 06/27/2019 16:45:42 by Spiderman
-    Updated     : 07/04/2019 16:45:31 by Spiderman
-    Changes     : Add notif modal
+    Updated     : 07/29/2019 22:58:02 by Spiderman
+    Changes     : Add gallery modal
 #}
 
 <!DOCTYPE html>
@@ -132,7 +132,7 @@
                     <div id="ajax-preloader"></div>
                     <div class="modal-body p-5">
                         <p class="text-center m-0">
-                            <!-- Notif message --> 
+                            <!-- This is where the delete confirmation message load -->
                         </p>
                     </div>
                     <div class="modal-footer">
@@ -157,7 +157,7 @@
                 <div id="ajax-preloader"></div>
                 <div class="modal-body p-5">
                     <p class="text-center m-0">
-                        <!-- Notif message --> 
+                        <!-- This is where the notif message load --> 
                     </p>
                 </div>
             </div>
@@ -177,7 +177,18 @@
                 </div>
                 <div id="ajax-preloader"></div>
                 <div class="modal-body p-5">
-
+                    <table id="image-gallery" class="table table-striped" width="100%">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th></th>
+                                <th>Name</th>
+                                <th>Type</th>
+                                <th>Size</th>
+                                <th>Modified</th>
+                            </tr>
+                        </thead>
+                    </table>
                 </div>
             </div>
         </div>
@@ -195,9 +206,9 @@
 
             let app = {
                 init: function() {
-                    this.avatar();
+                    this.avatar(); // GET: Avatar
+                    this.gallery(); // GET: Media gallery
                 },
-                // GET: Avatar
                 avatar: function() {
 
                     let el = $('#user');
@@ -221,6 +232,69 @@
                         error: function (jqXHR, textStatus, errorThrown) {
                             console.log('The following error occurred: ' + textStatus, errorThrown);
                         }
+                    });
+                },
+                gallery: function() {
+                    $('#gallery').on('show.bs.modal', function(){
+                        
+                        let el = $('#image-gallery');
+
+                        el.DataTable({
+                            "destroy": false,
+                            "processing": true,
+                            "serverSide": false,
+                            "ajax": {
+                                "url": baseURL + "/admin/media/media",
+                                "type": "GET"
+                            },
+                            "columns": [
+                                {
+                                    "searchable": false,
+                                    "data": "id"
+                                },
+                                {
+                                    "searchable": false,
+                                    "data": "full_path",
+                                    "mRender": function (data) {
+                                        return '<img class="mx-auto d-block" src="' + apiURL + '/' + data + '" height="32px" alt="' + data + '" />';
+                                    }
+                                },
+                                {"data": "name"},
+                                {"data": "file_type"},
+                                {"data": "file_size"},
+                                {"data": "dt_updated"}
+                            ],
+                            "lengthMenu": [[10, 25, 50, 75, 100, -1], [10, 25, 50, 75, 100, "All"]],
+                            "order": [[0, "desc"]],
+                            "columnDefs": [
+                                {"orderable": false, "targets": [1]}
+                            ],
+                            "responsive": true,
+                            "language": {
+                                "decimal": "",
+                                "emptyTable": "No data available in table",
+                                "info": "Showing _START_ to _END_ of _TOTAL_ entries",
+                                "infoEmpty": "Showing 0 to 0 of 0 entries",
+                                "infoFiltered": "(filtered from _MAX_ total entries)",
+                                "infoPostFix": "",
+                                "thousands": ",",
+                                "lengthMenu": "Show _MENU_ entries",
+                                "loadingRecords": "Loading...",
+                                "processing": "Processing...",
+                                "search": "Search:",
+                                "zeroRecords": "No matching records found",
+                                "paginate": {
+                                    "first": "First",
+                                    "last": "Last",
+                                    "next": "Next",
+                                    "previous": "Previous"
+                                },
+                                "aria": {
+                                    "sortAscending": ": activate to sort column ascending",
+                                    "sortDescending": ": activate to sort column descending"
+                                }
+                            }
+                        });
                     });
                 }
             }
