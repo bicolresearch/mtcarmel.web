@@ -30,7 +30,7 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <table id="datatables-basic" class="table table-striped" width="100%">
+                    <table id="datatables__default" class="table" width="100%">
                         <thead>
                             <tr>
                                 <th>#</th>
@@ -127,10 +127,7 @@
                     this.reloadList();
                 },
                 display: function() {
-
-                    let el = $('#datatables-basic');
-
-                    el.DataTable({
+                    $('#datatables__default').DataTable({
                         "processing": true,
                         "serverSide": false,
                         "ajax": {
@@ -199,7 +196,7 @@
                 },
                 reloadList: function() {
                     $('#reload').on('click', function (e) {
-                        $('#datatables-basic').DataTable().ajax.reload(null, true); // user paging will reset on reload				                                
+                        $('#datatables__default').DataTable().ajax.reload(null, true); // user paging will reset on reload				                                
                         e.preventDefault();
                     })
                 }
@@ -251,7 +248,6 @@
                                     // Populate form
                                     $('body').attr('data-param', data.id);
                                     el.find('input:hidden[name="id"]').val(data.id);
-                                    el.find('input:hidden[name="media_id"]').val(data.media_id);
                                     el.find('input[name="name"]').val(data.name);
                                     el.find('textarea[name="description"]').html(data.description);
                                     el.find('#placeholder').html('<img class="img-fluid mx-auto d-block" src="' + apiURL + '/' + data.full_path + '" alt="' + data.name + '" />');
@@ -321,7 +317,7 @@
                             success: function (data) {
                                 if (data.status === true) {
                                     // Reload datatables
-                                    $('#datatables-basic').DataTable().ajax.reload(null, false); // user paging is not reset on reload
+                                    $('#datatables__default').DataTable().ajax.reload(null, false); // user paging is not reset on reload
 
                                     // Hide this modal
                                     $('#create').modal('hide');
@@ -397,7 +393,7 @@
                             success: function (data) {
                                 if (data.status === true) {
                                     // Reload datatables
-                                    $('#datatables-basic').DataTable().ajax.reload(null, false); // user paging is not reset on reload
+                                    $('#datatables__default').DataTable().ajax.reload(null, false); // user paging is not reset on reload
 
                                     // Hide this modal
                                     $('#update').modal('hide');
@@ -472,7 +468,7 @@
                             success: function (data) {
                                 if (data.status === true) {
                                     // Reload datatables
-                                    $('#datatables-basic').DataTable().ajax.reload(null, false); // user paging is not reset on reload
+                                    $('#datatables__default').DataTable().ajax.reload(null, false); // user paging is not reset on reload
 
                                     // Hide this modal
                                     $('#delete').modal('hide');
@@ -500,34 +496,11 @@
                 }
             }
 
-            let app = {
-                init: function() {
-                    this.updateModal();
-                    this.galleryModal();
-                },
-                updateModal: function() {
-                    $('#update').on('show.bs.modal', function(){
-                        $('#gallery').modal('hide');
-                    }).on('hidden.bs.modal', function(){
-                        $('body').addClass('modal-open');
-                    });
-                },
-                galleryModal: function() {
-                    $('#gallery').on('show.bs.modal', function(){
-                        $('#update').modal('hide');
-                    }).on('hidden.bs.modal', function(){
-                        $('body').addClass('modal-open');
-                        $('#update').modal('show');
-                    });
-                }
-            }
-
             getAll.init();
             getById.init();
             create.init();
             update.init();
             softDelete.init();
-            app.init();
         })
     </script>
 {% endblock %}

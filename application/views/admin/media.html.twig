@@ -30,7 +30,7 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <table id="datatables-basic" class="table table-striped" width="100%">
+                    <table id="datatables__default" class="table" width="100%">
                         <thead>
                             <tr>
                                 <th>#</th>
@@ -52,8 +52,8 @@
 
 {% block createModalForm %}
     <form id="create-form">
-        <div id="ajax-preloader"></div>
         <div class="modal-body px-5">
+            <div id="ajax-preloader"></div>
             <div id="ajax-response"></div>
             <div class="form-group">
                 <label for="name">Name</label>
@@ -76,10 +76,10 @@
 
 {% block updateModalForm %}
     <form id="update-form">
-        <div id="ajax-preloader"></div>
         <div class="modal-body px-5">
-            <input type="hidden" name="id">
+            <div id="ajax-preloader"></div>
             <div id="ajax-response"></div>
+            <input type="hidden" name="id">
             <div class="row">
                 <div class="col-12 col-lg-6">
                     <div class="form-group">
@@ -110,6 +110,7 @@
 
             let baseURL = location.origin.toLowerCase() + '/mountcarmel.web';
             let apiURL = location.origin.toLowerCase() + '/mountcarmel.api';                       
+            
             let isProcessing = false;
 
             // GET: Display all
@@ -119,10 +120,7 @@
                     this.reloadList();
                 },
                 display: function() {
-
-                    let el = $('#datatables-basic');
-
-                    el.DataTable({
+                    $('#datatables__default').DataTable({
                         "processing": true,
                         "serverSide": false,
                         "ajax": {
@@ -194,7 +192,7 @@
                 },
                 reloadList: function() {
                     $('#reload').on('click', function (e) {
-                        $('#datatables-basic').DataTable().ajax.reload(null, true); // user paging will reset on reload				                                
+                        $('#datatables__default').DataTable().ajax.reload(null, true); // user paging will reset on reload				                                
                         e.preventDefault();
                     })
                 }
@@ -319,7 +317,7 @@
                             success: function (data) {
                                 if (data.status === true) {
                                     // Reload datatables
-                                    $('#datatables-basic').DataTable().ajax.reload(null, false); // user paging is not reset on reload
+                                    $('#datatables__default').DataTable().ajax.reload(null, false); // user paging is not reset on reload
 
                                     // Hide this modal
                                     $('#create').modal('hide');
@@ -397,7 +395,7 @@
                             success: function (data) {
                                 if (data.status === true) {
                                     // Reload datatables
-                                    $('#datatables-basic').DataTable().ajax.reload(null, false); // user paging is not reset on reload
+                                    $('#datatables__default').DataTable().ajax.reload(null, false); // user paging is not reset on reload
 
                                     // Hide this modal
                                     $('#update').modal('hide');
@@ -472,7 +470,7 @@
                             success: function (data) {
                                 if (data.status === true) {
                                     // Reload datatables
-                                    $('#datatables-basic').DataTable().ajax.reload(null, false); // user paging is not reset on reload
+                                    $('#datatables__default').DataTable().ajax.reload(null, false); // user paging is not reset on reload
 
                                     // Hide this modal
                                     $('#delete').modal('hide');
@@ -483,11 +481,7 @@
                                     // Hide notif after (x) number of seconds 
                                     setTimeout(function(){ 
                                         $('#notif').modal('hide');
-                                    }, 3000);
-                                    
-                                } else {
-                                    // For debugging
-                                    console.log(data.status);
+                                    }, 3000); 
                                 }
                             },
                             error: function (jqXHR, textStatus, errorThrown) {
