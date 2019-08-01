@@ -177,15 +177,13 @@
                 </div>
                 <div id="ajax-preloader"></div>
                 <div class="modal-body p-5">
-                    <table id="image-gallery" class="table table-striped" width="100%">
+                    <table id="datatables__modal" class="table" width="100%">
                         <thead>
                             <tr>
-                                <th>#</th>
                                 <th></th>
                                 <th>Name</th>
                                 <th>Type</th>
                                 <th>Size</th>
-                                <th>Modified</th>
                             </tr>
                         </thead>
                     </table>
@@ -208,9 +206,10 @@
                 init: function() {
                     this.avatar(); // GET: Avatar
                     this.gallery(); // GET: Media gallery
+                    this.updateModal(); // Show update modal
+                    this.galleryModal(); // Show gallery modal
                 },
                 avatar: function() {
-
                     let el = $('#user');
                     let id = el.data('user-id');
                     let data = el.serialize();
@@ -236,68 +235,99 @@
                 },
                 gallery: function() {
                     $('#gallery').on('show.bs.modal', function(){
-                        
-                        let el = $('#image-gallery');
-
-                        el.DataTable({
-                            "destroy": false,
-                            "processing": true,
-                            "serverSide": false,
-                            "ajax": {
-                                "url": baseURL + "/admin/media/media",
-                                "type": "GET"
-                            },
-                            "columns": [
-                                {
-                                    "searchable": false,
-                                    "data": "id"
+                        // Check if a table is a DataTable or not
+                        if ($.fn.dataTable.isDataTable('#datatables__modal')) { 
+                           let table = $('#datatables__modal').DataTable();                   
+                        } else {
+                            // Initialize datatables
+                            table = $('#datatables__modal').DataTable({
+                                "processing": true,
+                                "serverSide": false,
+                                "ajax": {
+                                    "url": baseURL + "/admin/media/media",
+                                    "type": "GET"
                                 },
-                                {
-                                    "searchable": false,
-                                    "data": "full_path",
-                                    "mRender": function (data) {
-                                        return '<img class="mx-auto d-block" src="' + apiURL + '/' + data + '" height="32px" alt="' + data + '" />';
+                                "columns": [
+                                    {
+                                        "searchable": false,
+                                        "data": "full_path",
+                                        "mRender": function(data) {
+                                            return '<img class="mx-auto d-block" src="' + apiURL + '/' + data + '" height="32px" alt="' + data + '" />';
+                                        }
+                                    },
+                                    {"data": "name"},
+                                    {"data": "file_type"},
+                                    {
+                                        "data": "file_size",
+                                        "mRender": function(data) {
+                                            return data + ' ' + 'KB'
+                                        }
+                                    }
+                                ],
+                                "lengthMenu": [[10], [10]],
+                                "order": [[1, "desc"]],
+                                "columnDefs": [
+                                    {"orderable": false, "targets": []}
+                                ],
+                                "responsive": true,
+                                "language": {
+                                    "decimal": "",
+                                    "emptyTable": "No data available in table",
+                                    "info": "Showing _START_ to _END_ of _TOTAL_ entries",
+                                    "infoEmpty": "Showing 0 to 0 of 0 entries",
+                                    "infoFiltered": "(filtered from _MAX_ total entries)",
+                                    "infoPostFix": "",
+                                    "thousands": ",",
+                                    "lengthMenu": "Show _MENU_ entries",
+                                    "loadingRecords": "Loading...",
+                                    "processing": "Processing...",
+                                    "search": "Search:",
+                                    "zeroRecords": "No matching records found",
+                                    "paginate": {
+                                        "first": "First",
+                                        "last": "Last",
+                                        "next": "Next",
+                                        "previous": "Previous"
+                                    },
+                                    "aria": {
+                                        "sortAscending": ": activate to sort column ascending",
+                                        "sortDescending": ": activate to sort column descending"
                                     }
                                 },
-                                {"data": "name"},
-                                {"data": "file_type"},
-                                {"data": "file_size"},
-                                {"data": "dt_updated"}
-                            ],
-                            "lengthMenu": [[10, 25, 50, 75, 100, -1], [10, 25, 50, 75, 100, "All"]],
-                            "order": [[0, "desc"]],
-                            "columnDefs": [
-                                {"orderable": false, "targets": [1]}
-                            ],
-                            "responsive": true,
-                            "language": {
-                                "decimal": "",
-                                "emptyTable": "No data available in table",
-                                "info": "Showing _START_ to _END_ of _TOTAL_ entries",
-                                "infoEmpty": "Showing 0 to 0 of 0 entries",
-                                "infoFiltered": "(filtered from _MAX_ total entries)",
-                                "infoPostFix": "",
-                                "thousands": ",",
-                                "lengthMenu": "Show _MENU_ entries",
-                                "loadingRecords": "Loading...",
-                                "processing": "Processing...",
-                                "search": "Search:",
-                                "zeroRecords": "No matching records found",
-                                "paginate": {
-                                    "first": "First",
-                                    "last": "Last",
-                                    "next": "Next",
-                                    "previous": "Previous"
-                                },
-                                "aria": {
-                                    "sortAscending": ": activate to sort column ascending",
-                                    "sortDescending": ": activate to sort column descending"
+                                "select": {
+                                    "style": "single"
                                 }
-                            }
-                        });
+                            });
+
+                            // Show id when row is selected
+                            $('#datatables__modal').on('click', 'tr', function() {
+                                // Get the rows id value
+                                let data = table.row(this).data();                            
+                                let id = data.id;
+                                console.log('Clicked row id ' + id);
+                            });
+                        }
+                    });
+                },
+                updateModal: function() {
+                    $('#update').on('show.bs.modal', function(){
+                        $('#gallery').modal('hide');
+                    }).on('hidden.bs.modal', function(){
+                        $('body').addClass('modal-open');
+                    });
+                },
+                galleryModal: function() {
+                    $('#gallery').on('show.bs.modal', function(){
+                        $('#update').modal('hide');
+                    }).on('hidden.bs.modal', function(e){
+                        $('body').addClass('modal-open');
+                        $('#update').modal('show');
                     });
                 }
             }
+
+            // TODO: Show tooltip
+            //$('[data-toggle="tooltip"]').tooltip({ boundary: 'window' });
 
             app.init();
         })

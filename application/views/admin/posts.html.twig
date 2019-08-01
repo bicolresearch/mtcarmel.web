@@ -29,7 +29,7 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <table id="datatables-basic" class="table table-striped" width="100%">
+                    <table id="datatables__default" class="table" width="100%">
                         <thead>
                             <tr>
                                 <th>#</th>
@@ -90,6 +90,8 @@
         $(function () {
 
             let baseURL = location.origin.toLowerCase() + '/mountcarmel.web';
+            let apiURL = location.origin.toLowerCase() + '/mountcarmel.api';
+            
             let isProcessing = false;
 
             // GET: Display all
@@ -99,10 +101,7 @@
                     this.reloadList();
                 },
                 display: function() {
-
-                    let el = $('#datatables-basic');
-
-                    el.DataTable({
+                    $('#datatables__default').DataTable({
                         "processing": true,
                         "serverSide": false,
                         "ajax": {
@@ -172,7 +171,7 @@
                 },
                 reloadList: function() {
                     $('#reload').on('click', function (e) {
-                        $('#datatables-basic').DataTable().ajax.reload(null, true); // user paging will reset on reload				                                
+                        $('#datatables__default').DataTable().ajax.reload(null, true); // user paging will reset on reload				                                
                         e.preventDefault();
                     })
                 }
@@ -306,7 +305,7 @@
                             success: function (data) {
                                 if (data.status === true) {
                                     // Reload datatables
-                                    $('#datatables-basic').DataTable().ajax.reload(null, false); // user paging is not reset on reload
+                                    $('#datatables__default').DataTable().ajax.reload(null, false); // user paging is not reset on reload
 
                                     // Hide this modal
                                     $('#create').modal('hide');
@@ -394,7 +393,7 @@
                             success: function (data) {
                                 if (data.status === true) {
                                     // Reload datatables
-                                    $('#datatables-basic').DataTable().ajax.reload(null, false); // user paging is not reset on reload
+                                    $('#datatables__default').DataTable().ajax.reload(null, false); // user paging is not reset on reload
 
                                     // Hide this modal
                                     $('#update').modal('hide');
@@ -468,7 +467,7 @@
                             success: function (data) {
                                 if (data.status === true) {
                                     // Reload datatables
-                                    $('#datatables-basic').DataTable().ajax.reload(null, false); // user paging is not reset on reload
+                                    $('#datatables__default').DataTable().ajax.reload(null, false); // user paging is not reset on reload
 
                                     // Hide this modal
                                     $('#delete').modal('hide');
