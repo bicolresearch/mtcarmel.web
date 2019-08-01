@@ -3,8 +3,8 @@
     Location    : application/views/admin/priests.html.twig
     Purpose     : priests page, Implemented GET, POST, and PUT methods
     Created     : 07/23/2019 12:49:20 by Scarlet Witch
-    Updated     : 07/25/2019 13:32:11 by Scarlet Witch
-    Changes     : Update the baseURL
+    Updated     : 08/01/2019 11:41:46 by Scarlet Witch
+    Changes     : Updated the baseURL for local and datatables - from datatable-basic to datatables__default
 #}
 
 {% extends 'admin/base.html.twig' %}
@@ -30,7 +30,7 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <table id="datatables-basic" class="table table-striped" width="100%">
+                    <table id="datatables__default" class="table table-striped" width="100%">
                         <thead>
                             <tr>
                                 <th>#</th>
@@ -95,8 +95,8 @@
     <script>
         $(function () {
 
-            //let baseURL = location.origin.toLowerCase() + '/mountcarmel.web';                       
-            let baseURL = location.origin.toLowerCase();
+            let baseURL = location.origin.toLowerCase() + '/mountcarmel.web';                       
+            //let baseURL = location.origin.toLowerCase();
             let isProcessing = false;
 
             // GET: Display all
@@ -106,10 +106,7 @@
                     this.reloadList();
                 },
                 display: function() {
-
-                    let el = $('#datatables-basic');
-
-                    el.DataTable({
+                    $('#datatables__default').DataTable({
                         "processing": true,
                         "serverSide": false,
                         "ajax": {
@@ -119,7 +116,7 @@
                         "columns": [
                             {
                                 "searchable": false,
-                                "data": null
+                                "data": "id"
                             },
                             {"data": "name"},
                             {
@@ -128,31 +125,28 @@
                                     return data
                                 }
                             },
-                            {"data": "updated_on"},                            
+                            {"data": "updated_on"},                               
                             {"data": "author"},
                             {
                                 "searchable": false,
                                 "data": "id",
                                 "mRender": function (data) {
-                                    return '<a data-toggle="modal" data-param="' + data + '" data-toggle="tooltip" data-placement="top" title="Update" href="#update"><i class="align-middle material-icons md-22">mode_edit</i></a>';
+                                    return '<a href="#update" data-toggle="modal" data-param="' + data + '" data-toggle="tooltip" data-placement="top" title="Update" ><i class="align-middle material-icons md-22">mode_edit</i></a>';
                                 }
                             },
                             {
                                 "searchable": false,
                                 "data": "id",
                                 "mRender": function (data) {
-                                    return '<a data-toggle="modal" data-param="' + data + '" data-toggle="tooltip" data-placement="top" title="Delete" href="#delete"><i class="align-middle material-icons md-22">remove_circle_outline</i></a>';
+                                    return '<a href="#delete" data-toggle="modal" data-param="' + data + '" data-toggle="tooltip" data-placement="top" title="Delete"><i class="align-middle material-icons md-22">remove_circle_outline</i></a>';
                                 }
                             }
                         ],
                         "lengthMenu": [[10, 25, 50, 75, 100], [10, 25, 50, 75, 100]],
-                        "order": [[2, "desc"]],
+                        "order": [[0, "desc"]],
                         "columnDefs": [
-                            {"orderable": false, "targets": [0, 5, 6]}
+                            {"orderable": false, "targets": [5, 6]}
                         ],
-                        "fnCreatedRow": function (row, data, index) {
-                            $('td', row).eq(0).html(index + 1);
-                        },
                         "responsive": true,
                         "language": {
                             "decimal": "",
@@ -182,7 +176,7 @@
                 },
                 reloadList: function() {
                     $('#reload').on('click', function (e) {
-                        $('#datatables-basic').DataTable().ajax.reload(null, true); // user paging will reset on reload				                                
+                        $('#datatables__default').DataTable().ajax.reload(null, true); // user paging will reset on reload				                                
                         e.preventDefault();
                     })
                 }
@@ -300,7 +294,7 @@
                             success: function (data) {
                                 if (data.status === true) {
                                     // Reload datatables
-                                    $('#datatables-basic').DataTable().ajax.reload(null, false); // user paging is not reset on reload
+                                    $('#datatables__default').DataTable().ajax.reload(null, false); // user paging is not reset on reload
 
                                     // Hide this modal
                                     $('#create').modal('hide');
@@ -379,7 +373,7 @@
                             success: function (data) {
                                 if (data.status === true) {
                                     // Reload datatables
-                                    $('#datatables-basic').DataTable().ajax.reload(null, false); // user paging is not reset on reload
+                                    $('#datatables__default').DataTable().ajax.reload(null, false); // user paging is not reset on reload
 
                                     // Hide this modal
                                     $('#update').modal('hide');
@@ -458,7 +452,7 @@
                             success: function (data) {
                                 if (data.status === true) {
                                     // Reload datatables
-                                    $('#datatables-basic').DataTable().ajax.reload(null, false); // user paging is not reset on reload
+                                    $('#datatables__default').DataTable().ajax.reload(null, false); // user paging is not reset on reload
 
                                     // Hide this modal
                                     $('#delete').modal('hide');
