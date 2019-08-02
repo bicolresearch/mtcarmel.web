@@ -3,8 +3,8 @@
     Location    : application/views/admin/base.html.twig
     Purpose     : Admin base template
     Created     : 06/27/2019 16:45:42 by Spiderman
-    Updated     : 07/29/2019 22:58:02 by Spiderman
-    Changes     : Add gallery modal
+    Updated     : 08/02/2019 09:53:56 by Scarlet Witch
+    Changes     : Added services sidebar for confraternity, prayer and mass requests
 #}
 
 <!DOCTYPE html>
@@ -49,6 +49,18 @@
                             <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('admin/pastors') }}">Carmelite Pastors</a></li>
                             <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('admin/contacts') }}">Contact Details</a></li>
                             <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('admin/history') }}">History</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <ul class="sidebar-nav">
+                    <li class="sidebar-item active">
+                        <a href="#services" data-toggle="collapse" class="sidebar-link collapsed">
+                            <i class="align-middle icon-management icon-18"></i> <span class="align-middle">Services</span>
+                        </a>
+                        <ul id="services" class="sidebar-dropdown list-unstyled collapse">
+                            <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('admin/confraternity') }}">Confraternity</a></li>
+                            <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('admin/prayer_request') }}">Prayer Requests</a></li>
+                            <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('admin/mass_request') }}">Mass Requests</a></li>
                         </ul>
                     </li>
                 </ul>
