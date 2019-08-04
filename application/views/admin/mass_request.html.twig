@@ -1,10 +1,10 @@
 {#
-    Filename    : Boundaries.html.twig
-    Location    : application/views/admin/Boundaries.html.twig
-    Purpose     : Boundaries page, Implemented GET, POST, and PUT methods
-    Created     : 07/23/2019 15:17:37 by Scarlet Witch
-    Updated     : 08/01/2019 11:16:45 by Scarlet Witch
-    Changes     : Updated the baseURL for local and datatables - from datatable-basic to datatables__default
+    Filename    : mass_request.html.twig
+    Location    : application/views/admin/mass_request.html.twig
+    Purpose     : mass request page, Implemented GET, POST, and PUT methods
+    Created     : 08/01/2019 18:53:27 by Scarlet Witch
+    Updated     : 
+    Changes     : 
 #}
 
 {% extends 'admin/base.html.twig' %}
@@ -35,8 +35,9 @@
                             <tr>
                                 <th>#</th>
                                 <th>Name</th>
+                                <th>Status</th>
                                 <th>Posted on</th>
-                                <th>Updated on</th>                                                             
+                                <th>Updated on</th>                                                                                    
                                 <th>Author</th>
                                 <th></th>
                                 <th></th>
@@ -55,11 +56,17 @@
         <div class="modal-body px-5">
             <input type="hidden" name="id">
             <div class="form-group">
-                <input type="text" class="form-control" id="name" name="name" value="{{ set_value('name') }}" placeholder="boundary Title">
+                <input type="text" class="form-control" id="name" name="name" value="{{ set_value('name') }}" placeholder="Name">
+            </div>      
+            <div class="form-group">
+                <input type="text" class="form-control" id="purpose_mass" name="purpose_mass" value="{{ set_value('purpose_mass') }}" placeholder="Purpose">
             </div>
             <div class="form-group">
-                <textarea class="form-control" id="description" name="description" rows="4" maxlength="255" placeholder="boundary Description"></textarea>
+                <input type="text" class="form-control" id="dt_offered" name="dt_offered" value="{{ set_value('dt_offered') }}" placeholder="Date to be offered">
             </div>
+            <div class="form-group">
+                <input type="text" class="form-control" id="time_offered" name="time_offered" value="{{ set_value('time_offered') }}" placeholder="Time of mass">
+            </div>     
         </div>
         <div class="modal-footer">
             <button type="submit" class="btn btn-lg btn-brown rounded-pill px-5 btn-change-state">Publish</button>
@@ -73,10 +80,19 @@
         <div class="modal-body px-5">
             <input type="hidden" name="id">
             <div class="form-group">
-                <input type="text" class="form-control" id="name" name="name" value="{{ set_value('name') }}" placeholder="boundary Title">
+                <input type="text" class="form-control" id="status" name="status" value="{{ set_value('status') }}" placeholder="Status">
             </div>
             <div class="form-group">
-                <textarea class="form-control" id="description" name="description" rows="4" maxlength="255" placeholder="boundary Description"></textarea>
+                <input type="text" class="form-control" id="name" name="name" value="{{ set_value('name') }}" placeholder="Name">
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" id="purpose_mass" name="purpose_mass" value="{{ set_value('purpose_mass') }}" placeholder="Purpose">
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" id="dt_offered" name="dt_offered" value="{{ set_value('dt_offered') }}" placeholder="Date to be offered">
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" id="time_offered" name="time_offered" value="{{ set_value('time_offered') }}" placeholder="Time of mass">
             </div>
         </div>
         <div class="modal-footer">
@@ -89,7 +105,7 @@
     <script>
         $(function () {
 
-            let baseURL = location.origin.toLowerCase() + '/mountcarmel.web';        
+            let baseURL = location.origin.toLowerCase() + '/mountcarmel.web';                       
             //let baseURL = location.origin.toLowerCase();
             let isProcessing = false;
 
@@ -104,7 +120,7 @@
                         "processing": true,
                         "serverSide": false,
                         "ajax": {
-                            "url": baseURL + "/admin/boundaries/boundaries",
+                            "url": baseURL + "/admin/mass_request/mass_request",
                             "type": "GET"
                         },
                         "columns": [
@@ -113,6 +129,7 @@
                                 "data": "id"
                             },
                             {"data": "name"},
+                            {"data": "status"},
                             {
                                 "data": "posted_on",
                                 "mRender": function (data) {
@@ -139,7 +156,7 @@
                         "lengthMenu": [[10, 25, 50, 75, 100], [10, 25, 50, 75, 100]],
                         "order": [[0, "desc"]],
                         "columnDefs": [
-                            {"orderable": false, "targets": [5, 6]}
+                            {"orderable": false, "targets": [6, 7]}
                         ],
                         "responsive": true,
                         "language": {
@@ -193,7 +210,7 @@
                         let data = el.serialize();
 
                         $.ajax({
-                            url: baseURL + '/admin/boundaries/boundary/id/' + id,
+                            url: baseURL + '/admin/mass_request/medium/id/' + id,
                             type: 'GET',
                             dataType: 'json',
                             data: data,
@@ -218,9 +235,13 @@
                             success: function (data) {
                                 if (data) {
                                     // Populate form
-                                    el.find('input:hidden[name="id"]').val(data.id);
+                                    el.find('input:hidden[name="id"]').val(data.id);                                    
+                                    el.find('input[name="status"]').val(data.status);
                                     el.find('input[name="name"]').val(data.name);
-                                    el.find('textarea[name="description"]').html(data.description);
+                                    el.find('input[name="purpose_mass"]').val(data.purpose_mass);
+                                    el.find('input[name="dt_offered"]').val(data.dt_offered);
+                                    el.find('input[name="time_offered"]').val(data.time_offered);
+
                                 }
                             },
                             error: function (jqXHR, textStatus, errorThrown) {
@@ -231,7 +252,7 @@
                 }
             }
 
-            // POST: Add new boundary
+            // POST: Add new mass request
             let create = {
                 init: function() {
                     this.bindForm();
@@ -260,7 +281,7 @@
                         let data = el.serialize();
                         
                         $.ajax({
-                            url: baseURL + '/admin/boundaries/create',
+                            url: baseURL + '/admin/mass_request/create',
                             type: 'POST',
                             dataType: 'json',
                             data: data,
@@ -293,7 +314,7 @@
                                     $('#create').modal('hide');
 
                                     // Show and append notif msg  
-                                    $('#notif').modal('show').find('.modal-body p').text('A new boundaries has been published');
+                                    $('#notif').modal('show').find('.modal-body p').text('A new mass request has been published');
                                     
                                     // Hide notif after (x) number of seconds 
                                     setTimeout(function(){ 
@@ -302,8 +323,10 @@
                                 } else {
                                     // Form error
                                     (Boolean(data.name)) ? el.find('#name').addClass('is-invalid') : el.find('#name').removeClass('is-invalid');  
-                                    (Boolean(data.description)) ? el.find('#description').addClass('is-invalid') : el.find('#description').removeClass('is-invalid');   
-
+                                    (Boolean(data.purpose_mass)) ? el.find('#purpose_mass').addClass('is-invalid') : el.find('#purpose_mass').removeClass('is-invalid');  
+                                    (Boolean(data.dt_offered)) ? el.find('#dt_offered').addClass('is-invalid') : el.find('#dt_offered').removeClass('is-invalid');  
+                                    (Boolean(data.time_offered)) ? el.find('#time_offered').addClass('is-invalid') : el.find('#time_offered').removeClass('is-invalid');  
+                                                                        
                                     // For debugging
                                     console.log(data.status);
                                 }
@@ -318,7 +341,7 @@
                 }
             }
 
-            // PUT: Update boundary
+            // PUT: Update mass request
             let update = {
                 init: function() {
                     this.bindForm();
@@ -338,7 +361,7 @@
                         let data = el.serialize();
                     
                         $.ajax({
-                            url: baseURL + '/admin/boundaries/update/id/' + id,
+                            url: baseURL + '/admin/mass_request/update/id/' + id,
                             type: 'PUT',
                             dataType: 'json',
                             data: data,
@@ -371,7 +394,7 @@
                                     $('#update').modal('hide');
 
                                     // Show and append notif msg  
-                                    $('#notif').modal('show').find('.modal-body p').text('boundaries #' + id + ' has been updated');
+                                    $('#notif').modal('show').find('.modal-body p').text('mass request #' + id + ' has been updated');
                                     
                                     // Hide notif after (x) number of seconds 
                                     setTimeout(function(){ 
@@ -379,9 +402,12 @@
                                     }, 3000);
                                 } else {
                                     // Form error
+                                    (Boolean(data.status)) ? el.find('#status').addClass('is-invalid') : el.find('#status').removeClass('is-invalid');
                                     (Boolean(data.name)) ? el.find('#name').addClass('is-invalid') : el.find('#name').removeClass('is-invalid');  
-                                    (Boolean(data.description)) ? el.find('#description').addClass('is-invalid') : el.find('#description').removeClass('is-invalid'); 
-                                   
+                                    (Boolean(data.purpose_mass)) ? el.find('#purpose_mass').addClass('is-invalid') : el.find('#purpose_mass').removeClass('is-invalid');  
+                                    (Boolean(data.dt_offered)) ? el.find('#dt_offered').addClass('is-invalid') : el.find('#dt_offered').removeClass('is-invalid');  
+                                    (Boolean(data.time_offered)) ? el.find('#time_offered').addClass('is-invalid') : el.find('#time_offered').removeClass('is-invalid');  
+                                      
                                     // For debugging
                                     console.log(data.status);
                                }
@@ -396,7 +422,7 @@
                 }
             }
 
-            // PUT: Delete boundary
+            // PUT: Delete Mass request
             let softDelete = {
                 init: function() {
                     this.bindForm();
@@ -405,7 +431,7 @@
                     $('#delete').on('show.bs.modal', this.submitForm(), function(e){
                         $(this).find('#ajax-response').empty();
                         $(this).find('input:hidden[name="id"]').val($(e.relatedTarget).data('param'));
-                        $(this).find('.modal-body p').text('Are you sure you want to delete boundaries #' + $(e.relatedTarget).data('param') + '?');
+                        $(this).find('.modal-body p').text('Are you sure you want to delete mass request #' + $(e.relatedTarget).data('param') + '?');
                     });
                 },
                 submitForm: function() {
@@ -416,7 +442,7 @@
                         let data = el.serialize();
                     
                         $.ajax({
-                            url: baseURL + '/admin/boundaries/delete/id/' + id,
+                            url: baseURL + '/admin/mass_request/delete/id/' + id,
                             type: 'PUT',
                             dataType: 'json',
                             data: data,
@@ -449,7 +475,7 @@
                                     $('#delete').modal('hide');
 
                                     // Show and append notif msg  
-                                    $('#notif').modal('show').find('.modal-body p').text('boundaries #' + id + ' has been moved to trash');
+                                    $('#notif').modal('show').find('.modal-body p').text('mass request #' + id + ' has been moved to trash');
                                     
                                     // Hide notif after (x) number of seconds 
                                     setTimeout(function(){ 

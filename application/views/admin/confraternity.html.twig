@@ -1,10 +1,10 @@
 {#
-    Filename    : Boundaries.html.twig
-    Location    : application/views/admin/Boundaries.html.twig
-    Purpose     : Boundaries page, Implemented GET, POST, and PUT methods
-    Created     : 07/23/2019 15:17:37 by Scarlet Witch
-    Updated     : 08/01/2019 11:16:45 by Scarlet Witch
-    Changes     : Updated the baseURL for local and datatables - from datatable-basic to datatables__default
+    Filename    : Confraternity.html.twig
+    Location    : application/views/admin/Confraternity.html.twig
+    Purpose     : Confraternity page, Implemented GET, POST, and PUT methods
+    Created     : 07/31/2019 16:00:09 by Scarlet Witch
+    Updated     : 08/01/2019 16:21:31 by Scarlet Witch
+    Changes     : update fields
 #}
 
 {% extends 'admin/base.html.twig' %}
@@ -35,8 +35,9 @@
                             <tr>
                                 <th>#</th>
                                 <th>Name</th>
+                                <th>Status</th>
                                 <th>Posted on</th>
-                                <th>Updated on</th>                                                             
+                                <th>Updated on</th>                                                                                    
                                 <th>Author</th>
                                 <th></th>
                                 <th></th>
@@ -55,10 +56,37 @@
         <div class="modal-body px-5">
             <input type="hidden" name="id">
             <div class="form-group">
-                <input type="text" class="form-control" id="name" name="name" value="{{ set_value('name') }}" placeholder="boundary Title">
+                <input type="text" class="form-control" id="name" name="name" value="{{ set_value('name') }}" placeholder="Name">
             </div>
             <div class="form-group">
-                <textarea class="form-control" id="description" name="description" rows="4" maxlength="255" placeholder="boundary Description"></textarea>
+                <input type="text" class="form-control" id="address_1" name="address_1" value="{{ set_value('address_1') }}" placeholder="Home Address">
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" id="address_2" name="address_2" value="{{ set_value('address_2') }}" placeholder="Address 2">
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" id="barangay" name="barangay" value="{{ set_value('barangay') }}" placeholder="Barangay">
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" id="city" name="city" value="{{ set_value('city') }}" placeholder="City">
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" id="province" name="province" value="{{ set_value('province') }}" placeholder="Province">
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" id="country" name="country" value="{{ set_value('country') }}" placeholder="Country">
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" id="dt_birth" name="dt_birth" value="{{ set_value('dt_birth') }}" placeholder="Date of Birth">
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" id="landline" name="landline" value="{{ set_value('landline') }}" placeholder="Landline">
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" id="mobile" name="mobile" value="{{ set_value('mobile') }}" placeholder="Mobile">
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" id="email" name="email" value="{{ set_value('email') }}" placeholder="Email Address">
             </div>
         </div>
         <div class="modal-footer">
@@ -73,10 +101,40 @@
         <div class="modal-body px-5">
             <input type="hidden" name="id">
             <div class="form-group">
-                <input type="text" class="form-control" id="name" name="name" value="{{ set_value('name') }}" placeholder="boundary Title">
+                <input type="text" class="form-control" id="status" name="status" value="{{ set_value('status') }}" placeholder="Status">
             </div>
             <div class="form-group">
-                <textarea class="form-control" id="description" name="description" rows="4" maxlength="255" placeholder="boundary Description"></textarea>
+                <input type="text" class="form-control" id="name" name="name" value="{{ set_value('name') }}" placeholder="Name">
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" id="address_1" name="address_1" value="{{ set_value('address_1') }}" placeholder="Home Address">
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" id="address_2" name="address_2" value="{{ set_value('address_2') }}" placeholder="Address 2">
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" id="barangay" name="barangay" value="{{ set_value('barangay') }}" placeholder="Barangay">
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" id="city" name="city" value="{{ set_value('city') }}" placeholder="City">
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" id="province" name="province" value="{{ set_value('province') }}" placeholder="Province">
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" id="country" name="country" value="{{ set_value('country') }}" placeholder="Country">
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" id="dt_birth" name="dt_birth" value="{{ set_value('dt_birth') }}" placeholder="Date of Birth">
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" id="landline" name="landline" value="{{ set_value('landline') }}" placeholder="Landline">
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" id="mobile" name="mobile" value="{{ set_value('mobile') }}" placeholder="Mobile">
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" id="email" name="email" value="{{ set_value('email') }}" placeholder="Email Address">
             </div>
         </div>
         <div class="modal-footer">
@@ -89,7 +147,7 @@
     <script>
         $(function () {
 
-            let baseURL = location.origin.toLowerCase() + '/mountcarmel.web';        
+            let baseURL = location.origin.toLowerCase() + '/mountcarmel.web';                       
             //let baseURL = location.origin.toLowerCase();
             let isProcessing = false;
 
@@ -104,7 +162,7 @@
                         "processing": true,
                         "serverSide": false,
                         "ajax": {
-                            "url": baseURL + "/admin/boundaries/boundaries",
+                            "url": baseURL + "/admin/confraternity/confraternity",
                             "type": "GET"
                         },
                         "columns": [
@@ -113,6 +171,7 @@
                                 "data": "id"
                             },
                             {"data": "name"},
+                            {"data": "status"},
                             {
                                 "data": "posted_on",
                                 "mRender": function (data) {
@@ -139,7 +198,7 @@
                         "lengthMenu": [[10, 25, 50, 75, 100], [10, 25, 50, 75, 100]],
                         "order": [[0, "desc"]],
                         "columnDefs": [
-                            {"orderable": false, "targets": [5, 6]}
+                            {"orderable": false, "targets": [6, 7]}
                         ],
                         "responsive": true,
                         "language": {
@@ -193,7 +252,7 @@
                         let data = el.serialize();
 
                         $.ajax({
-                            url: baseURL + '/admin/boundaries/boundary/id/' + id,
+                            url: baseURL + '/admin/confraternity/medium/id/' + id,
                             type: 'GET',
                             dataType: 'json',
                             data: data,
@@ -218,9 +277,19 @@
                             success: function (data) {
                                 if (data) {
                                     // Populate form
-                                    el.find('input:hidden[name="id"]').val(data.id);
+                                    el.find('input:hidden[name="id"]').val(data.id);                                    
+                                    el.find('input[name="status"]').val(data.status);
                                     el.find('input[name="name"]').val(data.name);
-                                    el.find('textarea[name="description"]').html(data.description);
+                                    el.find('input[name="address_1"]').val(data.address_1);
+                                    el.find('input[name="address_2"]').val(data.address_2);
+                                    el.find('input[name="barangay"]').val(data.barangay);
+                                    el.find('input[name="city"]').val(data.city);
+                                    el.find('input[name="province"]').val(data.province);
+                                    el.find('input[name="country"]').val(data.country);
+                                    el.find('input[name="dt_birth"]').val(data.dt_birth);
+                                    el.find('input[name="landline"]').val(data.landline);
+                                    el.find('input[name="mobile"]').val(data.mobile);
+                                    el.find('input[name="email"]').val(data.email);
                                 }
                             },
                             error: function (jqXHR, textStatus, errorThrown) {
@@ -231,7 +300,7 @@
                 }
             }
 
-            // POST: Add new boundary
+            // POST: Add new confraternity
             let create = {
                 init: function() {
                     this.bindForm();
@@ -260,7 +329,7 @@
                         let data = el.serialize();
                         
                         $.ajax({
-                            url: baseURL + '/admin/boundaries/create',
+                            url: baseURL + '/admin/confraternity/create',
                             type: 'POST',
                             dataType: 'json',
                             data: data,
@@ -293,7 +362,7 @@
                                     $('#create').modal('hide');
 
                                     // Show and append notif msg  
-                                    $('#notif').modal('show').find('.modal-body p').text('A new boundaries has been published');
+                                    $('#notif').modal('show').find('.modal-body p').text('A new confraternity has been published');
                                     
                                     // Hide notif after (x) number of seconds 
                                     setTimeout(function(){ 
@@ -302,8 +371,17 @@
                                 } else {
                                     // Form error
                                     (Boolean(data.name)) ? el.find('#name').addClass('is-invalid') : el.find('#name').removeClass('is-invalid');  
-                                    (Boolean(data.description)) ? el.find('#description').addClass('is-invalid') : el.find('#description').removeClass('is-invalid');   
-
+                                    (Boolean(data.address_1)) ? el.find('#address_1').addClass('is-invalid') : el.find('#address_1').removeClass('is-invalid');  
+                                    (Boolean(data.address_2)) ? el.find('#address_2').addClass('is-invalid') : el.find('#address_2').removeClass('is-invalid');  
+                                    (Boolean(data.barangay)) ? el.find('#barangay').addClass('is-invalid') : el.find('#barangay').removeClass('is-invalid');  
+                                    (Boolean(data.city)) ? el.find('#city').addClass('is-invalid') : el.find('#city').removeClass('is-invalid');  
+                                    (Boolean(data.province)) ? el.find('#province').addClass('is-invalid') : el.find('#province').removeClass('is-invalid');  
+                                    (Boolean(data.country)) ? el.find('#country').addClass('is-invalid') : el.find('#country').removeClass('is-invalid');  
+                                    (Boolean(data.dt_birth)) ? el.find('#dt_birth').addClass('is-invalid') : el.find('#dt_birth').removeClass('is-invalid');  
+                                    (Boolean(data.landline)) ? el.find('#landline').addClass('is-invalid') : el.find('#landline').removeClass('is-invalid');  
+                                    (Boolean(data.mobile)) ? el.find('#mobile').addClass('is-invalid') : el.find('#mobile').removeClass('is-invalid'); 
+                                    (Boolean(data.email)) ? el.find('#email').addClass('is-invalid') : el.find('#email').removeClass('is-invalid');  
+                                                                         
                                     // For debugging
                                     console.log(data.status);
                                 }
@@ -318,7 +396,7 @@
                 }
             }
 
-            // PUT: Update boundary
+            // PUT: Update confraternity
             let update = {
                 init: function() {
                     this.bindForm();
@@ -338,7 +416,7 @@
                         let data = el.serialize();
                     
                         $.ajax({
-                            url: baseURL + '/admin/boundaries/update/id/' + id,
+                            url: baseURL + '/admin/confraternity/update/id/' + id,
                             type: 'PUT',
                             dataType: 'json',
                             data: data,
@@ -371,7 +449,7 @@
                                     $('#update').modal('hide');
 
                                     // Show and append notif msg  
-                                    $('#notif').modal('show').find('.modal-body p').text('boundaries #' + id + ' has been updated');
+                                    $('#notif').modal('show').find('.modal-body p').text('confraternity #' + id + ' has been updated');
                                     
                                     // Hide notif after (x) number of seconds 
                                     setTimeout(function(){ 
@@ -379,9 +457,19 @@
                                     }, 3000);
                                 } else {
                                     // Form error
+                                    (Boolean(data.status)) ? el.find('#status').addClass('is-invalid') : el.find('#status').removeClass('is-invalid');
                                     (Boolean(data.name)) ? el.find('#name').addClass('is-invalid') : el.find('#name').removeClass('is-invalid');  
-                                    (Boolean(data.description)) ? el.find('#description').addClass('is-invalid') : el.find('#description').removeClass('is-invalid'); 
-                                   
+                                    (Boolean(data.address_1)) ? el.find('#address_1').addClass('is-invalid') : el.find('#address_1').removeClass('is-invalid');  
+                                    (Boolean(data.address_2)) ? el.find('#address_2').addClass('is-invalid') : el.find('#address_2').removeClass('is-invalid');  
+                                    (Boolean(data.barangay)) ? el.find('#barangay').addClass('is-invalid') : el.find('#barangay').removeClass('is-invalid');  
+                                    (Boolean(data.city)) ? el.find('#city').addClass('is-invalid') : el.find('#city').removeClass('is-invalid');  
+                                    (Boolean(data.province)) ? el.find('#province').addClass('is-invalid') : el.find('#province').removeClass('is-invalid');  
+                                    (Boolean(data.country)) ? el.find('#country').addClass('is-invalid') : el.find('#country').removeClass('is-invalid');  
+                                    (Boolean(data.dt_birth)) ? el.find('#dt_birth').addClass('is-invalid') : el.find('#dt_birth').removeClass('is-invalid');  
+                                    (Boolean(data.landline)) ? el.find('#landline').addClass('is-invalid') : el.find('#landline').removeClass('is-invalid');  
+                                    (Boolean(data.mobile)) ? el.find('#mobile').addClass('is-invalid') : el.find('#mobile').removeClass('is-invalid'); 
+                                    (Boolean(data.email)) ? el.find('#email').addClass('is-invalid') : el.find('#email').removeClass('is-invalid');  
+                                      
                                     // For debugging
                                     console.log(data.status);
                                }
@@ -396,7 +484,7 @@
                 }
             }
 
-            // PUT: Delete boundary
+            // PUT: Delete confraternity
             let softDelete = {
                 init: function() {
                     this.bindForm();
@@ -405,7 +493,7 @@
                     $('#delete').on('show.bs.modal', this.submitForm(), function(e){
                         $(this).find('#ajax-response').empty();
                         $(this).find('input:hidden[name="id"]').val($(e.relatedTarget).data('param'));
-                        $(this).find('.modal-body p').text('Are you sure you want to delete boundaries #' + $(e.relatedTarget).data('param') + '?');
+                        $(this).find('.modal-body p').text('Are you sure you want to delete confraternity #' + $(e.relatedTarget).data('param') + '?');
                     });
                 },
                 submitForm: function() {
@@ -416,7 +504,7 @@
                         let data = el.serialize();
                     
                         $.ajax({
-                            url: baseURL + '/admin/boundaries/delete/id/' + id,
+                            url: baseURL + '/admin/confraternity/delete/id/' + id,
                             type: 'PUT',
                             dataType: 'json',
                             data: data,
@@ -449,7 +537,7 @@
                                     $('#delete').modal('hide');
 
                                     // Show and append notif msg  
-                                    $('#notif').modal('show').find('.modal-body p').text('boundaries #' + id + ' has been moved to trash');
+                                    $('#notif').modal('show').find('.modal-body p').text('confraternity #' + id + ' has been moved to trash');
                                     
                                     // Hide notif after (x) number of seconds 
                                     setTimeout(function(){ 

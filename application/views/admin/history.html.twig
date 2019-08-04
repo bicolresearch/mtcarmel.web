@@ -3,8 +3,8 @@
     Location    : application/views/admin/history.html.twig
     Purpose     : History page, , Implemented GET, POST, and PUT methods
     Created     : 2019-07-22 11:36:22 by Scarlet Witch 
-    Updated     : 07/25/2019 13:25:41 by Scarlet Witch
-    Changes     : Update the baseURL
+    Updated     : 08/01/2019 11:34:14 by Scarlet Witch
+    Changes     : Updated the baseURL for local and datatables - from datatable-basic to datatables__default
 #}
 
 
@@ -16,7 +16,7 @@
         <div id="media" class="col-12 col-lg-12">
             <div class="card">
                 <div class="card-header">
-                    <div class="clearfix">
+                    <div class=datatables__default"clearfix">
                         <form class="form-inline float-right mt-1 d-none d-md-flex">
                             <a class="btn btn-brown mr-2" data-toggle="modal" href="#create">
                                 <i class="align-middle" data-feather="plus"></i> Add New
@@ -30,7 +30,7 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <table id="datatables-basic" class="table table-striped" width="100%">
+                    <table id="datatables__default" class="table table-striped" width="100%">
                         <thead>
                             <tr>
                                 <th>#</th>
@@ -109,8 +109,8 @@
     <script>
         $(function () {
 
-            //let baseURL = location.origin.toLowerCase() + '/mountcarmel.web';            
-            let baseURL = location.origin.toLowerCase();
+            let baseURL = location.origin.toLowerCase() + '/mountcarmel.web';            
+            //let baseURL = location.origin.toLowerCase();
             let isProcessing = false;
 
             // GET: Display all
@@ -120,10 +120,7 @@
                     this.reloadList();
                 },
                 display: function() {
-
-                    let el = $('#datatables-basic');
-
-                    el.DataTable({
+                    $('#datatables__default').DataTable({
                         "processing": true,
                         "serverSide": false,
                         "ajax": {
@@ -133,7 +130,7 @@
                         "columns": [
                             {
                                 "searchable": false,
-                                "data": null
+                                "data": "id"
                             },
                             {"data": "titular"},
                             {
@@ -142,31 +139,28 @@
                                     return data
                                 }
                             },
-                            {"data": "updated_on"},
+                            {"data": "updated_on"},                               
                             {"data": "author"},
                             {
                                 "searchable": false,
                                 "data": "id",
                                 "mRender": function (data) {
-                                    return '<a data-toggle="modal" data-param="' + data + '" data-toggle="tooltip" data-placement="top" title="Update" href="#update"><i class="align-middle material-icons md-22">mode_edit</i></a>';
+                                    return '<a href="#update" data-toggle="modal" data-param="' + data + '" data-toggle="tooltip" data-placement="top" title="Update" ><i class="align-middle material-icons md-22">mode_edit</i></a>';
                                 }
                             },
                             {
                                 "searchable": false,
                                 "data": "id",
                                 "mRender": function (data) {
-                                    return '<a data-toggle="modal" data-param="' + data + '" data-toggle="tooltip" data-placement="top" title="Delete" href="#delete"><i class="align-middle material-icons md-22">remove_circle_outline</i></a>';
+                                    return '<a href="#delete" data-toggle="modal" data-param="' + data + '" data-toggle="tooltip" data-placement="top" title="Delete"><i class="align-middle material-icons md-22">remove_circle_outline</i></a>';
                                 }
                             }
                         ],
                         "lengthMenu": [[10, 25, 50, 75, 100], [10, 25, 50, 75, 100]],
-                        "order": [[2, "desc"]],
+                        "order": [[0, "desc"]],
                         "columnDefs": [
-                            {"orderable": false, "targets": [0, 5, 6]}
+                            {"orderable": false, "targets": [5, 6]}
                         ],
-                        "fnCreatedRow": function (row, data, index) {
-                            $('td', row).eq(0).html(index + 1);
-                        },
                         "responsive": true,
                         "language": {
                             "decimal": "",
@@ -196,7 +190,7 @@
                 },
                 reloadList: function() {
                     $('#reload').on('click', function (e) {
-                        $('#datatables-basic').DataTable().ajax.reload(null, true); // user paging will reset on reload				                                
+                        $('#datatables__default').DataTable().ajax.reload(null, true); // user paging will reset on reload				                                
                         e.preventDefault();
                     })
                 }
@@ -329,7 +323,7 @@
                             success: function (data) {
                                 if (data.status === true) {
                                     // Reload datatables
-                                    $('#datatables-basic').DataTable().ajax.reload(null, false); // user paging is not reset on reload
+                                    $('#datatables__default').DataTable().ajax.reload(null, false); // user paging is not reset on reload
 
                                     // Hide this modal
                                     $('#create').modal('hide');
@@ -424,7 +418,7 @@
                             success: function (data) {
                                 if (data.status === true) {
                                     // Reload datatables
-                                    $('#datatables-basic').DataTable().ajax.reload(null, false); // user paging is not reset on reload
+                                    $('#datatables__default').DataTable().ajax.reload(null, false); // user paging is not reset on reload
 
                                     // Hide this modal
                                     $('#update').modal('hide');
@@ -505,7 +499,7 @@
                             success: function (data) {
                                 if (data.status === true) {
                                     // Reload datatables
-                                    $('#datatables-basic').DataTable().ajax.reload(null, false); // user paging is not reset on reload
+                                    $('#datatables__default').DataTable().ajax.reload(null, false); // user paging is not reset on reload
 
                                     // Hide this modal
                                     $('#delete').modal('hide');
