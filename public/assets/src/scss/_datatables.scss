@@ -190,7 +190,7 @@
         &:focus {
           color: #fff;
           background-color: lighten($sienna, 10%);
-          border-color: lighten($sienna, 10%);
+          border-color: lighten($sienna, 10%)!important;
         }
       }
     }

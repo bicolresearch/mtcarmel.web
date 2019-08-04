@@ -5,7 +5,7 @@
     Location    : application/controllers/admin/Ads.php
     Purpose     : Ads controller
     Created     : 07/11/2019 17:03:40 by Spiderman
-    Updated     : 07/25/2019 18:56:57 by Spiderman
+    Updated     : 08/01/2019 20:33:59 by Spiderman
     Changes     : 
 */
 
@@ -119,6 +119,7 @@ class Ads extends CI_Controller
         $this->form_validation
             ->set_rules('name', 'Name', 'trim|required|xss_clean')
             ->set_rules('description', 'Description', 'trim|required|xss_clean')
+            ->set_rules('media_id', 'Logo', 'trim|required|xss_clean')
             ->set_error_delimiters('<li>', '</li>');
 
         if ($this->form_validation->run()) {
@@ -181,8 +182,9 @@ class Ads extends CI_Controller
 
         $this->form_validation
             ->set_data($set_data)
-            ->set_rules('name', 'name', 'trim|required|xss_clean')
-            ->set_rules('description', 'description', 'trim|required|xss_clean')
+            ->set_rules('name', 'Name', 'trim|required|xss_clean')
+            ->set_rules('description', 'Description', 'trim|required|xss_clean')
+            ->set_rules('media_id', 'Logo', 'trim|required|xss_clean')
             ->set_error_delimiters('<li>', '</li>');
 
         if ($this->form_validation->run()) {

@@ -53,6 +53,7 @@
         <div class="modal-body px-5">
             <div id="ajax-preloader"></div>
             <div id="ajax-response"></div>
+            <input type="hidden" name="media_id">
             <div class="row">
                 <div class="col-12 col-lg-6">
                     <div class="form-group">
@@ -65,8 +66,13 @@
                     </div>
                 </div>
                 <div class="col-12 col-lg-6">
-                    <div id="placeholder">
+                    <div id="placeholder" class="mb-2">
+                        <!-- Image placeholder -->
+                        <img class="img-thumbnail mx-auto d-block" style="max-height: 200px" src="{{ base_url('public/assets/images/companylogo.jpg') }}" alt="Image Placeholder" />
                         <!-- This is where the image preview load -->
+                    </div>
+                    <div class="form-group text-center">
+                        <a class="btn btn-sm btn-brown rounded-pill px-3" href="#gallery" data-toggle="modal"><i class="align-middle" data-feather="edit-3"></i> Browse Gallery</a>
                     </div>
                 </div>
             </div>
@@ -100,7 +106,7 @@
                         <!-- This is where the image preview load -->
                     </div>
                     <div class="form-group text-center">
-                        <a class="btn btn-sm btn-brown rounded-pill px-3" href="#gallery" data-toggle="modal"><i class="align-middle" data-feather="edit-3"></i> Change Logo</a>
+                        <a class="btn btn-sm btn-brown rounded-pill px-3" href="#gallery" data-toggle="modal"><i class="align-middle" data-feather="edit-3"></i> Browse Gallery</a>
                     </div>
                 </div>
             </div>
@@ -123,13 +129,14 @@
             // GET: Display all
             let getAll = {
                 init: function() {
-                    this.display();
-                    this.reloadList();
+                    this.displayTable();
+                    this.reloadTable();
                 },
-                display: function() {
+                displayTable: function() {
                     $('#datatables__default').DataTable({
                         "processing": true,
                         "serverSide": false,
+                        "responsive": false,
                         "ajax": {
                             "url": baseURL + "/admin/ads/advertisements",
                             "type": "GET"
@@ -140,25 +147,20 @@
                                 "data": "id"
                             },
                             {"data": "name"},
-                            {
-                                "data": "posted_on",
-                                "mRender": function (data) {
-                                    return data
-                                }
-                            },
+                            {"data": "posted_on"},
                             {"data": "updated_on"},
                             {
                                 "searchable": false,
                                 "data": "id",
                                 "mRender": function (data) {
-                                    return '<a href="#update" data-toggle="modal" data-param="' + data + '" data-toggle="tooltip" data-placement="top" title="Update" ><i class="align-middle material-icons md-22">mode_edit</i></a>';
+                                    return '<a href="#update" data-toggle="modal" data-id="' + data + '" data-toggle="tooltip" data-placement="top" title="Update" ><i class="align-middle material-icons md-22">mode_edit</i></a>';
                                 }
                             },
                             {
                                 "searchable": false,
                                 "data": "id",
                                 "mRender": function (data) {
-                                    return '<a href="#delete" data-toggle="modal" data-param="' + data + '" data-toggle="tooltip" data-placement="top" title="Delete"><i class="align-middle material-icons md-22">remove_circle_outline</i></a>';
+                                    return '<a href="#delete" data-toggle="modal" data-id="' + data + '" data-toggle="tooltip" data-placement="top" title="Delete"><i class="align-middle material-icons md-22">remove_circle_outline</i></a>';
                                 }
                             }
                         ],
@@ -166,35 +168,10 @@
                         "order": [[0, "desc"]],
                         "columnDefs": [
                             {"orderable": false, "targets": [4, 5]}
-                        ],
-                        "responsive": true,
-                        "language": {
-                            "decimal": "",
-                            "emptyTable": "No data available in table",
-                            "info": "Showing _START_ to _END_ of _TOTAL_ entries",
-                            "infoEmpty": "Showing 0 to 0 of 0 entries",
-                            "infoFiltered": "(filtered from _MAX_ total entries)",
-                            "infoPostFix": "",
-                            "thousands": ",",
-                            "lengthMenu": "Show _MENU_ entries",
-                            "loadingRecords": "Loading...",
-                            "processing": "Processing...",
-                            "search": "Search:",
-                            "zeroRecords": "No matching records found",
-                            "paginate": {
-                                "first": "First",
-                                "last": "Last",
-                                "next": "Next",
-                                "previous": "Previous"
-                            },
-                            "aria": {
-                                "sortAscending": ": activate to sort column ascending",
-                                "sortDescending": ": activate to sort column descending"
-                            }
-                        }
+                        ]
                     });
                 },
-                reloadList: function() {
+                reloadTable: function() {
                     $('#reload').on('click', function (e) {
                         $('#datatables__default').DataTable().ajax.reload(null, true); // user paging will reset on reload				                                
                         e.preventDefault();
@@ -205,57 +182,59 @@
             // GET: Display by id
             let getById = {
                 init: function() {
-                    this.display();
+                    this.resetForm();
+                    this.displayForm();
                 },
-                display: function() {
-                    $('#update').on('show.bs.modal', function (e) {
-                        let el = $(this);
+                resetForm: function() {
+                    $('#update').on('hidden.bs.modal', function(){
+                        $(this).find('form')[0].reset();
+                        $(this).find('.form-control').removeClass('is-invalid');
+                        $(this).find('#ajax-response').empty();
+                        $(this).find('#placeholder').empty();
+                    });
+                },
+                displayForm: function(e) {
+                    $('#update').on('show.bs.modal', function(e){
+                        
+                        let _this = $(this);
 
-                        // Reset form
-                        el.find('form').each(function() { this.reset() });
-                        el.find('.form-control').removeClass('is-invalid');
-                        el.find('#ajax-response').empty();
+                        // Set data attr id
+                        let id = $(e.relatedTarget).data('id');
 
-                        let id = $(e.relatedTarget).data('param');
-                        if(id == null) id = $('body').data('param');
-                        let data = el.serialize();
+                        // If id is null, set data attr id from body instead
+                        if (id == null) id = $('body').data('id');
 
-                        $.ajax({
+                        let jqXHR = $.ajax({
                             url: baseURL + '/admin/ads/advertisement/id/' + id,
                             type: 'GET',
                             dataType: 'json',
-                            data: data,
+                            data: _this.serialize(),
                             cache: false,
                             processData: false,
                             beforeSend: function () {
-                                el.find('#ajax-preloader').html(
-                                    '<div class="loader">' +
-                                    '  <svg class="circular" viewBox="25 25 50 50">' +
-                                    '    <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>' +
-                                    '  </svg>' +
-                                    '</div>').show();
-                            },
-                            complete: function () {
-                                el.find('#ajax-preloader').html(
-                                    '<div class="loader">' +
-                                    '  <svg class="circular" viewBox="25 25 50 50">' +
-                                    '    <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>' +
-                                    '  </svg>' +
-                                    '</div>').hide('fast');
-                            },
-                            success: function (data) {
-                                if (data) {
-                                    // Populate form
-                                    $('body').attr('data-param', data.id);
-                                    el.find('input:hidden[name="id"]').val(data.id);
-                                    el.find('input[name="name"]').val(data.name);
-                                    el.find('textarea[name="description"]').html(data.description);
-                                    el.find('#placeholder').html('<img class="img-fluid mx-auto d-block" src="' + apiURL + '/' + data.full_path + '" alt="' + data.name + '" />');
-                                }
-                            },
-                            error: function (jqXHR, textStatus, errorThrown) {
-                                console.log('The following error occurred: ' + textStatus, errorThrown);
+                                _this.find('#ajax-preloader').preloader().show();
+                                _this.find('.btn-change-state').attr('disabled', 'disabled');
                             }
+                        });
+
+                        jqXHR.done(function (data) {
+                            if (data) {
+                                // Populate form
+                                $('body').attr('data-id', data.id);
+                                _this.find('input:hidden[name="id"]').val(data.id);                    
+                                _this.find('input[name="name"]').val(data.name);
+                                _this.find('textarea[name="description"]').html(data.description);
+                                _this.find('#placeholder').html('<img class="img-thumbnail mx-auto d-block" style="max-height: 200px" src="' + apiURL + '/' + data.full_path + '" alt="' + data.name + '" />');
+                            }
+                        });
+
+                        jqXHR.always(function () {
+                            _this.find('#ajax-preloader').preloader().hide();
+                            _this.find('.btn-change-state').removeAttr('disabled');
+                        });
+
+                        jqXHR.fail(function (jqXHR, textStatus, errorThrown) {
+                            console.log('The following error occurred: ' + textStatus, errorThrown);
                         });
                     });
                 }
@@ -264,19 +243,30 @@
             // POST: Add new
             let create = {
                 init: function() {
+                    this.resetForm();
+                    this.autoFocus();
                     this.bindForm();
                 },
-                bindForm: function () {
-                    $('#create').on('show.bs.modal', this.submitForm(), function(){
-                        // Reset form
-                        $(this).find('form').each(function() { this.reset() });
+                resetForm: function() {
+                    $('#create').on('hidden.bs.modal', function(){
+                        $(this).find('form')[0].reset();
                         $(this).find('.form-control').removeClass('is-invalid');
                         $(this).find('#ajax-response').empty();
-                        // Auto focus
-                        $(this).on('shown.bs.modal', function(){
-                            $(this).find('input[name="name"]').trigger('focus');
-                        }) 
+
+                        $(this).find('input:hidden[name="media_id"]').val('');
+                        $(this).find('#placeholder').replaceWith(
+                            '<div id="placeholder" class="mb-2">' +
+                            '   <img class="img-thumbnail mx-auto d-block" style="max-height: 200px" src="' + baseURL + '/public/assets/images/companylogo.jpg' + '" alt="Image Placeholder" />' +
+                            '</div>');
                     });
+                },
+                autoFocus: function() {
+                    $('#create').on('shown.bs.modal', function(){
+                        $(this).find('input[name="name"]').trigger('focus');
+                    }) 
+                },
+                bindForm: function () {
+                    $('#create').on('show.bs.modal', this.submitForm());
                 },
                 submitForm: function() {
                     // Prevent multiple ajax request
@@ -285,62 +275,53 @@
 
                     $('#create-form').on('submit', function(e){
 
-                        let el = $(this);
-                        let btn = el.find('.btn-change-state');
-                        let data = el.serialize();
-                        
-                        $.ajax({
+                        let _this = $(this);
+
+                        let jqXHR = $.ajax({
                             url: baseURL + '/admin/ads/create',
                             type: 'POST',
                             dataType: 'json',
-                            data: data,
+                            data: _this.serialize(),
                             cache: false,
                             processData: false,
                             beforeSend: function () {
-                                el.find('#ajax-preloader').html(
-                                    '<div class="loader">' +
-                                    '  <svg class="circular" viewBox="25 25 50 50">' +
-                                    '    <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>' +
-                                    '  </svg>' +
-                                    '</div>').show();
-                                btn.attr('disabled', 'disabled');
-                            },
-                            complete: function () {
-                                el.find('#ajax-preloader').html(
-                                    '<div class="loader">' +
-                                    '  <svg class="circular" viewBox="25 25 50 50">' +
-                                    '    <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>' +
-                                    '  </svg>' +
-                                    '</div>').hide('fast');
-                                btn.removeAttr('disabled');
-                            },
-                            success: function (data) {
-                                if (data.status === true) {
-                                    // Reload datatables
-                                    $('#datatables__default').DataTable().ajax.reload(null, false); // user paging is not reset on reload
-
-                                    // Hide this modal
-                                    $('#create').modal('hide');
-
-                                    // Show and append notif msg  
-                                    $('#notif').modal('show').find('.modal-body p').text('A new ads has been published');
-                                    
-                                    // Hide notif after (x) number of seconds 
-                                    setTimeout(function(){ 
-                                        $('#notif').modal('hide');
-                                    }, 3000);
-                                } else {
-                                    // Error msg response
-                                    el.find('#ajax-response').html('<div class="alert alert-danger"><ul>' + data.message + '</ul></div>');
-                                    (Boolean(data.name)) ? el.find('#name').addClass('is-invalid') : el.find('#name').removeClass('is-invalid');  
-                                    (Boolean(data.description)) ? el.find('#description').addClass('is-invalid') : el.find('#description').removeClass('is-invalid');   
-                                }
-                            },
-                            error: function (jqXHR, textStatus, errorThrown) {
-                                // For debugging
-                                console.log('The following error occurred: ' + textStatus, errorThrown);
+                                _this.find('#ajax-preloader').preloader().show();
+                                _this.find('.btn-change-state').attr('disabled', 'disabled');
                             }
                         });
+
+                        jqXHR.done(function (data) {
+                            if (data.status === true) {
+                                // Reload datatables
+                                $('#datatables__default').DataTable().ajax.reload(null, false); // user paging is not reset on reload
+
+                                // Hide this modal
+                                $('#create').modal('hide');
+
+                                // Show and append notif msg  
+                                $('#notif').modal('show').find('.modal-body p').text('A new ads has been published');
+                                    
+                                // Hide notif after (x) number of seconds 
+                                setTimeout(function(){ 
+                                    $('#notif').modal('hide');
+                                }, 3000);
+                            } else {
+                                // Error msg response
+                                _this.find('#ajax-response').html('<div class="alert alert-danger"><ul>' + data.message + '</ul></div>');
+                                (Boolean(data.name)) ? _this.find('#name').addClass('is-invalid') : _this.find('#name').removeClass('is-invalid');  
+                                (Boolean(data.description)) ? _this.find('#description').addClass('is-invalid') : _this.find('#description').removeClass('is-invalid');   
+                            }
+                        });
+
+                        jqXHR.always(function () {
+                            _this.find('#ajax-preloader').preloader().hide();
+                            _this.find('.btn-change-state').removeAttr('disabled');
+                        });
+
+                        jqXHR.fail(function (jqXHR, textStatus, errorThrown) {
+                            console.log('The following error occurred: ' + textStatus, errorThrown);
+                        });
+
                         e.preventDefault();
                     });
                 }
@@ -351,72 +332,70 @@
                 init: function() {
                     this.bindForm();
                 },
-                bindForm: function () {
-                    $('#update').on('show.bs.modal', this.submitForm(), function(){
-                        // Reset form
+                resetForm: function() {
+                    $('#update').on('hidden.bs.modal', function(){
+                        $(this).find('form')[0].reset();
                         $(this).find('.form-control').removeClass('is-invalid');
                         $(this).find('#ajax-response').empty();
+                        $(this).find('#placeholder').empty();
                     });
+                },
+                bindForm: function () {
+                    $('#update').on('show.bs.modal', this.submitForm());
                 },
                 submitForm: function() {
                     $('#update-form').on('submit', function(e){
-                        let el = $(this);
-                        let btn = el.find('.btn-change-state');
-                        let id = el.find('input:hidden[name="id"]').val();
-                        let data = el.serialize();
-                    
-                        $.ajax({
+                        
+                        let _this = $(this);
+
+                        // Set id
+                        let id = _this.find('input:hidden[name="id"]').val();
+
+                        let jqXHR = $.ajax({
                             url: baseURL + '/admin/ads/update/id/' + id,
                             type: 'PUT',
                             dataType: 'json',
-                            data: data,
+                            data: _this.serialize(),
                             cache: false,
                             processData: false,
                             beforeSend: function () {
-                                el.find('#ajax-preloader').html(
-                                    '<div class="loader">' +
-                                    '  <svg class="circular" viewBox="25 25 50 50">' +
-                                    '    <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>' +
-                                    '  </svg>' +
-                                    '</div>').show();
-                                btn.attr('disabled', 'disabled');
-                            },
-                            complete: function () {
-                                el.find('#ajax-preloader').html(
-                                    '<div class="loader">' +
-                                    '  <svg class="circular" viewBox="25 25 50 50">' +
-                                    '    <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>' +
-                                    '  </svg>' +
-                                    '</div>').hide('fast');
-                                btn.removeAttr('disabled');
-                            },
-                            success: function (data) {
-                                if (data.status === true) {
-                                    // Reload datatables
-                                    $('#datatables__default').DataTable().ajax.reload(null, false); // user paging is not reset on reload
-
-                                    // Hide this modal
-                                    $('#update').modal('hide');
-
-                                    // Show and append notif msg  
-                                    $('#notif').modal('show').find('.modal-body p').text('Ads #' + id + ' has been updated');
-                                    
-                                    // Hide notif after (x) number of seconds 
-                                    setTimeout(function(){ 
-                                        $('#notif').modal('hide');
-                                    }, 3000);
-                                } else {
-                                    // Error msg response
-                                    el.find('#ajax-response').html('<div class="alert alert-danger"><ul>' + data.message + '</ul></div>');
-                                    (Boolean(data.name)) ? el.find('#name').addClass('is-invalid') : el.find('#name').removeClass('is-invalid');  
-                                    (Boolean(data.description)) ? el.find('#description').addClass('is-invalid') : el.find('#description').removeClass('is-invalid'); 
-                               }
-                            },
-                            error: function (jqXHR, textStatus, errorThrown) {
-                                // For debugging
-                                console.log('The following error occurred: ' + textStatus, errorThrown);
+                                _this.find('#ajax-preloader').preloader().show();
+                                _this.find('.btn-change-state').attr('disabled', 'disabled');
                             }
                         });
+
+                        jqXHR.done(function (data) {
+                            if (data.status === true) {
+                                // Reload datatables
+                                $('#datatables__default').DataTable().ajax.reload(null, false); // user paging is not reset on reload
+
+                                // Hide this modal
+                                $('#update').modal('hide');
+
+                                // Show and append notif msg  
+                                $('#notif').modal('show').find('.modal-body p').text('Ads #' + id + ' has been updated');
+                                    
+                                // Hide notif after (x) number of seconds 
+                                setTimeout(function(){ 
+                                    $('#notif').modal('hide');
+                                }, 3000);
+                            } else {
+                                // Error msg response
+                                _this.find('#ajax-response').html('<div class="alert alert-danger"><ul>' + data.message + '</ul></div>');
+                                (Boolean(data.name)) ? _this.find('#name').addClass('is-invalid') : _this.find('#name').removeClass('is-invalid');  
+                                (Boolean(data.description)) ? _this.find('#description').addClass('is-invalid') : _this.find('#description').removeClass('is-invalid'); 
+                            }
+                        });
+
+                        jqXHR.always(function () {
+                            _this.find('#ajax-preloader').preloader().hide();
+                            _this.find('.btn-change-state').removeAttr('disabled');
+                        });
+
+                        jqXHR.fail(function (jqXHR, textStatus, errorThrown) {
+                            console.log('The following error occurred: ' + textStatus, errorThrown);
+                        });
+
                         e.preventDefault();
                     });
                 }
@@ -429,68 +408,59 @@
                 },
                 bindForm: function () {
                     $('#delete').on('show.bs.modal', this.submitForm(), function(e){
-                        $(this).find('input:hidden[name="id"]').val($(e.relatedTarget).data('param'));
-                        $(this).find('.modal-body p').text('Are you sure you want to delete ads #' + $(e.relatedTarget).data('param') + '?');
+                        let id = $(e.relatedTarget).data('id');
+                        $(this).find('input:hidden[name="id"]').val(id);
+                        $(this).find('.modal-body p').text('Are you sure you want to delete ads #' + id + '?');
                     });
                 },
                 submitForm: function() {
                     $('#delete-form').on('submit', function(e){
-                        let el = $(this);
-                        let btn = el.find('.btn-change-state');
-                        let id = el.find('input:hidden[name="id"]').val();
-                        let data = el.serialize();
+                        
+                        let _this = $(this);
+
+                        // Set id
+                        let id = _this.find('input:hidden[name="id"]').val();
                     
-                        $.ajax({
+                        let jqXHR = $.ajax({
                             url: baseURL + '/admin/ads/delete/id/' + id,
                             type: 'PUT',
                             dataType: 'json',
-                            data: data,
+                            data: _this.serialize(),
                             cache: false,
                             processData: false,
                             beforeSend: function () {
-                                el.find('#ajax-preloader').html(
-                                    '<div class="loader">' +
-                                    '  <svg class="circular" viewBox="25 25 50 50">' +
-                                    '    <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>' +
-                                    '  </svg>' +
-                                    '</div>').show();
-                                btn.attr('disabled', 'disabled');
-                            },
-                            complete: function () {
-                                el.find('#ajax-preloader').html(
-                                    '<div class="loader">' +
-                                    '  <svg class="circular" viewBox="25 25 50 50">' +
-                                    '    <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>' +
-                                    '  </svg>' +
-                                    '</div>').hide('fast');
-                                btn.removeAttr('disabled');
-                            },
-                            success: function (data) {
-                                if (data.status === true) {
-                                    // Reload datatables
-                                    $('#datatables__default').DataTable().ajax.reload(null, false); // user paging is not reset on reload
-
-                                    // Hide this modal
-                                    $('#delete').modal('hide');
-
-                                    // Show and append notif msg  
-                                    $('#notif').modal('show').find('.modal-body p').text('Ads #' + id + ' has been moved to trash');
-                                    
-                                    // Hide notif after (x) number of seconds 
-                                    setTimeout(function(){ 
-                                        $('#notif').modal('hide');
-                                    }, 3000);
-                                    
-                                } else {
-                                    // For debugging
-                                    console.log(data.status);
-                                }
-                            },
-                            error: function (jqXHR, textStatus, errorThrown) {
-                                // For debugging
-                                console.log('The following error occurred: ' + textStatus, errorThrown);
+                                _this.find('#ajax-preloader').preloader().show();
+                                _this.find('.btn-change-state').attr('disabled', 'disabled');
                             }
                         });
+
+                        jqXHR.done(function (data) {
+                            if (data.status === true) {
+                                // Reload datatables
+                                    $('#datatables__default').DataTable().ajax.reload(null, false); // user paging is not reset on reload
+
+                                // Hide this modal
+                                $('#delete').modal('hide');
+
+                                // Show and append notif msg  
+                                $('#notif').modal('show').find('.modal-body p').text('Ads #' + id + ' has been moved to trash');
+                                    
+                                // Hide notif after (x) number of seconds 
+                                setTimeout(function(){ 
+                                    $('#notif').modal('hide');
+                                }, 3000);       
+                            }
+                        });
+
+                        jqXHR.always(function () {
+                            _this.find('#ajax-preloader').preloader().hide();
+                            _this.find('.btn-change-state').removeAttr('disabled');
+                        });
+
+                        jqXHR.fail(function (jqXHR, textStatus, errorThrown) {
+                            console.log('The following error occurred: ' + textStatus, errorThrown);
+                        });
+
                         e.preventDefault();
                     });
                 }

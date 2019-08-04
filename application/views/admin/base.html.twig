@@ -20,8 +20,8 @@
         <link href="{{ base_url('public/assets/css/style.css') }}" rel="stylesheet">
     {% endblock %}
 </head>
-<body>
-<div class="wrapper" id="user" data-user-id="{{ user.id }}">
+<body data-user-id="{{ user.id }}">
+<div class="wrapper">
     {% block sidebar %}
         <nav class="sidebar sidebar-sticky">
             <div class="sidebar-content js-simplebar">
@@ -196,6 +196,7 @@
 {% block javascripts %}
     <script src="{{ base_url('public/assets/js/app.js') }}"></script>
     <script src="{{ base_url('public/assets/js/pace.min.js') }}"></script>
+    <script src="{{ base_url('public/assets/js/utilities.js') }}"></script>
     <script>
         $(function () {
 
@@ -204,33 +205,35 @@
 
             let app = {
                 init: function() {
-                    this.avatar(); // GET: Avatar
-                    this.gallery(); // GET: Media gallery
-                    this.updateModal(); // Show update modal
-                    this.galleryModal(); // Show gallery modal
+                    this.avatar();
+                    this.gallery();
+                    this.createModal();
+                    this.updateModal();
+                    this.galleryModal();
                 },
                 avatar: function() {
-                    let el = $('#user');
-                    let id = el.data('user-id');
-                    let data = el.serialize();
 
-                    $.ajax({
+                    let _this = $('body');
+
+                    let id = _this.data('user-id');
+
+                    let jqXHR = $.ajax({
                         url: baseURL + '/admin/profile/id/' + id,
                         type: 'GET',
                         dataType: 'json',
-                        data: data,
+                        data: _this.serialize(),
                         cache: false,
-                        processData: false,
-                        success: function (data) {
-                            if (data) {
-                                el.find('.profile').append(
-                                    '<img class="img-fluid rounded-circle mr-1 avatar" src="' + apiURL + '/' + data.avatar + '" alt="' + data.first_name + ' ' + data.last_name + '" />'
-                                );
-                            }
-                        },
-                        error: function (jqXHR, textStatus, errorThrown) {
-                            console.log('The following error occurred: ' + textStatus, errorThrown);
+                        processData: false
+                    });
+                    
+                    jqXHR.done(function(data) {
+                        if (data) {
+                            _this.find('.profile').append('<img class="img-fluid rounded-circle avatar mr-1" src="' + apiURL + '/' + data.avatar + '" alt="' + data.first_name + ' ' + data.last_name + '" />');
                         }
+                    });
+
+                    jqXHR.fail(function (jqXHR, textStatus, errorThrown) {
+                        console.log('The following error occurred: ' + textStatus, errorThrown);
                     });
                 },
                 gallery: function() {
@@ -243,6 +246,10 @@
                             table = $('#datatables__modal').DataTable({
                                 "processing": true,
                                 "serverSide": false,
+                                "responsive": true,
+                                "select": {
+                                    "style": "single"
+                                },
                                 "ajax": {
                                     "url": baseURL + "/admin/media/media",
                                     "type": "GET"
@@ -268,66 +275,76 @@
                                 "order": [[1, "desc"]],
                                 "columnDefs": [
                                     {"orderable": false, "targets": []}
-                                ],
-                                "responsive": true,
-                                "language": {
-                                    "decimal": "",
-                                    "emptyTable": "No data available in table",
-                                    "info": "Showing _START_ to _END_ of _TOTAL_ entries",
-                                    "infoEmpty": "Showing 0 to 0 of 0 entries",
-                                    "infoFiltered": "(filtered from _MAX_ total entries)",
-                                    "infoPostFix": "",
-                                    "thousands": ",",
-                                    "lengthMenu": "Show _MENU_ entries",
-                                    "loadingRecords": "Loading...",
-                                    "processing": "Processing...",
-                                    "search": "Search:",
-                                    "zeroRecords": "No matching records found",
-                                    "paginate": {
-                                        "first": "First",
-                                        "last": "Last",
-                                        "next": "Next",
-                                        "previous": "Previous"
-                                    },
-                                    "aria": {
-                                        "sortAscending": ": activate to sort column ascending",
-                                        "sortDescending": ": activate to sort column descending"
-                                    }
-                                },
-                                "select": {
-                                    "style": "single"
-                                }
+                                ]
                             });
 
-                            // Show id when row is selected
+                            // Selected row
                             $('#datatables__modal').on('click', 'tr', function() {
                                 // Get the rows id value
                                 let data = table.row(this).data();                            
-                                let id = data.id;
-                                console.log('Clicked row id ' + id);
+                                // Set media_id to a current opened modal
+                                $('.modal').on('show.bs.modal', function(){
+                                    $(this).find('input:hidden[name="media_id"]').val(data.id);
+                                });
                             });
                         }
+                    });
+                },
+                createModal: function() {
+                    $('#create').on('show.bs.modal', function(){
+                        $('#gallery').modal('hide');  
+                    }).on('hidden.bs.modal', function(){
+                        $('body').attr('data-previous-modal', 'create').addClass('modal-open');
                     });
                 },
                 updateModal: function() {
                     $('#update').on('show.bs.modal', function(){
                         $('#gallery').modal('hide');
                     }).on('hidden.bs.modal', function(){
-                        $('body').addClass('modal-open');
+                        $('body').attr('data-previous-modal', 'update').addClass('modal-open');
                     });
                 },
                 galleryModal: function() {
                     $('#gallery').on('show.bs.modal', function(){
-                        $('#update').modal('hide');
+                        if($('#create').hasClass('.show').toString()) {
+                            $('#create').modal('hide');
+                        } 
+                        if($('#update').hasClass('.show').toString()) {
+                            $('#update').modal('hide');
+                        } 
                     }).on('hidden.bs.modal', function(e){
-                        $('body').addClass('modal-open');
-                        $('#update').modal('show');
+                        
+                        let modal = $('body').attr('data-previous-modal');
+
+                        switch(modal) {
+                            case 'create':
+                                $('#create').modal('show');
+                                id = $('#create-form').find('input:hidden[name="media_id"]').val();
+                                $.get(apiURL + '/media/medium/id/' + id, function( data ) {
+                                    $('#create-form').find('#placeholder').replaceWith(
+                                        '<div id="placeholder" class="mb-2">' +
+                                        '   <img class="img-thumbnail mx-auto d-block" style="max-height: 200px" src="' + apiURL + '/' + data.full_path + '" alt="' + data.name + '" />' +
+                                        '</div>');
+                                });
+                                break;
+                            case 'update':
+                                $('#update').modal('show');      
+                                id = $('#update-form').find('input:hidden[name="media_id"]').val();
+                                $.get(apiURL + '/media/medium/id/' + id, function( data ) {
+                                    $('#update-form').find('#placeholder').replaceWith(
+                                        '<div id="placeholder" class="mb-2">' +
+                                        '   <img class="img-thumbnail mx-auto d-block" style="max-height: 200px" src="' + apiURL + '/' + data.full_path + '" alt="' + data.name + '" />' +
+                                        '</div>');
+                                });
+                                break;
+                            default:   
+                        }
+
+                        // Add class modal-open in body
+                        $('body').addClass('modal-open'); 
                     });
                 }
             }
-
-            // TODO: Show tooltip
-            //$('[data-toggle="tooltip"]').tooltip({ boundary: 'window' });
 
             app.init();
         })

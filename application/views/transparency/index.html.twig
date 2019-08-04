@@ -51,59 +51,50 @@
                 init: function () {
                     this.donations(); // GET: Donations
                     this.reloadList(); // Reload donations list
-                    this.digits(); //
                 },
                 donations: function() {
                     
-                    let el = $('#transparency');
-                    let data = el.serialize();
-
-                    $.ajax({
+                    let _this = $('#transparency');
+     
+                    let jqXHR = $.ajax({
                         url: apiURL + '/donations',
                         type: 'GET',
                         dataType: 'json',
-                        data: data,
+                        data: _this.serialize(),
                         cache: false,
                         processData: false,
                         beforeSend: function () {
-                            el.find('#ajax-preloader').html(
-                                '<div class="loader">' +
-                                '  <svg class="circular" viewBox="25 25 50 50">' +
-                                '    <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>' +
-                                '  </svg>' +
-                                '</div>').show();
-                        },
-                        complete: function () {
-                            el.find('#ajax-preloader').html(
-                                '<div class="loader">' +
-                                '  <svg class="circular" viewBox="25 25 50 50">' +
-                                '    <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>' +
-                                '  </svg>' +
-                                '</div>').hide('fast');
-                        },
-                        success: function (data) {
-                            if (data) {
-                                // Total Donations
-                                el.find('button[type="button"]').html('₱' + parseInt(data.total_donations.amount).toFixed(2)).digits();
-                                
-                                // Donations List
-                                $.each(data.donations_list, function (key, value) {
-                                    el.find('tbody').append(
-                                        '<tr>' +
-                                        '   <td>' +
-                                        '       <img class="rounded-circle mr-2" src="' + apiURL + '/' + value.profile_photo + '" width="32" height="32" alt="' + value.first_name + ' ' + value.last_name + '" />' + value.first_name + ' ' + value.last_name +
-                                        '   </td>' +
-                                        '   <td>' + '₱' + value.amount + '</td>' +
-                                        '   <td>' + moment(value.posted_on, "YYYY-MM-DD h:mm:ss").fromNow() + '</td>' +
-                                        '   <td>' + value.donation_type + '</td>' +
-                                        '</tr>'
-                                    );
-                                });
-                            }
-                        },
-                        error: function (jqXHR, textStatus, errorThrown) {
-                            console.log('The following error occurred: ' + textStatus, errorThrown);
+                            _this.find('#ajax-preloader').preloader().show();
                         }
+                    });
+
+                    jqXHR.always(function() {
+                        _this.find('#ajax-preloader').preloader().hide();
+                    });
+
+                    jqXHR.done(function (data) {
+                        if (data) {
+                            // Total Donations
+                            _this.find('button[type="button"]').html('₱' + parseInt(data.total_donations.amount).toFixed(2)).digits();
+                                
+                            // Donations List
+                             $.each(data.donations_list, function (key, value) {
+                                _this.find('tbody').append(
+                                    '<tr>' +
+                                    '   <td>' +
+                                    '       <img class="rounded-circle mr-2" src="' + apiURL + '/' + value.profile_photo + '" width="32" height="32" alt="' + value.first_name + ' ' + value.last_name + '" />' + value.first_name + ' ' + value.last_name +
+                                    '   </td>' +
+                                    '   <td>' + '₱' + value.amount + '</td>' +
+                                    '   <td>' + moment(value.posted_on, "YYYY-MM-DD h:mm:ss").fromNow() + '</td>' +
+                                    '   <td>' + value.donation_type + '</td>' +
+                                    '</tr>'
+                                );
+                            });
+                        }
+                    });
+
+                    jqXHR.fail(function(jqXHR, textStatus, errorThrown) {
+                        console.log('The following error occurred: ' + textStatus, errorThrown);
                     });
                 },
                 reloadList: function() {
@@ -111,13 +102,6 @@
                     $('#refresh').on('click', function(e){
                         e.preventDefault();
                     });
-                },
-                digits: function() {
-                    $.fn.digits = function(){ 
-                        return this.each(function(){ 
-                            $(this).text( $(this).text().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,") ); 
-                        })
-                    }
                 }
             };
 

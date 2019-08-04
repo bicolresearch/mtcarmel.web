@@ -450,15 +450,14 @@ a {
   &.indicator-offline {
     background-color: $light-slate-gray;
   }
-}
 
-/* Keyframes */
-@keyframes live {
-  from {
-    opacity: 1;
-  }
-  to {
-    opacity: 0;
+  @keyframes live {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+    }
   }
 }
 

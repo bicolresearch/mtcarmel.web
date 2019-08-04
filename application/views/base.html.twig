@@ -212,6 +212,7 @@
 {% block javascripts %}
     <script src="{{ base_url('public/assets/js/app.js') }}"></script>
     <script src="{{ base_url('public/assets/js/pace.min.js') }}"></script>
+    <script src="{{ base_url('public/assets/js/utilities.js') }}"></script>
     <script>
         $(function () {
 
@@ -220,71 +221,67 @@
             // POST: Login
             let login = {
                 init: function () {
+                    this.resetForm();
+                    this.autoFocus();
                     this.bindForm();
                 },
-                bindForm: function () {
-                    $('#loginModal').on('show.bs.modal', this.submitForm(), function(){
-                        // Clear the form
-                        let el = $('#login-form');
-                        el.find('#ajax-response').empty();
-                        el.find('.form-control').removeClass('is-invalid');
-                        el[0].reset();
-                        $(this).on('shown.bs.modal', function(){
-                            // Auto focus
-                            el.find('input[name="email"]').trigger('focus');
-                        }) 
+                resetForm: function() {
+                    $('#loginModal').on('hidden.bs.modal', function(){
+                        $(this).find('form')[0].reset();
+                        $(this).find('.form-control').removeClass('is-invalid');
+                        $(this).find('#ajax-response').empty();
                     });
+                },
+                autoFocus: function() {
+                    $('#loginModal').on('shown.bs.modal', function(){
+                        $(this).find('input[name="email"]').trigger('focus');
+                    }) 
+                },
+                bindForm: function () {
+                    $('#loginModal').on('show.bs.modal', this.submitForm());
                 },
                 submitForm: function () {
                     $('#login-form').on('submit', function (e) {
-                        let el = $(this);
-                        let btn = el.find('.btn-change-state');
-                        let data = el.serialize();
-
-                        $.ajax({
+                        
+                        let _this = $(this);
+                        
+                        let jqXHR = $.ajax({
                             url: baseURL + '/auth/login',
                             type: 'POST',
                             dataType: 'json',
-                            data: data,
+                            data: _this.serialize(),
                             cache: false,
                             processData: false,
                             beforeSend: function () {
-                                el.find('#ajax-preloader').html(
-                                    '<div class="loader">' +
-                                    '  <svg class="circular" viewBox="25 25 50 50">' +
-                                    '    <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>' +
-                                    '  </svg>' +
-                                    '</div>').show();
-                                btn.attr('disabled', 'disabled');
-                            },
-                            complete: function () {
-                                el.find('#ajax-preloader').html(
-                                    '<div class="loader">' +
-                                    '  <svg class="circular" viewBox="25 25 50 50">' +
-                                    '    <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>' +
-                                    '  </svg>' +
-                                    '</div>').hide('fast');
-                                btn.removeAttr('disabled');
-                            },
-                            success: function (data) {
-                                if (data.status === true) {
-                                    // Hide modal after successful login
-                                    $('#loginModal').modal('hide');
-
-                                    // Redirect to user page
-                                    window.location.replace(baseURL + '/auth');
-                                } else {
-                                    // Error msg response
-                                    el.find('#ajax-response').html('<div class="alert alert-danger"><ul>' + data.message + '</ul></div>');
-                                    (Boolean(data.email)) ? el.find('#email').addClass('is-invalid') : el.find('#email').removeClass('is-invalid');
-                                    (Boolean(data.password)) ? el.find('#password').addClass('is-invalid') : el.find('#password').removeClass('is-invalid');
-                                }
-                            },
-                            error: function (jqXHR, textStatus, errorThrown) {
-                                // For debugging
-                                console.log('The following error occurred: ' + textStatus, errorThrown);
+                                _this.find('#ajax-preloader').preloader().show();
+                                _this.find('.btn-change-state').attr('disabled', 'disabled');
                             }
                         });
+
+                        jqXHR.done(function (data) {
+                            if (data.status === true) {
+                                // Hide modal after successful login
+                                $('#loginModal').modal('hide');
+
+                                // Redirect to user page
+                                window.location.replace(baseURL + '/auth');
+                            } else {
+                                // Error msg response
+                                _this.find('#ajax-response').html('<div class="alert alert-danger"><ul>' + data.message + '</ul></div>');
+                                (Boolean(data.email)) ? _this.find('#email').addClass('is-invalid') : _this.find('#email').removeClass('is-invalid');
+                                (Boolean(data.password)) ? _this.find('#password').addClass('is-invalid') : _this.find('#password').removeClass('is-invalid');
+                            }
+                        });
+
+                        jqXHR.always(function () {
+                            _this.find('#ajax-preloader').preloader().hide();
+                            _this.find('.btn-change-state').removeAttr('disabled');
+                        });
+
+                        jqXHR.fail(function (jqXHR, textStatus, errorThrown) {
+                            console.log('The following error occurred: ' + textStatus, errorThrown);
+                        });
+
                         e.preventDefault();
                     });
                 }
@@ -293,75 +290,71 @@
             // POST: signup
             let signup = {
                 init: function () {
+                    this.resetForm();
+                    this.autoFocus();
                     this.bindForm();
                 },
-                bindForm: function () {
-                    $('#signupModal').on('show.bs.modal', this.submitForm(), function(){
-                        // Clear the form
-                        let el = $('#signup-form');
-                        el.find('#ajax-response').empty();
-                        el.find('.form-control').removeClass('is-invalid');
-                        el[0].reset();
-                        $(this).on('shown.bs.modal', function(){
-                            // Auto focus
-                            el.find('input[name="first_name"]').trigger('focus');
-                        }) 
+                resetForm: function() {
+                    $('#signupModal').on('hidden.bs.modal', function(){
+                        $(this).find('form')[0].reset();
+                        $(this).find('.form-control').removeClass('is-invalid');
+                        $(this).find('#ajax-response').empty();
                     });
+                },
+                autoFocus: function() {
+                    $('#signupModal').on('shown.bs.modal', function(){
+                        $(this).find('input[name="first_name"]').trigger('focus');
+                    }) 
+                },
+                bindForm: function () {
+                    $('#signupModal').on('show.bs.modal', this.submitForm());
                 },
                 submitForm: function () {
                     $('#signup-form').on('submit', function (e) {
-                        let el = $(this);
-                        let btn = el.find('.btn-change-state');
-                        let data = el.serialize();
+                        
+                        let _this = $(this);
 
-                        $.ajax({
+                        let jqXHR = $.ajax({
                             url: baseURL + '/auth/signup',
                             type: 'POST',
                             dataType: 'json',
-                            data: data,
+                            data: _this.serialize(),
                             cache: false,
                             processData: false,
                             beforeSend: function () {
-                                el.find('#ajax-preloader').html(
-                                    '<div class="loader">' +
-                                    '  <svg class="circular" viewBox="25 25 50 50">' +
-                                    '    <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>' +
-                                    '  </svg>' +
-                                    '</div>').show();
-                                btn.attr('disabled', 'disabled');
-                            },
-                            complete: function () {
-                                el.find('#ajax-preloader').html(
-                                    '<div class="loader">' +
-                                    '  <svg class="circular" viewBox="25 25 50 50">' +
-                                    '    <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>' +
-                                    '  </svg>' +
-                                    '</div>').hide('fast');
-                                btn.removeAttr('disabled');
-                            },
-                            success: function (data) {
-                                if (data.status === true) {
-                                    // Clear the form
-                                    el.find('.form-control').removeClass('is-invalid');
-                                    el[0].reset();
-
-                                    // Success msg response
-                                    el.find('#ajax-response').html('<div class="alert alert-success"><ul>' + data.message + '</ul></div>');
-                                } else {
-                                    // Error msg response
-                                    el.find('#ajax-response').html('<div class="alert alert-danger"><ul>' + data.message + '</ul></div>');
-                                    (Boolean(data.first_name)) ? el.find('#first-name').addClass('is-invalid') : el.find('#first-name').removeClass('is-invalid');
-                                    (Boolean(data.last_name)) ? el.find('#last-name').addClass('is-invalid') : el.find('#last-name').removeClass('is-invalid');
-                                    (Boolean(data.email)) ? el.find('#username').addClass('is-invalid') : el.find('#username').removeClass('is-invalid');
-                                    (Boolean(data.password)) ? el.find('#pass').addClass('is-invalid') : el.find('#pass').removeClass('is-invalid');
-                                    (Boolean(data.passconf)) ? el.find('#passconf').addClass('is-invalid') : el.find('#passconf').removeClass('is-invalid');
-                                }
-                            },
-                            error: function (jqXHR, textStatus, errorThrown) {
-                                // For debugging
-                                console.log('The following error occurred: ' + textStatus, errorThrown);
+                                _this.find('#ajax-preloader').preloader().show();
+                                _this.find('.btn-change-state').attr('disabled', 'disabled');
                             }
                         });
+
+                        jqXHR.done(function (data) {
+                            if (data.status === true) {
+                                // Clear the form
+                                _this.find('.form-control').removeClass('is-invalid');
+                                _this[0].reset();
+
+                                // Success msg response
+                                _this.find('#ajax-response').html('<div class="alert alert-success"><ul>' + data.message + '</ul></div>');
+                            } else {
+                                // Error msg response
+                                _this.find('#ajax-response').html('<div class="alert alert-danger"><ul>' + data.message + '</ul></div>');
+                                (Boolean(data.first_name)) ? _this.find('#first-name').addClass('is-invalid') : _this.find('#first-name').removeClass('is-invalid');
+                                (Boolean(data.last_name)) ? _this.find('#last-name').addClass('is-invalid') : _this.find('#last-name').removeClass('is-invalid');
+                                (Boolean(data.email)) ? _this.find('#username').addClass('is-invalid') : _this.find('#username').removeClass('is-invalid');
+                                (Boolean(data.password)) ? _this.find('#pass').addClass('is-invalid') : _this.find('#pass').removeClass('is-invalid');
+                                (Boolean(data.passconf)) ? _this.find('#passconf').addClass('is-invalid') : _this.find('#passconf').removeClass('is-invalid');
+                            }
+                        });
+
+                        jqXHR.always(function () {
+                            _this.find('#ajax-preloader').preloader().hide();
+                            _this.find('.btn-change-state').removeAttr('disabled');
+                        });
+
+                        jqXHR.fail(function (jqXHR, textStatus, errorThrown) {
+                            console.log('The following error occurred: ' + textStatus, errorThrown);
+                        });
+
                         e.preventDefault();
                     });
                 }

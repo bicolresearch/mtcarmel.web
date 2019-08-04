@@ -110,8 +110,8 @@
                                 );
                                 $.each(data.data, function (key, value) {
                                     el.find('.row').append(
-                                        '<div class="col-12 text-center">' +
-                                            '<img class="img-fluid" src="' + apiURL + '/' + value.full_path + '" alt="' + value.name + '"/>' +
+                                        '<div class="col-12 text-center mb-2">' +
+                                            '<img class="img-fluid mx-auto d-block" style="max-height: 200px; display: block;" src="' + apiURL + '/' + value.full_path + '" alt="' + value.name + '"/>' +
                                         '</div>'
                                     );
                                 });
