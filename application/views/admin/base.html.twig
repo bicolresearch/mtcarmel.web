@@ -51,11 +51,9 @@
                             <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('admin/history') }}">History</a></li>
                         </ul>
                     </li>
-                </ul>
-                <ul class="sidebar-nav">
-                    <li class="sidebar-item active">
+                    <li class="sidebar-item">
                         <a href="#services" data-toggle="collapse" class="sidebar-link collapsed">
-                            <i class="align-middle icon-management icon-18"></i> <span class="align-middle">Services</span>
+                            <i class="align-middle icon-services icon-18"></i> <span class="align-middle">Services</span>
                         </a>
                         <ul id="services" class="sidebar-dropdown list-unstyled collapse">
                             <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('admin/confraternity') }}">Confraternity</a></li>
@@ -217,17 +215,32 @@
 
             let app = {
                 init: function() {
+                    this.activeList();
                     this.avatar();
                     this.gallery();
                     this.createModal();
                     this.updateModal();
                     this.galleryModal();
                 },
+                activeList: function () {
+                    let str = location.href.toLowerCase();
+                    $('.sidebar-nav li a').each(function () {
+                        if (str.indexOf(this.href.toLowerCase()) > -1) {
+                            $('.sidebar-nav li.active').removeClass('active');
+                            $(this).parent().addClass("active");
+                        }
+                    });
+                    $('.sidebar-nav li.active').parents().each(function () {
+                        if ($(this).is('li')) {
+                            $(this).addClass('active');
+                        }
+                    });
+                },
                 avatar: function() {
 
                     let _this = $('body');
 
-                    let id = _this.data('user-id');
+                    let id = _this.attr('data-user-id');
 
                     let jqXHR = $.ajax({
                         url: baseURL + '/admin/profile/id/' + id,
