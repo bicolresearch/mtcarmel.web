@@ -5,8 +5,8 @@
     Location    : application/controllers/admin/Posts.php
     Purpose     : Posts controller
     Created     : 07/03/2019 15:09:39 by Spiderman
-    Updated     : 07/17/2019 22:36:37 by Spiderman
-    Changes     : Fix avatar
+    Updated     : 08/05/2019 16:30:18 by Spiderman
+    Changes     : 
 */
 
 defined('BASEPATH') or exit('No direct script access allowed');
@@ -119,6 +119,7 @@ class Posts extends CI_Controller
         $this->form_validation
             ->set_rules('title', 'Title', 'trim|required|xss_clean')
             ->set_rules('content', 'Content', 'trim|required|xss_clean')
+            ->set_rules('media_id', 'Cover Photo', 'trim|required|xss_clean', ['required' => 'Please select a %s in media gallery'])
             ->set_error_delimiters('<li>', '</li>');
 
         if ($this->form_validation->run()) {
@@ -135,10 +136,9 @@ class Posts extends CI_Controller
                     'branch_id' => 1,
                     'title' => $this->input->post('title'),
                     'content' => $this->input->post('content'),
-                    'media_id' => 1,
+                    'media_id' => $this->input->post('media_id'),
                     'user_id' => user('id')
-                ],
-                'debug' => fopen('php://stderr', 'w')
+                ]
             ];
 
             try {
@@ -175,13 +175,15 @@ class Posts extends CI_Controller
 
         $set_data = array(
             'title' => $this->input->put('title'),
-            'content' => $this->input->put('content')
+            'content' => $this->input->put('content'),
+            'media_id' => $this->input->put('media_id')
         );
         
         $this->form_validation
             ->set_data($set_data)
             ->set_rules('title', 'Title', 'trim|required|xss_clean')
             ->set_rules('content', 'Content', 'trim|required|xss_clean')
+            ->set_rules('media_id', 'Cover Photo', 'trim|required|xss_clean', ['required' => 'Please select a %s in media gallery'])
             ->set_error_delimiters('<li>', '</li>');
 
         if ($this->form_validation->run()) {
@@ -198,7 +200,7 @@ class Posts extends CI_Controller
                     'branch_id' => 1,
                     'title' => $this->input->put('title'),
                     'content' => $this->input->put('content'),
-                    'media_id' => 1,
+                    'media_id' => $this->input->put('media_id'),
                     'user_id' => user('id')
                 ]
             ];

@@ -3,8 +3,8 @@
     Location    : application/views/admin/base.html.twig
     Purpose     : Admin base template
     Created     : 06/27/2019 16:45:42 by Spiderman
-    Updated     : 08/02/2019 09:53:56 by Scarlet Witch
-    Changes     : Added services sidebar for confraternity, prayer and mass requests
+    Updated     : 08/05/2019 14:58:42 by Spiderman
+    Changes     : 
 #}
 
 <!DOCTYPE html>
@@ -224,22 +224,22 @@
                 },
                 activeList: function () {
                     let str = location.href.toLowerCase();
+
                     $('.sidebar-nav li a').each(function () {
                         if (str.indexOf(this.href.toLowerCase()) > -1) {
                             $('.sidebar-nav li.active').removeClass('active');
                             $(this).parent().addClass("active");
                         }
                     });
+
                     $('.sidebar-nav li.active').parents().each(function () {
                         if ($(this).is('li')) {
                             $(this).addClass('active');
                         }
                     });
                 },
-                avatar: function() {
-
+                avatar: function() {             
                     let _this = $('body');
-
                     let id = _this.attr('data-user-id');
 
                     let jqXHR = $.ajax({
@@ -340,26 +340,33 @@
                     }).on('hidden.bs.modal', function(e){
                         
                         let modal = $('body').attr('data-previous-modal');
+                        let id;
 
                         switch(modal) {
                             case 'create':
                                 $('#create').modal('show');
+                                
                                 id = $('#create-form').find('input:hidden[name="media_id"]').val();
-                                $.get(apiURL + '/media/medium/id/' + id, function( data ) {
+                                
+                                $.get(apiURL + '/media/medium/id/' + id, function(data) {
                                     $('#create-form').find('#placeholder').replaceWith(
-                                        '<div id="placeholder" class="mb-2">' +
-                                        '   <img class="img-thumbnail mx-auto d-block" style="max-height: 200px" src="' + apiURL + '/' + data.full_path + '" alt="' + data.name + '" />' +
+                                        '<div id="placeholder" class="mb-3">' +
+                                        '   <img class="mx-auto d-block" style="max-height: 200px" src="' + apiURL + '/' + data.full_path + '" alt="' + data.name + '" />' +
                                         '</div>');
                                 });
                                 break;
                             case 'update':
                                 $('#update').modal('show');      
+                                
                                 id = $('#update-form').find('input:hidden[name="media_id"]').val();
-                                $.get(apiURL + '/media/medium/id/' + id, function( data ) {
-                                    $('#update-form').find('#placeholder').replaceWith(
-                                        '<div id="placeholder" class="mb-2">' +
-                                        '   <img class="img-thumbnail mx-auto d-block" style="max-height: 200px" src="' + apiURL + '/' + data.full_path + '" alt="' + data.name + '" />' +
-                                        '</div>');
+                                
+                                $.get(apiURL + '/media/medium/id/' + id, function(data) {
+                                    $('#update').on('shown.bs.modal', function() {
+                                        $(this).find('#placeholder').replaceWith(
+                                            '<div id="placeholder" class="mb-3">' +
+                                            '   <img class="mx-auto d-block" style="max-height: 200px" src="' + apiURL + '/' + data.full_path + '" alt="' + data.name + '" />' +
+                                            '</div>');
+                                    });
                                 });
                                 break;
                             default:   

@@ -120,7 +120,7 @@ class Media extends CI_Controller
             ->set_rules('name', 'Name', 'trim|required|xss_clean')
             ->set_rules('description', 'Description', 'trim|required|xss_clean')
             ->set_error_delimiters('<li>', '</li>');
-        if (empty($_FILES['userfile']['name'])){
+        if(empty($_FILES['userfile']['name'])){
             $this->form_validation->set_rules('userfile', 'Image', 'required');
         }
 

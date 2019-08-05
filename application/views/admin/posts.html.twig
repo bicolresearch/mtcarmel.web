@@ -3,7 +3,7 @@
     Location    : application/views/admin/posts.html.twig
     Purpose     : Posts partial page
     Created     : 07/03/2019 19:30:07 by Spiderman
-    Updated     : 07/25/2019 18:13:12 by Spiderman
+    Updated     : 08/05/2019 16:50:49 by Spiderman
     Changes     : 
 #}
 
@@ -53,11 +53,20 @@
         <div id="ajax-preloader"></div>
         <div class="modal-body px-5">
             <input type="hidden" name="content">
+            <input type="hidden" name="media_id">
             <div class="form-group">
                 <input type="text" class="form-control" id="title" name="title" value="{{ set_value('title') }}" placeholder="Post Title">
             </div>
-            <div id="create-editor">
+            <div id="create-editor" class="mb-3">
                 <!--  WYSIWYG editor -->
+            </div>
+            <div id="placeholder" class="mb-3">
+                <!-- Image placeholder -->
+                <img class="mx-auto d-block" style="max-height: 200px" src="{{ base_url('public/assets/images/companylogo.jpg') }}" alt="Image Placeholder" />
+                <!-- This is where the image preview load -->
+            </div>
+            <div class="text-center">
+                <a class="btn btn-sm btn-brown rounded-pill px-3" href="#gallery" data-toggle="modal"><i class="align-middle" data-feather="grid"></i> Media Gallery</a>
             </div>
         </div>
         <div class="modal-footer">
@@ -72,11 +81,20 @@
         <div class="modal-body px-5">
             <input type="hidden" name="id">
             <input type="hidden" name="content">
+            <input type="hidden" name="media_id">
             <div class="form-group">
                 <input type="text" class="form-control" id="title" name="title" value="{{ set_value('title') }}" placeholder="Post Title">
             </div>
-            <div id="update-editor">
+            <div id="update-editor" class="mb-3">
                 <!--  WYSIWYG editor -->
+            </div>
+            <div id="placeholder" class="mb-3">
+                <!-- Image placeholder -->
+                <img class="mx-auto d-block" style="max-height: 200px" src="{{ base_url('public/assets/images/companylogo.jpg') }}" alt="Image Placeholder" />
+                <!-- This is where the image preview load -->
+            </div>
+            <div class="text-center">
+                <a class="btn btn-sm btn-brown rounded-pill px-3" href="#gallery" data-toggle="modal"><i class="align-middle" data-feather="grid"></i> Media Gallery</a>
             </div>
         </div>
         <div class="modal-footer">
@@ -97,13 +115,14 @@
             // GET: Display all
             let getAll = {
                 init: function() {
-                    this.display();
-                    this.reloadList();
+                    this.displayTable();
+                    this.reloadTable();
                 },
-                display: function() {
+                displayTable: function() {
                     $('#datatables__default').DataTable({
                         "processing": true,
                         "serverSide": false,
+                        "responsive": true,
                         "ajax": {
                             "url": baseURL + "/admin/posts/posts",
                             "type": "GET"
@@ -126,14 +145,14 @@
                                 "searchable": false,
                                 "data": "id",
                                 "mRender": function (data) {
-                                    return '<a data-toggle="modal" data-param="' + data + '" data-toggle="tooltip" data-placement="top" title="Update" href="#update"><i class="align-middle material-icons md-22">mode_edit</i></a>';
+                                    return '<a href="#update" data-toggle="modal" data-id="' + data + '" data-toggle="tooltip" data-placement="top" title="Update"><i class="align-middle material-icons md-22">mode_edit</i></a>';
                                 }
                             },
                             {
                                 "searchable": false,
                                 "data": "id",
                                 "mRender": function (data) {
-                                    return '<a data-toggle="modal" data-param="' + data + '" data-toggle="tooltip" data-placement="top" title="Delete" href="#delete"><i class="align-middle material-icons md-22">remove_circle_outline</i></a>';
+                                    return '<a href="#delete" data-toggle="modal" data-id="' + data + '" data-toggle="tooltip" data-placement="top" title="Delete"><i class="align-middle material-icons md-22">remove_circle_outline</i></a>';
                                 }
                             }
                         ],
@@ -141,35 +160,10 @@
                         "order": [[0, "desc"]],
                         "columnDefs": [
                             {"orderable": false, "targets": [5, 6]}
-                        ],
-                        "responsive": true,
-                        "language": {
-                            "decimal": "",
-                            "emptyTable": "No data available in table",
-                            "info": "Showing _START_ to _END_ of _TOTAL_ entries",
-                            "infoEmpty": "Showing 0 to 0 of 0 entries",
-                            "infoFiltered": "(filtered from _MAX_ total entries)",
-                            "infoPostFix": "",
-                            "thousands": ",",
-                            "lengthMenu": "Show _MENU_ entries",
-                            "loadingRecords": "Loading...",
-                            "processing": "Processing...",
-                            "search": "Search:",
-                            "zeroRecords": "No matching records found",
-                            "paginate": {
-                                "first": "First",
-                                "last": "Last",
-                                "next": "Next",
-                                "previous": "Previous"
-                            },
-                            "aria": {
-                                "sortAscending": ": activate to sort column ascending",
-                                "sortDescending": ": activate to sort column descending"
-                            }
-                        }
+                        ]
                     });
                 },
-                reloadList: function() {
+                reloadTable: function() {
                     $('#reload').on('click', function (e) {
                         $('#datatables__default').DataTable().ajax.reload(null, true); // user paging will reset on reload				                                
                         e.preventDefault();
@@ -180,53 +174,57 @@
             // GET: Display by id
             let getById = {
                 init: function() {
-                    this.display();
+                    this.displayForm();
+                    this.resetForm();
                 },
-                display: function() {
+                resetForm: function() {
+                    $('#update').on('hidden.bs.modal', function(){
+                        $(this).find('form')[0].reset();
+                        $(this).find('.form-control').removeClass('is-invalid');
+                        $(this).find('#ajax-response').empty();
+                        $(this).find('#placeholder').empty();
+                    });
+                },
+                displayForm: function() {
                     $('#update').on('show.bs.modal', function (e) {
-                        let el = $(this);
+                        
+                        let _this = $(this);
+                        
+                        // Set data-id attr
+                        let id = $(e.relatedTarget).attr('data-id');
 
-                        // Reset form
-                        el.find('form').each(function() { this.reset() });
-                        el.find('.form-control').removeClass('is-invalid');
+                        // If id is null, set data-id attr from body instead
+                        if (id == null) id = $('body').attr('data-id');
 
-                        let id = $(e.relatedTarget).data('param');
-                        let data = el.serialize();
-
-                        $.ajax({
+                        let jqXHR = $.ajax({
                             url: baseURL + '/admin/posts/post/id/' + id,
                             type: 'GET',
                             dataType: 'json',
-                            data: data,
+                            data: _this.serialize(),
                             cache: false,
                             processData: false,
                             beforeSend: function () {
-                                el.find('#ajax-preloader').html(
-                                    '<div class="loader">' +
-                                    '  <svg class="circular" viewBox="25 25 50 50">' +
-                                    '    <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>' +
-                                    '  </svg>' +
-                                    '</div>').show();
-                            },
-                            complete: function () {
-                                el.find('#ajax-preloader').html(
-                                    '<div class="loader">' +
-                                    '  <svg class="circular" viewBox="25 25 50 50">' +
-                                    '    <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>' +
-                                    '  </svg>' +
-                                    '</div>').hide('fast');
-                            },
-                            success: function (data) {
-                                if (data) {
-                                    // Populate form
-                                    el.find('input:hidden[name="id"]').val(data.id);
-                                    el.find('input[name="title"]').val(data.title);
-                                    el.find('.ql-editor').html(data.content);
-                                }
-                            },
-                            error: function (jqXHR, textStatus, errorThrown) {
-                                console.log('The following error occurred: ' + textStatus, errorThrown);
+                                _this.find('#ajax-preloader').preloader().show();
                             }
+                        });
+
+                        jqXHR.done(function (data) {
+                            if (data) {
+                                // Populate form
+                                 $('body').attr('data-id', data.id);
+                                _this.find('input:hidden[name="id"]').val(data.id);
+                                _this.find('input[name="title"]').val(data.title);
+                                _this.find('.ql-editor').html(data.content);
+                                _this.find('#placeholder').html('<img class="mx-auto d-block" style="max-height: 200px" src="' + apiURL + '/' + data.cover_photo + '" alt="' + data.name + '" />');
+                            }
+                        });
+
+                        jqXHR.always(function () {
+                            _this.find('#ajax-preloader').preloader().hide();
+                        });
+
+                        jqXHR.fail(function (jqXHR, textStatus, errorThrown) {
+                            console.log('The following error occurred: ' + textStatus, errorThrown);
                         });
                     });
                 }
@@ -235,21 +233,26 @@
             // POST: Add new
             let create = {
                 init: function() {
+                    this.resetForm();
+                    this.autoFocus();
                     this.bindForm();
                 },
-                bindForm: function () {
-                    $('#create').on('show.bs.modal', this.submitForm(), function() {
-                        // Reset form
-                        $(this).find('form').each(function() { this.reset() });
+                resetForm: function() {
+                    $('#create').on('hidden.bs.modal', function(){
+                        $(this).find('form')[0].reset();
                         $(this).find('.form-control').removeClass('is-invalid');
                         $(this).find('#create-editor').css({'border-color':'#ccc', 'border-top':'none'}); 
                         $(this).find('input:hidden[name="content"]').val();
                         $(this).find('.ql-editor').empty();
-                        // Auto focus
-                        $(this).on('shown.bs.modal', function(){
-                            $(this).find('input[name="title"]').trigger('focus');
-                        }) 
                     });
+                },
+                autoFocus: function() {
+                    $('#create').on('shown.bs.modal', function(){
+                        $(this).find('input[name="title"]').trigger('focus');
+                    });
+                },
+                bindForm: function () {
+                    $('#create').on('show.bs.modal', this.submitForm());
                 },
                 submitForm: function() {
                     
@@ -258,7 +261,7 @@
                         modules: { 
                             toolbar: [
                                 [
-                                    'bold', 'italic', 'underline', 'strike', 'link', {'list': 'ordered'}, {'list': 'bullet'},'blockquote','image', 'video','clean'
+                                    'bold', 'italic', 'underline', 'strike', 'link', {'list': 'ordered'}, {'list': 'bullet'}, 'blockquote', 'image', 'video', 'clean'
                                 ]
                             ] 
                         },
@@ -272,61 +275,53 @@
 
                     $('#create-form').on('submit', function(e){
 
-                        let el = $(this);
-                        let btn = el.find('.btn-change-state');
-                        let content = el.find('input:hidden[name="content"]').val(quill.root.innerHTML);
-                        let data = el.serialize();
-                        
-                        $.ajax({
+                        let _this = $(this);
+                        let content = _this.find('input:hidden[name="content"]').val(quill.root.innerHTML);
+
+                        let jqXHR = $.ajax({
                             url: baseURL + '/admin/posts/create',
                             type: 'POST',
                             dataType: 'json',
-                            data: data,
+                            data: _this.serialize(),
                             cache: false,
                             processData: false,
                             beforeSend: function () {
-                                el.find('#ajax-preloader').html(
-                                    '<div class="loader">' +
-                                    '  <svg class="circular" viewBox="25 25 50 50">' +
-                                    '    <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>' +
-                                    '  </svg>' +
-                                    '</div>').show();
-                                btn.attr('disabled', 'disabled');
-                            },
-                            complete: function () {
-                                el.find('#ajax-preloader').html(
-                                    '<div class="loader">' +
-                                    '  <svg class="circular" viewBox="25 25 50 50">' +
-                                    '    <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>' +
-                                    '  </svg>' +
-                                    '</div>').hide('fast');
-                                btn.removeAttr('disabled');
-                            },
-                            success: function (data) {
-                                if (data.status === true) {
-                                    // Reload datatables
-                                    $('#datatables__default').DataTable().ajax.reload(null, false); // user paging is not reset on reload
-
-                                    // Hide this modal
-                                    $('#create').modal('hide');
-
-                                    // Show and append notif msg  
-                                    $('#notif').modal('show').find('.modal-body p').text('A new post has been published');
-                                    
-                                    // Hide notif after (x) number of seconds 
-                                    setTimeout(function(){ 
-                                        $('#notif').modal('hide');
-                                    }, 3000);
-                                } else {
-                                    // Error msg response
-                                    (Boolean(data.title)) ? el.find('#title').addClass('is-invalid') : el.find('#title').removeClass('is-invalid');
-                                    (quill.editor.isBlank()) ? el.find('#create-editor').css({'border':'1px solid #f00'}) : el.find('#create-editor').css({'border-color':'#ccc', 'border-top':'none'});                
-                                }
-                            },
-                            error: function (jqXHR, textStatus, errorThrown) {
-                                console.log('The following error occurred: ' + textStatus, errorThrown);
+                                _this.find('#ajax-preloader').preloader().show();
+                                _this.find('.btn-change-state').attr('disabled', 'disabled');
                             }
                         });
+
+                        jqXHR.done(function (data) {
+                            if (data.status === true) {
+                                // Reload datatables
+                                $('#datatables__default').DataTable().ajax.reload(null, false); // user paging is not reset on reload
+
+                                // Hide this modal
+                                $('#create').modal('hide');
+
+                                // Show and append notif msg  
+                                $('#notif').modal('show').find('.modal-body p').text('A new post has been published');
+                                    
+                                // Hide notif after (x) number of seconds 
+                                setTimeout(function(){ 
+                                    $('#notif').modal('hide');
+                                }, 3000);
+                            } else {
+                                // Error msg response
+                                (Boolean(data.title)) ? _this.find('#title').addClass('is-invalid') : _this.find('#title').removeClass('is-invalid');
+                                (quill.editor.isBlank()) ? _this.find('#create-editor').css({'border':'1px solid #f00'}) : _this.find('#create-editor').css({'border-color':'#ccc', 'border-top':'none'});                
+                            }
+                        });
+
+                        jqXHR.always(function () {
+                            _this.find('#ajax-preloader').preloader().hide();
+                            _this.find('.btn-change-state').removeAttr('disabled');
+                        });
+
+                        jqXHR.fail(function (jqXHR, textStatus, errorThrown) {
+                            console.log('The following error occurred: ' + textStatus, errorThrown);
+                        });
+
                         e.preventDefault();
                     });
                 }
@@ -335,13 +330,17 @@
             // PUT: Update
             let update = {
                 init: function() {
+                    this.resetForm();
                     this.bindForm();
                 },
-                bindForm: function () {
-                    $('#update').on('show.bs.modal', this.submitForm(), function() {
-                        // Reset form
+                resetForm: function() {
+                    $('#update').on('hidden.bs.modal', function(){
                         $(this).find('.form-control').removeClass('is-invalid');
+                        $(this).find('#ajax-response').empty();
                     });
+                },
+                bindForm: function () {
+                    $('#update').on('show.bs.modal', this.submitForm());
                 },
                 submitForm: function() {
 
@@ -350,7 +349,7 @@
                         modules: { 
                             toolbar: [
                                 [
-                                    'bold', 'italic', 'underline', 'strike', 'link', {'list': 'ordered'}, {'list': 'bullet'},'blockquote','image', 'video','clean'
+                                    'bold', 'italic', 'underline', 'strike', 'link', {'list': 'ordered'}, {'list': 'bullet'}, 'blockquote', 'image', 'video', 'clean'
                                 ]
                             ] 
                         },
@@ -359,63 +358,55 @@
                     });
 
                     $('#update-form').on('submit', function(e){
-                        let el = $(this);
-                        let btn = el.find('.btn-change-state');
-                        let id = el.find('input:hidden[name="id"]').val();
-                        let content = el.find('input:hidden[name="content"]').val(quill.root.innerHTML);
-                        let data = el.serialize();
+                        
+                        let _this = $(this);
+                        let id = _this.find('input:hidden[name="id"]').val();
+                        let content = _this.find('input:hidden[name="content"]').val(quill.root.innerHTML);
                     
-                        $.ajax({
+                        let jqXHR = $.ajax({
                             url: baseURL + '/admin/posts/update/id/' + id,
                             type: 'PUT',
                             dataType: 'json',
-                            data: data,
+                            data: _this.serialize(),
                             cache: false,
                             processData: false,
                             beforeSend: function () {
-                                el.find('#ajax-preloader').html(
-                                    '<div class="loader">' +
-                                    '  <svg class="circular" viewBox="25 25 50 50">' +
-                                    '    <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>' +
-                                    '  </svg>' +
-                                    '</div>').show();
-                                btn.attr('disabled', 'disabled');
-                            },
-                            complete: function () {
-                                el.find('#ajax-preloader').html(
-                                    '<div class="loader">' +
-                                    '  <svg class="circular" viewBox="25 25 50 50">' +
-                                    '    <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>' +
-                                    '  </svg>' +
-                                    '</div>').hide('fast');
-                                btn.removeAttr('disabled');
-                            },
-                            success: function (data) {
-                                if (data.status === true) {
-                                    // Reload datatables
-                                    $('#datatables__default').DataTable().ajax.reload(null, false); // user paging is not reset on reload
-
-                                    // Hide this modal
-                                    $('#update').modal('hide');
-
-                                    // Show and append notif msg  
-                                    $('#notif').modal('show').find('.modal-body p').text('Post #' + id + ' has been updated');
-                                    
-                                    // Hide notif after (x) number of seconds 
-                                    setTimeout(function(){ 
-                                        $('#notif').modal('hide');
-                                    }, 3000);
-                                } else {
-                                    // Error msg response
-                                    (Boolean(data.title)) ? el.find('#title').addClass('is-invalid') : el.find('#title').removeClass('is-invalid');
-                                    (quill.editor.isBlank()) ? el.find('#update-editor').css({'border':'1px solid #f00'}) : el.find('#update-editor').css({'border-color':'#ccc'});   
-                                }
-                            },
-                            error: function (jqXHR, textStatus, errorThrown) {
-                                // For debugging
-                                console.log('The following error occurred: ' + textStatus, errorThrown);
+                                _this.find('#ajax-preloader').preloader().show();
+                                _this.find('.btn-change-state').attr('disabled', 'disabled');
                             }
                         });
+
+                        jqXHR.done(function (data) {
+                            if (data.status === true) {
+                                // Reload datatables
+                                $('#datatables__default').DataTable().ajax.reload(null, false); // user paging is not reset on reload
+
+                                // Hide this modal
+                                $('#update').modal('hide');
+
+                                // Show and append notif msg  
+                                $('#notif').modal('show').find('.modal-body p').text('Post #' + id + ' has been updated');
+                                    
+                                // Hide notif after (x) number of seconds 
+                                setTimeout(function(){ 
+                                        $('#notif').modal('hide');
+                                }, 3000);
+                            } else {
+                                // Error msg response
+                                (Boolean(data.title)) ? _this.find('#title').addClass('is-invalid') : _this.find('#title').removeClass('is-invalid');
+                                (quill.editor.isBlank()) ? _this.find('#update-editor').css({'border':'1px solid #f00'}) : _this.find('#update-editor').css({'border-color':'#ccc'});   
+                            }
+                        });
+
+                        jqXHR.always(function () {
+                            _this.find('#ajax-preloader').preloader().hide();
+                            _this.find('.btn-change-state').removeAttr('disabled');
+                        });
+
+                        jqXHR.fail(function (jqXHR, textStatus, errorThrown) {
+                            console.log('The following error occurred: ' + textStatus, errorThrown);
+                        });
+
                         e.preventDefault();
                     });
                 }
@@ -428,107 +419,62 @@
                 },
                 bindForm: function () {
                     $('#delete').on('show.bs.modal', this.submitForm(), function(e){
-                        $(this).find('input:hidden[name="id"]').val($(e.relatedTarget).data('param'));
-                        $(this).find('.modal-body p').text('Are you sure you want to delete post #' + $(e.relatedTarget).data('param') + '?');
+                        $(this).find('input:hidden[name="id"]').val($(e.relatedTarget).attr('data-id'));
+                        $(this).find('.modal-body p').text('Are you sure you want to delete post #' + $(e.relatedTarget).attr('data-id') + '?');
                     });
                 },
                 submitForm: function() {
                     $('#delete-form').on('submit', function(e){
-                        let el = $(this);
-                        let btn = el.find('.btn-change-state');
-                        let id = el.find('input:hidden[name="id"]').val();
-                        let data = el.serialize();
-                    
-                        $.ajax({
+                        
+                        let _this = $(this);
+                        let id = _this.find('input:hidden[name="id"]').val();
+                        
+                        let jqXHR = $.ajax({
                             url: baseURL + '/admin/posts/delete/id/' + id,
                             type: 'PUT',
                             dataType: 'json',
-                            data: data,
+                            data: _this.serialize(),
                             cache: false,
                             processData: false,
                             beforeSend: function () {
-                                el.find('#ajax-preloader').html(
-                                    '<div class="loader">' +
-                                    '  <svg class="circular" viewBox="25 25 50 50">' +
-                                    '    <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>' +
-                                    '  </svg>' +
-                                    '</div>').show();
-                                btn.attr('disabled', 'disabled');
-                            },
-                            complete: function () {
-                                el.find('#ajax-preloader').html(
-                                    '<div class="loader">' +
-                                    '  <svg class="circular" viewBox="25 25 50 50">' +
-                                    '    <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>' +
-                                    '  </svg>' +
-                                    '</div>').hide('fast');
-                                btn.removeAttr('disabled');
-                            },
-                            success: function (data) {
-                                if (data.status === true) {
-                                    // Reload datatables
-                                    $('#datatables__default').DataTable().ajax.reload(null, false); // user paging is not reset on reload
-
-                                    // Hide this modal
-                                    $('#delete').modal('hide');
-
-                                    // Show and append notif msg  
-                                    $('#notif').modal('show').find('.modal-body p').text('Post #' + id + ' has been moved to trash');
-                                    
-                                    // Hide notif after (x) number of seconds 
-                                    setTimeout(function(){ 
-                                        $('#notif').modal('hide');
-                                    }, 3000);
-                                    
-                                } else {
-                                    // For debugging
-                                    console.log(data.status);
-                                }
-                            },
-                            error: function (jqXHR, textStatus, errorThrown) {
-                                // For debugging
-                                console.log('The following error occurred: ' + textStatus, errorThrown);
+                                _this.find('#ajax-preloader').preloader().show();
+                                _this.find('.btn-change-state').attr('disabled', 'disabled');
                             }
                         });
+
+                        jqXHR.done(function (data) {
+                            if (data.status === true) {
+                                // Reload datatables
+                                $('#datatables__default').DataTable().ajax.reload(null, false); // user paging is not reset on reload
+
+                                // Hide this modal
+                                $('#delete').modal('hide');
+
+                                // Show and append notif msg  
+                                $('#notif').modal('show').find('.modal-body p').text('Post #' + id + ' has been moved to trash');
+                                    
+                                // Hide notif after (x) number of seconds 
+                                setTimeout(function(){ 
+                                    $('#notif').modal('hide');
+                                }, 3000);
+                                    
+                            } else {
+                                // For debugging
+                                console.log(data.status);
+                            }
+                        });
+
+                        jqXHR.always(function () {
+                            _this.find('#ajax-preloader').preloader().hide();
+                            _this.find('.btn-change-state').removeAttr('disabled');
+                        });
+
+                        jqXHR.fail(function (jqXHR, textStatus, errorThrown) {
+                            console.log('The following error occurred: ' + textStatus, errorThrown);
+                        });
+
                         e.preventDefault();
                     });
-                }
-            }
-
-            // TODO: Multiple instance of quill
-            let app = {
-                init: function() {
-                    this.wysiwyg();
-                },
-                wysiwyg: function() {
-                    let containers = ['#create-editor', '#update-editor'];
-        
-                    let toolbarOptions = [
-                        [
-                            'bold', 
-                            'italic', 
-                            'underline', 
-                            'strike', 
-                            'link',
-                            {'list': 'ordered'}, 
-                            {'list': 'bullet' },
-                            'blockquote',
-                            'image', 
-                            'video','clean'
-                        ]
-                    ];
-
-                    let options = {
-                        modules: { 
-                            toolbar: toolbarOptions 
-                        },
-                        theme: 'snow',
-                        placeholder: 'Compose here'
-                    }
-
-                    for(let i = 0; i <= containers.length; i++) {
-                        let quill = new Quill(containers[i], options);
-                    }
                 }
             }
 

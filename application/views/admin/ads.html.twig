@@ -3,7 +3,7 @@
     Location    : application/views/admin/ads.html.twig
     Purpose     : Ads partial page
     Created     : 07/11/2019 17:24:13 by Spiderman
-    Updated     : 07/29/2019 14:58:20 by Spiderman
+    Updated     : 08/05/2019 14:58:35 by Spiderman
     Changes     : 
 #}
 
@@ -66,13 +66,13 @@
                     </div>
                 </div>
                 <div class="col-12 col-lg-6">
-                    <div id="placeholder" class="mb-2">
+                    <div id="placeholder" class="mb-3">
                         <!-- Image placeholder -->
-                        <img class="img-thumbnail mx-auto d-block" style="max-height: 200px" src="{{ base_url('public/assets/images/companylogo.jpg') }}" alt="Image Placeholder" />
+                        <img class="mx-auto d-block" style="max-height: 200px" src="{{ base_url('public/assets/images/companylogo.jpg') }}" alt="Image Placeholder" />
                         <!-- This is where the image preview load -->
                     </div>
-                    <div class="form-group text-center">
-                        <a class="btn btn-sm btn-brown rounded-pill px-3" href="#gallery" data-toggle="modal"><i class="align-middle" data-feather="edit-3"></i> Browse Gallery</a>
+                    <div class="text-center">
+                        <a class="btn btn-sm btn-brown rounded-pill px-3" href="#gallery" data-toggle="modal"><i class="align-middle" data-feather="grid"></i> Media Gallery</a>
                     </div>
                 </div>
             </div>
@@ -102,11 +102,11 @@
                     </div>
                 </div>
                 <div class="col-12 col-lg-6">
-                    <div id="placeholder" class="mb-2">
+                    <div id="placeholder" class="mb-3">
                         <!-- This is where the image preview load -->
                     </div>
-                    <div class="form-group text-center">
-                        <a class="btn btn-sm btn-brown rounded-pill px-3" href="#gallery" data-toggle="modal"><i class="align-middle" data-feather="edit-3"></i> Browse Gallery</a>
+                    <div class="text-center">
+                        <a class="btn btn-sm btn-brown rounded-pill px-3" href="#gallery" data-toggle="modal"><i class="align-middle" data-feather="grid"></i> Media Gallery</a>
                     </div>
                 </div>
             </div>
@@ -198,11 +198,11 @@
                         
                         let _this = $(this);
 
-                        // Set data attr id
-                        let id = $(e.relatedTarget).data('id');
+                        // Set data-id attr
+                        let id = $(e.relatedTarget).attr('data-id');
 
-                        // If id is null, set data attr id from body instead
-                        if (id == null) id = $('body').data('id');
+                        // If id is null, set data-id attr from body instead
+                        if (id == null) id = $('body').attr('data-id');
 
                         let jqXHR = $.ajax({
                             url: baseURL + '/admin/ads/advertisement/id/' + id,
@@ -213,7 +213,6 @@
                             processData: false,
                             beforeSend: function () {
                                 _this.find('#ajax-preloader').preloader().show();
-                                _this.find('.btn-change-state').attr('disabled', 'disabled');
                             }
                         });
 
@@ -223,14 +222,13 @@
                                 $('body').attr('data-id', data.id);
                                 _this.find('input:hidden[name="id"]').val(data.id);                    
                                 _this.find('input[name="name"]').val(data.name);
-                                _this.find('textarea[name="description"]').html(data.description);
-                                _this.find('#placeholder').html('<img class="img-thumbnail mx-auto d-block" style="max-height: 200px" src="' + apiURL + '/' + data.full_path + '" alt="' + data.name + '" />');
+                                _this.find('textarea[name="description"]').text(data.description);
+                                _this.find('#placeholder').html('<img class="mx-auto d-block" style="max-height: 200px" src="' + apiURL + '/' + data.full_path + '" alt="' + data.name + '" />');
                             }
                         });
 
                         jqXHR.always(function () {
                             _this.find('#ajax-preloader').preloader().hide();
-                            _this.find('.btn-change-state').removeAttr('disabled');
                         });
 
                         jqXHR.fail(function (jqXHR, textStatus, errorThrown) {
@@ -255,8 +253,8 @@
 
                         $(this).find('input:hidden[name="media_id"]').val('');
                         $(this).find('#placeholder').replaceWith(
-                            '<div id="placeholder" class="mb-2">' +
-                            '   <img class="img-thumbnail mx-auto d-block" style="max-height: 200px" src="' + baseURL + '/public/assets/images/companylogo.jpg' + '" alt="Image Placeholder" />' +
+                            '<div id="placeholder" class="mb-3">' +
+                            '   <img class="mx-auto d-block" style="max-height: 200px" src="' + baseURL + '/public/assets/images/companylogo.jpg' + '" alt="Image Placeholder" />' +
                             '</div>');
                     });
                 },
@@ -408,7 +406,7 @@
                 },
                 bindForm: function () {
                     $('#delete').on('show.bs.modal', this.submitForm(), function(e){
-                        let id = $(e.relatedTarget).data('id');
+                        let id = $(e.relatedTarget).attr('data-id');
                         $(this).find('input:hidden[name="id"]').val(id);
                         $(this).find('.modal-body p').text('Are you sure you want to delete ads #' + id + '?');
                     });
@@ -437,7 +435,7 @@
                         jqXHR.done(function (data) {
                             if (data.status === true) {
                                 // Reload datatables
-                                    $('#datatables__default').DataTable().ajax.reload(null, false); // user paging is not reset on reload
+                                $('#datatables__default').DataTable().ajax.reload(null, false); // user paging is not reset on reload
 
                                 // Hide this modal
                                 $('#delete').modal('hide');
