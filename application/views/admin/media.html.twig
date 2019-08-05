@@ -51,7 +51,7 @@
 {% endblock %}
 
 {% block createModalForm %}
-    <form id="create-form" enctype="multipart/form-data">
+    <form id="create-form">
         <div class="modal-body px-5">
             <div id="ajax-preloader"></div>
             <div id="ajax-response"></div>
@@ -255,7 +255,7 @@
                     }) 
                 },
                 bindForm: function () {
-                    $('#create').on('shown.bs.modal', this.submitForm());
+                    $('#create').on('show.bs.modal', this.submitForm());
                 },
                 submitForm: function() {
                     // Prevent multiple ajax request
@@ -266,14 +266,14 @@
 
                         let _this = $(this);
                         let data = new FormData(_this[0]);
-
+                    
                         let jqXHR = $.ajax({
                             url: baseURL + '/admin/media/create',
                             type: 'POST',
                             dataType: 'json',
                             data: data,
+                            contentType: false,
                             cache: false,
-                            contentType: 'application/octet-stream',
                             processData: false,
                             beforeSend: function() {
                                 _this.find('#ajax-preloader').preloader().show();
