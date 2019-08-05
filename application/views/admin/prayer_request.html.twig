@@ -3,8 +3,8 @@
     Location    : application/views/admin/prayer_request.html.twig
     Purpose     : prayer request page, Implemented GET, POST, and PUT methods
     Created     : 08/01/2019 17:52:29 by Scarlet Witch
-    Updated     : 
-    Changes     : 
+    Updated     : 08/05/2019 13:20:32 by Scarlet Witch
+    Changes     : added export to excel/csv/pdf/copy/print
 #}
 
 {% extends 'admin/base.html.twig' %}
@@ -140,6 +140,29 @@
                         "order": [[0, "desc"]],
                         "columnDefs": [
                             {"orderable": false, "targets": [6, 7]}
+                        ],
+                        "dom": 'lBfrtip',
+                        "buttons": [
+                            {
+                                "extend": ['copy'],
+                                "exportOptions": { columns: [ 0, 1, 2, 3, 4, 5 ] }
+                            },
+                            {
+                                "extend": ['excelHtml5'],
+                                "exportOptions": { columns: [ 0, 1, 2, 3, 4, 5 ] }
+                            },
+                            {
+                                "extend": ['csvHtml5'],
+                                "exportOptions": { columns: [ 0, 1, 2, 3, 4, 5 ] }
+                            },
+                            {
+                                "extend": ['pdfHtml5'],
+                                "exportOptions": { columns: [ 0, 1, 2, 3, 4, 5 ] }
+                            },
+                            {
+                                "extend": ['print'],
+                                "exportOptions": { columns: [ 0, 1, 2, 3, 4, 5 ] }
+                            }
                         ],
                         "responsive": true,
                         "language": {
