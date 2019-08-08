@@ -133,7 +133,7 @@
                     this.reloadTable();
                 },
                 displayTable: function() {
-                    $('#datatables__default').DataTable({
+                    let table = $('#datatables__default').DataTable({
                         "processing": true,
                         "serverSide": false,
                         "responsive": false,
@@ -147,8 +147,18 @@
                                 "data": "id"
                             },
                             {"data": "name"},
-                            {"data": "posted_on"},
-                            {"data": "updated_on"},
+                            {
+                                "data": "posted_on",
+                                "mRender": function (data) {
+                                    return moment(data).format('lll')
+                                }
+                            },
+                            {
+                                "data": "updated_on",
+                                "mRender": function (data) {
+                                    return moment(data).format('lll')
+                                }
+                            },
                             {
                                 "searchable": false,
                                 "data": "id",
@@ -277,7 +287,7 @@
                     $('#create').on('show.bs.modal', this.submitForm());
                 },
                 submitForm: function() {
-                    
+
                     // Prevent multiple ajax request
                     if (isProcessing) return;
                     isProcessing = true;

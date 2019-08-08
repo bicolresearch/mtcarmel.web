@@ -117,7 +117,7 @@
                     this.reloadTable();
                 },
                 displayTable: function() {
-                    $('#datatables__default').DataTable({
+                    let table = $('#datatables__default').DataTable({
                         "processing": true,
                         "serverSide": false,
                         "responsive": true,
@@ -134,10 +134,15 @@
                             {
                                 "data": "posted_on",
                                 "mRender": function (data) {
-                                    return data
+                                    return moment(data).format('lll')
                                 }
                             },
-                            {"data": "updated_on"},
+                            {
+                                "data": "updated_on",
+                                "mRender": function (data) {
+                                    return moment(data).format('lll')
+                                }
+                            },
                             {"data": "author"},
                             {
                                 "searchable": false,
@@ -172,8 +177,8 @@
             // GET: Display by id
             let getById = {
                 init: function() {
-                    this.displayForm();
                     this.resetForm();
+                    this.displayForm();
                 },
                 resetForm: function() {
                     $('#update').on('hidden.bs.modal', function(){

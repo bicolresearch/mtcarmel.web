@@ -120,7 +120,7 @@
                     this.reloadTable();
                 },
                 displayTable: function() {
-                    $('#datatables__default').DataTable({
+                    let table = $('#datatables__default').DataTable({
                         "processing": true,
                         "serverSide": false,
                         "responsive": true,
@@ -148,7 +148,12 @@
                                     return data + ' ' + 'KB'
                                 }
                             },
-                            {"data": "dt_updated"},
+                            {
+                                "data": "dt_updated",
+                                "mRender": function (data) {
+                                    return moment(data).format('lll')
+                                }
+                            },
                             {
                                 "searchable": false,
                                 "data": "id",

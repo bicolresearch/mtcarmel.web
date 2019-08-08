@@ -1,10 +1,10 @@
 {#
     Filename    : schedules.html.twig
     Location    : application/views/admin/schedules.html.twig
-    Purpose     : schedules page, , Implemented GET, POST, and PUT methods
+    Purpose     : Mass schedules partial page
     Created     : 07/23/2019 12:25:29 by Scarlet Witch
-    Updated     : 08/01/2019 11:15:07 by Scarlet Witch
-    Changes     : Updated the baseURL for local and datatables - from datatable-basic to datatables__default
+    Updated     : 08/08/2019 17:34:44 by Spiderman
+    Changes     : 
 #}
 
 
@@ -35,12 +35,10 @@
                         <thead>
                             <tr>
                                 <th>#</th>
-                                <th>Name</th>
+                                <th>Event</th>
                                 <th>Day</th>
-                                <th>Time - From</th>
-                                <th>Posted on</th>
-                                <th>Updated on</th>                                
-                                <th>Author</th>
+                                <th>Start Time</th>
+                                <th>End Time</th>
                                 <th></th>
                                 <th></th>
                             </tr>
@@ -58,23 +56,41 @@
         <div class="modal-body px-5">
             <input type="hidden" name="id">
             <div class="form-group">
-                <input type="text" class="form-control" id="name" name="name" value="{{ set_value('name') }}" placeholder="Schedule Title">
+                <label for="name">Name</label>
+                <input type="text" class="form-control" id="name" name="name" value="{{ set_value('name') }}" placeholder="">
             </div>
             <div class="form-group">
-                <textarea class="form-control" id="description" name="description" rows="2" maxlength="255" placeholder="Schedule Description"></textarea>
+                <label for="description">Description</label>
+                <textarea class="form-control" id="description" name="description" rows="2" maxlength="255" placeholder=""></textarea>
             </div>
-            <div class="form-group">
-                <input type="text" class="form-control" id="time_from" name="time_from" value="{{ set_value('time_from') }}" placeholder="Time From">
-            </div>
-            <div class="form-group">
-                <input type="text" class="form-control" id="time_to" name="time_to" value="{{ set_value('time_to') }}" placeholder="Time To">
-            </div>
-            <div class="form-group">
-                <input type="text" class="form-control" id="day" name="day" value="{{ set_value('day') }}" placeholder="Day">
+            <div class="row">
+                <div class="col-12 col-lg-4">
+                    <div class="form-group">
+                        <label for="time_from">Start Time</label>
+                        <input type="time" class="form-control" id="time_from" name="time_from" value="{{ set_value('time_from') }}" placeholder="">
+                    </div>
+                </div>
+                <div class="col-12 col-lg-4">
+                    <div class="form-group">
+                        <label for="time_to">End Time</label>
+                        <input type="time" class="form-control" id="time_to" name="time_to" value="{{ set_value('time_to') }}" placeholder="">
+                    </div>
+                </div>
+                <div class="col-12 col-lg-4">
+                    <div class="form-group">
+                        <label for="day">Day</label>
+                        <select class="custom-select" id="day" name="day">
+                            <option value="Everyday">Everyday</option>
+                            <option value="Saturday">Saturday</option>
+                            <option value="Sunday">Sunday</option>
+                            <option value="Weekdays">Weekdays</option>
+                        </select>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="modal-footer">
-            <button type="submit" class="btn btn-lg btn-brown rounded-pill px-5 btn-change-state">Publish</button>
+            <button type="submit" class="btn btn-lg btn-brown rounded-pill px-5 btn-change-state">Submit</button>
         </div>
     </form>
 {% endblock %}
@@ -110,20 +126,22 @@
     <script>
         $(function () {
 
-            let baseURL = location.origin.toLowerCase() + '/mountcarmel.web';           
-            //let baseURL = location.origin.toLowerCase();
+            let baseURL = location.origin.toLowerCase() + '/mountcarmel.web';       
+            let apiURL = location.origin.toLowerCase() + '/mountcarmel.api';    
+
             let isProcessing = false;
 
             // GET: Display all
             let getAll = {
                 init: function() {
-                    this.display();
-                    this.reloadList();
+                    this.displayTable();
+                    this.reloadTable();
                 },
-                display: function() {
-                    $('#datatables__default').DataTable({
+                displayTable: function() {
+                    let table = $('#datatables__default').DataTable({
                         "processing": true,
                         "serverSide": false,
+                        "responsive": true,
                         "ajax": {
                             "url": baseURL + "/admin/schedules/schedules",
                             "type": "GET"
@@ -135,63 +153,43 @@
                             },
                             {"data": "name"},
                             {"data": "day"},
-                            {"data": "time_from"},                            
                             {
-                                "data": "posted_on",
+                                "searchable": false,
+                                "data": "time_from",
                                 "mRender": function (data) {
-                                    return data
+                                    return moment(data, 'h:mm:ss a').format('h:mm:ss a');
                                 }
-                            },
-                            {"data": "updated_on"},                               
-                            {"data": "author"},
+                            },                                                        
+                            {
+                                "searchable": false,
+                                "data": "time_to",
+                                "mRender": function (data) {
+                                    return moment(data, 'h:mm:ss a').format('h:mm:ss a');
+                                }
+                            }, 
                             {
                                 "searchable": false,
                                 "data": "id",
                                 "mRender": function (data) {
-                                    return '<a href="#update" data-toggle="modal" data-param="' + data + '" data-toggle="tooltip" data-placement="top" title="Update" ><i class="align-middle material-icons md-22">mode_edit</i></a>';
+                                    return '<a href="#update" data-toggle="modal" data-id="' + data + '" title="Update" ><i class="align-middle material-icons md-22">mode_edit</i></a>';
                                 }
                             },
                             {
                                 "searchable": false,
                                 "data": "id",
                                 "mRender": function (data) {
-                                    return '<a href="#delete" data-toggle="modal" data-param="' + data + '" data-toggle="tooltip" data-placement="top" title="Delete"><i class="align-middle material-icons md-22">remove_circle_outline</i></a>';
+                                    return '<a href="#delete" data-toggle="modal" data-id="' + data + '" title="Delete"><i class="align-middle material-icons md-22">remove_circle_outline</i></a>';
                                 }
                             }
                         ],
                         "lengthMenu": [[10, 25, 50, 75, 100], [10, 25, 50, 75, 100]],
                         "order": [[0, "desc"]],
                         "columnDefs": [
-                            {"orderable": false, "targets": [7, 8]}
-                        ],
-                        "responsive": true,
-                        "language": {
-                            "decimal": "",
-                            "emptyTable": "No data available in table",
-                            "info": "Showing _START_ to _END_ of _TOTAL_ entries",
-                            "infoEmpty": "Showing 0 to 0 of 0 entries",
-                            "infoFiltered": "(filtered from _MAX_ total entries)",
-                            "infoPostFix": "",
-                            "thousands": ",",
-                            "lengthMenu": "Show _MENU_ entries",
-                            "loadingRecords": "Loading...",
-                            "processing": "Processing...",
-                            "search": "Search:",
-                            "zeroRecords": "No matching records found",
-                            "paginate": {
-                                "first": "First",
-                                "last": "Last",
-                                "next": "Next",
-                                "previous": "Previous"
-                            },
-                            "aria": {
-                                "sortAscending": ": activate to sort column ascending",
-                                "sortDescending": ": activate to sort column descending"
-                            }
-                        }
+                            {"orderable": false, "targets": [5, 6]}
+                        ]
                     });
                 },
-                reloadList: function() {
+                reloadTable: function() {
                     $('#reload').on('click', function (e) {
                         $('#datatables__default').DataTable().ajax.reload(null, true); // user paging will reset on reload				                                
                         e.preventDefault();
@@ -202,146 +200,144 @@
             // GET: Display by id
             let getById = {
                 init: function() {
-                    this.display();
+                    this.resetForm();
+                    this.displayForm();
                 },
-                display: function() {
+                resetForm: function() {
+                    $('#update').on('hidden.bs.modal', function(){
+                        $(this).find('form')[0].reset();
+                        $(this).find('.form-control').removeClass('is-invalid');
+                        $(this).find('#ajax-response').empty();
+                    });
+                },
+                displayForm: function() {
                     $('#update').on('show.bs.modal', function (e) {
-                        let el = $(this);
+                        
+                        let _this = $(this);
 
-                        // Reset form
-                        el.find('form').each(function() { this.reset() });
-                        el.find('.form-control').removeClass('is-invalid');
-
-                        let id = $(e.relatedTarget).data('param');
-                        let data = el.serialize();
-
-                        $.ajax({
+                        let id = $(e.relatedTarget).data('id');
+    
+                        let jqXHR = $.ajax({
                             url: baseURL + '/admin/schedules/schedule/id/' + id,
                             type: 'GET',
                             dataType: 'json',
-                            data: data,
+                            data: _this.serialize(),
                             cache: false,
                             processData: false,
                             beforeSend: function () {
-                                el.find('#ajax-preloader').html(
-                                    '<div class="loader">' +
-                                    '  <svg class="circular" viewBox="25 25 50 50">' +
-                                    '    <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>' +
-                                    '  </svg>' +
-                                    '</div>').show();
-                            },
-                            complete: function () {
-                                el.find('#ajax-preloader').html(
-                                    '<div class="loader">' +
-                                    '  <svg class="circular" viewBox="25 25 50 50">' +
-                                    '    <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>' +
-                                    '  </svg>' +
-                                    '</div>').hide('fast');
-                            },
-                            success: function (data) {
-                                if (data) {
-                                    // Populate form
-                                    el.find('input:hidden[name="id"]').val(data.id);
-                                    el.find('input[name="name"]').val(data.name);
-                                    el.find('textarea[name="description"]').html(data.description);
-                                    el.find('input[name="time_from"]').val(data.time_from);
-                                    el.find('input[name="time_to"]').val(data.time_to);
-                                    el.find('input[name="day"]').val(data.day);                                    
-                                }
-                            },
-                            error: function (jqXHR, textStatus, errorThrown) {
-                                console.log('The following error occurred: ' + textStatus, errorThrown);
+                                _this.find('#ajax-preloader').preloader().show();
+                                _this.find('.btn-change-state').attr('disabled', 'disabled');
                             }
                         });
+
+			            jqXHR.done(function (data) {
+                            if (data) {
+                                // Populate form
+                                _this.find('input:hidden[name="id"]').val(data.id);
+                                _this.find('input[name="name"]').val(data.name);
+                                _this.find('textarea[name="description"]').html(data.description);
+                                _this.find('input[name="time_from"]').val(data.time_from);
+                                _this.find('input[name="time_to"]').val(data.time_to);
+                                _this.find('input[name="day"]').val(data.day);                                    
+                            }
+                        });
+
+                        jqXHR.always(function () {
+                            _this.find('#ajax-preloader').preloader().hide();
+                            _this.find('.btn-change-state').removeAttr('disabled');
+                        });
+
+                        jqXHR.fail(function (jqXHR, textStatus, errorThrown) {
+                            console.log('The following error occurred: ' + textStatus, errorThrown);
+                        });
+
                     });
                 }
             }
 
-            // POST: Add new schedule
+            // POST: Add new
             let create = {
                 init: function() {
+                    this.resetForm();
+                    this.autoFocus();
                     this.bindForm();
                 },
-                bindForm: function () {
-                    $('#create').on('shown.bs.modal', this.submitForm(), function(){
-                        // Reset form
-                        $(this).find('form').each(function() { this.reset() });
-                        $(this).find('.form-control').removeClass('is-invalid');
-                        // Auto focus
-                        //$(this).find('input').trigger('focus');
-                        // Disabled above code, to specify fields to focus
-                        let el = $(this);
-                        el.find('input[name="name"]').trigger('focus');
+                resetForm: function() {
+                    $('#create').on('hidden.bs.modal', function(){
+
+                        let _this = $(this);
+
+                        _this.find('form')[0].reset();
+                        _this.find('.form-control').removeClass('is-invalid');
+                        _this.find('#ajax-response').empty();
                     });
                 },
+                autoFocus: function() {
+                    $('#create').on('shown.bs.modal', function(){
+                        $(this).find('input[name="name"]').trigger('focus');
+                    }) 
+                },
+                bindForm: function () {
+                    $('#create').on('show.bs.modal', this.submitForm());
+                },
                 submitForm: function() {
+
                     // Prevent multiple ajax request
                     if (isProcessing) return;
                     isProcessing = true;
 
                     $('#create-form').on('submit', function(e){
 
-                        let el = $(this);
-                        let btn = el.find('.btn-change-state');
-                        let data = el.serialize();
+                        let _this = $(this);
                         
-                        $.ajax({
-                            url: baseURL + '/admin/schedules/create',
+                        let jqXHR = $.ajax({
+                            url: baseURL() + '/admin/schedules/create',
                             type: 'POST',
                             dataType: 'json',
-                            data: data,
+                            data: _this.serialize(),
                             cache: false,
                             processData: false,
                             beforeSend: function () {
-                                el.find('#ajax-preloader').html(
-                                    '<div class="loader">' +
-                                    '  <svg class="circular" viewBox="25 25 50 50">' +
-                                    '    <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>' +
-                                    '  </svg>' +
-                                    '</div>').show();
-                                btn.attr('disabled', 'disabled');
-                            },
-                            complete: function () {
-                                el.find('#ajax-preloader').html(
-                                    '<div class="loader">' +
-                                    '  <svg class="circular" viewBox="25 25 50 50">' +
-                                    '    <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>' +
-                                    '  </svg>' +
-                                    '</div>').hide('fast');
-                                btn.removeAttr('disabled');
-                            },
-                            success: function (data) {
-                                if (data.status === true) {
-                                    // Reload datatables
-                                    $('#datatables__default').DataTable().ajax.reload(null, false); // user paging is not reset on reload
-
-                                    // Hide this modal
-                                    $('#create').modal('hide');
-
-                                    // Show and append notif msg  
-                                    $('#notif').modal('show').find('.modal-body p').text('A new schedules has been published');
-                                    
-                                    // Hide notif after (x) number of seconds 
-                                    setTimeout(function(){ 
-                                        $('#notif').modal('hide');
-                                    }, 3000);
-                                } else {
-                                    // Form error
-                                    (Boolean(data.name)) ? el.find('#name').addClass('is-invalid') : el.find('#name').removeClass('is-invalid');  
-                                    (Boolean(data.description)) ? el.find('#description').addClass('is-invalid') : el.find('#description').removeClass('is-invalid');   
-                                    (Boolean(data.time_from)) ? el.find('#time_from').addClass('is-invalid') : el.find('#time_from').removeClass('is-invalid');  
-                                    (Boolean(data.time_to)) ? el.find('#time_to').addClass('is-invalid') : el.find('#time_to').removeClass('is-invalid');  
-                                    (Boolean(data.day)) ? el.find('#day').addClass('is-invalid') : el.find('#day').removeClass('is-invalid');  
-                                    
-                                    // For debugging
-                                    console.log(data.status);
-                                }
-                            },
-                            error: function (jqXHR, textStatus, errorThrown) {
-                                // For debugging
-                                console.log('The following error occurred: ' + textStatus, errorThrown);
+                                _this.find('#ajax-preloader').preloader().show();
+                                _this.find('.btn-change-state').attr('disabled', 'disabled');
                             }
                         });
+
+			            jqXHR.done(function (data) {
+                            if (data.status === true) {
+                                // Reload datatables
+                                $('#datatables__default').DataTable().ajax.reload(null, false); // user paging is not reset on reload
+
+                                // Hide this modal
+                                $('#create').modal('hide');
+
+                                // Show and append notif msg  
+                                $('#notif').modal('show').find('.modal-body p').text('A new schedules has been published');
+                                    
+                                // Hide notif after (x) number of seconds 
+                                setTimeout(function(){ 
+                                    $('#notif').modal('hide');
+                                }, 3000);
+                            } else {
+                                // Error msg response
+                                _this.find('#ajax-response').html('<div class="alert alert-danger"><ul>' + data.message + '</ul></div>');
+                                (Boolean(data.name)) ? _this.find('#name').addClass('is-invalid') : _this.find('#name').removeClass('is-invalid');  
+                                (Boolean(data.description)) ? _this.find('#description').addClass('is-invalid') : _this.find('#description').removeClass('is-invalid');   
+                                (Boolean(data.time_from)) ? _this.find('#time_from').addClass('is-invalid') : _this.find('#time_from').removeClass('is-invalid');  
+                                (Boolean(data.time_to)) ? _this.find('#time_to').addClass('is-invalid') : _this.find('#time_to').removeClass('is-invalid');  
+                                (Boolean(data.day)) ? _this.find('#day').addClass('is-invalid') : _this.find('#day').removeClass('is-invalid');  
+                            }
+                        });
+
+                        jqXHR.always(function () {
+                            _this.find('#ajax-preloader').preloader().hide();
+                            _this.find('.btn-change-state').removeAttr('disabled');
+                        });
+
+                        jqXHR.fail(function (jqXHR, textStatus, errorThrown) {
+                            console.log('The following error occurred: ' + textStatus, errorThrown);
+                        });
+
                         e.preventDefault();
                     });
                 }
