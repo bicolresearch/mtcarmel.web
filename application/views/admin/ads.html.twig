@@ -3,7 +3,7 @@
     Location    : application/views/admin/ads.html.twig
     Purpose     : Ads partial page
     Created     : 07/11/2019 17:24:13 by Spiderman
-    Updated     : 08/05/2019 14:58:35 by Spiderman
+    Updated     : 08/08/2019 16:38:48 by Spiderman
     Changes     : 
 #}
 
@@ -187,10 +187,12 @@
                 },
                 resetForm: function() {
                     $('#update').on('hidden.bs.modal', function(){
-                        $(this).find('form')[0].reset();
-                        $(this).find('.form-control').removeClass('is-invalid');
-                        $(this).find('#ajax-response').empty();
-                        $(this).find('#placeholder').empty();
+
+                        let _this = $(this);
+
+                        _this.find('form')[0].reset();
+                        _this.find('.form-control').removeClass('is-invalid');
+                        _this.find('#ajax-response').empty();
                     });
                 },
                 displayForm: function(e) {
@@ -220,10 +222,21 @@
                             if (data) {
                                 // Populate form
                                 $('body').attr('data-id', data.id);
-                                _this.find('input:hidden[name="id"]').val(data.id);                    
+                                _this.find('input:hidden[name="id"]').val(data.id);  
                                 _this.find('input[name="name"]').val(data.name);
-                                _this.find('textarea[name="description"]').text(data.description);
-                                _this.find('#placeholder').html('<img class="mx-auto d-block" style="max-height: 200px" src="' + apiURL + '/' + data.full_path + '" alt="' + data.name + '" />');
+                                _this.find('textarea[name="description"]').html(data.description);
+
+                                if($('body').attr('data-media-id') == null) {
+                                    _this.find('input:hidden[name="media_id"]').val(data.media_id); 
+                                }
+
+                                // Get media by id with data-media-id attr as id paramater
+                                $.get(apiURL + '/media/medium/id/' + _this.find('input:hidden[name="media_id"]').val(), function(data) {
+                                    _this.find('#placeholder').replaceWith(
+                                        '<div id="placeholder" class="mb-3">' +
+                                        '   <img class="mx-auto d-block" style="max-height: 200px" src="' + apiURL + '/' + data.full_path + '" alt="' + data.name + '" />' +
+                                        '</div>');
+                                });
                             }
                         });
 
@@ -247,15 +260,12 @@
                 },
                 resetForm: function() {
                     $('#create').on('hidden.bs.modal', function(){
-                        $(this).find('form')[0].reset();
-                        $(this).find('.form-control').removeClass('is-invalid');
-                        $(this).find('#ajax-response').empty();
 
-                        $(this).find('input:hidden[name="media_id"]').val('');
-                        $(this).find('#placeholder').replaceWith(
-                            '<div id="placeholder" class="mb-3">' +
-                            '   <img class="mx-auto d-block" style="max-height: 200px" src="' + baseURL + '/public/assets/images/companylogo.jpg' + '" alt="Image Placeholder" />' +
-                            '</div>');
+                        let _this = $(this);
+
+                        _this.find('form')[0].reset();
+                        _this.find('.form-control').removeClass('is-invalid');
+                        _this.find('#ajax-response').empty();
                     });
                 },
                 autoFocus: function() {
@@ -267,6 +277,7 @@
                     $('#create').on('show.bs.modal', this.submitForm());
                 },
                 submitForm: function() {
+                    
                     // Prevent multiple ajax request
                     if (isProcessing) return;
                     isProcessing = true;
@@ -329,14 +340,6 @@
             let update = {
                 init: function() {
                     this.bindForm();
-                },
-                resetForm: function() {
-                    $('#update').on('hidden.bs.modal', function(){
-                        $(this).find('form')[0].reset();
-                        $(this).find('.form-control').removeClass('is-invalid');
-                        $(this).find('#ajax-response').empty();
-                        $(this).find('#placeholder').empty();
-                    });
                 },
                 bindForm: function () {
                     $('#update').on('show.bs.modal', this.submitForm());

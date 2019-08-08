@@ -3,7 +3,7 @@
     Location    : application/views/admin/base.html.twig
     Purpose     : Admin base template
     Created     : 06/27/2019 16:45:42 by Spiderman
-    Updated     : 08/05/2019 14:58:42 by Spiderman
+    Updated     : 08/08/2019 16:38:58 by Spiderman
     Changes     : 
 #}
 
@@ -223,6 +223,7 @@
                     this.galleryModal();
                 },
                 activeList: function () {
+
                     let str = location.href.toLowerCase();
 
                     $('.sidebar-nav li a').each(function () {
@@ -238,22 +239,22 @@
                         }
                     });
                 },
-                avatar: function() {             
-                    let _this = $('body');
-                    let id = _this.attr('data-user-id');
+                avatar: function() {
+
+                    let id = $('body').attr('data-user-id');
 
                     let jqXHR = $.ajax({
                         url: baseURL + '/admin/profile/id/' + id,
                         type: 'GET',
                         dataType: 'json',
-                        data: _this.serialize(),
+                        data: $('body').serialize(),
                         cache: false,
                         processData: false
                     });
                     
                     jqXHR.done(function(data) {
                         if (data) {
-                            _this.find('.profile').append('<img class="img-fluid rounded-circle avatar mr-1" src="' + apiURL + '/' + data.avatar + '" alt="' + data.first_name + ' ' + data.last_name + '" />');
+                            $('body').find('.profile').append('<img class="img-fluid rounded-circle avatar mr-1" src="' + apiURL + '/' + data.avatar + '" alt="' + data.first_name + ' ' + data.last_name + '" />');
                         }
                     });
 
@@ -263,6 +264,7 @@
                 },
                 gallery: function() {
                     $('#gallery').on('show.bs.modal', function(){
+                        
                         // Check if a table is a DataTable or not
                         if ($.fn.dataTable.isDataTable('#datatables__modal')) { 
                            let table = $('#datatables__modal').DataTable();                   
@@ -305,74 +307,61 @@
 
                             // Selected row
                             $('#datatables__modal').on('click', 'tr', function() {
-                                // Get the rows id value
+                                // Get the row id value
                                 let data = table.row(this).data();                            
-                                // Set media_id to a current opened modal
-                                $('.modal').on('show.bs.modal', function(){
-                                    $(this).find('input:hidden[name="media_id"]').val(data.id);
-                                });
+                                
+                                // Add data-media-id attr to body and set the value with the selected row id
+                                $('body').attr('data-media-id', data.id);
                             });
                         }
                     });
                 },
                 createModal: function() {
                     $('#create').on('show.bs.modal', function(){
-                        $('#gallery').modal('hide');  
+                        $('body').attr('data-modal-previous', 'create');
                     }).on('hidden.bs.modal', function(){
-                        $('body').attr('data-previous-modal', 'create').addClass('modal-open');
+                        $(this).find('input:hidden[name="media_id"]').val('');
+                        $(this).find('#placeholder').replaceWith(
+                            '<div id="placeholder" class="mb-3">' +
+                            '   <img class="mx-auto d-block" style="max-height: 200px" src="' + baseURL + '/public/assets/images/companylogo.jpg' + '" alt="Image Placeholder" />' +
+                            '</div>');
+                        $('body').removeAttr('data-media-id');
+                        $('body').addClass('modal-open');
                     });
                 },
                 updateModal: function() {
                     $('#update').on('show.bs.modal', function(){
-                        $('#gallery').modal('hide');
+                        $('body').attr('data-modal-previous', 'update');
                     }).on('hidden.bs.modal', function(){
-                        $('body').attr('data-previous-modal', 'update').addClass('modal-open');
+                        $(this).find('input:hidden[name="id"]').val('');
+                        $(this).find('input:hidden[name="media_id"]').val('');
+                        $('body').removeAttr('data-media-id');
+                        $('body').addClass('modal-open');
                     });
                 },
                 galleryModal: function() {
                     $('#gallery').on('show.bs.modal', function(){
-                        if($('#create').hasClass('.show').toString()) {
-                            $('#create').modal('hide');
-                        } 
-                        if($('#update').hasClass('.show').toString()) {
-                            $('#update').modal('hide');
-                        } 
+
+                        // Open the previous modal
+                        $('#' + $('body').attr('data-modal-previous')).modal('hide');
+
                     }).on('hidden.bs.modal', function(e){
+
+                        // Open the previous modal
+                        $('#' + $('body').attr('data-modal-previous')).modal('show');
                         
-                        let modal = $('body').attr('data-previous-modal');
-                        let id;
+                        // Get media by id with data-media-id attr as id paramater
+                        $.get(apiURL + '/media/medium/id/' + $('body').attr('data-media-id'), function(data) {
+                            $('#' + $('body').attr('data-modal-previous') + '-form').find('#placeholder').replaceWith(
+                                '<div id="placeholder" class="mb-3">' +
+                                '   <img class="mx-auto d-block" style="max-height: 200px" src="' + apiURL + '/' + data.full_path + '" alt="' + data.name + '" />' +
+                                '</div>');
+                        });
 
-                        switch(modal) {
-                            case 'create':
-                                $('#create').modal('show');
-                                
-                                id = $('#create-form').find('input:hidden[name="media_id"]').val();
-                                
-                                $.get(apiURL + '/media/medium/id/' + id, function(data) {
-                                    $('#create-form').find('#placeholder').replaceWith(
-                                        '<div id="placeholder" class="mb-3">' +
-                                        '   <img class="mx-auto d-block" style="max-height: 200px" src="' + apiURL + '/' + data.full_path + '" alt="' + data.name + '" />' +
-                                        '</div>');
-                                });
-                                break;
-                            case 'update':
-                                $('#update').modal('show');      
-                                
-                                id = $('#update-form').find('input:hidden[name="media_id"]').val();
-                                
-                                $.get(apiURL + '/media/medium/id/' + id, function(data) {
-                                    $('#update').on('shown.bs.modal', function() {
-                                        $(this).find('#placeholder').replaceWith(
-                                            '<div id="placeholder" class="mb-3">' +
-                                            '   <img class="mx-auto d-block" style="max-height: 200px" src="' + apiURL + '/' + data.full_path + '" alt="' + data.name + '" />' +
-                                            '</div>');
-                                    });
-                                });
-                                break;
-                            default:   
-                        }
+                        // Set the hidden input media_id value with data-media-id attr
+                        $('#' + $('body').attr('data-modal-previous') + '-form').find('input:hidden[name="media_id"]').val($('body').attr('data-media-id'));
 
-                        // Add class modal-open in body
+                        // Add the class modal-open to body
                         $('body').addClass('modal-open'); 
                     });
                 }

@@ -3,7 +3,7 @@
     Location    : application/views/admin/posts.html.twig
     Purpose     : Posts partial page
     Created     : 07/03/2019 19:30:07 by Spiderman
-    Updated     : 08/05/2019 16:50:49 by Spiderman
+    Updated     : 08/08/2019 16:48:37 by Spiderman
     Changes     : 
 #}
 
@@ -89,8 +89,6 @@
                 <!--  WYSIWYG editor -->
             </div>
             <div id="placeholder" class="mb-3">
-                <!-- Image placeholder -->
-                <img class="mx-auto d-block" style="max-height: 200px" src="{{ base_url('public/assets/images/companylogo.jpg') }}" alt="Image Placeholder" />
                 <!-- This is where the image preview load -->
             </div>
             <div class="text-center">
@@ -182,7 +180,6 @@
                         $(this).find('form')[0].reset();
                         $(this).find('.form-control').removeClass('is-invalid');
                         $(this).find('#ajax-response').empty();
-                        $(this).find('#placeholder').empty();
                     });
                 },
                 displayForm: function() {
@@ -215,7 +212,18 @@
                                 _this.find('input:hidden[name="id"]').val(data.id);
                                 _this.find('input[name="title"]').val(data.title);
                                 _this.find('.ql-editor').html(data.content);
-                                _this.find('#placeholder').html('<img class="mx-auto d-block" style="max-height: 200px" src="' + apiURL + '/' + data.cover_photo + '" alt="' + data.name + '" />');
+                                
+                                if($('body').attr('data-media-id') == null) {
+                                    _this.find('input:hidden[name="media_id"]').val(data.media_id); 
+                                }
+
+                                // Get media by id with data-media-id attr as id paramater
+                                $.get(apiURL + '/media/medium/id/' + _this.find('input:hidden[name="media_id"]').val(), function(data) {
+                                    _this.find('#placeholder').replaceWith(
+                                        '<div id="placeholder" class="mb-3">' +
+                                        '   <img class="mx-auto d-block" style="max-height: 200px" src="' + apiURL + '/' + data.full_path + '" alt="' + data.name + '" />' +
+                                        '</div>');
+                                });
                             }
                         });
 
@@ -239,11 +247,14 @@
                 },
                 resetForm: function() {
                     $('#create').on('hidden.bs.modal', function(){
-                        $(this).find('form')[0].reset();
-                        $(this).find('.form-control').removeClass('is-invalid');
-                        $(this).find('#create-editor').css({'border-color':'#ccc', 'border-top':'none'}); 
-                        $(this).find('input:hidden[name="content"]').val();
-                        $(this).find('.ql-editor').empty();
+
+                        let _this = $(this);
+
+                        _this.find('form')[0].reset();
+                        _this.find('.form-control').removeClass('is-invalid');
+                        _this.find('#create-editor').css({'border-color':'#ccc', 'border-top':'none'}); 
+                        _this.find('input:hidden[name="content"]').val();
+                        _this.find('.ql-editor').empty();
                     });
                 },
                 autoFocus: function() {
@@ -330,14 +341,7 @@
             // PUT: Update
             let update = {
                 init: function() {
-                    this.resetForm();
                     this.bindForm();
-                },
-                resetForm: function() {
-                    $('#update').on('hidden.bs.modal', function(){
-                        $(this).find('.form-control').removeClass('is-invalid');
-                        $(this).find('#ajax-response').empty();
-                    });
                 },
                 bindForm: function () {
                     $('#update').on('show.bs.modal', this.submitForm());

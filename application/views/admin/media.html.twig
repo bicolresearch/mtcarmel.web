@@ -187,10 +187,13 @@
                 },
                 resetForm: function() {
                     $('#update').on('hidden.bs.modal', function(){
-                        $(this).find('form')[0].reset();
-                        $(this).find('.form-control').removeClass('is-invalid');
-                        $(this).find('#ajax-response').empty();
-                        $(this).find('#placeholder').empty();
+                        
+                        let _this = $(this);
+
+                        _this.find('form')[0].reset();
+                        _this.find('.form-control').removeClass('is-invalid');
+                        _this.find('#ajax-response').empty();
+                        _this.find('#placeholder').empty();
                     });
                 },
                 displayForm: function() {
@@ -243,10 +246,13 @@
                 },
                 resetForm: function() {
                     $('#create').on('hidden.bs.modal', function(){
-                        $(this).find('form')[0].reset();
-                        $(this).find('.form-control').removeClass('is-invalid');
-                        $(this).find('.form-control-file').removeClass('is-invalid');
-                        $(this).find('#ajax-response').empty();
+                        
+                        let _this = $(this);
+
+                        _this.find('form')[0].reset();
+                        _this.find('.form-control').removeClass('is-invalid');
+                        _this.find('.form-control-file').removeClass('is-invalid');
+                        _this.find('#ajax-response').empty();
                     });
                 },
                 autoFocus: function() {
@@ -258,6 +264,7 @@
                     $('#create').on('show.bs.modal', this.submitForm());
                 },
                 submitForm: function() {
+                    
                     // Prevent multiple ajax request
                     if (isProcessing) return;
                     isProcessing = true;
@@ -265,13 +272,12 @@
                     $('#create-form').on('submit', function(e){
 
                         let _this = $(this);
-                        let data = new FormData(_this[0]);
-                    
+    
                         let jqXHR = $.ajax({
                             url: baseURL + '/admin/media/create',
                             type: 'POST',
                             dataType: 'json',
-                            data: data,
+                            data: new FormData(_this[0]),
                             contentType: false,
                             cache: false,
                             processData: false,
@@ -322,15 +328,7 @@
             // PUT: Update
             let update = {
                 init: function() {
-                    this.resetForm();
                     this.bindForm();
-                },
-                resetForm: function() {
-                    $('#update').on('hidden.bs.modal', function(){
-                        $(this).find('form')[0].reset();
-                        $(this).find('.form-control').removeClass('is-invalid');
-                        $(this).find('#ajax-response').empty();
-                    });
                 },
                 bindForm: function () {
                     $('#update').on('show.bs.modal', this.submitForm());
