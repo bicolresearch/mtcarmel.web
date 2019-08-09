@@ -3,8 +3,8 @@
     Location    : application/views/admin/prayer_request.html.twig
     Purpose     : prayer request page, Implemented GET, POST, and PUT methods
     Created     : 08/01/2019 17:52:29 by Scarlet Witch
-    Updated     : 08/05/2019 13:20:32 by Scarlet Witch
-    Changes     : added export to excel/csv/pdf/copy/print
+    Updated     : 08/09/2019 10:27:15 by Scarlet Witch
+    Changes     : added export button color
 #}
 
 {% extends 'admin/base.html.twig' %}
@@ -145,23 +145,28 @@
                         "buttons": [
                             {
                                 "extend": ['copy'],
-                                "exportOptions": { columns: [ 0, 1, 2, 3, 4, 5 ] }
+                                "exportOptions": { columns: [ 0, 1, 2, 3, 4, 5 ] },
+                                "className": "btn btn-brown"
                             },
                             {
                                 "extend": ['excelHtml5'],
-                                "exportOptions": { columns: [ 0, 1, 2, 3, 4, 5 ] }
+                                "exportOptions": { columns: [ 0, 1, 2, 3, 4, 5 ] },
+                                "className": "btn btn-brown"
                             },
                             {
                                 "extend": ['csvHtml5'],
-                                "exportOptions": { columns: [ 0, 1, 2, 3, 4, 5 ] }
+                                "exportOptions": { columns: [ 0, 1, 2, 3, 4, 5 ] },
+                                "className": "btn btn-brown"
                             },
                             {
                                 "extend": ['pdfHtml5'],
-                                "exportOptions": { columns: [ 0, 1, 2, 3, 4, 5 ] }
+                                "exportOptions": { columns: [ 0, 1, 2, 3, 4, 5 ] },
+                                "className": "btn btn-brown"
                             },
                             {
                                 "extend": ['print'],
-                                "exportOptions": { columns: [ 0, 1, 2, 3, 4, 5 ] }
+                                "exportOptions": { columns: [ 0, 1, 2, 3, 4, 5 ] },
+                                "className": "btn btn-brown"
                             }
                         ],
                         "responsive": true,

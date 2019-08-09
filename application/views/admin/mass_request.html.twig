@@ -3,8 +3,8 @@
     Location    : application/views/admin/mass_request.html.twig
     Purpose     : mass request page, Implemented GET, POST, and PUT methods
     Created     : 08/01/2019 18:53:27 by Scarlet Witch
-    Updated     : 08/05/2019 15:24:11 by Scarlet Witch
-    Changes     : added export to excel/csv/pdf/copy/print
+    Updated     : 08/06/2019 11:29:19 by Scarlet Witch
+    Changes     : added export button color
 #}
 
 {% extends 'admin/base.html.twig' %}
@@ -162,23 +162,28 @@
                         "buttons": [
                             {
                                 "extend": ['copy'],
-                                "exportOptions": { columns: [ 0, 1, 2, 3, 4, 5 ] }
+                                "exportOptions": { columns: [ 0, 1, 2, 3, 4, 5 ] },
+                                "className": "btn btn-brown"
                             },
                             {
                                 "extend": ['excelHtml5'],
-                                "exportOptions": { columns: [ 0, 1, 2, 3, 4, 5 ] }
+                                "exportOptions": { columns: [ 0, 1, 2, 3, 4, 5 ] },
+                                "className": "btn btn-brown"
                             },
                             {
                                 "extend": ['csvHtml5'],
-                                "exportOptions": { columns: [ 0, 1, 2, 3, 4, 5 ] }
+                                "exportOptions": { columns: [ 0, 1, 2, 3, 4, 5 ] },
+                                "className": "btn btn-brown"
                             },
                             {
                                 "extend": ['pdfHtml5'],
-                                "exportOptions": { columns: [ 0, 1, 2, 3, 4, 5 ] }
+                                "exportOptions": { columns: [ 0, 1, 2, 3, 4, 5 ] },
+                                "className": "btn btn-brown"
                             },
                             {
                                 "extend": ['print'],
-                                "exportOptions": { columns: [ 0, 1, 2, 3, 4, 5 ] }
+                                "exportOptions": { columns: [ 0, 1, 2, 3, 4, 5 ] },
+                                "className": "btn btn-brown"
                             }
                         ],
                         "responsive": true,
