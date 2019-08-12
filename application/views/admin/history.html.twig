@@ -1,14 +1,14 @@
 {#
-    Filename    : historym.html.twig
+    Filename    : history.html.twig
     Location    : application/views/admin/history.html.twig
-    Purpose     : History page, , Implemented GET, POST, and PUT methods
-    Created     : 2019-07-22 11:36:22 by Scarlet Witch 
-    Updated     : 08/01/2019 11:34:14 by Scarlet Witch
-    Changes     : Updated the baseURL for local and datatables - from datatable-basic to datatables__default
+    Purpose     : History partial page
+    Created     : 07/22/2019 23:25:05 by Scarlet Witch 
+    Updated     : 08/12/2019 22:14:20 by Spiderman
+    Changes     : 
 #}
 
-
 {% extends 'admin/base.html.twig' %}
+
 {% block title %} {{ page_title }} | Mount Carmel {% endblock %}
 
 {% block contents %}
@@ -37,7 +37,6 @@
                                 <th>Titular</th>
                                 <th>Posted on</th>
                                 <th>Updated on</th>
-                                <th>Author</th>
                                 <th></th>
                                 <th></th>
                             </tr>
@@ -51,24 +50,31 @@
 
 {% block createModalForm %}
     <form id="create-form">
-        <div id="ajax-preloader"></div>
         <div class="modal-body px-5">
+            <div id="ajax-preloader"></div>
             <input type="hidden" name="id">
             <input type="hidden" name="content">
             <div class="form-group">
-                <input type="text" class="form-control form-control-lg" id="titular" name="titular" value="{{ set_value('titular') }}" placeholder="Titular">
+                <label for="titular">Titular</label>
+                <input type="text" class="form-control" id="titular" name="titular" value="{{ set_value('titular') }}" placeholder="">
             </div>
             <div class="form-group">
-                <input type="text" class="form-control form-control-lg" id="diocese" name="diocese" value="{{ set_value('diocese') }}" placeholder="Diocese">
+                <label for="diocese">Diocese</label>
+                <input type="text" class="form-control" id="diocese" name="diocese" value="{{ set_value('diocese') }}" placeholder="">
             </div>
             <div class="form-group">
-                <input type="text" class="form-control form-control-lg" id="date_of_establishment" name="date_of_establishment" value="{{ set_value('date_of_establishment') }}" placeholder="Date of Establishment">
+                <label for="date_of_establishment">Date of Establishment</label>
+                <input type="text" class="form-control" id="date_of_establishment" name="date_of_establishment" value="{{ set_value('date_of_establishment') }}" placeholder="">
             </div>
             <div class="form-group">
-                <input type="text" class="form-control form-control-lg" id="feast_day" name="feast_day" value="{{ set_value('feast_day') }}" placeholder="Feast Day">
+                <label for="feast_day">Feast Day</label>
+                <input type="text" class="form-control" id="feast_day" name="feast_day" value="{{ set_value('feast_day') }}" placeholder="">
             </div>
-            <div id="create-editor">
-                <!--  WYSIWYG editor -->
+            <div class="form-group">
+                <label for="content">History</label>
+                <div id="create-editor">
+                    <!--  WYSIWYG editor -->
+                </div>
             </div>
         </div>
         <div class="modal-footer">
@@ -79,24 +85,31 @@
 
 {% block updateModalForm %}
     <form id="update-form">
-        <div id="ajax-preloader"></div>
         <div class="modal-body px-5">
+            <div id="ajax-preloader"></div>
             <input type="hidden" name="id">
             <input type="hidden" name="content">
             <div class="form-group">
-                <input type="text" class="form-control form-control-lg" id="titular" name="titular" value="{{ set_value('titular') }}" placeholder="Titular">
+                <label for="titular">Titular</label>
+                <input type="text" class="form-control" id="titular" name="titular" value="{{ set_value('titular') }}" placeholder="">
             </div>
             <div class="form-group">
-                <input type="text" class="form-control form-control-lg" id="diocese" name="diocese" value="{{ set_value('diocese') }}" placeholder="Diocese">
+                <label for="diocese">Diocese</label>
+                <input type="text" class="form-control" id="diocese" name="diocese" value="{{ set_value('diocese') }}" placeholder="">
             </div>
             <div class="form-group">
-                <input type="text" class="form-control form-control-lg" id="date_of_establishment" name="date_of_establishment" value="{{ set_value('date_of_establishment') }}" placeholder="Date of Establishment">
+                <label for="date_of_establishment">Date of Establishment</label>
+                <input type="text" class="form-control" id="date_of_establishment" name="date_of_establishment" value="{{ set_value('date_of_establishment') }}" placeholder="">
             </div>
             <div class="form-group">
-                <input type="text" class="form-control form-control-lg" id="feast_day" name="feast_day" value="{{ set_value('feast_day') }}" placeholder="Feast Day">
+                <label for="feast_day">Feast Day</label>
+                <input type="text" class="form-control" id="feast_day" name="feast_day" value="{{ set_value('feast_day') }}" placeholder="">
             </div>
-            <div id="update-editor">
-                <!--  WYSIWYG editor -->
+            <div class="form-group">
+                <label for="content">History</label>
+                <div id="update-editor">
+                    <!--  WYSIWYG editor -->
+                </div>
             </div>
         </div>
         <div class="modal-footer">
@@ -110,21 +123,23 @@
         $(function () {
 
             let baseURL = location.origin.toLowerCase() + '/mountcarmel.web';            
-            //let baseURL = location.origin.toLowerCase();
+            let apiURL = location.origin.toLowerCase() + '/mountcarmel.api';         
+            
             let isProcessing = false;
 
             // GET: Display all
             let getAll = {
                 init: function() {
-                    this.display();
-                    this.reloadList();
+                    this.displayTable();
+                    this.reloadTable();
                 },
-                display: function() {
+                displayTable: function() {
                     $('#datatables__default').DataTable({
                         "processing": true,
                         "serverSide": false,
+                        "responsive": true,
                         "ajax": {
-                            "url": baseURL + "/admin/history/history",
+                            "url": baseURL + "/admin/histories/histories",
                             "type": "GET"
                         },
                         "columns": [
@@ -136,59 +151,38 @@
                             {
                                 "data": "posted_on",
                                 "mRender": function (data) {
-                                    return data
+                                    return moment(data).format('lll')
                                 }
                             },
-                            {"data": "updated_on"},                               
-                            {"data": "author"},
+                            {
+                                "data": "updated_on",
+                                "mRender": function (data) {
+                                    return moment(data).format('lll')
+                                }
+                            },                          
                             {
                                 "searchable": false,
                                 "data": "id",
                                 "mRender": function (data) {
-                                    return '<a href="#update" data-toggle="modal" data-param="' + data + '" data-toggle="tooltip" data-placement="top" title="Update" ><i class="align-middle material-icons md-22">mode_edit</i></a>';
+                                    return '<a href="#update" data-toggle="modal" data-id="' + data + '" title="Update" ><i class="align-middle material-icons md-22">mode_edit</i></a>';
                                 }
                             },
                             {
                                 "searchable": false,
                                 "data": "id",
                                 "mRender": function (data) {
-                                    return '<a href="#delete" data-toggle="modal" data-param="' + data + '" data-toggle="tooltip" data-placement="top" title="Delete"><i class="align-middle material-icons md-22">remove_circle_outline</i></a>';
+                                    return '<a href="#delete" data-toggle="modal" data-id="' + data + '" title="Delete"><i class="align-middle material-icons md-22">remove_circle_outline</i></a>';
                                 }
                             }
                         ],
                         "lengthMenu": [[10, 25, 50, 75, 100], [10, 25, 50, 75, 100]],
                         "order": [[0, "desc"]],
                         "columnDefs": [
-                            {"orderable": false, "targets": [5, 6]}
-                        ],
-                        "responsive": true,
-                        "language": {
-                            "decimal": "",
-                            "emptyTable": "No data available in table",
-                            "info": "Showing _START_ to _END_ of _TOTAL_ entries",
-                            "infoEmpty": "Showing 0 to 0 of 0 entries",
-                            "infoFiltered": "(filtered from _MAX_ total entries)",
-                            "infoPostFix": "",
-                            "thousands": ",",
-                            "lengthMenu": "Show _MENU_ entries",
-                            "loadingRecords": "Loading...",
-                            "processing": "Processing...",
-                            "search": "Search:",
-                            "zeroRecords": "No matching records found",
-                            "paginate": {
-                                "first": "First",
-                                "last": "Last",
-                                "next": "Next",
-                                "previous": "Previous"
-                            },
-                            "aria": {
-                                "sortAscending": ": activate to sort column ascending",
-                                "sortDescending": ": activate to sort column descending"
-                            }
-                        }
+                            {"orderable": false, "targets": [4, 5]}
+                        ]
                     });
                 },
-                reloadList: function() {
+                reloadTable: function() {
                     $('#reload').on('click', function (e) {
                         $('#datatables__default').DataTable().ajax.reload(null, true); // user paging will reset on reload				                                
                         e.preventDefault();
@@ -199,56 +193,53 @@
             // GET: Display by id
             let getById = {
                 init: function() {
-                    this.display();
+                    this.resetForm();
+                    this.displayForm();
                 },
-                display: function() {
+                resetForm: function() {
+                    $('#update').on('hidden.bs.modal', function(){
+                        let _this = $(this);
+                        _this.find('form')[0].reset();
+                        _this.find('.form-control').removeClass('is-invalid');
+                        _this.find('#ajax-response').empty();
+                    });
+                },
+                displayForm: function() {
                     $('#update').on('show.bs.modal', function (e) {
-                        let el = $(this);
+                        
+                        let _this = $(this);
+                        let id = $(e.relatedTarget).attr('data-id');
 
-                        // Reset form
-                        el.find('form').each(function() { this.reset() });
-                        el.find('.form-control').removeClass('is-invalid');
-
-                        let id = $(e.relatedTarget).data('param');
-                        let data = el.serialize();
-
-                        $.ajax({
-                            url: baseURL + '/admin/history/historyh/id/' + id,
+                        let jqXHR = $.ajax({
+                            url: baseURL + '/admin/histories/history/id/' + id,
                             type: 'GET',
                             dataType: 'json',
-                            data: data,
+                            data: _this.serialize(),
                             cache: false,
                             processData: false,
                             beforeSend: function () {
-                                el.find('#ajax-preloader').html(
-                                    '<div class="loader">' +
-                                    '  <svg class="circular" viewBox="25 25 50 50">' +
-                                    '    <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>' +
-                                    '  </svg>' +
-                                    '</div>').show();
-                            },
-                            complete: function () {
-                                el.find('#ajax-preloader').html(
-                                    '<div class="loader">' +
-                                    '  <svg class="circular" viewBox="25 25 50 50">' +
-                                    '    <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>' +
-                                    '  </svg>' +
-                                    '</div>').hide('fast');
-                            },
-                            success: function (data) {
-                                if (data) {
-                                    // Populate form
-                                    el.find('input:hidden[name="id"]').val(data.id);
-                                    el.find('input[name="titular"]').val(data.titular);
-                                    el.find('input[name="diocese"]').val(data.diocese);
-                                    el.find('input[name="date_of_establishment"]').val(data.date_of_establishment);
-                                    el.find('input[name="feast_day"]').val(data.feast_day);
-                                    el.find('.ql-editor').html(data.content);
-                                }
-                            },
-                            error: function (jqXHR, textStatus, errorThrown) {
-                                console.log('The following error occurred: ' + textStatus, errorThrown);
+                                _this.find('#ajax-preloader').preloader().show();
                             }
+                        });
+
+                        jqXHR.done(function (data) {
+                            if (data) {
+                                // Populate form
+                                _this.find('input:hidden[name="id"]').val(data.id);
+                                _this.find('input[name="titular"]').val(data.titular);
+                                _this.find('input[name="diocese"]').val(data.diocese);
+                                _this.find('input[name="date_of_establishment"]').val(data.date_of_establishment);
+                                _this.find('input[name="feast_day"]').val(data.feast_day);
+                                _this.find('.ql-editor').html(data.content);
+                            }
+                        });
+
+                        jqXHR.always(function () {
+                            _this.find('#ajax-preloader').preloader().hide();
+                        });
+
+                        jqXHR.fail(function (jqXHR, textStatus, errorThrown) {
+                            console.log('The following error occurred: ' + textStatus, errorThrown);
                         });
                     });
                 }
@@ -257,17 +248,29 @@
             // POST: Add new history
             let create = {
                 init: function() {
+                    this.resetForm();
+                    this.autoFocus();
                     this.bindForm();
                 },
-                bindForm: function () {
-                    $('#create').on('shown.bs.modal', this.submitForm(), function() {
-                        // Reset form
-                        $(this).find('form').each(function() { this.reset() });
-                        $(this).find('.form-control').removeClass('is-invalid');
-                        $(this).find('#create-editor').css({'border-color':'#ccc', 'border-top':'none'}); 
-                        // Auto focus
-                        $(this).find('input').trigger('focus');
+                resetForm: function() {
+                    $('#create').on('hidden.bs.modal', function(){
+
+                        let _this = $(this);
+
+                        _this.find('form')[0].reset();
+                        _this.find('.form-control').removeClass('is-invalid');
+                        _this.find('#create-editor').css({'border-color':'#ccc', 'border-top':'none'}); 
+                        _this.find('input:hidden[name="content"]').val();
+                        _this.find('.ql-editor').empty();
                     });
+                },
+                autoFocus: function() {
+                    $('#create').on('shown.bs.modal', function(){
+                        $(this).find('input[name="titular"]').trigger('focus');
+                    });
+                },
+                bindForm: function () {
+                    $('#create').on('show.bs.modal', this.submitForm());
                 },
                 submitForm: function() {
                     
@@ -281,7 +284,7 @@
                             ] 
                         },
                         theme: 'snow',
-                        placeholder: 'Compose here'
+                        placeholder: ''
                     });
 
                     // Prevent multiple ajax request
@@ -290,67 +293,56 @@
 
                     $('#create-form').on('submit', function(e){
 
-                        let el = $(this);
-                        let btn = el.find('.btn-change-state');
-                        let content = el.find('input:hidden[name="content"]').val(quill.root.innerHTML);
-                        let data = el.serialize();
+                        let _this = $(this);
+                        let content = _this.find('input:hidden[name="content"]').val(quill.root.innerHTML);
                         
-                        $.ajax({
-                            url: baseURL + '/admin/history/create',
+                        let jqXHR = $.ajax({
+                            url: baseURL + '/admin/histories/create',
                             type: 'POST',
                             dataType: 'json',
-                            data: data,
+                            data: _this.serialize(),
                             cache: false,
                             processData: false,
                             beforeSend: function () {
-                                el.find('#ajax-preloader').html(
-                                    '<div class="loader">' +
-                                    '  <svg class="circular" viewBox="25 25 50 50">' +
-                                    '    <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>' +
-                                    '  </svg>' +
-                                    '</div>').show();
-                                btn.attr('disabled', 'disabled');
-                            },
-                            complete: function () {
-                                el.find('#ajax-preloader').html(
-                                    '<div class="loader">' +
-                                    '  <svg class="circular" viewBox="25 25 50 50">' +
-                                    '    <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>' +
-                                    '  </svg>' +
-                                    '</div>').hide('fast');
-                                btn.removeAttr('disabled');
-                            },
-                            success: function (data) {
-                                if (data.status === true) {
-                                    // Reload datatables
-                                    $('#datatables__default').DataTable().ajax.reload(null, false); // user paging is not reset on reload
-
-                                    // Hide this modal
-                                    $('#create').modal('hide');
-
-                                    // Show and append notif msg  
-                                    $('#notif').modal('show').find('.modal-body p').text('A new history has been published');
-                                    
-                                    // Hide notif after (x) number of seconds 
-                                    setTimeout(function(){ 
-                                        $('#notif').modal('hide');
-                                    }, 3000);
-                                } else {
-                                    // Form error
-                                    (Boolean(data.titular)) ? el.find('#titular').addClass('is-invalid') : el.find('#titular').removeClass('is-invalid');
-                                    (Boolean(data.diocese)) ? el.find('#diocese').addClass('is-invalid') : el.find('#diocese').removeClass('is-invalid');
-                                    (Boolean(data.date_of_establishment)) ? el.find('#date_of_establishment').addClass('is-invalid') : el.find('#date_of_establishment').removeClass('is-invalid');
-                                    (Boolean(data.feast_day)) ? el.find('#feast_day').addClass('is-invalid') : el.find('#feast_day').removeClass('is-invalid');
-                                    (quill.editor.isBlank()) ? el.find('#create-editor').css({'border':'1px solid #f00'}) : el.find('#create-editor').css({'border-color':'#ccc', 'border-top':'none'});      
-
-                                    // For debugging
-                                    console.log(data.status);
-                                }
-                            },
-                            error: function (jqXHR, textStatus, errorThrown) {
-                                console.log('The following error occurred: ' + textStatus, errorThrown);
+                                _this.find('#ajax-preloader').preloader().show();
+                                _this.find('.btn-change-state').attr('disabled', 'disabled');
                             }
                         });
+
+                        jqXHR.done(function (data) {
+                            if (data.status === true) {
+                                // Reload datatables
+                                $('#datatables__default').DataTable().ajax.reload(null, false); // user paging is not reset on reload
+
+                                // Hide this modal
+                                $('#create').modal('hide');
+
+                                // Show and append notif msg  
+                                $('#notif').modal('show').find('.modal-body p').text('A new history has been published');
+                                
+                                // Hide notif after (x) number of seconds 
+                                setTimeout(function(){ 
+                                    $('#notif').modal('hide');
+                                }, 3000);
+                            } else {
+                                // Error msg response
+                                (Boolean(data.titular)) ? _this.find('#titular').addClass('is-invalid') : _this.find('#titular').removeClass('is-invalid');
+                                (Boolean(data.diocese)) ? _this.find('#diocese').addClass('is-invalid') : _this.find('#diocese').removeClass('is-invalid');
+                                (Boolean(data.date_of_establishment)) ? _this.find('#date_of_establishment').addClass('is-invalid') : _this.find('#date_of_establishment').removeClass('is-invalid');
+                                (Boolean(data.feast_day)) ? _this.find('#feast_day').addClass('is-invalid') : _this.find('#feast_day').removeClass('is-invalid');
+                                (quill.editor.isBlank()) ? _this.find('#create-editor').css({'border':'1px solid #f00'}) : _this.find('#create-editor').css({'border-color':'#ccc', 'border-top':'none'});
+                            }
+                        });
+
+                        jqXHR.always(function () {
+                            _this.find('#ajax-preloader').preloader().hide();
+                            _this.find('.btn-change-state').removeAttr('disabled');
+                        });
+
+                        jqXHR.fail(function (jqXHR, textStatus, errorThrown) {
+                            console.log('The following error occurred: ' + textStatus, errorThrown);
+                        });
+
                         e.preventDefault();
                     });
                 }
@@ -362,11 +354,7 @@
                     this.bindForm();
                 },
                 bindForm: function () {
-                    $('#update').on('show.bs.modal', this.submitForm(), function() {
-                        // Reset form
-                        $(this).find('form').each(function() { this.reset() });
-                        $(this).find('.form-control').removeClass('is-invalid');
-                    });
+                    $('#update').on('show.bs.modal', this.submitForm());
                 },
                 submitForm: function() {
 
@@ -384,38 +372,25 @@
                     });
 
                     $('#update-form').on('submit', function(e){
-                        let el = $(this);
-                        let btn = el.find('.btn-change-state');
-                        let id = el.find('input:hidden[name="id"]').val();
-                        let content = el.find('input:hidden[name="content"]').val(quill.root.innerHTML);
-                        let data = el.serialize();
+
+                        let _this = $(this);
+                        let id = _this.find('input:hidden[name="id"]').val();
+                        let content = _this.find('input:hidden[name="content"]').val(quill.root.innerHTML);
                     
-                        $.ajax({
-                            url: baseURL + '/admin/history/update/id/' + id,
+                        let jqXHR = $.ajax({
+                            url: baseURL + '/admin/histories/update/id/' + id,
                             type: 'PUT',
                             dataType: 'json',
-                            data: data,
+                            data: _this.serialize(),
                             cache: false,
                             processData: false,
                             beforeSend: function () {
-                                el.find('#ajax-preloader').html(
-                                    '<div class="loader">' +
-                                    '  <svg class="circular" viewBox="25 25 50 50">' +
-                                    '    <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>' +
-                                    '  </svg>' +
-                                    '</div>').show();
-                                btn.attr('disabled', 'disabled');
-                            },
-                            complete: function () {
-                                el.find('#ajax-preloader').html(
-                                    '<div class="loader">' +
-                                    '  <svg class="circular" viewBox="25 25 50 50">' +
-                                    '    <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>' +
-                                    '  </svg>' +
-                                    '</div>').hide('fast');
-                                btn.removeAttr('disabled');
-                            },
-                            success: function (data) {
+                                _this.find('#ajax-preloader').preloader().show();
+                                _this.find('.btn-change-state').attr('disabled', 'disabled');
+                            }
+                        });
+
+                        jqXHR.done(function (data) {
                                 if (data.status === true) {
                                     // Reload datatables
                                     $('#datatables__default').DataTable().ajax.reload(null, false); // user paging is not reset on reload
@@ -431,22 +406,24 @@
                                         $('#notif').modal('hide');
                                     }, 3000);
                                 } else {
-                                    // Form error
-                                    (Boolean(data.titular)) ? el.find('#titular').addClass('is-invalid') : el.find('#titular').removeClass('is-invalid');
-                                    (Boolean(data.diocese)) ? el.find('#diocese').addClass('is-invalid') : el.find('#diocese').removeClass('is-invalid');
-                                    (Boolean(data.date_of_establishment)) ? el.find('#date_of_establishment').addClass('is-invalid') : el.find('#date_of_establishment').removeClass('is-invalid');
-                                    (Boolean(data.feast_day)) ? el.find('#feast_day').addClass('is-invalid') : el.find('#feast_day').removeClass('is-invalid');
-                                    (quill.editor.isBlank()) ? el.find('#update-editor').css({'border':'1px solid #f00'}) : el.find('#update-editor').css({'border-color':'#ccc'});   
-                                
-                                     // For debugging
-                                    console.log(data.status);
+                                    // Error msg response
+                                    (Boolean(data.titular)) ? _this.find('#titular').addClass('is-invalid') : _this.find('#titular').removeClass('is-invalid');
+                                    (Boolean(data.diocese)) ? _this.find('#diocese').addClass('is-invalid') : _this.find('#diocese').removeClass('is-invalid');
+                                    (Boolean(data.date_of_establishment)) ? _this.find('#date_of_establishment').addClass('is-invalid') : _this.find('#date_of_establishment').removeClass('is-invalid');
+                                    (Boolean(data.feast_day)) ? _this.find('#feast_day').addClass('is-invalid') : _this.find('#feast_day').removeClass('is-invalid');
+                                    (quill.editor.isBlank()) ? _this.find('#update-editor').css({'border':'1px solid #f00'}) : _this.find('#update-editor').css({'border-color':'#ccc'});   
                                 }
-                            },
-                            error: function (jqXHR, textStatus, errorThrown) {
-                                // For debugging
-                                console.log('The following error occurred: ' + textStatus, errorThrown);
-                            }
                         });
+
+                        jqXHR.always(function () {
+                            _this.find('#ajax-preloader').preloader().hide();
+                            _this.find('.btn-change-state').removeAttr('disabled');
+                        });
+
+                        jqXHR.fail(function (jqXHR, textStatus, errorThrown) {
+                            console.log('The following error occurred: ' + textStatus, errorThrown);
+                        });
+
                         e.preventDefault();
                     });
                 }
@@ -459,108 +436,60 @@
                 },
                 bindForm: function () {
                     $('#delete').on('show.bs.modal', this.submitForm(), function(e){
-                        $(this).find('#ajax-response').empty();
-                        $(this).find('input:hidden[name="id"]').val($(e.relatedTarget).data('param'));
-                        $(this).find('.modal-body p').text('Are you sure you want to delete history #' + $(e.relatedTarget).data('param') + '?');
+                        
+                        $(this).find('input:hidden[name="id"]').val($(e.relatedTarget).attr('data-id'));
+                        $(this).find('.modal-body p').text('Are you sure you want to delete history #' + $(e.relatedTarget).attr('data-id') + '?');
                     });
                 },
                 submitForm: function() {
                     $('#delete-form').on('submit', function(e){
-                        let el = $(this);
-                        let btn = el.find('.btn-change-state');
-                        let id = el.find('input:hidden[name="id"]').val();
-                        let data = el.serialize();
+
+                        let _this = $(this);
+                        let id = _this.find('input:hidden[name="id"]').val();
                     
                         $.ajax({
-                            url: baseURL + '/admin/history/delete/id/' + id,
+                            url: baseURL + '/admin/histories/delete/id/' + id,
                             type: 'PUT',
                             dataType: 'json',
-                            data: data,
+                            data: _this.serialize(),
                             cache: false,
                             processData: false,
                             beforeSend: function () {
-                                el.find('#ajax-preloader').html(
-                                    '<div class="loader">' +
-                                    '  <svg class="circular" viewBox="25 25 50 50">' +
-                                    '    <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>' +
-                                    '  </svg>' +
-                                    '</div>').show();
-                                btn.attr('disabled', 'disabled');
-                            },
-                            complete: function () {
-                                el.find('#ajax-preloader').html(
-                                    '<div class="loader">' +
-                                    '  <svg class="circular" viewBox="25 25 50 50">' +
-                                    '    <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>' +
-                                    '  </svg>' +
-                                    '</div>').hide('fast');
-                                btn.removeAttr('disabled');
-                            },
-                            success: function (data) {
-                                if (data.status === true) {
-                                    // Reload datatables
-                                    $('#datatables__default').DataTable().ajax.reload(null, false); // user paging is not reset on reload
-
-                                    // Hide this modal
-                                    $('#delete').modal('hide');
-
-                                    // Show and append notif msg  
-                                    $('#notif').modal('show').find('.modal-body p').text('History #' + id + ' has been moved to trash');
-                                    
-                                    // Hide notif after (x) number of seconds 
-                                    setTimeout(function(){ 
-                                        $('#notif').modal('hide');
-                                    }, 3000);
-                                    
-                                } else {
-                                    // For debugging
-                                    console.log(data.status);
-                                }
-                            },
-                            error: function (jqXHR, textStatus, errorThrown) {
-                                // For debugging
-                                console.log('The following error occurred: ' + textStatus, errorThrown);
+                                _this.find('#ajax-preloader').preloader().show();
+                                _this.find('.btn-change-state').attr('disabled', 'disabled');
                             }
                         });
+
+                        jqXHR.done(function (data) {
+                            if (data.status === true) {
+                                // Reload datatables
+                                $('#datatables__default').DataTable().ajax.reload(null, false); // user paging is not reset on reload
+
+                                // Hide this modal
+                                $('#delete').modal('hide');
+
+                                // Show and append notif msg  
+                                $('#notif').modal('show').find('.modal-body p').text('History #' + id + ' has been moved to trash');
+                                    
+                                // Hide notif after (x) number of seconds 
+                                setTimeout(function(){ 
+                                    $('#notif').modal('hide');
+                                }, 3000);
+                                
+                            }
+                        });
+
+                        jqXHR.always(function () {
+                            _this.find('#ajax-preloader').preloader().hide();
+                            _this.find('.btn-change-state').removeAttr('disabled');
+                        });
+
+                        jqXHR.fail(function (jqXHR, textStatus, errorThrown) {
+                            console.log('The following error occurred: ' + textStatus, errorThrown);
+                        });
+
                         e.preventDefault();
                     });
-                }
-            }
-
-            // TODO: Multiple instance of quill
-            let app = {
-                init: function() {
-                    this.wysiwyg();
-                },
-                wysiwyg: function() {
-                    let containers = ['#create-editor', '#update-editor'];
-        
-                    let toolbarOptions = [
-                        [
-                            'bold', 
-                            'italic', 
-                            'underline', 
-                            'strike', 
-                            'link',
-                            {'list': 'ordered'}, 
-                            {'list': 'bullet' },
-                            'blockquote',
-                            'image', 
-                            'video','clean'
-                        ]
-                    ];
-
-                    let options = {
-                        modules: { 
-                            toolbar: toolbarOptions 
-                        },
-                        theme: 'snow',
-                        placeholder: 'Compose here'
-                    }
-
-                    for(let i = 0; i <= containers.length; i++) {
-                        let quill = new Quill(containers[i], options);
-                    }
                 }
             }
 

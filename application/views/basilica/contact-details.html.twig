@@ -2,15 +2,18 @@
     Filename    : contact-details.html.twig
     Location    : application/views/basilica/contact-details.html.twig
     Purpose     : Contact details partial page
-    Created     : 6/03/2019 by Spiderman
-    Updated     : 07/25/2019 13:10:13 by Scarlet Witch
-    Changes     : Update the baseURL and apiURL
+    Created     : 06/03/2019 23:53:54 by Spiderman
+    Updated     : 08/12/2019 23:53:49 by Spiderman
+    Changes     : 
 #}
 
 {% extends 'base.html.twig' %}
+
 {% block title %} {{ page_title }} | Mount Carmel {% endblock %}
+
 {% block contents %}
     <div id="contacts" class="row justify-content-center">
+        <div id="ajax-preloader"></div>
         <div class="col-12 col-lg-10">
             <div class="card">
                 <div class="card-header">
@@ -30,8 +33,8 @@
     <script>
         $(function () {
 
-            let baseURL = location.origin.toLowerCase();
-            let apiURL = 'https://api.mountcarmel.ph';
+            let baseURL = location.origin.toLowerCase() + '/mountcarmel.web';            
+            let apiURL = location.origin.toLowerCase() + '/mountcarmel.api';  
 
             let app = {
                 init: function () {
@@ -40,35 +43,43 @@
                 // GET: Contacts
                 contacts: function() {
 
-                    let el = $('#contacts');
-                    let data = el.serialize();
+                    let _this = $('#contacts');
 
-                    $.ajax({
+                    let jqXHR = $.ajax({
                         url: apiURL + '/contact_details/id/1',
                         type: 'GET',
                         dataType: 'json',
-                        data: data,
+                        data: _this.serialize(),
                         cache: false,
                         processData: false,
-                        success: function (data) {
-                            if (data) {
-                                el.find('#details').html(
-                                    '<dl class="row">' +
-                                    '<dt class="col-sm-6 text-right">Landline</dt>' +
-                                    '<dd class="col-sm-6">' + data[0].landline + '</dd>' +
-                                    '<dt class="col-sm-6 text-right">Mobile</dt>' +
-                                    '<dd class="col-sm-6">' + data[0].mobile + '</dd>' +
-                                    '<dt class="col-sm-6 text-right">Email Address</dt>' +
-                                    '<dd class="col-sm-6">' + data[0].email + '</dd>' +
-                                    '<dt class="col-sm-6 text-right">Social Media</dt>' +
-                                    '<dd class="col-sm-6">' + data[0].social_media + '</dd>' +
-                                    '</dl>'
-                                );
-                            }
-                        },
-                        error: function (jqXHR, textStatus, errorThrown) {
-                            console.log('The following error occurred: ' + textStatus, errorThrown);
+                        beforeSend: function () {
+                            _this.find('#ajax-preloader').preloader().show();
                         }
+                    });
+
+                    jqXHR.done(function (data) {
+                        if (data) {
+                            _this.find('#details').html(
+                                '<dl class="row">' +
+                                '<dt class="col-sm-6 text-right">Landline</dt>' +
+                                '<dd class="col-sm-6">' + data[0].landline + '</dd>' +
+                                '<dt class="col-sm-6 text-right">Mobile</dt>' +
+                                '<dd class="col-sm-6">' + data[0].mobile + '</dd>' +
+                                '<dt class="col-sm-6 text-right">Email Address</dt>' +
+                                '<dd class="col-sm-6">' + data[0].email + '</dd>' +
+                                '<dt class="col-sm-6 text-right">Social Media</dt>' +
+                                '<dd class="col-sm-6">' + data[0].social_media + '</dd>' +
+                                '</dl>'
+                            );
+                        }
+                    });
+
+                    jqXHR.always(function () {
+                        _this.find('#ajax-preloader').preloader().hide();
+                    });
+
+                    jqXHR.fail(function (jqXHR, textStatus, errorThrown) {
+                        console.log('The following error occurred: ' + textStatus, errorThrown);
                     });
                 }
             };

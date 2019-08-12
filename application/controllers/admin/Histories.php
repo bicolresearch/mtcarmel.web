@@ -1,17 +1,17 @@
 <?php
 
 /*
-    Filediocese    : History.php
-    Location    : application/controllers/admin/History.php
-    Purpose     : History controller
-    Created     : 2019-07-22 12:13:02 by Scarlet Witch 
-    Updated     : 
-    Changes     : 
+    Filediocese     : Histories.php
+    Location        : application/controllers/admin/Histories.php
+    Purpose         : Histories controller
+    Created         : 07/22/2019 23:35:25 by Scarlet Witch 
+    Updated         : 08/12/2019 23:35:35 by Spiderman
+    Changes         : 
 */
 
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class History extends CI_Controller
+class Histories extends CI_Controller
 {
     public function __construct()
     {
@@ -22,7 +22,7 @@ class History extends CI_Controller
     {
         if(logged_in()) {
             $view_data = [
-                'page_title' => 'History',
+                'page_title' => 'Histories',
                 'page_subtitle' => 'list of history',
                 'user' => user()
             ];
@@ -34,7 +34,7 @@ class History extends CI_Controller
     }
     
     // GET request
-    public function history() 
+    public function histories() 
     {
         // Redirect to auth if not ajax request
         if (!$this->input->is_ajax_request()) {
@@ -70,7 +70,7 @@ class History extends CI_Controller
     }
 
     // GET request
-    public function historyh() 
+    public function history() 
     {
         // Redirect to auth if not ajax request
         if (!$this->input->is_ajax_request()) {
@@ -143,8 +143,7 @@ class History extends CI_Controller
                     'feast_day' => $this->input->post('feast_day'),   
                     'content' => $this->input->post('content'),                     
                     'user_id' => user('id')
-                ],
-                'debug' => fopen('php://stderr', 'w')
+                ]
             ];
 
             try {
@@ -172,8 +171,6 @@ class History extends CI_Controller
 
             ];
             echo json_encode($view_data);
-
-            //echo $this->form_validation->get_json();
         }
     }
 
@@ -191,7 +188,6 @@ class History extends CI_Controller
             'date_of_establishment' => $this->input->put('date_of_establishment'),
             'feast_day' => $this->input->put('feast_day'),
             'content' => $this->input->put('content')
-
         );
 
         $this->form_validation
@@ -202,7 +198,6 @@ class History extends CI_Controller
             ->set_rules('feast_day', 'feast_day', 'trim|required|xss_clean')
             ->set_rules('content', 'content', 'trim|required|xss_clean')
             ->set_error_delimiters('<li>', '</li>');
-
 
         if ($this->form_validation->run()) {
 
@@ -222,7 +217,6 @@ class History extends CI_Controller
                     'feast_day' => $this->input->put('feast_day'),
                     'content' => $this->input->put('content'),
                     'user_id' => user('id')
-
                 ]
             ];
 
@@ -251,7 +245,6 @@ class History extends CI_Controller
                 'date_of_establishment' => form_error('date_of_establishment'),
                 'feast_day' => form_error('feast_day'),
                 'content' => form_error('content')
-
             ];
             echo json_encode($view_data);
         }

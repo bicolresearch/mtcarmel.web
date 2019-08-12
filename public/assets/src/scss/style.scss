@@ -334,6 +334,10 @@ body {
   box-shadow: 0 0 0 0.2rem rgba(126, 82, 50, .15) !important;
 }
 
+.breadcrumb {
+  background-color: transparent;
+}
+
 /* Alert */
 .alert {
   @include border-radius(0);
