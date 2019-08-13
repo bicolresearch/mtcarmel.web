@@ -1,10 +1,10 @@
 {#
     Filename    : contacts.html.twig
     Location    : application/views/admin/contacts.html.twig
-    Purpose     : contacts page, , Implemented GET, POST, and PUT methods
+    Purpose     : Contacts partial page
     Created     : 07/23/2019 11:49:05 by Scarlet Witch
-    Updated     : 08/01/2019 11:18:38 by Scarlet Witch
-    Changes     : Updated the baseURL for local and datatables - from datatable-basic to datatables__default
+    Updated     : 08/13/2019 19:45:02 by Spiderman
+    Changes     : 
 #}
 
 {% extends 'admin/base.html.twig' %}
@@ -36,8 +36,7 @@
                                 <th>#</th>
                                 <th>Name</th>
                                 <th>Posted on</th>
-                                <th>Updated on</th>                                                                                   
-                                <th>Author</th>
+                                <th>Updated on</th> 
                                 <th></th>
                                 <th></th>
                             </tr>
@@ -51,38 +50,73 @@
 
 {% block createModalForm %}
     <form id="create-form">
-        <div id="ajax-preloader"></div>
         <div class="modal-body px-5">
-            <input type="hidden" name="id">
+            <div id="ajax-preloader"></div>
+            <div id="ajax-response"></div>
             <div class="form-group">
-                <input type="text" class="form-control" id="name" name="name" value="{{ set_value('name') }}" placeholder="Name">
+                <label for="name">Name</label>
+                <input type="text" class="form-control" id="name" name="name" value="{{ set_value('name') }}" placeholder="">
             </div>
             <div class="form-group">
-                <input type="text" class="form-control" id="description" name="description" value="{{ set_value('description') }}" placeholder="Description">
+                <label for="description">Description</label>
+                <textarea class="form-control" id="description" name="description" rows="2" maxlength="255"></textarea>
             </div>
             <div class="form-group">
-                <input type="text" class="form-control" id="address1" name="address1" value="{{ set_value('address1') }}" placeholder="Address 1">
+                <label for="address1">Address 1</label>
+                <input type="text" class="form-control" id="address1" name="address1" value="{{ set_value('address1') }}" placeholder="">
             </div>
             <div class="form-group">
-                <input type="text" class="form-control" id="address2" name="address2" value="{{ set_value('address2') }}" placeholder="Address 2">
+                <label for="address2">Address 2</label>
+                <input type="text" class="form-control" id="address2" name="address2" value="{{ set_value('address2') }}" placeholder="">
+            </div>
+            <div class="row">
+                <div class="col-12 col-lg-4">
+                    <div class="form-group">
+                        <label for="city">City</label>
+                        <select class="custom-select" id="city" name="city">
+                            <option value="" selected>&dash;</option>
+                            <option value="1">Makati City</option>
+                            <option value="2">Taguig City</option>
+                            <option value="3">Quezon City</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-4">
+                    <div class="form-group">
+                        <label for="province">Province</label>
+                        <select class="custom-select" id="province" name="province">
+                            <option value="" selected>&dash;</option>
+                            <option value="1">Metro Manila</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-4">
+                    <div class="form-group">
+                        <label for="country">Country</label>
+                        <select class="custom-select" id="country" name="country">
+                            <option value="" selected>&dash;</option>
+                            <option value="1">Philippines</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 col-lg-6">
+                    <div class="form-group">
+                        <label for="landline">Landline</label>
+                        <textarea class="form-control" id="landline" name="landline" rows="2" maxlength="255"></textarea>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-6">
+                    <div class="form-group">
+                        <label for="mobile">Mobile</label>
+                        <textarea class="form-control" id="mobile" name="mobile" rows="2" maxlength="255"></textarea>
+                    </div>
+                </div>
             </div>
             <div class="form-group">
-                <input type="text" class="form-control" id="city" name="city" value="{{ set_value('city') }}" placeholder="City">
-            </div>
-            <div class="form-group">
-                <input type="text" class="form-control" id="province" name="province" value="{{ set_value('province') }}" placeholder="Province">
-            </div>
-            <div class="form-group">
-                <input type="text" class="form-control" id="country" name="country" value="{{ set_value('country') }}" placeholder="Country">
-            </div>
-            <div class="form-group">
-                <input type="text" class="form-control" id="landline" name="landline" value="{{ set_value('landline') }}" placeholder="Landline">
-            </div>
-            <div class="form-group">
-                <input type="text" class="form-control" id="mobile" name="mobile" value="{{ set_value('mobile') }}" placeholder="Mobile">
-            </div>
-            <div class="form-group">
-                <input type="text" class="form-control" id="email" name="email" value="{{ set_value('email') }}" placeholder="Email">
+                <label for="email">Email</label>
+                <input type="text" class="form-control" id="email" name="email" value="{{ set_value('email') }}" placeholder="">
             </div>
         </div>
         <div class="modal-footer">
@@ -93,38 +127,73 @@
 
 {% block updateModalForm %}
     <form id="update-form">
-        <div id="ajax-preloader"></div>
         <div class="modal-body px-5">
-            <input type="hidden" name="id">
+            <div id="ajax-preloader"></div>
+            <div id="ajax-response"></div>
             <div class="form-group">
-                <input type="text" class="form-control" id="name" name="name" value="{{ set_value('name') }}" placeholder="contact Name">
+                <label for="name">Name</label>
+                <input type="text" class="form-control" id="name" name="name" placeholder="">
             </div>
             <div class="form-group">
-                <input type="text" class="form-control" id="description" name="description" value="{{ set_value('description') }}" placeholder="description">
+                <label for="description">Description</label>
+                <textarea class="form-control" id="description" name="description" rows="2" maxlength="255"></textarea>
             </div>
             <div class="form-group">
-                <input type="text" class="form-control" id="address1" name="address1" value="{{ set_value('address1') }}" placeholder="Address 1">
+                <label for="address1">Address 1</label>
+                <input type="text" class="form-control" id="address1" name="address1" placeholder="">
             </div>
             <div class="form-group">
-                <input type="text" class="form-control" id="address2" name="address2" value="{{ set_value('address2') }}" placeholder="Address 2">
+                <label for="address2">Address 2</label>
+                <input type="text" class="form-control" id="address2" name="address2" placeholder="">
+            </div>
+            <div class="row">
+                <div class="col-12 col-lg-4">
+                    <div class="form-group">
+                        <label for="city">City</label>
+                        <select class="custom-select" id="city" name="city">
+                            <option value="" selected>&dash;</option>
+                            <option value="1">Makati City</option>
+                            <option value="2">Taguig City</option>
+                            <option value="3">Quezon City</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-4">
+                    <div class="form-group">
+                        <label for="province">Province</label>
+                        <select class="custom-select" id="province" name="province">
+                            <option value="" selected>&dash;</option>
+                            <option value="1">Metro Manila</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-4">
+                    <div class="form-group">
+                        <label for="country">Country</label>
+                        <select class="custom-select" id="country" name="country">
+                            <option value="" selected>&dash;</option>
+                            <option value="1">Philippines</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 col-lg-6">
+                    <div class="form-group">
+                        <label for="landline">Landline</label>
+                        <textarea class="form-control" id="landline" name="landline" rows="2" maxlength="255"></textarea>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-6">
+                    <div class="form-group">
+                        <label for="mobile">Mobile</label>
+                        <textarea class="form-control" id="mobile" name="mobile" rows="2" maxlength="255"></textarea>
+                    </div>
+                </div>
             </div>
             <div class="form-group">
-                <input type="text" class="form-control" id="city" name="city" value="{{ set_value('city') }}" placeholder="City">
-            </div>
-            <div class="form-group">
-                <input type="text" class="form-control" id="province" name="province" value="{{ set_value('province') }}" placeholder="Province">
-            </div>
-            <div class="form-group">
-                <input type="text" class="form-control" id="country" name="country" value="{{ set_value('country') }}" placeholder="country">
-            </div>
-            <div class="form-group">
-                <input type="text" class="form-control" id="landline" name="landline" value="{{ set_value('landline') }}" placeholder="Landline">
-            </div>
-            <div class="form-group">
-                <input type="text" class="form-control" id="mobile" name="mobile" value="{{ set_value('mobile') }}" placeholder="Mobile">
-            </div>
-            <div class="form-group">
-                <input type="text" class="form-control" id="email" name="email" value="{{ set_value('email') }}" placeholder="Email">
+                <label for="email">Email</label>
+                <input type="text" class="form-control" id="email" name="email" placeholder="">
             </div>
         </div>
         <div class="modal-footer">
@@ -137,20 +206,22 @@
     <script>
         $(function () {
 
-            let baseURL = location.origin.toLowerCase() + '/mountcarmel.web';                    
-            //let baseURL = location.origin.toLowerCase();
+            let baseURL = location.origin.toLowerCase() + '/mountcarmel.web';                 
+            let apiURL = location.origin.toLowerCase() + '/mountcarmel.api';              
+
             let isProcessing = false;
 
             // GET: Display all
             let getAll = {
                 init: function() {
-                    this.display();
-                    this.reloadList();
+                    this.displayTable();
+                    this.reloadTable();
                 },
-                display: function() {
+                displayTable: function() {
                     $('#datatables__default').DataTable({
                         "processing": true,
                         "serverSide": false,
+                        "responsive": true,
                         "ajax": {
                             "url": baseURL + "/admin/contacts/contacts",
                             "type": "GET"
@@ -164,59 +235,38 @@
                             {
                                 "data": "posted_on",
                                 "mRender": function (data) {
-                                    return data
+                                    return moment(data).format('lll')
                                 }
                             },
-                            {"data": "updated_on"},                               
-                            {"data": "author"},
+                            {
+                                "data": "updated_on",
+                                "mRender": function (data) {
+                                    return moment(data).format('lll')
+                                }
+                            },                          
                             {
                                 "searchable": false,
                                 "data": "id",
                                 "mRender": function (data) {
-                                    return '<a href="#update" data-toggle="modal" data-param="' + data + '" data-toggle="tooltip" data-placement="top" title="Update" ><i class="align-middle material-icons md-22">mode_edit</i></a>';
+                                    return '<a href="#update" data-toggle="modal" data-id="' + data + '" title="Update" ><i class="align-middle material-icons md-22">mode_edit</i></a>';
                                 }
                             },
                             {
                                 "searchable": false,
                                 "data": "id",
                                 "mRender": function (data) {
-                                    return '<a href="#delete" data-toggle="modal" data-param="' + data + '" data-toggle="tooltip" data-placement="top" title="Delete"><i class="align-middle material-icons md-22">remove_circle_outline</i></a>';
+                                    return '<a href="#delete" data-toggle="modal" data-id="' + data + '" title="Delete"><i class="align-middle material-icons md-22">remove_circle_outline</i></a>';
                                 }
                             }
                         ],
                         "lengthMenu": [[10, 25, 50, 75, 100], [10, 25, 50, 75, 100]],
                         "order": [[0, "desc"]],
                         "columnDefs": [
-                            {"orderable": false, "targets": [5, 6]}
-                        ],
-                        "responsive": true,
-                        "language": {
-                            "decimal": "",
-                            "emptyTable": "No data available in table",
-                            "info": "Showing _START_ to _END_ of _TOTAL_ entries",
-                            "infoEmpty": "Showing 0 to 0 of 0 entries",
-                            "infoFiltered": "(filtered from _MAX_ total entries)",
-                            "infoPostFix": "",
-                            "thousands": ",",
-                            "lengthMenu": "Show _MENU_ entries",
-                            "loadingRecords": "Loading...",
-                            "processing": "Processing...",
-                            "search": "Search:",
-                            "zeroRecords": "No matching records found",
-                            "paginate": {
-                                "first": "First",
-                                "last": "Last",
-                                "next": "Next",
-                                "previous": "Previous"
-                            },
-                            "aria": {
-                                "sortAscending": ": activate to sort column ascending",
-                                "sortDescending": ": activate to sort column descending"
-                            }
-                        }
+                            {"orderable": false, "targets": [4, 5]}
+                        ]
                     });
                 },
-                reloadList: function() {
+                reloadTable: function() {
                     $('#reload').on('click', function (e) {
                         $('#datatables__default').DataTable().ajax.reload(null, true); // user paging will reset on reload				                                
                         e.preventDefault();
@@ -227,317 +277,291 @@
             // GET: Display by id
             let getById = {
                 init: function() {
-                    this.display();
+                    this.resetForm();
+                    this.displayForm();
                 },
-                display: function() {
+                resetForm: function() {
+                    $('#update').on('hidden.bs.modal', function(){
+                        
+                        let _this = $(this);
+
+                        _this.find('form')[0].reset();
+                        _this.find('.form-control').removeClass('is-invalid');
+                        _this.find('.custom-select').removeClass('is-invalid');
+                        _this.find('#ajax-response').empty();
+                    });
+                },
+                displayForm: function() {
                     $('#update').on('show.bs.modal', function (e) {
-                        let el = $(this);
+                        
+                        let _this = $(this);
 
-                        // Reset form
-                        el.find('form').each(function() { this.reset() });
-                        el.find('.form-control').removeClass('is-invalid');
+                        let id = $(e.relatedTarget).attr('data-id');
 
-                        let id = $(e.relatedTarget).data('param');
-                        let data = el.serialize();
-
-                        $.ajax({
+                        let jqXHR = $.ajax({
                             url: baseURL + '/admin/contacts/contact/id/' + id,
                             type: 'GET',
                             dataType: 'json',
-                            data: data,
+                            data: _this.serialize(),
                             cache: false,
                             processData: false,
                             beforeSend: function () {
-                                el.find('#ajax-preloader').html(
-                                    '<div class="loader">' +
-                                    '  <svg class="circular" viewBox="25 25 50 50">' +
-                                    '    <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>' +
-                                    '  </svg>' +
-                                    '</div>').show();
-                            },
-                            complete: function () {
-                                el.find('#ajax-preloader').html(
-                                    '<div class="loader">' +
-                                    '  <svg class="circular" viewBox="25 25 50 50">' +
-                                    '    <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>' +
-                                    '  </svg>' +
-                                    '</div>').hide('fast');
-                            },
-                            success: function (data) {
-                                if (data) {
-                                    // Populate form
-                                    el.find('input:hidden[name="id"]').val(data.id);
-                                    el.find('input[name="name"]').val(data.name);
-                                    el.find('input[name="description"]').val(data.description);
-                                    el.find('input[name="address1"]').val(data.address1);
-                                    el.find('input[name="address2"]').val(data.address2);                                    
-                                    el.find('input[name="city"]').val(data.city);
-                                    el.find('input[name="province"]').val(data.province);
-                                    el.find('input[name="country"]').val(data.country);
-                                    el.find('input[name="landline"]').val(data.landline);
-                                    el.find('input[name="mobile"]').val(data.mobile);
-                                    el.find('input[name="email"]').val(data.email);
-                                }
-                            },
-                            error: function (jqXHR, textStatus, errorThrown) {
-                                console.log('The following error occurred: ' + textStatus, errorThrown);
+                                _this.find('#ajax-preloader').preloader().show();
                             }
+                        });
+
+                        jqXHR.done(function (data) {
+                            if (data) {
+                                // Populate form
+                                _this.find('input:hidden[name="id"]').val(data.id);
+                                _this.find('input[name="name"]').val(data.name);
+                                _this.find('textarea[name="description"]').text(data.description);
+                                _this.find('input[name="address1"]').val(data.address1);
+                                _this.find('input[name="address2"]').val(data.address2);                                    
+                                _this.find('input[name="city"]').val(data.city);
+                                _this.find('input[name="province"]').val(data.province);
+                                _this.find('input[name="country"]').val(data.country);
+                                _this.find('textarea[name="landline"]').text(data.landline);
+                                _this.find('textarea[name="mobile"]').text(data.mobile);
+                                _this.find('input[name="email"]').val(data.email);
+                            }
+                        });
+
+                        jqXHR.always(function () {
+                            _this.find('#ajax-preloader').preloader().hide();
+                        });
+
+                        jqXHR.fail(function (jqXHR, textStatus, errorThrown) {
+                            console.log('The following error occurred: ' + textStatus, errorThrown);
                         });
                     });
                 }
             }
 
-            // POST: Add new contact
+            // POST: Add new
             let create = {
                 init: function() {
+                    this.resetForm();
+                    this.autoFocus();
                     this.bindForm();
                 },
-                bindForm: function () {
-                    $('#create').on('shown.bs.modal', this.submitForm(), function(){
-                        // Reset form
-                        $(this).find('form').each(function() { this.reset() });
-                        $(this).find('.form-control').removeClass('is-invalid');
-                        // Auto focus
-                        //$(this).find('input').trigger('focus');
-                        // Disabled above code, to specify fields to focus
-                        let el = $(this);
-                        el.find('input[name="name"]').trigger('focus');
+                resetForm: function() {
+                    $('#create').on('hidden.bs.modal', function(){
+                        
+                        let _this = $(this);
+
+                        _this.find('form')[0].reset();
+                        _this.find('.form-control').removeClass('is-invalid');
+                        _this.find('.custom-select').removeClass('is-invalid');
+                        _this.find('#ajax-response').empty();
                     });
                 },
+                autoFocus: function() {
+                    $('#create').on('shown.bs.modal', function(){
+                        $(this).find('input[name="name"]').trigger('focus');
+                    }) 
+                },
+                bindForm: function () {
+                    $('#create').on('show.bs.modal', this.submitForm());
+                },
                 submitForm: function() {
+                    
                     // Prevent multiple ajax request
                     if (isProcessing) return;
                     isProcessing = true;
 
                     $('#create-form').on('submit', function(e){
 
-                        let el = $(this);
-                        let btn = el.find('.btn-change-state');
-                        let data = el.serialize();
-                        
-                        $.ajax({
+                        let _this = $(this);
+    
+                        let jqXHR = $.ajax({
                             url: baseURL + '/admin/contacts/create',
                             type: 'POST',
                             dataType: 'json',
-                            data: data,
+                            data: _this.serialize(),
                             cache: false,
                             processData: false,
-                            beforeSend: function () {
-                                el.find('#ajax-preloader').html(
-                                    '<div class="loader">' +
-                                    '  <svg class="circular" viewBox="25 25 50 50">' +
-                                    '    <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>' +
-                                    '  </svg>' +
-                                    '</div>').show();
-                                btn.attr('disabled', 'disabled');
-                            },
-                            complete: function () {
-                                el.find('#ajax-preloader').html(
-                                    '<div class="loader">' +
-                                    '  <svg class="circular" viewBox="25 25 50 50">' +
-                                    '    <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>' +
-                                    '  </svg>' +
-                                    '</div>').hide('fast');
-                                btn.removeAttr('disabled');
-                            },
-                            success: function (data) {
-                                if (data.status === true) {
-                                    // Reload datatables
-                                    $('#datatables__default').DataTable().ajax.reload(null, false); // user paging is not reset on reload
-
-                                    // Hide this modal
-                                    $('#create').modal('hide');
-
-                                    // Show and append notif msg  
-                                    $('#notif').modal('show').find('.modal-body p').text('A new contacts has been published');
-                                    
-                                    // Hide notif after (x) number of seconds 
-                                    setTimeout(function(){ 
-                                        $('#notif').modal('hide');
-                                    }, 3000);
-                                } else {
-                                    // Form error
-                                    (Boolean(data.name)) ? el.find('#name').addClass('is-invalid') : el.find('#name').removeClass('is-invalid');  
-                                    (Boolean(data.description)) ? el.find('#description').addClass('is-invalid') : el.find('#description').removeClass('is-invalid');  
-                                    (Boolean(data.address1)) ? el.find('#address1').addClass('is-invalid') : el.find('#address1').removeClass('is-invalid');                                        
-                                    (Boolean(data.address2)) ? el.find('#address2').addClass('is-invalid') : el.find('#address2').removeClass('is-invalid');  
-                                    (Boolean(data.city)) ? el.find('#city').addClass('is-invalid') : el.find('#city').removeClass('is-invalid');   
-                                    (Boolean(data.province)) ? el.find('#province').addClass('is-invalid') : el.find('#province').removeClass('is-invalid');   
-                                    (Boolean(data.country)) ? el.find('#country').addClass('is-invalid') : el.find('#country').removeClass('is-invalid');   
-                                    (Boolean(data.landline)) ? el.find('#landline').addClass('is-invalid') : el.find('#landline').removeClass('is-invalid');   
-                                    (Boolean(data.mobile)) ? el.find('#mobile').addClass('is-invalid') : el.find('#mobile').removeClass('is-invalid');   
-                                    (Boolean(data.email)) ? el.find('#email').addClass('is-invalid') : el.find('#email').removeClass('is-invalid');  
-                                                                        
-                                    // For debugging
-                                    console.log(data.status);
-                                }
-                            },
-                            error: function (jqXHR, textStatus, errorThrown) {
-                                // For debugging
-                                console.log('The following error occurred: ' + textStatus, errorThrown);
+                            beforeSend: function() {
+                                _this.find('#ajax-preloader').preloader().show();
+                                _this.find('.btn-change-state').attr('disabled', 'disabled');
                             }
                         });
+
+			            jqXHR.done(function(data) {
+                            if (data.status === true) {
+                                // Reload datatables
+                                $('#datatables__default').DataTable().ajax.reload(null, false); // user paging is not reset on reload
+
+                                // Hide this modal
+                                $('#create').modal('hide');
+
+                                // Show and append notif msg  
+                                $('#notif').modal('show').find('.modal-body p').text('A new contacts has been published');
+                                    
+                                // Hide notif after (x) number of seconds 
+                                setTimeout(function(){ 
+                                    $('#notif').modal('hide');
+                                }, 3000);
+                            } else {
+                                // Error msg response
+                                _this.find('#ajax-response').html('<div class="alert alert-danger"><ul>' + data.message + '</ul></div>');
+                                (Boolean(data.name)) ? _this.find('#name').addClass('is-invalid') : _this.find('#name').removeClass('is-invalid');  
+                                (Boolean(data.description)) ? _this.find('#description').addClass('is-invalid') : _this.find('#description').removeClass('is-invalid');  
+                                (Boolean(data.address1)) ? _this.find('#address1').addClass('is-invalid') : _this.find('#address1').removeClass('is-invalid');                                        
+                                (Boolean(data.address2)) ? _this.find('#address2').addClass('is-invalid') : _this.find('#address2').removeClass('is-invalid');  
+                                (Boolean(data.city)) ? _this.find('#city').addClass('is-invalid') : _this.find('#city').removeClass('is-invalid');   
+                                (Boolean(data.province)) ? _this.find('#province').addClass('is-invalid') : _this.find('#province').removeClass('is-invalid');   
+                                (Boolean(data.country)) ? _this.find('#country').addClass('is-invalid') : _this.find('#country').removeClass('is-invalid');   
+                                (Boolean(data.landline)) ? _this.find('#landline').addClass('is-invalid') : _this.find('#landline').removeClass('is-invalid');   
+                                (Boolean(data.mobile)) ? _this.find('#mobile').addClass('is-invalid') : _this.find('#mobile').removeClass('is-invalid');   
+                                (Boolean(data.email)) ? _this.find('#email').addClass('is-invalid') : _this.find('#email').removeClass('is-invalid');  
+                            }
+                        });
+
+                        jqXHR.always(function () {
+                            _this.find('#ajax-preloader').preloader().hide();
+                            _this.find('.btn-change-state').removeAttr('disabled');
+                        });
+
+                        jqXHR.fail(function (jqXHR, textStatus, errorThrown) {
+                            console.log('The following error occurred: ' + textStatus, errorThrown);
+                        });
+
                         e.preventDefault();
                     });
                 }
             }
 
-            // PUT: Update contact
+            // PUT: Update
             let update = {
                 init: function() {
                     this.bindForm();
                 },
                 bindForm: function () {
-                    $('#update').on('show.bs.modal', this.submitForm(), function(){
-                        // Reset form
-                        $(this).find('form').each(function() { this.reset() });
-                        $(this).find('.form-control').removeClass('is-invalid');
-                    });
+                    $('#update').on('show.bs.modal', this.submitForm());
                 },
                 submitForm: function() {
                     $('#update-form').on('submit', function(e){
-                        let el = $(this);
-                        let btn = el.find('.btn-change-state');
-                        let id = el.find('input:hidden[name="id"]').val();
-                        let data = el.serialize();
+                        
+                        let _this = $(this);
+
+                        let id = _this.find('input:hidden[name="id"]').val();
                     
-                        $.ajax({
+                        let jqXHR = $.ajax({
                             url: baseURL + '/admin/contacts/update/id/' + id,
                             type: 'PUT',
                             dataType: 'json',
-                            data: data,
+                            data: _this.serialize(),
                             cache: false,
                             processData: false,
-                            beforeSend: function () {
-                                el.find('#ajax-preloader').html(
-                                    '<div class="loader">' +
-                                    '  <svg class="circular" viewBox="25 25 50 50">' +
-                                    '    <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>' +
-                                    '  </svg>' +
-                                    '</div>').show();
-                                btn.attr('disabled', 'disabled');
-                            },
-                            complete: function () {
-                                el.find('#ajax-preloader').html(
-                                    '<div class="loader">' +
-                                    '  <svg class="circular" viewBox="25 25 50 50">' +
-                                    '    <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>' +
-                                    '  </svg>' +
-                                    '</div>').hide('fast');
-                                btn.removeAttr('disabled');
-                            },
-                            success: function (data) {
-                                if (data.status === true) {
-                                    // Reload datatables
-                                    $('#datatables__default').DataTable().ajax.reload(null, false); // user paging is not reset on reload
-
-                                    // Hide this modal
-                                    $('#update').modal('hide');
-
-                                    // Show and append notif msg  
-                                    $('#notif').modal('show').find('.modal-body p').text('contacts #' + id + ' has been updated');
-                                    
-                                    // Hide notif after (x) number of seconds 
-                                    setTimeout(function(){ 
-                                        $('#notif').modal('hide');
-                                    }, 3000);
-                                } else {
-                                    // Form error
-                                    (Boolean(data.name)) ? el.find('#name').addClass('is-invalid') : el.find('#name').removeClass('is-invalid');  
-                                    (Boolean(data.description)) ? el.find('#description').addClass('is-invalid') : el.find('#description').removeClass('is-invalid');  
-                                    (Boolean(data.address1)) ? el.find('#address1').addClass('is-invalid') : el.find('#address1').removeClass('is-invalid');  
-                                    (Boolean(data.address2)) ? el.find('#address2').addClass('is-invalid') : el.find('#address2').removeClass('is-invalid');  
-                                    (Boolean(data.city)) ? el.find('#city').addClass('is-invalid') : el.find('#city').removeClass('is-invalid');  
-                                    (Boolean(data.province)) ? el.find('#province').addClass('is-invalid') : el.find('#province').removeClass('is-invalid');  
-                                    (Boolean(data.country)) ? el.find('#country').addClass('is-invalid') : el.find('#country').removeClass('is-invalid');  
-                                    (Boolean(data.landline)) ? el.find('#landline').addClass('is-invalid') : el.find('#landline').removeClass('is-invalid');  
-                                    (Boolean(data.mobile)) ? el.find('#mobile').addClass('is-invalid') : el.find('#mobile').removeClass('is-invalid');    
-                                    (Boolean(data.email)) ? el.find('#email').addClass('is-invalid') : el.find('#email').removeClass('is-invalid');  
-                                    
-                                    // For debugging
-                                    console.log(data.status);
-                               }
-                            },
-                            error: function (jqXHR, textStatus, errorThrown) {
-                                // For debugging
-                                console.log('The following error occurred: ' + textStatus, errorThrown);
+                            beforeSend: function() {
+                                _this.find('#ajax-preloader').preloader().show();
+                                _this.find('.btn-change-state').attr('disabled', 'disabled');
                             }
                         });
+
+			            jqXHR.done(function(data) {
+                            if (data.status === true) {
+                                // Reload datatables
+                                $('#datatables__default').DataTable().ajax.reload(null, false); // user paging is not reset on reload
+
+                                // Hide this modal
+                                $('#update').modal('hide');
+
+                                // Show and append notif msg  
+                                $('#notif').modal('show').find('.modal-body p').text('contacts #' + id + ' has been updated');
+                                    
+                                // Hide notif after (x) number of seconds 
+                                setTimeout(function(){ 
+                                    $('#notif').modal('hide');
+                                }, 3000);
+                            } else {
+                                 // Error msg response
+                                _this.find('#ajax-response').html('<div class="alert alert-danger"><ul>' + data.message + '</ul></div>');
+                                (Boolean(data.name)) ? _this.find('#name').addClass('is-invalid') : _this.find('#name').removeClass('is-invalid');  
+                                (Boolean(data.description)) ? _this.find('#description').addClass('is-invalid') : _this.find('#description').removeClass('is-invalid');  
+                                (Boolean(data.address1)) ? _this.find('#address1').addClass('is-invalid') : _this.find('#address1').removeClass('is-invalid');  
+                                (Boolean(data.address2)) ? _this.find('#address2').addClass('is-invalid') : _this.find('#address2').removeClass('is-invalid');  
+                                (Boolean(data.city)) ? _this.find('#city').addClass('is-invalid') : _this.find('#city').removeClass('is-invalid');  
+                                (Boolean(data.province)) ? _this.find('#province').addClass('is-invalid') : _this.find('#province').removeClass('is-invalid');  
+                                (Boolean(data.country)) ? _this.find('#country').addClass('is-invalid') : _this.find('#country').removeClass('is-invalid');  
+                                (Boolean(data.landline)) ? _this.find('#landline').addClass('is-invalid') : _this.find('#landline').removeClass('is-invalid');  
+                                (Boolean(data.mobile)) ? _this.find('#mobile').addClass('is-invalid') : _this.find('#mobile').removeClass('is-invalid');    
+                                (Boolean(data.email)) ? _this.find('#email').addClass('is-invalid') : _this.find('#email').removeClass('is-invalid');  
+                            }
+                        });
+
+                        jqXHR.always(function () {
+                            _this.find('#ajax-preloader').preloader().hide();
+                            _this.find('.btn-change-state').removeAttr('disabled');
+                        });
+
+                        jqXHR.fail(function (jqXHR, textStatus, errorThrown) {
+                            console.log('The following error occurred: ' + textStatus, errorThrown);
+                        });
+
                         e.preventDefault();
                     });
                 }
             }
 
-            // PUT: Delete contact
+            // PUT: Delete
             let softDelete = {
                 init: function() {
                     this.bindForm();
                 },
                 bindForm: function () {
                     $('#delete').on('show.bs.modal', this.submitForm(), function(e){
-                        $(this).find('#ajax-response').empty();
-                        $(this).find('input:hidden[name="id"]').val($(e.relatedTarget).data('param'));
-                        $(this).find('.modal-body p').text('Are you sure you want to delete contacts #' + $(e.relatedTarget).data('param') + '?');
+                        $(this).find('input:hidden[name="id"]').val($(e.relatedTarget).attr('data-id'));
+                        $(this).find('.modal-body p').text('Are you sure you want to delete contact #' + $(e.relatedTarget).attr('data-id') + '?');
                     });
                 },
                 submitForm: function() {
                     $('#delete-form').on('submit', function(e){
-                        let el = $(this);
-                        let btn = el.find('.btn-change-state');
-                        let id = el.find('input:hidden[name="id"]').val();
-                        let data = el.serialize();
+
+                        let _this = $(this);
+                        let id = _this.find('input:hidden[name="id"]').val();
                     
-                        $.ajax({
+                        let jqXHR = $.ajax({
                             url: baseURL + '/admin/contacts/delete/id/' + id,
                             type: 'PUT',
                             dataType: 'json',
-                            data: data,
+                            data: _this.serialize(),
                             cache: false,
                             processData: false,
                             beforeSend: function () {
-                                el.find('#ajax-preloader').html(
-                                    '<div class="loader">' +
-                                    '  <svg class="circular" viewBox="25 25 50 50">' +
-                                    '    <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>' +
-                                    '  </svg>' +
-                                    '</div>').show();
-                                btn.attr('disabled', 'disabled');
-                            },
-                            complete: function () {
-                                el.find('#ajax-preloader').html(
-                                    '<div class="loader">' +
-                                    '  <svg class="circular" viewBox="25 25 50 50">' +
-                                    '    <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>' +
-                                    '  </svg>' +
-                                    '</div>').hide('fast');
-                                btn.removeAttr('disabled');
-                            },
-                            success: function (data) {
-                                if (data.status === true) {
-                                    // Reload datatables
-                                    $('#datatables__default').DataTable().ajax.reload(null, false); // user paging is not reset on reload
-
-                                    // Hide this modal
-                                    $('#delete').modal('hide');
-
-                                    // Show and append notif msg  
-                                    $('#notif').modal('show').find('.modal-body p').text('contacts #' + id + ' has been moved to trash');
-                                    
-                                    // Hide notif after (x) number of seconds 
-                                    setTimeout(function(){ 
-                                        $('#notif').modal('hide');
-                                    }, 3000);
-                                    
-                                } else {
-                                    // For debugging
-                                    console.log(data.status);
-                                }
-                            },
-                            error: function (jqXHR, textStatus, errorThrown) {
-                                // For debugging
-                                console.log('The following error occurred: ' + textStatus, errorThrown);
+                                _this.find('#ajax-preloader').preloader().show();
+                                _this.find('.btn-change-state').attr('disabled', 'disabled');
                             }
                         });
+
+                        jqXHR.done(function (data) {
+                            if (data.status === true) {
+                                // Reload datatables
+                                $('#datatables__default').DataTable().ajax.reload(null, false); // user paging is not reset on reload
+
+                                // Hide this modal
+                                $('#delete').modal('hide');
+
+                                // Show and append notif msg  
+                                $('#notif').modal('show').find('.modal-body p').text('contact #' + id + ' has been moved to trash');
+                                    
+                                // Hide notif after (x) number of seconds 
+                                setTimeout(function(){ 
+                                    $('#notif').modal('hide');
+                                }, 3000);
+                            }
+                        });
+
+                        jqXHR.always(function () {
+                            _this.find('#ajax-preloader').preloader().hide();
+                            _this.find('.btn-change-state').removeAttr('disabled');
+                        });
+
+                        jqXHR.fail(function (jqXHR, textStatus, errorThrown) {
+                            console.log('The following error occurred: ' + textStatus, errorThrown);
+                        });
+
                         e.preventDefault();
                     });
                 }

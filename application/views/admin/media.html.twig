@@ -3,7 +3,7 @@
     Location    : application/views/admin/media.twig
     Purpose     : Media partial page
     Created     : 07/22/2019 14:58:18 by Spiderman
-    Updated     : 08/05/2019 14:58:11 by Spiderman
+    Updated     : 08/13/2019 18:27:46 by Spiderman
     Changes     : 
 #}
 
@@ -375,7 +375,7 @@
                                 }, 3000);
                             } else {
                                 // Error msg response
-                                el.find('#ajax-response').html('<div class="alert alert-danger"><ul>' + data.message + '</ul></div>');
+                                _this.find('#ajax-response').html('<div class="alert alert-danger"><ul>' + data.message + '</ul></div>');
                                 (Boolean(data.name)) ? _this.find('#name').addClass('is-invalid') : _this.find('#name').removeClass('is-invalid');  
                                 (Boolean(data.description)) ? _this.find('#description').addClass('is-invalid') : _this.find('#description').removeClass('is-invalid'); 
                             }

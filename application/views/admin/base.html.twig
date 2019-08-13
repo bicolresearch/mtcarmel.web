@@ -108,7 +108,9 @@
                         <i data-feather="x"></i>
                     </button>
                 </div>
-                {% block createModalForm %}{% endblock %}
+                {% block createModalForm %}
+                    {# This is where the create form load #}
+                {% endblock %}
             </div>
         </div>
     </div>
@@ -124,7 +126,9 @@
                         <i data-feather="x"></i>
                     </button>
                 </div>
-                {% block updateModalForm %}{% endblock %}
+                {% block updateModalForm %}
+                    {# This is where the update form load #}
+                {% endblock %}
             </div>
         </div>
     </div>
@@ -268,9 +272,12 @@
                 gallery: function() {
                     $('#gallery').on('show.bs.modal', function(){
                         
+                        let table;
+
                         // Check if a table is a DataTable or not
                         if ($.fn.dataTable.isDataTable('#datatables__modal')) { 
-                           let table = $('#datatables__modal').DataTable();                   
+                            // Initialize datatables
+                            table = $('#datatables__modal').DataTable();                   
                         } else {
                             // Initialize datatables
                             table = $('#datatables__modal').DataTable({
