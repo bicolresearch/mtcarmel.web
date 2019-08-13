@@ -1,16 +1,19 @@
 {#
-    Filename    : historyd.html.twig
-    Location    : application/views/basilica/historyd.html.twig
-    Purpose     : historyd partial page
-    Created     : 6/03/2019 by Spiderman
-    Updated     : 2019-07-25 13:08:58 by Scarlet Witch 
-    Changes     : Update the baseURL and apiURL
+    Filename    : history-details.html.twig
+    Location    : application/views/basilica/history-details.html.twig
+    Purpose     : history partial page
+    Created     : 06/03/2019 23:46:05 by Spiderman
+    Updated     : 08/12/2019 23:45:57 by Spiderman
+    Changes     : 
 #}
 
 {% extends 'base.html.twig' %}
+
 {% block title %} {{ page_title }} | Mount Carmel {% endblock %}
+
 {% block contents %}
-    <div id="historyd" class="row">
+    <div id="history" class="row">
+        <div id="ajax-preloader"></div>
         <div class="col-12 col-lg-8">
             <div class="card">
                 <div class="card-header">
@@ -37,50 +40,59 @@
         </div>
     </div>
 {% endblock %}
+
 {% block custom_scripts %}
     <script>
         $(function () {
 
-            let baseURL = location.origin.toLowerCase();
-            let apiURL = 'https://api.mountcarmel.ph';
+            let baseURL = location.origin.toLowerCase() + '/mountcarmel.web';            
+            let apiURL = location.origin.toLowerCase() + '/mountcarmel.api';  
 
             let app = {
                 init: function () {
-                    this.historyd();
+                    this.history();
                 },
-                // GET: historyd
-                historyd: function() {
+                // GET: history
+                history: function() {
                     
-                    let el = $('#historyd');
-                    let data = el.serialize();
+                    let _this = $('#history');
 
-                    $.ajax({
+                    let jqXHR = $.ajax({
                         url: apiURL + '/history_details/id/1',
                         type: 'GET',
                         dataType: 'json',
-                        data: data,
+                        data: _this.serialize(),
                         cache: false,
                         processData: false,
-                        success: function (data) {
-                            if (data) {
-                                el.find('#content').html(data[0].content);
-                                el.find('#details').html(
-                                    '<dl class="row">' +
-                                    '<dt class="col-sm-6 text-right">Date of Establishment</dt>' +
-                                    '<dd class="col-sm-6">' + data[0].date_of_establishment + '</dd>' +
-                                    '<dt class="col-sm-6 text-right">Feast Day</dt>' +
-                                    '<dd class="col-sm-6">' + data[0].feast_day + '</dd>' +
-                                    '<dt class="col-sm-6 text-right">Titular</dt>' +
-                                    '<dd class="col-sm-6">' + data[0].titular + '</dd>' +
-                                    '<dt class="col-sm-6 text-right">Diocese</dt>' +
-                                    '<dd class="col-sm-6">' + data[0].diocese + '</dd>' +
-                                    '</dl>'
-                                );
-                            }
-                        },
-                        error: function (jqXHR, textStatus, errorThrown) {
-                            console.log('The following error occurred: ' + textStatus, errorThrown);
+                        beforeSend: function () {
+                            _this.find('#ajax-preloader').preloader().show();
                         }
+                    });
+
+                    jqXHR.done(function (data) {
+                        if (data) {
+                            _this.find('#content').html(data[0].content);
+                            _this.find('#details').html(
+                                '<dl class="row">' +
+                                '<dt class="col-sm-6 text-right">Date of Establishment</dt>' +
+                                '<dd class="col-sm-6">' + data[0].date_of_establishment + '</dd>' +
+                                '<dt class="col-sm-6 text-right">Feast Day</dt>' +
+                                '<dd class="col-sm-6">' + data[0].feast_day + '</dd>' +
+                                '<dt class="col-sm-6 text-right">Titular</dt>' +
+                                '<dd class="col-sm-6">' + data[0].titular + '</dd>' +
+                                '<dt class="col-sm-6 text-right">Diocese</dt>' +
+                                '<dd class="col-sm-6">' + data[0].diocese + '</dd>' +
+                                '</dl>'
+                            );
+                        }
+                    });
+
+                    jqXHR.always(function () {
+                        _this.find('#ajax-preloader').preloader().hide();
+                    });
+
+                    jqXHR.fail(function (jqXHR, textStatus, errorThrown) {
+                        console.log('The following error occurred: ' + textStatus, errorThrown);
                     });
                 }
             };

@@ -48,7 +48,7 @@
                             <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('admin/priests') }}">Carmelite Priests</a></li>
                             <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('admin/pastors') }}">Carmelite Pastors</a></li>
                             <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('admin/contacts') }}">Contact Details</a></li>
-                            <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('admin/history') }}">History</a></li>
+                            <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('admin/histories') }}">Histories</a></li>
                         </ul>
                     </li>
                     <li class="sidebar-item">
@@ -87,6 +87,9 @@
         {% endblock %}
         <main class="content">
             <div class="container-fluid p-0">
+                {% block breadcrumbs %}
+                    {# This is where the breadcrumbs load #}
+                {% endblock %}
                 {% block contents %}
                     {# This is where the partial page load #}
                 {% endblock %}
@@ -326,7 +329,6 @@
                             '   <img class="mx-auto d-block" style="max-height: 200px" src="' + baseURL + '/public/assets/images/companylogo.jpg' + '" alt="Image Placeholder" />' +
                             '</div>');
                         $('body').removeAttr('data-media-id');
-                        $('body').addClass('modal-open');
                     });
                 },
                 updateModal: function() {
@@ -336,7 +338,6 @@
                         $(this).find('input:hidden[name="id"]').val('');
                         $(this).find('input:hidden[name="media_id"]').val('');
                         $('body').removeAttr('data-media-id');
-                        $('body').addClass('modal-open');
                     });
                 },
                 galleryModal: function() {
@@ -344,6 +345,11 @@
 
                         // Open the previous modal
                         $('#' + $('body').attr('data-modal-previous')).modal('hide');
+
+                    }).on('shown.bs.modal', function(){
+
+                        // Add the class modal-open to body
+                        $('body').addClass('modal-open'); 
 
                     }).on('hidden.bs.modal', function(e){
 
@@ -360,9 +366,6 @@
 
                         // Set the hidden input media_id value with data-media-id attr
                         $('#' + $('body').attr('data-modal-previous') + '-form').find('input:hidden[name="media_id"]').val($('body').attr('data-media-id'));
-
-                        // Add the class modal-open to body
-                        $('body').addClass('modal-open'); 
                     });
                 }
             }

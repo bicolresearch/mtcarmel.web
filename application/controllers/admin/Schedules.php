@@ -5,8 +5,8 @@
     Location    : application/controllers/admin/Schedules.php
     Purpose     : Schedules controller
     Created     : 07/23/2019 12:27:08 by Scarlet Witch
-    Updated     : 07/24/2019 19:30:29 by Scarlet Witch
-    Changes     : add fields
+    Updated     : 08/09/2019 14:34:27 by Spiderman
+    Changes     : 
 */
 
 defined('BASEPATH') or exit('No direct script access allowed');
@@ -22,7 +22,7 @@ class Schedules extends CI_Controller
     {
         if(logged_in()) {
             $view_data = [
-                'page_title' => 'Schedules',
+                'page_title' => 'Mass Schedules',
                 'page_subtitle' => 'list of schedules',
                 'user' => user()
             ];
@@ -119,8 +119,8 @@ class Schedules extends CI_Controller
         $this->form_validation
             ->set_rules('name', 'Name', 'trim|required|xss_clean')
             ->set_rules('description', 'Description', 'trim|required|xss_clean')            
-            ->set_rules('time_from', 'Time_from', 'trim|required|xss_clean')                              
-            ->set_rules('time_to', 'Time_to', 'trim|required|xss_clean')
+            ->set_rules('time_from', 'Start Time', 'trim|required|xss_clean')                              
+            ->set_rules('time_to', 'End Time', 'trim|required|xss_clean')
             ->set_rules('day', 'Day', 'trim|required|xss_clean')
             ->set_error_delimiters('<li>', '</li>');
 
@@ -142,8 +142,7 @@ class Schedules extends CI_Controller
                     'time_to' => $this->input->post('time_to'),
                     'day' => $this->input->post('day'),
                     'user_id' => user('id')
-                ],
-                'debug' => fopen('php://stderr', 'w')
+                ]
             ];
 
             try {
@@ -170,8 +169,6 @@ class Schedules extends CI_Controller
                 'day' => form_error('day')
             ];
             echo json_encode($view_data);
-
-            //echo $this->form_validation->get_json();
         }
     }
 
@@ -193,11 +190,11 @@ class Schedules extends CI_Controller
 
         $this->form_validation
             ->set_data($set_data)
-            ->set_rules('name', 'name', 'trim|required|xss_clean')
-            ->set_rules('description', 'description', 'trim|required|xss_clean')
-            ->set_rules('time_from', 'time_from', 'trim|required|xss_clean')
-            ->set_rules('time_to', 'time_to', 'trim|required|xss_clean')            
-            ->set_rules('day', 'day', 'trim|required|xss_clean')
+            ->set_rules('name', 'Name', 'trim|required|xss_clean')
+            ->set_rules('description', 'Description', 'trim|required|xss_clean')
+            ->set_rules('time_from', 'Start Time', 'trim|required|xss_clean')
+            ->set_rules('time_to', 'End Time', 'trim|required|xss_clean')            
+            ->set_rules('day', 'Day', 'trim|required|xss_clean')
             ->set_error_delimiters('<li>', '</li>');
 
         if ($this->form_validation->run()) {
