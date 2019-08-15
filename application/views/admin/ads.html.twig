@@ -3,7 +3,7 @@
     Location    : application/views/admin/ads.html.twig
     Purpose     : Ads partial page
     Created     : 07/11/2019 17:24:13 by Spiderman
-    Updated     : 08/13/2019 14:24:30 by Spiderman
+    Updated     : 08/15/2019 14:48:32 by Spiderman
     Changes     : 
 #}
 
@@ -63,7 +63,15 @@
                     </div>
                     <div class="form-group">
                         <label for="description">Description</label>
-                        <textarea class="form-control" id="description" name="description" rows="4" maxlength="255"></textarea>
+                        <textarea class="form-control" id="description" name="description" rows="2" maxlength="255"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="type_id">Advert Type</label>
+                        <select class="custom-select" id="type_id" name="type_id">
+                            <option value="" selected>&dash;</option>
+                            <option value="1">Widget</option>
+                            <option value="2">Splash</option>
+                        </select>
                     </div>
                 </div>
                 <div class="col-12 col-lg-6">
@@ -99,7 +107,14 @@
                     </div>
                     <div class="form-group">
                         <label for="description">Description</label>
-                        <textarea class="form-control" id="description" name="description" rows="4" maxlength="255"></textarea>
+                        <textarea class="form-control" id="description" name="description" rows="2" maxlength="255"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="type_id">Advert Type</label>
+                        <select class="custom-select" id="type_id" name="type_id">
+                            <option value="1">Widget</option>
+                            <option value="2">Splash</option>
+                        </select>
                     </div>
                 </div>
                 <div class="col-12 col-lg-6">
@@ -139,7 +154,7 @@
                         "serverSide": false,
                         "responsive": false,
                         "ajax": {
-                            "url": baseURL + "/admin/ads/advertisements",
+                            "url": baseURL + "/admin/ads/ads",
                             "type": "GET"
                         },
                         "columns": [
@@ -151,13 +166,13 @@
                             {
                                 "data": "posted_on",
                                 "mRender": function (data) {
-                                    return moment(data).format('lll')
+                                    return (data === '0000-00-00 00:00:00') ?  '' : moment(data).format('lll');
                                 }
                             },
                             {
                                 "data": "updated_on",
                                 "mRender": function (data) {
-                                    return moment(data).format('lll')
+                                    return (data === '0000-00-00 00:00:00') ?  '' : moment(data).format('lll');
                                 }
                             },
                             {"data": "author"},
@@ -204,6 +219,7 @@
 
                         _this.find('form')[0].reset();
                         _this.find('.form-control').removeClass('is-invalid');
+                        _this.find('.custom-select').removeClass('is-invalid');
                         _this.find('#ajax-response').empty();
                     });
                 },
@@ -217,9 +233,9 @@
 
                         // If id is null, set data-id attr from body instead
                         if (id == null) id = $('body').attr('data-id');
-
+ 
                         let jqXHR = $.ajax({
-                            url: baseURL + '/admin/ads/advertisement/id/' + id,
+                            url: baseURL + '/admin/ads/ad/?id=' + id,
                             type: 'GET',
                             dataType: 'json',
                             data: _this.serialize(),
@@ -237,6 +253,7 @@
                                 _this.find('input:hidden[name="id"]').val(data.id);  
                                 _this.find('input[name="name"]').val(data.name);
                                 _this.find('textarea[name="description"]').html(data.description);
+                                _this.find('select[name="type_id"]').append('<option value="' + data.type_id + '" selected>' + data.type_name + '</option>'); 
 
                                 if($('body').attr('data-media-id') == null) {
                                     _this.find('input:hidden[name="media_id"]').val(data.media_id); 
@@ -277,6 +294,7 @@
 
                         _this.find('form')[0].reset();
                         _this.find('.form-control').removeClass('is-invalid');
+                        _this.find('.custom-select').removeClass('is-invalid');
                         _this.find('#ajax-response').empty();
                     });
                 },
@@ -331,6 +349,7 @@
                                 _this.find('#ajax-response').html('<div class="alert alert-danger"><ul>' + data.message + '</ul></div>');
                                 (Boolean(data.name)) ? _this.find('#name').addClass('is-invalid') : _this.find('#name').removeClass('is-invalid');  
                                 (Boolean(data.description)) ? _this.find('#description').addClass('is-invalid') : _this.find('#description').removeClass('is-invalid');   
+                                (Boolean(data.type_id)) ? _this.find('#type_id').addClass('is-invalid') : _this.find('#type_id').removeClass('is-invalid');
                             }
                         });
 
@@ -397,6 +416,7 @@
                                 _this.find('#ajax-response').html('<div class="alert alert-danger"><ul>' + data.message + '</ul></div>');
                                 (Boolean(data.name)) ? _this.find('#name').addClass('is-invalid') : _this.find('#name').removeClass('is-invalid');  
                                 (Boolean(data.description)) ? _this.find('#description').addClass('is-invalid') : _this.find('#description').removeClass('is-invalid'); 
+                                (Boolean(data.type_id)) ? _this.find('#type_id').addClass('is-invalid') : _this.find('#type_id').removeClass('is-invalid');
                             }
                         });
 

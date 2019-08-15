@@ -92,7 +92,7 @@
                     let _this = $('#ads');
 
                     let jqXHR = $.ajax({
-                        url: apiURL + '/ads',
+                        url: apiURL + '/ads/?type_id=1',
                         type: 'GET',
                         dataType: 'json',
                         data: _this.serialize(),
@@ -112,7 +112,7 @@
                                 '   </div>' +
                                 '</div>'
                             );
-                            $.each(data.data, function (key, value) {
+                            $.each(data, function (key, value) {
                                 _this.find('.row').append(
                                    '<div class="col-12 text-center mb-2">' +
                                         '<img class="img-fluid mx-auto d-block" style="max-height: 200px; display: block;" src="' + apiURL + '/' + value.media_path + '" alt="' + value.name + '"/>' +
