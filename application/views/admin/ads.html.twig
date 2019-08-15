@@ -3,7 +3,7 @@
     Location    : application/views/admin/ads.html.twig
     Purpose     : Ads partial page
     Created     : 07/11/2019 17:24:13 by Spiderman
-    Updated     : 08/08/2019 16:38:48 by Spiderman
+    Updated     : 08/13/2019 14:24:30 by Spiderman
     Changes     : 
 #}
 
@@ -35,8 +35,9 @@
                             <tr>
                                 <th>#</th>
                                 <th>Name</th>
-                                <th>Posted on</th>
-                                <th>Updated on</th>
+                                <th>Created</th>
+                                <th>Modified</th>
+                                <th>Author</th>
                                 <th></th>
                                 <th></th>
                             </tr>
@@ -133,7 +134,7 @@
                     this.reloadTable();
                 },
                 displayTable: function() {
-                    let table = $('#datatables__default').DataTable({
+                    $('#datatables__default').DataTable({
                         "processing": true,
                         "serverSide": false,
                         "responsive": false,
@@ -159,25 +160,26 @@
                                     return moment(data).format('lll')
                                 }
                             },
+                            {"data": "author"},
                             {
                                 "searchable": false,
                                 "data": "id",
                                 "mRender": function (data) {
-                                    return '<a href="#update" data-toggle="modal" data-id="' + data + '" data-toggle="tooltip" data-placement="top" title="Update" ><i class="align-middle material-icons md-22">mode_edit</i></a>';
+                                    return '<a href="#update" data-toggle="modal" data-id="' + data + '" title="Update" ><i class="align-middle material-icons md-22">mode_edit</i></a>';
                                 }
                             },
                             {
                                 "searchable": false,
                                 "data": "id",
                                 "mRender": function (data) {
-                                    return '<a href="#delete" data-toggle="modal" data-id="' + data + '" data-toggle="tooltip" data-placement="top" title="Delete"><i class="align-middle material-icons md-22">remove_circle_outline</i></a>';
+                                    return '<a href="#delete" data-toggle="modal" data-id="' + data + '" title="Delete"><i class="align-middle material-icons md-22">remove_circle_outline</i></a>';
                                 }
                             }
                         ],
                         "lengthMenu": [[10, 25, 50, 75, 100], [10, 25, 50, 75, 100]],
                         "order": [[0, "desc"]],
                         "columnDefs": [
-                            {"orderable": false, "targets": [4, 5]}
+                            {"orderable": false, "targets": [5, 6]}
                         ]
                     });
                 },
@@ -419,9 +421,8 @@
                 },
                 bindForm: function () {
                     $('#delete').on('show.bs.modal', this.submitForm(), function(e){
-                        let id = $(e.relatedTarget).attr('data-id');
-                        $(this).find('input:hidden[name="id"]').val(id);
-                        $(this).find('.modal-body p').text('Are you sure you want to delete ads #' + id + '?');
+                        $(this).find('input:hidden[name="id"]').val($(e.relatedTarget).attr('data-id'));
+                        $(this).find('.modal-body p').text('Are you sure you want to delete ads #' + $(e.relatedTarget).attr('data-id') + '?');
                     });
                 },
                 submitForm: function() {

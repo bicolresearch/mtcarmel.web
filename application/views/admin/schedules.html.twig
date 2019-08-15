@@ -3,7 +3,7 @@
     Location    : application/views/admin/schedules.html.twig
     Purpose     : Mass schedules partial page
     Created     : 07/23/2019 12:25:29 by Scarlet Witch
-    Updated     : 08/08/2019 17:34:44 by Spiderman
+    Updated     : 08/13/2019 16:22:57 by Spiderman
     Changes     : 
 #}
 
@@ -169,7 +169,7 @@
                     this.reloadTable();
                 },
                 displayTable: function() {
-                    let table = $('#datatables__default').DataTable({
+                    $('#datatables__default').DataTable({
                         "processing": true,
                         "serverSide": false,
                         "responsive": true,
@@ -188,14 +188,14 @@
                                 "searchable": false,
                                 "data": "time_from",
                                 "mRender": function (data) {
-                                    return moment(data, 'h:mm:ss a').format('h:mm a');
+                                    return moment(data, 'h:mm:ss').format('h:mm A');
                                 }
                             },                                                        
                             {
                                 "searchable": false,
                                 "data": "time_to",
                                 "mRender": function (data) {
-                                    return moment(data, 'h:mm:ss a').format('h:mm a');
+                                    return moment(data, 'h:mm:ss').format('h:mm A');
                                 }
                             }, 
                             {
@@ -271,8 +271,8 @@
                                 _this.find('input:hidden[name="id"]').val(data.id);
                                 _this.find('select[name="name"]').append('<option value="' + data.name + '" selected>' + data.name + '</option>');
                                 _this.find('textarea[name="description"]').text(data.description);
-                                _this.find('input[name="time_from"]').val(moment(data.time_from, 'h:mm:ss a').format('h:mm a'));
-                                _this.find('input[name="time_to"]').val(moment(data.time_to, 'h:mm:ss a').format('h:mm a'));
+                                _this.find('input[name="time_from"]').val(moment(data.time_from, 'h:mm').format('h:mm A'));
+                                _this.find('input[name="time_to"]').val(moment(data.time_to, 'h:mm').format('h:mm A'));
                                 _this.find('select[name="day"]').append('<option value="' + data.day + '" selected>' + data.day + '</option>');                                    
                             }
                         });

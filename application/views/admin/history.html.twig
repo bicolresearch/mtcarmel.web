@@ -35,8 +35,8 @@
                             <tr>
                                 <th>#</th>
                                 <th>Titular</th>
-                                <th>Posted on</th>
-                                <th>Updated on</th>
+                                <th>Created</th>
+                                <th>Modified</th>
                                 <th></th>
                                 <th></th>
                             </tr>
@@ -91,19 +91,19 @@
             <input type="hidden" name="content">
             <div class="form-group">
                 <label for="titular">Titular</label>
-                <input type="text" class="form-control" id="titular" name="titular" value="{{ set_value('titular') }}" placeholder="">
+                <input type="text" class="form-control" id="titular" name="titular" placeholder="">
             </div>
             <div class="form-group">
                 <label for="diocese">Diocese</label>
-                <input type="text" class="form-control" id="diocese" name="diocese" value="{{ set_value('diocese') }}" placeholder="">
+                <input type="text" class="form-control" id="diocese" name="diocese" placeholder="">
             </div>
             <div class="form-group">
                 <label for="date_of_establishment">Date of Establishment</label>
-                <input type="text" class="form-control" id="date_of_establishment" name="date_of_establishment" value="{{ set_value('date_of_establishment') }}" placeholder="">
+                <input type="text" class="form-control" id="date_of_establishment" name="date_of_establishment" placeholder="">
             </div>
             <div class="form-group">
                 <label for="feast_day">Feast Day</label>
-                <input type="text" class="form-control" id="feast_day" name="feast_day" value="{{ set_value('feast_day') }}" placeholder="">
+                <input type="text" class="form-control" id="feast_day" name="feast_day" placeholder="">
             </div>
             <div class="form-group">
                 <label for="content">History</label>
@@ -198,7 +198,9 @@
                 },
                 resetForm: function() {
                     $('#update').on('hidden.bs.modal', function(){
+                        
                         let _this = $(this);
+
                         _this.find('form')[0].reset();
                         _this.find('.form-control').removeClass('is-invalid');
                         _this.find('#ajax-response').empty();
@@ -208,6 +210,7 @@
                     $('#update').on('show.bs.modal', function (e) {
                         
                         let _this = $(this);
+
                         let id = $(e.relatedTarget).attr('data-id');
 
                         let jqXHR = $.ajax({
@@ -245,7 +248,7 @@
                 }
             }
 
-            // POST: Add new history
+            // POST: Add new
             let create = {
                 init: function() {
                     this.resetForm();
@@ -348,7 +351,7 @@
                 }
             }
 
-            // PUT: Update history
+            // PUT: Update
             let update = {
                 init: function() {
                     this.bindForm();
@@ -368,7 +371,7 @@
                             ] 
                         },
                         theme: 'snow',
-                        placeholder: 'Compose here'
+                        placeholder: ''
                     });
 
                     $('#update-form').on('submit', function(e){
@@ -429,14 +432,13 @@
                 }
             }
 
-            // PUT: Delete history
+            // PUT: Delete
             let softDelete = {
                 init: function() {
                     this.bindForm();
                 },
                 bindForm: function () {
                     $('#delete').on('show.bs.modal', this.submitForm(), function(e){
-                        
                         $(this).find('input:hidden[name="id"]').val($(e.relatedTarget).attr('data-id'));
                         $(this).find('.modal-body p').text('Are you sure you want to delete history #' + $(e.relatedTarget).attr('data-id') + '?');
                     });
@@ -474,8 +476,7 @@
                                 // Hide notif after (x) number of seconds 
                                 setTimeout(function(){ 
                                     $('#notif').modal('hide');
-                                }, 3000);
-                                
+                                }, 3000); 
                             }
                         });
 

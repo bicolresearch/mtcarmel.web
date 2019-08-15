@@ -5,7 +5,7 @@
     Location    : application/controllers/admin/Contacts.php
     Purpose     : Contacts controller
     Created     : 07/23/2019 11:53:46 by Scarlet Witch
-    Updated     : 
+    Updated     : 08/13/2019 19:47:01 by Spiderman
     Changes     : 
 */
 
@@ -217,16 +217,16 @@ class Contacts extends CI_Controller
 
         $this->form_validation
             ->set_data($set_data)
-            ->set_rules('name', 'name', 'trim|required|xss_clean')
-            ->set_rules('description', 'description', 'trim|required|xss_clean')
-            ->set_rules('address1', 'address1', 'trim|required|xss_clean')
-            ->set_rules('address2', 'address2', 'trim|required|xss_clean')
-            ->set_rules('city', 'city', 'trim|required|xss_clean')            
-            ->set_rules('province', 'province', 'trim|required|xss_clean')
-            ->set_rules('country', 'country', 'trim|required|xss_clean')
-            ->set_rules('landline', 'landline', 'trim|required|xss_clean')
-            ->set_rules('mobile', 'mobile', 'trim|required|xss_clean')
-            ->set_rules('email', 'email', 'trim|required|xss_clean')
+            ->set_rules('name', 'Name', 'trim|required|xss_clean')
+            ->set_rules('description', 'Description', 'trim|required|xss_clean')
+            ->set_rules('address1', 'Address1', 'trim|required|xss_clean')
+            ->set_rules('address2', 'Address2', 'trim|required|xss_clean')
+            ->set_rules('city', 'City', 'trim|required|xss_clean')            
+            ->set_rules('province', 'Province', 'trim|required|xss_clean')
+            ->set_rules('country', 'Country', 'trim|required|xss_clean')
+            ->set_rules('landline', 'Landline', 'trim|required|xss_clean')
+            ->set_rules('mobile', 'Mobile', 'trim|required|xss_clean')
+            ->set_rules('email', 'Email', 'trim|required|xss_clean')
             ->set_error_delimiters('<li>', '</li>');
 
 
