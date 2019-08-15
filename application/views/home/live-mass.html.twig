@@ -57,30 +57,31 @@
                 // GET: Stream
                 stream: function() {
 
-                    let el = $('#video-container');
-                    let data = el.serialize();
+                    let _this = $('#video-container');
 
-                    $.ajax({
+                    let jqXHR = $.ajax({
                         url: apiURL + '/live_streaming',
                         type: 'GET',
                         dataType: 'json',
-                        data: data,
+                        data: _this.serialize(),
                         cache: false,
-                        processData: false,
-                        success: function (data) {
-                            if (data) {
-                                $.each(data.data, function (key, value) {
-                                    el.find('.card-body').append(
-                                        '<div class="embed-responsive embed-responsive-16by9">' +
-                                        '    <iframe class="embed-responsive-item" src="' + value.video_url + '" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>' +
-                                        '</div>'
-                                    );
-                                });
-                            }
-                        },
-                        error: function (jqXHR, textStatus, errorThrown) {
-                            console.log('The following error occurred: ' + textStatus, errorThrown);
+                        processData: false
+                    });
+
+                    jqXHR.done(function (data) {
+                        if (data) {
+                            $.each(data.data, function (key, value) {
+                                 _this.find('.card-body').append(
+                                    '<div class="embed-responsive embed-responsive-16by9">' +
+                                    '    <iframe class="embed-responsive-item" src="' + value.video_url + '" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>' +
+                                    '</div>'
+                                );
+                            });
                         }
+                    });
+
+                    jqXHR.fail(function (jqXHR, textStatus, errorThrown) {
+                        console.log('The following error occurred: ' + textStatus, errorThrown);
                     });
                 }
             };

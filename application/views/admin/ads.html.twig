@@ -35,8 +35,9 @@
                             <tr>
                                 <th>#</th>
                                 <th>Name</th>
-                                <th>Posted on</th>
-                                <th>Updated on</th>
+                                <th>Created</th>
+                                <th>Modified</th>
+                                <th>Author</th>
                                 <th></th>
                                 <th></th>
                             </tr>
@@ -159,6 +160,7 @@
                                     return moment(data).format('lll')
                                 }
                             },
+                            {"data": "author"},
                             {
                                 "searchable": false,
                                 "data": "id",
@@ -177,7 +179,7 @@
                         "lengthMenu": [[10, 25, 50, 75, 100], [10, 25, 50, 75, 100]],
                         "order": [[0, "desc"]],
                         "columnDefs": [
-                            {"orderable": false, "targets": [4, 5]}
+                            {"orderable": false, "targets": [5, 6]}
                         ]
                     });
                 },

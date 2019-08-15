@@ -3,7 +3,7 @@
     Location    : application/views/home/news.html.twig
     Purpose     : News partial page
     Created     : 06/03/2019 13:29:55 by Spiderman
-    Updated     : 07/29/2019 14:11:03 by Spiderman
+    Updated     : 08/14/2019 20:09:38 by Spiderman
     Changes     : 
 #}
 
@@ -31,95 +31,99 @@
 
             let app = {
                 init: function() {
-                    this.news(); // GET: News feeds
-                    this.ads(); // GET: Advertisements
-                },          
+                    this.news();
+                    this.ads();
+                },   
+                // GET: News feeds       
                 news: function () {
 
-                    let el = $('#media');
-                    let data = el.serialize();
+                    let _this = $('#media');
 
-                    $.ajax({
+                    let jqXHR = $.ajax({
                         url: apiURL + '/posts',
                         type: 'GET',
                         dataType: 'json', 
-                        data: data,
+                        data: _this.serialize(),
                         cache: false,
-                        processData: false,
-                        success: function (data) {
-                            if (data) {
-                                $.each(data.data, function (key, value) {
-                                    el.append(
-                                        '<div class="card">' +
-                                        '   <div class="card-body">' +
-                                        '       <div class="media">' +
-                                        '           <div class="media-body">' +
-                                        '               <small class="float-right text-navy">' + moment(value.posted_on, "YYYY-MM-DD h:mm:ss").fromNow() + '</small>' +
-                                        '               <div class="media-title">' +
-                                        '                   <p class="text-center mb-0">' +
-                                        '                       <a href="' + baseURL + "/news/id/" + value.id + '" target="_self">' + value.title + '</a>' +
-                                        '                   </p>' +
-                                        '               </div>' +
-                                        '               <div class="media-article">' +
-                                        '                  <div class="cover-photo">' +
-                                        '                     <img class="img-fluid" src="' + apiURL + '/' + value.cover_photo + '" alt="' + value.title + '"/>' +
-                                        '                  </div>' +
-                                        '                  <div class="media-content fade-out-ellipses p-0">' + value.content + '</div>' +
-                                        '               </div>' +
-                                        '               <div class="read-more">' +
-                                        '                   <p class="text-center mb-0">' +
-                                        '                      <a class="btn btn-lg btn-brown rounded-pill px-5" href="' + baseURL + "/news/id/" + value.id + '" target="_self">Read More</a>' +
-                                        '                   </p>' +
-                                        '               </div>' +
-                                        '           </div>' +
-                                        '       </div>' +
-                                        '   </div>' +
-                                        '</div>'
-                                    );
-                                });
-                            }
-                        },
-                        error: function (jqXHR, textStatus, errorThrown) {
-                            console.log('The following error occurred: ' + textStatus, errorThrown);
-                        }
+                        processData: false
                     });
-                },
-                ads: function() {
 
-                    let el = $('#ads');
-                    let data = el.serialize();
-
-                    $.ajax({
-                        url: apiURL + '/ads',
-                        type: 'GET',
-                        dataType: 'json',
-                        data: data,
-                        cache: false,
-                        processData: false,
-                        success: function (data) {
-                            if (data) {
-                                el.html(
+                    jqXHR.done(function (data) {
+                        if (data) {
+                            $.each(data.data, function (key, value) {
+                                _this.append(
                                     '<div class="card">' +
-                                    '   <div class="card-header">' +
-                                    '       <h4 class="card-title text-center">Powered By</h4>' + 
-                                    '   </div>' +             
-                                    '   <div class="card-body">' +             
-                                    '       <div class="row"></div>' +
+                                    '   <div class="card-body">' +
+                                    '       <div class="media">' +
+                                    '           <div class="media-body">' +
+                                    '               <small class="float-right">' + moment(value.posted_on, "YYYY-MM-DD h:mm:ss").fromNow() + '</small>' +
+                                    '               <div class="media-title">' +
+                                    '                   <p class="text-center mb-0">' +
+                                    '                       <a href="' + baseURL + "/news/id/" + value.id + '" target="_self">' + value.title + '</a>' +
+                                    '                   </p>' +
+                                    '               </div>' +
+                                    '               <div class="media-article">' +
+                                    '                  <div class="cover-photo">' +
+                                    '                     <img class="img-fluid" src="' + apiURL + '/' + value.cover_photo + '" alt="' + value.title + '"/>' +
+                                    '                  </div>' +
+                                    '                  <div class="media-content fade-out-ellipses p-0">' + value.content + '</div>' +
+                                    '               </div>' +
+                                    '               <div class="read-more">' +
+                                    '                   <p class="text-center mb-0">' +
+                                    '                      <a class="btn btn-lg btn-brown rounded-pill px-5" href="' + baseURL + "/news/id/" + value.id + '" target="_self">Read More</a>' +
+                                    '                   </p>' +
+                                    '               </div>' +
+                                    '           </div>' +
+                                    '       </div>' +
                                     '   </div>' +
                                     '</div>'
                                 );
-                                $.each(data.data, function (key, value) {
-                                    el.find('.row').append(
-                                        '<div class="col-12 text-center mb-2">' +
-                                            '<img class="img-fluid mx-auto d-block" style="max-height: 200px; display: block;" src="' + apiURL + '/' + value.full_path + '" alt="' + value.name + '"/>' +
-                                        '</div>'
-                                    );
-                                });
-                            }
-                        },
-                        error: function (jqXHR, textStatus, errorThrown) {
-                            console.log('The following error occurred: ' + textStatus, errorThrown);
+                            });
                         }
+                    });
+
+                    jqXHR.fail(function (jqXHR, textStatus, errorThrown) {
+                        console.log('The following error occurred: ' + textStatus, errorThrown);
+                    });
+                },
+                // GET: Advertisements
+                ads: function() {
+
+                    let _this = $('#ads');
+
+                    let jqXHR = $.ajax({
+                        url: apiURL + '/ads',
+                        type: 'GET',
+                        dataType: 'json',
+                        data: _this.serialize(),
+                        cache: false,
+                        processData: false
+                    });
+
+                    jqXHR.done(function (data) {
+                        if(data) {
+                            _this.html(
+                                '<div class="card">' +
+                                '   <div class="card-header">' +
+                                '       <h4 class="card-title text-center">Powered By</h4>' + 
+                                '   </div>' +             
+                                '   <div class="card-body">' +             
+                                '       <div class="row"></div>' +
+                                '   </div>' +
+                                '</div>'
+                            );
+                            $.each(data.data, function (key, value) {
+                                _this.find('.row').append(
+                                   '<div class="col-12 text-center mb-2">' +
+                                        '<img class="img-fluid mx-auto d-block" style="max-height: 200px; display: block;" src="' + apiURL + '/' + value.media_path + '" alt="' + value.name + '"/>' +
+                                    '</div>'
+                                );
+                            });
+                        }
+                    });
+
+                    jqXHR.fail(function (jqXHR, textStatus, errorThrown) {
+                        console.log('The following error occurred: ' + textStatus, errorThrown);
                     });
                 }
             };
