@@ -5,7 +5,7 @@
     Location    : application/controllers/admin/Ads.php
     Purpose     : Ads controller
     Created     : 07/11/2019 17:03:40 by Spiderman
-    Updated     : 08/01/2019 20:33:59 by Spiderman
+    Updated     : 08/15/2019 19:22:16 by Spiderman
     Changes     : 
 */
 
@@ -34,7 +34,7 @@ class Ads extends CI_Controller
     }
     
     // GET request
-    public function advertisements() 
+    public function ads() 
     {
         // Redirect to auth if not ajax request
         if (!$this->input->is_ajax_request()) {
@@ -70,7 +70,7 @@ class Ads extends CI_Controller
     }
 
     // GET request
-    public function advertisement() 
+    public function ad()
     {
         // Redirect to auth if not ajax request
         if (!$this->input->is_ajax_request()) {
@@ -87,13 +87,13 @@ class Ads extends CI_Controller
                 'X-API-KEY' => $this->guzzle->key()
             ],
             'query' => [
-                'id' => $this->uri->segment(5)
+                'id' => $_GET['id']
             ]
         ];
 
         try {
             // GET request
-            $response = $client->get('ads/ads', $options);
+            $response = $client->get('ads/ad', $options);
 
             $response = json_decode($response->getBody()->getContents());
 
@@ -120,6 +120,7 @@ class Ads extends CI_Controller
             ->set_rules('name', 'Name', 'trim|required|xss_clean')
             ->set_rules('description', 'Description', 'trim|required|xss_clean')
             ->set_rules('media_id', 'Logo', 'trim|required|xss_clean')
+            ->set_rules('type_id', 'Advert Type', 'trim|required|xss_clean')
             ->set_error_delimiters('<li>', '</li>');
 
         if ($this->form_validation->run()) {
@@ -137,13 +138,14 @@ class Ads extends CI_Controller
                     'name' => $this->input->post('name'),
                     'description' => $this->input->post('description'),
                     'media_id' => $this->input->post('media_id'),
+                    'type_id' => $this->input->post('type_id'),
                     'user_id' => user('id')
                 ]
             ];
 
             try {
                 // POST request
-                $response = $client->post('ads/create', $options);  
+                $response = $client->post('ads/create', $options);
     
                 // Return $response  
                 echo $response->getBody()->getContents();
@@ -159,10 +161,10 @@ class Ads extends CI_Controller
                 'status' => false,
                 'message' => validation_errors(),
                 'name' => form_error('name'),
-                'description' => form_error('description')
+                'description' => form_error('description'),
+                'type_id' => form_error('type_id')
             ];
             echo json_encode($view_data);
-            //echo $this->form_validation->get_json();
         }
     }
 
@@ -177,7 +179,8 @@ class Ads extends CI_Controller
         $set_data = array(
             'name' => $this->input->put('name'),
             'description' => $this->input->put('description'),
-            'media_id' => $this->input->put('media_id')
+            'media_id' => $this->input->put('media_id'),
+            'type_id' => $this->input->put('type_id')
         );
 
         $this->form_validation
@@ -185,6 +188,7 @@ class Ads extends CI_Controller
             ->set_rules('name', 'Name', 'trim|required|xss_clean')
             ->set_rules('description', 'Description', 'trim|required|xss_clean')
             ->set_rules('media_id', 'Logo', 'trim|required|xss_clean')
+            ->set_rules('type_id', 'Advert Type', 'trim|required|xss_clean')
             ->set_error_delimiters('<li>', '</li>');
 
         if ($this->form_validation->run()) {
@@ -202,6 +206,7 @@ class Ads extends CI_Controller
                     'name' => $this->input->put('name'),
                     'description' => $this->input->put('description'),
                     'media_id' => $this->input->put('media_id'),
+                    'type_id' => $this->input->put('type_id'),
                     'user_id' => user('id')
                 ]
             ];
@@ -227,7 +232,8 @@ class Ads extends CI_Controller
                 'status' => false,
                 'message' => validation_errors(),
                 'name' => form_error('name'),
-                'description' => form_error('description')
+                'description' => form_error('description'),
+                'type_id' => form_error('type_id')
             ];
             echo json_encode($view_data);
         }

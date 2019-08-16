@@ -3,8 +3,8 @@
     Location    : application/views/home/live-mass.html.twig
     Purpose     : Live mass partial page
     Created     : 06/03/2019 16:29:39 by Spiderman
-    Updated     : 07/19/2019 13:59:34 by Spiderman
-    Changes     : Implement live streaming with youtube live & OBS studio video encoder
+    Updated     : 08/15/2019 12:27:00 by Spiderman
+    Changes     : 
 #}
 
 {% extends 'base.html.twig' %}
@@ -12,11 +12,7 @@
 {% block contents %}
     <div class="row">
         <div id="video-container" class="col-12 col-lg-8">
-            <div class="card">
-                <div class="card-body">
-                    <!-- This is where the live stream load -->
-                </div>
-            </div>
+            <!-- This is where the live stream load -->
         </div>
         <div class="col-12 col-lg-4">
             <div class="card">
@@ -71,9 +67,13 @@
                     jqXHR.done(function (data) {
                         if (data) {
                             $.each(data.data, function (key, value) {
-                                 _this.find('.card-body').append(
-                                    '<div class="embed-responsive embed-responsive-16by9">' +
-                                    '    <iframe class="embed-responsive-item" src="' + value.video_url + '" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>' +
+                                 _this.append(
+                                    '<div class="card">' +
+                                    '   <div class="card-body">' +
+                                    '       <div class="embed-responsive embed-responsive-16by9">' +
+                                    '           <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/' + value.video_url + '" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>' +
+                                    '       </div>' +
+                                    '   </div>' +
                                     '</div>'
                                 );
                             });
