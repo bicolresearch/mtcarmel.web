@@ -3,7 +3,7 @@
     Location    : application/views/admin/media.twig
     Purpose     : Media partial page
     Created     : 07/22/2019 14:58:18 by Spiderman
-    Updated     : 08/13/2019 18:27:46 by Spiderman
+    Updated     : 08/16/2019 16:43:53 by Spiderman
     Changes     : 
 #}
 
@@ -38,6 +38,7 @@
                                 <th>Name</th>
                                 <th>Type</th>
                                 <th>Size</th>
+                                <th>Created</th>
                                 <th>Modified</th>
                                 <th></th>
                                 <th></th>
@@ -149,11 +150,17 @@
                                 }
                             },
                             {
-                                "data": "dt_updated",
+                                "data": "posted_on",
                                 "mRender": function (data) {
-                                    return moment(data).format('lll')
+                                    return (data === null) ?  '' : moment(data).format('lll');
                                 }
                             },
+                            {
+                                "data": "updated_on",
+                                "mRender": function (data) {
+                                    return (data === null) ?  '' : moment(data).format('lll');
+                                }
+                            }, 
                             {
                                 "searchable": false,
                                 "data": "id",
@@ -172,7 +179,7 @@
                         "lengthMenu": [[10, 25, 50, 75, 100, -1], [10, 25, 50, 75, 100, "All"]],
                         "order": [[0, "desc"]],
                         "columnDefs": [
-                            {"orderable": false, "targets": [1, 6, 7]}
+                            {"orderable": false, "targets": [1, 7, 8]}
                         ]
                     });
                 },

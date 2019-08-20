@@ -3,8 +3,8 @@
     Location    : application/views/home/index.html.twig
     Purpose     : Home partial page
     Created     : 06/03/2019 22:55:25 by Spiderman
-    Updated     : 08/15/2019 20:00:54 by Spiderman
-    Changes     : 
+    Updated     : 08/17/2019 13:10:27 by Spiderman
+    Changes     : Dynamic splash ads
 #}
 
 {% extends 'base.html.twig' %}
@@ -13,21 +13,21 @@
 
 {% block contents %}
     <div class="row justify-content-center">
-        <div id="ads" class="col-12 col-md-12 col-lg-12">
+        <div id="splash-ads" class="col-12 col-md-12 col-lg-12">
             <div id="carousel" class="carousel slide shadow-lg" data-ride="carousel">
                 <ol class="carousel-indicators">
-                    <!-- Splash number -->
+                    <!-- Splash indicators -->
                 </ol>
                 <div class="carousel-inner">
                     <!-- Splash ads -->
                 </div>
-                <a class="carousel-control-prev" href="#carousel" role="button" data-slide="prev">
-                   <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                   <span class="sr-only">Previous</span>
+                <a class="carousel-control-prev" data-slide="prev" href="#carousel" role="button">
+                    <span aria-hidden="true" class="carousel-control-prev-icon"></span>
+                    <span class="sr-only">Previous</span>
                 </a>
-                <a class="carousel-control-next" href="#carousel" role="button" data-slide="next">
-                   <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                   <span class="sr-only">Next</span>
+                <a class="carousel-control-next" data-slide="next" href="#carousel" role="button">
+                    <span aria-hidden="true" class="carousel-control-next-icon"></span>
+                    <span class="sr-only">Next</span>
                 </a>
             </div>
         </div>
@@ -43,34 +43,12 @@
 
             let app = {
                 init: function () {
-                    this.linkToAppStore();
-                    this.carousel();
                     this.ads();
+                    this.linkToAppStore();
                 },
-                linkToAppStore: function () {
-                    $('#linkToAppStore').on('click', function (e) {
-                        if (navigator.userAgent.toLowerCase().indexOf('iphone') > -1) {
-                            window.location.href = 'https://itunes.apple.com';
-                        }
+                ads: function () {
 
-                        if (navigator.userAgent.toLowerCase().indexOf("android") > -1) {
-                            window.location.href = 'https://play.google.com/store/apps';
-                        }
-
-                        if (!navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/)) {
-                            window.location.href = location.origin; // Redirect to homepage
-                        }
-                        e.preventDefault();
-                    });
-                },
-                carousel: function () {
-                    $(".carousel").carousel({
-                        interval: 10000
-                    });
-                },
-                ads: function() {
-
-                    let _this = $('#ads');
+                    let _this = $('#splash-ads');
 
                     let jqXHR = $.ajax({
                         url: apiURL + '/ads/?type_id=2',
@@ -82,24 +60,40 @@
                     });
 
                     jqXHR.done(function (data) {
-                        if(data) {
+                        if (data) {
                             $.each(data, function (key, value) {
-                                _this.find('.carousel-indicators').append(
-                                    '<li data-target="#carousel" class="active" data-slide-to="' + value.id + '"></li>'
-                                )
                                 _this.find('.carousel-inner').append(
-                                    '<div class="carousel-item active">' +
-                                    '   <a id="linkToAppStore" href="javascript:void(0)" title="" target="_blank">' +
-                                    '       <img src="' + apiURL + '/' + value.media_path + '" class="d-block img-fluid" alt="">' +
-                                    '   </a>' +
-                                    '</div>'
-                                );
+                                    '<div class="carousel-item">' + 
+                                    '   <a id="linkToAppStore" href="' + value.url + '" title="' + value.name + '" target="_blank">' + 
+                                    '       <img class="d-block img-fluid" src="' + apiURL + '/' + value.media_path + '" alt="' + value.name + '">' + 
+                                    '   </a>' + 
+                                    '</div>');
+                                _this.find('.carousel-indicators').append('<li data-target="#carousel" data-slide-to="' + key + '"></li>');
+                                _this.find('.carousel-inner > .carousel-item').first().addClass('active');
+                                _this.find('.carousel-indicators > li').first().addClass('active');
+                                _this.find('.carousel').carousel({interval: 10000});
                             });
                         }
                     });
 
                     jqXHR.fail(function (jqXHR, textStatus, errorThrown) {
                         console.log('The following error occurred: ' + textStatus, errorThrown);
+                    });
+                },
+                linkToAppStore: function () {
+                    $('a#linkToAppStore').on('click', function (e) {
+                        if (navigator.userAgent.toLowerCase().indexOf('iphone') > -1) {
+                            window.location.href = 'https://itunes.apple.com';
+                        }
+
+                        if (navigator.userAgent.toLowerCase().indexOf("android") > -1) {
+                            window.location.href = 'https://play.google.com/store/apps';
+                        }
+
+                        if (!navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/)) {
+                            window.location.href = location.origin; // Redirect to homepage
+                        }            
+                        e.preventDefault();
                     });
                 }
             };

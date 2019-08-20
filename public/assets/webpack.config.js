@@ -14,7 +14,9 @@ const opts = {
 
 module.exports = {
   entry: {
-    style: "./src/scss/style.scss"
+    style: "./src/scss/style.scss",
+    app: "./src/js/app.js",
+    utilities: "./src/js/utilities.js"
   },
   mode: process.env.NODE_ENV === "production" ? "production" : "development",
   devtool:

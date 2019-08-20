@@ -3,7 +3,7 @@
     Location    : application/views/base.html.twig
     Purpose     : Base template
     Created     : 06/03/2019 22:09:22 by Spiderman
-    Updated     : 07/29/2019 15:20:25 by Spiderman
+    Updated     : 08/17/2019 22:49:52 by Spiderman
     Changes     : 
 #}
 
@@ -21,396 +21,395 @@
     {% endblock %}
 </head>
 <body>
-<div class="wrapper">
-    {% block sidebar %}
-        <nav class="sidebar sidebar-sticky">
-            <div class="sidebar-content js-simplebar">
-                <a class="sidebar-brand" href="{{ base_url('home') }}">
-                    <div class="logo">
-                        <img src="{{ base_url('public/assets/images/brands/mount-carmel-logo.svg') }}" alt="Mount Carmel Logo"/>
-                    </div>
-                    <div class="logo-text">
-                        <div class="title">Mount Carmel</div>
-                        <div class="address">Quezon City, Philippines</div>
-                    </div>
-                </a>
-                <ul class="sidebar-nav">
-                    <li class="sidebar-item active">
-                        <a href="#home" data-toggle="collapse" class="sidebar-link collapsed">
-                            <i class="align-middle icon-home icon-18"></i> <span class="align-middle">Home</span>
-                        </a>
-                        <ul id="home" class="sidebar-dropdown list-unstyled collapse">
-                            <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('news') }}">News &amp; Updates</a></li>
-                            <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('calendar') }}">Calendar</a></li>
-                            <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('live-mass') }}">Live Mass</a></li>
-                        </ul>
-                    </li>
-                    <li class="sidebar-item">
-                        <a class="sidebar-link" href="{{ base_url('help') }}">
-                            <i class="align-middle icon-sendhelp icon-18"></i> <span class="align-middle">Send Help</span>
-                        </a>
-                    </li>
-                    <li class="sidebar-item">
-                        <a href="#services" data-toggle="collapse" class="sidebar-link collapsed">
-                            <i class="align-middle icon-services icon-18"></i> <span class="align-middle">Services</span>
-                        </a>
-                        <ul id="services" class="sidebar-dropdown list-unstyled collapse">
-                            <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('join-us') }}">Join Us!</a></li>
-                            <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('request') }}">Make a Request</a></li>
-                            <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('baptism') }}">Baptism</a></li>
-                            <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('communion') }}">Communion</a></li>
-                            <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('confirmation') }}">Confirmation</a></li>
-                            <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('marriage') }}">Marriage</a></li>
-                            <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('passing') }}">Passing</a></li>
-                            <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('events') }}">Events</a></li>
-                        </ul>
-                    </li>
-                    <li class="sidebar-item">
-                        <a class="sidebar-link" href="{{ base_url('transparency') }}">
-                            <i class="align-middle icon-transparency icon-18"></i> <span class="align-middle">Transparency</span>
-                        </a>
-                    </li>
-                    <li class="sidebar-item">
-                        <a href="#basilica" data-toggle="collapse" class="sidebar-link collapsed">
-                            <i class="align-middle icon-logo icon-18"></i> <span class="align-middle">Basilica</span>
-                        </a>
-                        <ul id="basilica" class="sidebar-dropdown list-unstyled collapse">
-                            <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('mass-schedule') }}">Mass Schedule</a></li>
-                            <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('location-map') }}">Location Map</a></li>
-                            <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('carmelite-priests') }}">Carmelite Priests</a></li>
-                            <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('contact-details') }}">Contact Details</a></li>
-                            <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('history-details') }}">History</a></li>
-                        </ul>
-                    </li>
-                    <li class="sidebar-item">
-                        <a class="sidebar-link" href="{{ base_url('bible') }}">
-                            <i class="align-middle icon-bible icon-18"></i> <span class="align-middle">Holy Bible</span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
-    {% endblock %}
-    <div class="main">
-        {% block navbar %}
-            <nav class="navbar navbar-expand navbar-light bg-white">
-                <a class="sidebar-toggle d-flex mr-2">
-                    <i class="hamburger align-self-center"></i>
-                </a>
-                <div class="navbar-collapse collapse">
-                    <ul class="navbar-nav ml-auto">
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle mr-0 pr-0" href="javascript:void(0)" data-toggle="dropdown">
-                                <img src="{{ base_url('public/assets/images/avatars/profile.svg') }}" class="avatar img-fluid rounded-circle mr-1" alt="Profile"/>
+    <div class="wrapper">
+        {% block sidebar %}
+            <nav class="sidebar sidebar-sticky">
+                <div class="sidebar-content js-simplebar">
+                    <a class="sidebar-brand" href="{{ base_url('home') }}">
+                        <div class="logo">
+                            <img src="{{ base_url('public/assets/images/brands/mount-carmel-logo.svg') }}" alt="Mount Carmel Logo"/>
+                        </div>
+                        <div class="logo-text">
+                            <div class="title">Mount Carmel</div>
+                            <div class="address">Quezon City, Philippines</div>
+                        </div>
+                    </a>
+                    <ul class="sidebar-nav">
+                        <li class="sidebar-item active">
+                            <a href="#home" data-toggle="collapse" class="sidebar-link collapsed">
+                                <i class="align-middle icon-home icon-18"></i> <span class="align-middle">Home</span>
                             </a>
-                            <div class="dropdown-menu dropdown-menu-right">
-                                <a class="dropdown-item" href="javascript:void(0)" data-toggle="modal" data-target="#signupModal">Signup</a>
-                                <a class="dropdown-item" href="javascript:void(0)" data-toggle="modal" data-target="#loginModal">Login</a>
-                            </div>
+                            <ul id="home" class="sidebar-dropdown list-unstyled collapse">
+                                <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('news') }}">News &amp; Updates</a></li>
+                                <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('calendar') }}">Calendar</a></li>
+                                <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('live-mass') }}">Live Mass</a></li>
+                            </ul>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="{{ base_url('help') }}">
+                                <i class="align-middle icon-sendhelp icon-18"></i> <span class="align-middle">Send Help</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a href="#services" data-toggle="collapse" class="sidebar-link collapsed">
+                                <i class="align-middle icon-services icon-18"></i> <span class="align-middle">Services</span>
+                            </a>
+                            <ul id="services" class="sidebar-dropdown list-unstyled collapse">
+                                <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('join-us') }}">Join Us!</a></li>
+                                <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('request') }}">Make a Request</a></li>
+                                <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('baptism') }}">Baptism</a></li>
+                                <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('communion') }}">Communion</a></li>
+                                <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('confirmation') }}">Confirmation</a></li>
+                                <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('marriage') }}">Marriage</a></li>
+                                <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('passing') }}">Passing</a></li>
+                                <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('events') }}">Events</a></li>
+                            </ul>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="{{ base_url('transparency') }}">
+                                <i class="align-middle icon-transparency icon-18"></i> <span class="align-middle">Transparency</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a href="#basilica" data-toggle="collapse" class="sidebar-link collapsed">
+                                <i class="align-middle icon-logo icon-18"></i> <span class="align-middle">Basilica</span>
+                            </a>
+                            <ul id="basilica" class="sidebar-dropdown list-unstyled collapse">
+                                <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('mass-schedule') }}">Mass Schedule</a></li>
+                                <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('location-map') }}">Location Map</a></li>
+                                <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('carmelite-priests') }}">Carmelite Priests</a></li>
+                                <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('contact-details') }}">Contact Details</a></li>
+                                <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('history-details') }}">History</a></li>
+                            </ul>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="{{ base_url('bible') }}">
+                                <i class="align-middle icon-bible icon-18"></i> <span class="align-middle">Holy Bible</span>
+                            </a>
                         </li>
                     </ul>
                 </div>
             </nav>
         {% endblock %}
-        <main class="content">
-            <div class="container-fluid p-0">
-                {% block contents %}
-                    {# This is where the partial page load #}
-                {% endblock %}
-            </div>
-        </main>
-    </div>
-</div>
-
-{% block login %}
-    <div class="modal fade" id="loginModal" tabindex="-1" data-backdrop="static" role="dialog" aria-labelledby="loginModalTitle" aria-hidden="true">
-        <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h3 class="modal-title" id="loginModalTitle">Login</h3>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <i data-feather="x"></i>
-                    </button>
+        <div class="main">
+            {% block navbar %}
+                <nav class="navbar navbar-expand navbar-light bg-white">
+                    <a class="sidebar-toggle d-flex mr-2">
+                        <i class="hamburger align-self-center"></i>
+                    </a>
+                    <div class="navbar-collapse collapse">
+                        <ul class="navbar-nav ml-auto">
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle mr-0 pr-0" href="javascript:void(0)" data-toggle="dropdown">
+                                    <img src="{{ base_url('public/assets/images/avatars/profile.svg') }}" class="avatar img-fluid rounded-circle mr-1" alt="Profile"/>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-right">
+                                    <a class="dropdown-item" href="javascript:void(0)" data-toggle="modal" data-target="#signupModal">Signup</a>
+                                    <a class="dropdown-item" href="javascript:void(0)" data-toggle="modal" data-target="#loginModal">Login</a>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+            {% endblock %}
+            <main class="content">
+                <div class="container-fluid p-0">
+                    {% block contents %}
+                        {# This is where the partial page load #}
+                    {% endblock %}
                 </div>
-                <form id="login-form">
-                    <div class="modal-body px-5">
-                        <div class="logo text-center mb-4">
-                            <img src="{{ base_url('public/assets/images/brands/mount-carmel-logo.svg') }}" alt="Mount Carmel Logo"/>
-                        </div>
-                        <div id="ajax-preloader"></div>
-                        <div id="ajax-response"></div>
-                        <div class="form-group">
-                            <label for="email">Email</label>
-                            <input type="text" class="form-control" id="email" name="email" value="{{ set_value('email') }}" placeholder="Email" autocomplete="username">
-                        </div>
-                        <div class="form-group">
-                            <label for="password">Password</label>
-                            <input type="password" class="form-control" id="password" name="password" value="{{ set_value('password') }}" placeholder="Password" autocomplete="current-password">
-                        </div>
-                        <a href="javascript:void(0);" target="_blank">Forgot password?</a> <a class="float-right" href="javascript:void(0)" data-toggle="modal" data-target="#signupModal">Signup</a>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-lg btn-brown rounded-pill px-5 btn-change-state">Login</button>
-                    </div>
-                </form>
-            </div>
+            </main>
         </div>
     </div>
-{% endblock %}
 
-{% block signup %}
-    <div class="modal fade" id="signupModal" tabindex="-1" data-backdrop="static" role="dialog" aria-labelledby="signupModalModalTitle" aria-hidden="true">
-        <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h3 class="modal-title" id="signupModalTitle">Signup</h3>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <i data-feather="x"></i>
-                    </button>
+    {% block login %}
+        <div class="modal fade" id="loginModal" tabindex="-1" data-backdrop="static" role="dialog" aria-labelledby="loginModalTitle" aria-hidden="true">
+            <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 class="modal-title" id="loginModalTitle">Login</h3>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <i data-feather="x"></i>
+                        </button>
+                    </div>
+                    <form id="login-form">
+                        <div class="modal-body px-5">
+                            <div class="logo text-center mb-4">
+                                <img src="{{ base_url('public/assets/images/brands/mount-carmel-logo.svg') }}" alt="Mount Carmel Logo"/>
+                            </div>
+                            <div id="ajax-preloader"></div>
+                            <div id="ajax-response"></div>
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="text" class="form-control" id="email" name="email" value="{{ set_value('email') }}" placeholder="Email" autocomplete="username">
+                            </div>
+                            <div class="form-group">
+                                <label for="password">Password</label>
+                                <input type="password" class="form-control" id="password" name="password" value="{{ set_value('password') }}" placeholder="Password" autocomplete="current-password">
+                            </div>
+                            <a href="javascript:void(0);" target="_blank">Forgot password?</a> <a class="float-right" href="javascript:void(0)" data-toggle="modal" data-target="#signupModal">Signup</a>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-lg btn-brown rounded-pill px-5 btn-change-state">Login</button>
+                        </div>
+                    </form>
                 </div>
-                <form id="signup-form">
-                    <div class="modal-body px-5">
-                        <div id="ajax-preloader"></div>
-                        <div id="ajax-response"></div>
-                        <div class="row">
-                            <div class="col-12 col-md-6 col-lg-6">
-                                <div class="form-group">
-                                    <label for="first-name">First Name</label>
-                                    <input type="text" class="form-control" id="first-name" name="first_name" value="{{ set_value('first_name') }}" placeholder="First Name">
-                                </div>
-                            </div>
-                            <div class="col-12 col-md-6 col-lg-6">
-                                <div class="form-group">
-                                    <label for="last-name">Last Name</label>
-                                    <input type="text" class="form-control" id="last-name" name="last_name" value="{{ set_value('last_name') }}" placeholder="First Name">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="username">Email</label>
-                            <input type="text" class="form-control" id="username" name="email" value="{{ set_value('email') }}" placeholder="Email" autocomplete="username">
-                        </div>
-                        <div class="form-group">
-                            <label for="pass">Password</label>
-                            <input type="password" class="form-control" id="pass" name="password" value="{{ set_value('password') }}" placeholder="Password" autocomplete="current-password">
-                        </div>
-                        <div class="form-group">
-                            <label for="passconf">Confirm Password</label>
-                            <input type="password" class="form-control" id="passconf" name="passconf" value="{{ set_value('passconf') }}" placeholder="Confirm Password" autocomplete="new-password">
-                        </div>
-                        <a href="javascript:void(0);" target="_blank">Forgot password?</a> <a class="float-right" href="javascript:void(0)" data-toggle="modal" data-target="#loginModal">Login</a>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-lg btn-brown rounded-pill px-5 btn-change-state">Signup</button>
-                    </div>
-                </form>
             </div>
         </div>
-    </div>
-{% endblock %}
+    {% endblock %}
 
-{% block javascripts %}
-    <script src="{{ base_url('public/assets/js/app.js') }}"></script>
-    <script src="{{ base_url('public/assets/js/pace.min.js') }}"></script>
-    <script src="{{ base_url('public/assets/js/utilities.js') }}"></script>
-    <script>
-        $(function () {
+    {% block signup %}
+        <div class="modal fade" id="signupModal" tabindex="-1" data-backdrop="static" role="dialog" aria-labelledby="signupModalModalTitle" aria-hidden="true">
+            <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 class="modal-title" id="signupModalTitle">Signup</h3>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <i data-feather="x"></i>
+                        </button>
+                    </div>
+                    <form id="signup-form">
+                        <div class="modal-body px-5">
+                            <div id="ajax-preloader"></div>
+                            <div id="ajax-response"></div>
+                            <div class="row">
+                                <div class="col-12 col-md-6 col-lg-6">
+                                    <div class="form-group">
+                                        <label for="first-name">First Name</label>
+                                        <input type="text" class="form-control" id="first-name" name="first_name" value="{{ set_value('first_name') }}" placeholder="First Name">
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6 col-lg-6">
+                                    <div class="form-group">
+                                        <label for="last-name">Last Name</label>
+                                        <input type="text" class="form-control" id="last-name" name="last_name" value="{{ set_value('last_name') }}" placeholder="First Name">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="username">Email</label>
+                                <input type="text" class="form-control" id="username" name="email" value="{{ set_value('email') }}" placeholder="Email" autocomplete="username">
+                            </div>
+                            <div class="form-group">
+                                <label for="pass">Password</label>
+                                <input type="password" class="form-control" id="pass" name="password" value="{{ set_value('password') }}" placeholder="Password" autocomplete="current-password">
+                            </div>
+                            <div class="form-group">
+                                <label for="passconf">Confirm Password</label>
+                                <input type="password" class="form-control" id="passconf" name="passconf" value="{{ set_value('passconf') }}" placeholder="Confirm Password" autocomplete="new-password">
+                            </div>
+                            <a href="javascript:void(0);" target="_blank">Forgot password?</a> <a class="float-right" href="javascript:void(0)" data-toggle="modal" data-target="#loginModal">Login</a>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-lg btn-brown rounded-pill px-5 btn-change-state">Signup</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    {% endblock %}
 
-            let baseURL = location.origin.toLowerCase() + '/mountcarmel.web';
+    {% block javascripts %}
+        <script src="{{ base_url('public/assets/js/app.js') }}"></script>
+        <script src="{{ base_url('public/assets/js/utilities.js') }}"></script>
+        <script>
+            $(function () {
 
-            // POST: Login
-            let login = {
-                init: function () {
-                    this.resetForm();
-                    this.autoFocus();
-                    this.bindForm();
-                },
-                resetForm: function() {
-                    $('#loginModal').on('hidden.bs.modal', function(){
-                        
-                        let _this = $(this);
+                let baseURL = location.origin.toLowerCase() + '/mountcarmel.web';
 
-                        _this.find('form')[0].reset();
-                        _this.find('.form-control').removeClass('is-invalid');
-                        _this.find('#ajax-response').empty();
-                    });
-                },
-                autoFocus: function() {
-                    $('#loginModal').on('shown.bs.modal', function(){
-                        $(this).find('input[name="email"]').trigger('focus');
-                    }) 
-                },
-                bindForm: function () {
-                    $('#loginModal').on('show.bs.modal', this.submitForm());
-                },
-                submitForm: function () {
-                    $('#login-form').on('submit', function (e) {
-                        
-                        let _this = $(this);
-                        
-                        let jqXHR = $.ajax({
-                            url: baseURL + '/auth/login',
-                            type: 'POST',
-                            dataType: 'json',
-                            data: _this.serialize(),
-                            cache: false,
-                            processData: false,
-                            beforeSend: function () {
-                                _this.find('#ajax-preloader').preloader().show();
-                                _this.find('.btn-change-state').attr('disabled', 'disabled');
+                // POST: Login
+                let login = {
+                    init: function () {
+                        this.resetForm();
+                        this.autoFocus();
+                        this.bindForm();
+                    },
+                    resetForm: function() {
+                        $('#loginModal').on('hidden.bs.modal', function(){
+                            
+                            let _this = $(this);
+
+                            _this.find('form')[0].reset();
+                            _this.find('.form-control').removeClass('is-invalid');
+                            _this.find('#ajax-response').empty();
+                        });
+                    },
+                    autoFocus: function() {
+                        $('#loginModal').on('shown.bs.modal', function(){
+                            $(this).find('input[name="email"]').trigger('focus');
+                        }) 
+                    },
+                    bindForm: function () {
+                        $('#loginModal').on('show.bs.modal', this.submitForm());
+                    },
+                    submitForm: function () {
+                        $('#login-form').on('submit', function (e) {
+                            
+                            let _this = $(this);
+                            
+                            let jqXHR = $.ajax({
+                                url: baseURL + '/auth/login',
+                                type: 'POST',
+                                dataType: 'json',
+                                data: _this.serialize(),
+                                cache: false,
+                                processData: false,
+                                beforeSend: function () {
+                                    _this.find('#ajax-preloader').preloader().show();
+                                    _this.find('.btn-change-state').attr('disabled', 'disabled');
+                                }
+                            });
+
+                            jqXHR.done(function (data) {
+                                if (data.status === true) {
+                                    // Hide modal after successful login
+                                    $('#loginModal').modal('hide');
+
+                                    // Redirect to user page
+                                    window.location.replace(baseURL + '/auth');
+                                } else {
+                                    // Error msg response
+                                    _this.find('#ajax-response').html('<div class="alert alert-danger"><ul>' + data.message + '</ul></div>');
+                                    (Boolean(data.email)) ? _this.find('#email').addClass('is-invalid') : _this.find('#email').removeClass('is-invalid');
+                                    (Boolean(data.password)) ? _this.find('#password').addClass('is-invalid') : _this.find('#password').removeClass('is-invalid');
+                                }
+                            });
+
+                            jqXHR.always(function () {
+                                _this.find('#ajax-preloader').preloader().hide();
+                                _this.find('.btn-change-state').removeAttr('disabled');
+                            });
+
+                            jqXHR.fail(function (jqXHR, textStatus, errorThrown) {
+                                console.log('The following error occurred: ' + textStatus, errorThrown);
+                            });
+
+                            e.preventDefault();
+                        });
+                    }
+                };
+
+                // POST: signup
+                let signup = {
+                    init: function () {
+                        this.resetForm();
+                        this.autoFocus();
+                        this.bindForm();
+                    },
+                    resetForm: function() {
+                        $('#signupModal').on('hidden.bs.modal', function(){
+
+                            let _this = $(this);
+
+                            _this.find('form')[0].reset();
+                            _this.find('.form-control').removeClass('is-invalid');
+                            _this.find('#ajax-response').empty();
+                        });
+                    },
+                    autoFocus: function() {
+                        $('#signupModal').on('shown.bs.modal', function(){
+                            $(this).find('input[name="first_name"]').trigger('focus');
+                        }) 
+                    },
+                    bindForm: function () {
+                        $('#signupModal').on('show.bs.modal', this.submitForm());
+                    },
+                    submitForm: function () {
+                        $('#signup-form').on('submit', function (e) {
+                            
+                            let _this = $(this);
+
+                            let jqXHR = $.ajax({
+                                url: baseURL + '/auth/signup',
+                                type: 'POST',
+                                dataType: 'json',
+                                data: _this.serialize(),
+                                cache: false,
+                                processData: false,
+                                beforeSend: function () {
+                                    _this.find('#ajax-preloader').preloader().show();
+                                    _this.find('.btn-change-state').attr('disabled', 'disabled');
+                                }
+                            });
+
+                            jqXHR.done(function (data) {
+                                if (data.status === true) {
+                                    // Clear the form
+                                    _this.find('.form-control').removeClass('is-invalid');
+                                    _this[0].reset();
+
+                                    // Success msg response
+                                    _this.find('#ajax-response').html('<div class="alert alert-success"><ul>' + data.message + '</ul></div>');
+                                } else {
+                                    // Error msg response
+                                    _this.find('#ajax-response').html('<div class="alert alert-danger"><ul>' + data.message + '</ul></div>');
+                                    (Boolean(data.first_name)) ? _this.find('#first-name').addClass('is-invalid') : _this.find('#first-name').removeClass('is-invalid');
+                                    (Boolean(data.last_name)) ? _this.find('#last-name').addClass('is-invalid') : _this.find('#last-name').removeClass('is-invalid');
+                                    (Boolean(data.email)) ? _this.find('#username').addClass('is-invalid') : _this.find('#username').removeClass('is-invalid');
+                                    (Boolean(data.password)) ? _this.find('#pass').addClass('is-invalid') : _this.find('#pass').removeClass('is-invalid');
+                                    (Boolean(data.passconf)) ? _this.find('#passconf').addClass('is-invalid') : _this.find('#passconf').removeClass('is-invalid');
+                                }
+                            });
+
+                            jqXHR.always(function () {
+                                _this.find('#ajax-preloader').preloader().hide();
+                                _this.find('.btn-change-state').removeAttr('disabled');
+                            });
+
+                            jqXHR.fail(function (jqXHR, textStatus, errorThrown) {
+                                console.log('The following error occurred: ' + textStatus, errorThrown);
+                            });
+
+                            e.preventDefault();
+                        });
+                    }
+                };
+
+                let app = {
+                    init: function () {
+                        this.activeList();
+                        this.showLoginModal();
+                        this.showSignupModal();
+                    },
+                    activeList: function () {
+                        let str = location.href.toLowerCase();
+                        $('.sidebar-nav li a').each(function () {
+                            if (str.indexOf(this.href.toLowerCase()) > -1) {
+                                $('.sidebar-nav li.active').removeClass('active');
+                                $(this).parent().addClass("active");
                             }
                         });
-
-                        jqXHR.done(function (data) {
-                            if (data.status === true) {
-                                // Hide modal after successful login
-                                $('#loginModal').modal('hide');
-
-                                // Redirect to user page
-                                window.location.replace(baseURL + '/auth');
-                            } else {
-                                // Error msg response
-                                _this.find('#ajax-response').html('<div class="alert alert-danger"><ul>' + data.message + '</ul></div>');
-                                (Boolean(data.email)) ? _this.find('#email').addClass('is-invalid') : _this.find('#email').removeClass('is-invalid');
-                                (Boolean(data.password)) ? _this.find('#password').addClass('is-invalid') : _this.find('#password').removeClass('is-invalid');
+                        $('.sidebar-nav li.active').parents().each(function () {
+                            if ($(this).is('li')) {
+                                $(this).addClass('active');
                             }
                         });
-
-                        jqXHR.always(function () {
-                            _this.find('#ajax-preloader').preloader().hide();
-                            _this.find('.btn-change-state').removeAttr('disabled');
+                    },
+                    showLoginModal: function() {
+                        $('#loginModal').on('show.bs.modal', function(){
+                            $('#signupModal').modal('hide');
+                        }).on('shown.bs.modal', function(){
+                            $('body').addClass('modal-open');
                         });
-
-                        jqXHR.fail(function (jqXHR, textStatus, errorThrown) {
-                            console.log('The following error occurred: ' + textStatus, errorThrown);
+                    },
+                    showSignupModal: function() {
+                        $('#signupModal').on('show.bs.modal', function(){
+                            $('#loginModal').modal('hide');
+                        }).on('shown.bs.modal', function(){
+                            $('body').addClass('modal-open');
                         });
+                    }
+                };
 
-                        e.preventDefault();
-                    });
-                }
-            };
+                login.init();
+                signup.init();
+                app.init();
+            })
+        </script>
+    {% endblock %}
 
-            // POST: signup
-            let signup = {
-                init: function () {
-                    this.resetForm();
-                    this.autoFocus();
-                    this.bindForm();
-                },
-                resetForm: function() {
-                    $('#signupModal').on('hidden.bs.modal', function(){
-
-                        let _this = $(this);
-
-                        _this.find('form')[0].reset();
-                        _this.find('.form-control').removeClass('is-invalid');
-                        _this.find('#ajax-response').empty();
-                    });
-                },
-                autoFocus: function() {
-                    $('#signupModal').on('shown.bs.modal', function(){
-                        $(this).find('input[name="first_name"]').trigger('focus');
-                    }) 
-                },
-                bindForm: function () {
-                    $('#signupModal').on('show.bs.modal', this.submitForm());
-                },
-                submitForm: function () {
-                    $('#signup-form').on('submit', function (e) {
-                        
-                        let _this = $(this);
-
-                        let jqXHR = $.ajax({
-                            url: baseURL + '/auth/signup',
-                            type: 'POST',
-                            dataType: 'json',
-                            data: _this.serialize(),
-                            cache: false,
-                            processData: false,
-                            beforeSend: function () {
-                                _this.find('#ajax-preloader').preloader().show();
-                                _this.find('.btn-change-state').attr('disabled', 'disabled');
-                            }
-                        });
-
-                        jqXHR.done(function (data) {
-                            if (data.status === true) {
-                                // Clear the form
-                                _this.find('.form-control').removeClass('is-invalid');
-                                _this[0].reset();
-
-                                // Success msg response
-                                _this.find('#ajax-response').html('<div class="alert alert-success"><ul>' + data.message + '</ul></div>');
-                            } else {
-                                // Error msg response
-                                _this.find('#ajax-response').html('<div class="alert alert-danger"><ul>' + data.message + '</ul></div>');
-                                (Boolean(data.first_name)) ? _this.find('#first-name').addClass('is-invalid') : _this.find('#first-name').removeClass('is-invalid');
-                                (Boolean(data.last_name)) ? _this.find('#last-name').addClass('is-invalid') : _this.find('#last-name').removeClass('is-invalid');
-                                (Boolean(data.email)) ? _this.find('#username').addClass('is-invalid') : _this.find('#username').removeClass('is-invalid');
-                                (Boolean(data.password)) ? _this.find('#pass').addClass('is-invalid') : _this.find('#pass').removeClass('is-invalid');
-                                (Boolean(data.passconf)) ? _this.find('#passconf').addClass('is-invalid') : _this.find('#passconf').removeClass('is-invalid');
-                            }
-                        });
-
-                        jqXHR.always(function () {
-                            _this.find('#ajax-preloader').preloader().hide();
-                            _this.find('.btn-change-state').removeAttr('disabled');
-                        });
-
-                        jqXHR.fail(function (jqXHR, textStatus, errorThrown) {
-                            console.log('The following error occurred: ' + textStatus, errorThrown);
-                        });
-
-                        e.preventDefault();
-                    });
-                }
-            };
-
-            let app = {
-                init: function () {
-                    this.activeList();
-                    this.showLoginModal();
-                    this.showSignupModal();
-                },
-                activeList: function () {
-                    let str = location.href.toLowerCase();
-                    $('.sidebar-nav li a').each(function () {
-                        if (str.indexOf(this.href.toLowerCase()) > -1) {
-                            $('.sidebar-nav li.active').removeClass('active');
-                            $(this).parent().addClass("active");
-                        }
-                    });
-                    $('.sidebar-nav li.active').parents().each(function () {
-                        if ($(this).is('li')) {
-                            $(this).addClass('active');
-                        }
-                    });
-                },
-                showLoginModal: function() {
-                    $('#loginModal').on('show.bs.modal', function(){
-                        $('#signupModal').modal('hide');
-                    }).on('shown.bs.modal', function(){
-                        $('body').addClass('modal-open');
-                    });
-                },
-                showSignupModal: function() {
-                    $('#signupModal').on('show.bs.modal', function(){
-                        $('#loginModal').modal('hide');
-                    }).on('shown.bs.modal', function(){
-                        $('body').addClass('modal-open');
-                    });
-                }
-            };
-
-            login.init();
-            signup.init();
-            app.init();
-        })
-    </script>
-{% endblock %}
-
-{% block custom_scripts %}
-    {# This is where the custom scripts load #}
-{% endblock %}
+    {% block custom_scripts %}
+        {# This is where the custom scripts load #}
+    {% endblock %}
 </body>
 </html>

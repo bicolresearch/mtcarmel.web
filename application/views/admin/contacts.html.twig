@@ -3,7 +3,7 @@
     Location    : application/views/admin/contacts.html.twig
     Purpose     : Contacts partial page
     Created     : 07/23/2019 11:49:05 by Scarlet Witch
-    Updated     : 08/13/2019 19:45:02 by Spiderman
+    Updated     : 08/16/2019 16:22:22 by Spiderman
     Changes     : 
 #}
 
@@ -235,15 +235,15 @@
                             {
                                 "data": "posted_on",
                                 "mRender": function (data) {
-                                    return moment(data).format('lll')
+                                    return (data === null) ?  '' : moment(data).format('lll');
                                 }
                             },
                             {
                                 "data": "updated_on",
                                 "mRender": function (data) {
-                                    return moment(data).format('lll')
+                                    return (data === null) ?  '' : moment(data).format('lll');
                                 }
-                            },                          
+                            },                        
                             {
                                 "searchable": false,
                                 "data": "id",

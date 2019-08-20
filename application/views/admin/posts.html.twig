@@ -157,15 +157,15 @@
                             {
                                 "data": "posted_on",
                                 "mRender": function (data) {
-                                    return moment(data).format('lll')
+                                    return (data === null) ?  '' : moment(data).format('lll');
                                 }
                             },
                             {
                                 "data": "updated_on",
                                 "mRender": function (data) {
-                                    return moment(data).format('lll')
+                                    return (data === null) ?  '' : moment(data).format('lll');
                                 }
-                            },
+                            },  
                             {"data": "author"},
                             {
                                 "searchable": false,

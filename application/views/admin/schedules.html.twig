@@ -3,7 +3,7 @@
     Location    : application/views/admin/schedules.html.twig
     Purpose     : Mass schedules partial page
     Created     : 07/23/2019 12:25:29 by Scarlet Witch
-    Updated     : 08/13/2019 16:22:57 by Spiderman
+    Updated     : 08/16/2019 16:40:29 by Spiderman
     Changes     : 
 #}
 
@@ -455,17 +455,14 @@
                 },
                 bindForm: function () {
                     $('#delete').on('show.bs.modal', this.submitForm(), function(e){
-                        let id = $(e.relatedTarget).attr('data-id');
-                        $(this).find('input:hidden[name="id"]').val(id);
-                        $(this).find('.modal-body p').text('Are you sure you want to delete schedule #' + id + '?');
+                        $(this).find('input:hidden[name="id"]').val($(e.relatedTarget).attr('data-id'));
+                        $(this).find('.modal-body p').text('Are you sure you want to delete schedule #' + $(e.relatedTarget).attr('data-id') + '?');
                     });
                 },
                 submitForm: function() {
                     $('#delete-form').on('submit', function(e){
                         
                         let _this = $(this);
-
-                        // Set id
                         let id = _this.find('input:hidden[name="id"]').val();
                     
                         let jqXHR = $.ajax({
