@@ -3,7 +3,7 @@
     Location    : application/views/home/live-mass.html.twig
     Purpose     : Live mass partial page
     Created     : 06/03/2019 16:29:39 by Spiderman
-    Updated     : 08/15/2019 12:27:00 by Spiderman
+    Updated     : 08/20/2019 18:57:31 by Spiderman
     Changes     : 
 #}
 
@@ -56,7 +56,7 @@
                     let _this = $('#video-container');
 
                     let jqXHR = $.ajax({
-                        url: apiURL + '/live_streaming',
+                        url: apiURL + '/live_streams/?branch_id=1',
                         type: 'GET',
                         dataType: 'json',
                         data: _this.serialize(),
@@ -66,17 +66,15 @@
 
                     jqXHR.done(function (data) {
                         if (data) {
-                            $.each(data.data, function (key, value) {
-                                 _this.append(
-                                    '<div class="card">' +
-                                    '   <div class="card-body">' +
-                                    '       <div class="embed-responsive embed-responsive-16by9">' +
-                                    '           <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/' + value.video_url + '" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>' +
-                                    '       </div>' +
-                                    '   </div>' +
-                                    '</div>'
-                                );
-                            });
+                             _this.append(
+                                '<div class="card">' +
+                                '   <div class="card-body">' +
+                                '       <div class="embed-responsive embed-responsive-16by9">' +
+                                '           <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/' + data.video_id + '" allowfullscreen></iframe>' +
+                                '       </div>' +
+                                '   </div>' +
+                                '</div>'
+                            );
                         }
                     });
 

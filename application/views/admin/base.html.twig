@@ -3,7 +3,7 @@
     Location    : application/views/admin/base.html.twig
     Purpose     : Admin base template
     Created     : 06/27/2019 16:45:42 by Spiderman
-    Updated     : 08/17/2019 22:50:55 by Spiderman
+    Updated     : 08/20/2019 15:06:03 by Spiderman
     Changes     : 
 #}
 
@@ -49,6 +49,7 @@
                                 <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('admin/pastors') }}">Carmelite Pastors</a></li>
                                 <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('admin/contacts') }}">Contact Details</a></li>
                                 <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('admin/histories') }}">Histories</a></li>
+                                <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('admin/live_streams') }}">Live Streams</a></li>
                             </ul>
                         </li>
                         <li class="sidebar-item">
@@ -99,7 +100,7 @@
     </div>
 
 {% block createModal %}
-    <div class="modal fade" id="create" tabindex="-1" data-backdrop="static" role="dialog" aria-labelledby="createModalTitle" aria-hidden="true">
+    <div class="modal fade" id="create" data-backdrop="static" role="dialog" aria-labelledby="createModalTitle" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -117,7 +118,7 @@
 {% endblock %}
 
 {% block updateModal %}
-    <div class="modal fade" id="update" tabindex="-1" data-backdrop="static" role="dialog" aria-labelledby="updateModalTitle" aria-hidden="true">
+    <div class="modal fade" id="update" data-backdrop="static" role="dialog" aria-labelledby="updateModalTitle" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -135,7 +136,7 @@
 {% endblock %}
 
 {% block deleteModal %}
-    <div class="modal fade" id="delete" tabindex="-1" data-backdrop="static" role="dialog" aria-labelledby="deleteModalTitle" aria-hidden="true">
+    <div class="modal fade" id="delete" data-backdrop="static" role="dialog" aria-labelledby="deleteModalTitle" aria-hidden="true">
         <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -162,7 +163,7 @@
 {% endblock %}
 
 {% block notif %}
-    <div class="modal fade" id="notif" tabindex="-1" data-backdrop="static" role="dialog" aria-labelledby="notifModalTitle" aria-hidden="true">
+    <div class="modal fade" id="notif" data-backdrop="static" role="dialog" aria-labelledby="notifModalTitle" aria-hidden="true">
         <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -183,7 +184,7 @@
 {% endblock %}
 
 {% block gallery %}
-    <div class="modal fade" id="gallery" tabindex="-1" data-backdrop="static" role="dialog" aria-labelledby="galleryModalTitle" aria-hidden="true">
+    <div class="modal fade" id="gallery" data-backdrop="static" role="dialog" aria-labelledby="galleryModalTitle" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -227,7 +228,8 @@
                     this.createModal();
                     this.updateModal();
                     this.galleryModal();
-                    this.flatPickr();
+                    this.flatPickrTime();
+                    this.flatPickrCalendar();
                     this.adTypeDDL();
                 },
                 activeList: function () {
@@ -376,8 +378,16 @@
                         $('#' + $('body').attr('data-modal-previous') + '-form').find('input:hidden[name="media_id"]').val($('body').attr('data-media-id'));
                     });
                 },
-                flatPickr: function () {
-                    $('.flatpickr').flatpickr({
+                flatPickrTime: function () {
+                    $('.flatpickrTime').flatpickr({
+                        enableTime: true,
+                        noCalendar: true,
+                        dateFormat: 'H:i:S',
+                        time_24hr: false
+                    });
+                },
+                flatPickrCalendar: function () {
+                    $('.flatpickrCalendar').flatpickr({
                         enableTime: false,
                         dateFormat: "Y-m-d H:i:S",
                         minDate: "today",

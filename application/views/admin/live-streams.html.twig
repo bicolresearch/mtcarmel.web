@@ -1,12 +1,11 @@
 {#
-    Filename    : schedules.html.twig
-    Location    : application/views/admin/schedules.html.twig
-    Purpose     : Mass schedules partial page
-    Created     : 07/23/2019 12:25:29 by Scarlet Witch
-    Updated     : 08/20/2019 15:21:10 by Spiderman
+    Filename    : live-streams.html.twig
+    Location    : application/views/admin/live-streams.html.twig
+    Purpose     : Live streams partial page
+    Created     : 08/20/2019 19:49:51 by Spiderman
+    Updated     : 
     Changes     : 
 #}
-
 
 {% extends 'admin/base.html.twig' %}
 
@@ -35,10 +34,10 @@
                         <thead>
                             <tr>
                                 <th>#</th>
-                                <th>Name</th>
-                                <th>Day</th>
-                                <th>Start Time</th>
-                                <th>End Time</th>
+                                <th>Title</th>
+                                <th>Created</th>
+                                <th>Modified</th> 
+                                <th>Modified By</th> 
                                 <th></th>
                                 <th></th>
                             </tr>
@@ -56,48 +55,20 @@
             <div id="ajax-preloader"></div>
             <div id="ajax-response"></div>
             <div class="form-group">
-                <label for="name">Name</label>
-                <select class="custom-select" id="name" name="name">
-                    <option value="" selected>&dash;</option>
-                    <option value="Blessings">Blessings</option>
-                    <option value="Confession">Confession</option>
-                    <option value="Holy Mass">Holy Mass</option>
-                    <option value="Live Mass">Live Mass</option>
-                </select>
+                <label for="title">Title</label>
+                <input type="text" class="form-control" id="title" name="title" value="{{ set_value('title') }}" placeholder="">
             </div>
             <div class="form-group">
                 <label for="description">Description</label>
-                <textarea class="form-control" id="description" name="description" rows="2" maxlength="255" placeholder=""></textarea>
+                <textarea class="form-control" id="description" name="description" rows="2" maxlength="255"></textarea>
             </div>
-            <div class="row">
-                <div class="col-12 col-lg-4">
-                    <div class="form-group">
-                        <label for="time_from">Start Time</label>
-                        <input type="timestamp" class="form-control flatpickrTime" id="time_from" name="time_from" value="{{ set_value('time_from') }}" placeholder="">
-                    </div>
-                </div>
-                <div class="col-12 col-lg-4">
-                    <div class="form-group">
-                        <label for="time_to">End Time</label>
-                        <input type="timestamp" class="form-control flatpickrTime" id="time_to" name="time_to" value="{{ set_value('time_to') }}" placeholder="">
-                    </div>
-                </div>
-                <div class="col-12 col-lg-4">
-                    <div class="form-group">
-                        <label for="day">Day</label>
-                        <select class="custom-select" id="day" name="day">
-                            <option value="" selected>&dash;</option>
-                            <option value="Everyday">Everyday</option>
-                            <option value="Saturday">Saturdays</option>
-                            <option value="Sunday">Sundays</option>
-                            <option value="Weekdays">Weekdays</option>
-                        </select>
-                    </div>
-                </div>
+            <div class="form-group">
+                <label for="video_id">Video Id</label>
+                <input type="text" class="form-control" id="video_id" name="video_id" value="{{ set_value('video_id') }}" placeholder="">
             </div>
         </div>
         <div class="modal-footer">
-            <button type="submit" class="btn btn-lg btn-brown rounded-pill px-5 btn-change-state">Publish</button>
+            <button type="submit" class="btn btn-lg btn-brown rounded-pill px-5 btn-change-state">Submit</button>
         </div>
     </form>
 {% endblock %}
@@ -107,48 +78,25 @@
         <div class="modal-body px-5">
             <div id="ajax-preloader"></div>
             <div id="ajax-response"></div>
-            <input type="hidden" name="id">
             <div class="form-group">
-                <label for="name">Name</label>
-                <select class="custom-select" id="name" name="name">
-                    <option value="Blessings">Blessings</option>
-                    <option value="Confession">Confession</option>
-                    <option value="Holy Mass">Holy Mass</option>
-                    <option value="Live Mass">Live Mass</option>
-                </select>
+                <label for="title">Title</label>
+                <input type="text" class="form-control" id="title" name="title" placeholder="">
             </div>
             <div class="form-group">
                 <label for="description">Description</label>
-                <textarea class="form-control" id="description" name="description" rows="2" maxlength="255" placeholder=""></textarea>
+                <textarea class="form-control" id="description" name="description" rows="2" maxlength="255"></textarea>
             </div>
-            <div class="row">
-                <div class="col-12 col-lg-4">
-                    <div class="form-group">
-                        <label for="time_from">Start Time</label>
-                        <input type="timestamp" class="form-control flatpickrTime" id="time_from" name="time_from" value="{{ set_value('time_from') }}" placeholder="">
-                    </div>
-                </div>
-                <div class="col-12 col-lg-4">
-                    <div class="form-group">
-                        <label for="time_to">End Time</label>
-                        <input type="timestamp" class="form-control flatpickrTime" id="time_to" name="time_to" value="{{ set_value('time_to') }}" placeholder="">
-                    </div>
-                </div>
-                <div class="col-12 col-lg-4">
-                    <div class="form-group">
-                        <label for="day">Day</label>
-                        <select class="custom-select" id="day" name="day">
-                            <option value="Everyday">Everyday</option>
-                            <option value="Saturday">Saturdays</option>
-                            <option value="Sunday">Sundays</option>
-                            <option value="Weekdays">Weekdays</option>
-                        </select>
-                    </div>
+            <div class="form-group">   
+                <label for="video_id">Video Id</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                    <div class="input-group-text" id="btnGroupAddon">https://www.youtube.com/embed/</div></div>
+                    <input type="text" class="form-control" id="video_id" name="video_id" placeholder="">
                 </div>
             </div>
         </div>
         <div class="modal-footer">
-            <button type="submit" class="btn btn-lg btn-brown rounded-pill px-5 btn-change-state">Update</button>
+            <button type="submit" class="btn btn-lg btn-brown rounded-pill px-5 btn-change-state">Submit</button>
         </div>
     </form>
 {% endblock %}
@@ -157,8 +105,8 @@
     <script>
         $(function () {
 
-            let baseURL = location.origin.toLowerCase() + '/mountcarmel.web';       
-            let apiURL = location.origin.toLowerCase() + '/mountcarmel.api';    
+            let baseURL = location.origin.toLowerCase() + '/mountcarmel.web';                 
+            let apiURL = location.origin.toLowerCase() + '/mountcarmel.api';              
 
             let isProcessing = false;
 
@@ -174,7 +122,7 @@
                         "serverSide": false,
                         "responsive": true,
                         "ajax": {
-                            "url": baseURL + "/admin/schedules/schedules",
+                            "url": baseURL + "/admin/live_streams/live_streams",
                             "type": "GET"
                         },
                         "columns": [
@@ -182,22 +130,20 @@
                                 "searchable": false,
                                 "data": "id"
                             },
-                            {"data": "name"},
-                            {"data": "day"},
+                            {"data": "title"},
                             {
-                                "searchable": false,
-                                "data": "time_from",
+                                "data": "posted_on",
                                 "mRender": function (data) {
-                                    return moment(data, 'h:mm:ss').format('h:mm A');
+                                    return (data === null) ?  '' : moment(data).format('lll');
                                 }
-                            },                                                        
+                            },
                             {
-                                "searchable": false,
-                                "data": "time_to",
+                                "data": "updated_on",
                                 "mRender": function (data) {
-                                    return moment(data, 'h:mm:ss').format('h:mm A');
+                                    return (data === null) ?  '' : moment(data).format('lll');
                                 }
-                            }, 
+                            },  
+                            {"data": "updated_by"},                      
                             {
                                 "searchable": false,
                                 "data": "id",
@@ -216,7 +162,7 @@
                         "lengthMenu": [[10, 25, 50, 75, 100], [10, 25, 50, 75, 100]],
                         "order": [[0, "desc"]],
                         "columnDefs": [
-                            {"orderable": false, "targets": [5, 6]}
+                            {"orderable": false, "targets": [4, 5]}
                         ]
                     });
                 },
@@ -236,12 +182,11 @@
                 },
                 resetForm: function() {
                     $('#update').on('hidden.bs.modal', function(){
-
-                        let _this = $(this);
                         
+                        let _this = $(this);
+
                         _this.find('form')[0].reset();
                         _this.find('.form-control').removeClass('is-invalid');
-                        _this.find('.custom-select').removeClass('is-invalid');
                         _this.find('#ajax-response').empty();
                     });
                 },
@@ -250,10 +195,10 @@
                         
                         let _this = $(this);
 
-                        let id = $(e.relatedTarget).data('id');
-    
+                        let id = $(e.relatedTarget).attr('data-id');
+
                         let jqXHR = $.ajax({
-                            url: baseURL + '/admin/schedules/schedule/id/' + id,
+                            url: baseURL + '/admin/live_streams/live_stream/?id=' + id,
                             type: 'GET',
                             dataType: 'json',
                             data: _this.serialize(),
@@ -261,31 +206,26 @@
                             processData: false,
                             beforeSend: function () {
                                 _this.find('#ajax-preloader').preloader().show();
-                                _this.find('.btn-change-state').attr('disabled', 'disabled');
                             }
                         });
 
-			            jqXHR.done(function (data) {
+                        jqXHR.done(function (data) {
                             if (data) {
                                 // Populate form
                                 _this.find('input:hidden[name="id"]').val(data.id);
-                                _this.find('select[name="name"]').append('<option value="' + data.name + '" selected>' + data.name + '</option>');
+                                _this.find('input[name="title"]').val(data.title);
                                 _this.find('textarea[name="description"]').text(data.description);
-                                _this.find('input[name="time_from"]').val(data.time_from);
-                                _this.find('input[name="time_to"]').val(data.time_to);
-                                _this.find('select[name="day"]').append('<option value="' + data.day + '" selected>' + data.day + '</option>');                                    
+                                 _this.find('input[name="video_id"]').val(data.video_id);
                             }
                         });
 
                         jqXHR.always(function () {
                             _this.find('#ajax-preloader').preloader().hide();
-                            _this.find('.btn-change-state').removeAttr('disabled');
                         });
 
                         jqXHR.fail(function (jqXHR, textStatus, errorThrown) {
                             console.log('The following error occurred: ' + textStatus, errorThrown);
                         });
-
                     });
                 }
             }
@@ -299,7 +239,7 @@
                 },
                 resetForm: function() {
                     $('#create').on('hidden.bs.modal', function(){
-
+                        
                         let _this = $(this);
 
                         _this.find('form')[0].reset();
@@ -317,7 +257,7 @@
                     $('#create').on('show.bs.modal', this.submitForm());
                 },
                 submitForm: function() {
-
+                    
                     // Prevent multiple ajax request
                     if (isProcessing) return;
                     isProcessing = true;
@@ -325,21 +265,21 @@
                     $('#create-form').on('submit', function(e){
 
                         let _this = $(this);
-                        
+    
                         let jqXHR = $.ajax({
-                            url: baseURL + '/admin/schedules/create',
+                            url: baseURL + '/admin/contacts/create',
                             type: 'POST',
                             dataType: 'json',
                             data: _this.serialize(),
                             cache: false,
                             processData: false,
-                            beforeSend: function () {
+                            beforeSend: function() {
                                 _this.find('#ajax-preloader').preloader().show();
                                 _this.find('.btn-change-state').attr('disabled', 'disabled');
                             }
                         });
 
-			            jqXHR.done(function (data) {
+			            jqXHR.done(function(data) {
                             if (data.status === true) {
                                 // Reload datatables
                                 $('#datatables__default').DataTable().ajax.reload(null, false); // user paging is not reset on reload
@@ -348,7 +288,7 @@
                                 $('#create').modal('hide');
 
                                 // Show and append notif msg  
-                                $('#notif').modal('show').find('.modal-body p').text('A new schedule has been published');
+                                $('#notif').modal('show').find('.modal-body p').text('A new contacts has been published');
                                     
                                 // Hide notif after (x) number of seconds 
                                 setTimeout(function(){ 
@@ -358,10 +298,15 @@
                                 // Error msg response
                                 _this.find('#ajax-response').html('<div class="alert alert-danger"><ul>' + data.message + '</ul></div>');
                                 (Boolean(data.name)) ? _this.find('#name').addClass('is-invalid') : _this.find('#name').removeClass('is-invalid');  
-                                (Boolean(data.description)) ? _this.find('#description').addClass('is-invalid') : _this.find('#description').removeClass('is-invalid');   
-                                (Boolean(data.time_from)) ? _this.find('#time_from').addClass('is-invalid') : _this.find('#time_from').removeClass('is-invalid');  
-                                (Boolean(data.time_to)) ? _this.find('#time_to').addClass('is-invalid') : _this.find('#time_to').removeClass('is-invalid');  
-                                (Boolean(data.day)) ? _this.find('#day').addClass('is-invalid') : _this.find('#day').removeClass('is-invalid');  
+                                (Boolean(data.description)) ? _this.find('#description').addClass('is-invalid') : _this.find('#description').removeClass('is-invalid');  
+                                (Boolean(data.address1)) ? _this.find('#address1').addClass('is-invalid') : _this.find('#address1').removeClass('is-invalid');                                        
+                                (Boolean(data.address2)) ? _this.find('#address2').addClass('is-invalid') : _this.find('#address2').removeClass('is-invalid');  
+                                (Boolean(data.city)) ? _this.find('#city').addClass('is-invalid') : _this.find('#city').removeClass('is-invalid');   
+                                (Boolean(data.province)) ? _this.find('#province').addClass('is-invalid') : _this.find('#province').removeClass('is-invalid');   
+                                (Boolean(data.country)) ? _this.find('#country').addClass('is-invalid') : _this.find('#country').removeClass('is-invalid');   
+                                (Boolean(data.landline)) ? _this.find('#landline').addClass('is-invalid') : _this.find('#landline').removeClass('is-invalid');   
+                                (Boolean(data.mobile)) ? _this.find('#mobile').addClass('is-invalid') : _this.find('#mobile').removeClass('is-invalid');   
+                                (Boolean(data.email)) ? _this.find('#email').addClass('is-invalid') : _this.find('#email').removeClass('is-invalid');  
                             }
                         });
 
@@ -392,23 +337,22 @@
                         
                         let _this = $(this);
 
-                        // Set id
                         let id = _this.find('input:hidden[name="id"]').val();
                     
                         let jqXHR = $.ajax({
-                            url: baseURL + '/admin/schedules/update/id/' + id,
+                            url: baseURL + '/admin/contacts/update/id/' + id,
                             type: 'PUT',
                             dataType: 'json',
                             data: _this.serialize(),
                             cache: false,
                             processData: false,
-                            beforeSend: function () {
+                            beforeSend: function() {
                                 _this.find('#ajax-preloader').preloader().show();
                                 _this.find('.btn-change-state').attr('disabled', 'disabled');
                             }
                         });
 
-                        jqXHR.done(function (data) {
+			            jqXHR.done(function(data) {
                             if (data.status === true) {
                                 // Reload datatables
                                 $('#datatables__default').DataTable().ajax.reload(null, false); // user paging is not reset on reload
@@ -417,20 +361,25 @@
                                 $('#update').modal('hide');
 
                                 // Show and append notif msg  
-                                $('#notif').modal('show').find('.modal-body p').text('Schedules #' + id + ' has been updated');
+                                $('#notif').modal('show').find('.modal-body p').text('contacts #' + id + ' has been updated');
                                     
                                 // Hide notif after (x) number of seconds 
                                 setTimeout(function(){ 
                                     $('#notif').modal('hide');
                                 }, 3000);
                             } else {
-                                // Error msg response
+                                 // Error msg response
                                 _this.find('#ajax-response').html('<div class="alert alert-danger"><ul>' + data.message + '</ul></div>');
                                 (Boolean(data.name)) ? _this.find('#name').addClass('is-invalid') : _this.find('#name').removeClass('is-invalid');  
-                                (Boolean(data.description)) ? _this.find('#description').addClass('is-invalid') : _this.find('#description').removeClass('is-invalid'); 
-                                (Boolean(data.time_from)) ? _this.find('#time_from').addClass('is-invalid') : _this.find('#time_from').removeClass('is-invalid');  
-                                (Boolean(data.time_to)) ? _this.find('#time_to').addClass('is-invalid') : _this.find('#time_to').removeClass('is-invalid');  
-                                (Boolean(data.day)) ? _this.find('#day').addClass('is-invalid') : _this.find('#day').removeClass('is-invalid');  
+                                (Boolean(data.description)) ? _this.find('#description').addClass('is-invalid') : _this.find('#description').removeClass('is-invalid');  
+                                (Boolean(data.address1)) ? _this.find('#address1').addClass('is-invalid') : _this.find('#address1').removeClass('is-invalid');  
+                                (Boolean(data.address2)) ? _this.find('#address2').addClass('is-invalid') : _this.find('#address2').removeClass('is-invalid');  
+                                (Boolean(data.city)) ? _this.find('#city').addClass('is-invalid') : _this.find('#city').removeClass('is-invalid');  
+                                (Boolean(data.province)) ? _this.find('#province').addClass('is-invalid') : _this.find('#province').removeClass('is-invalid');  
+                                (Boolean(data.country)) ? _this.find('#country').addClass('is-invalid') : _this.find('#country').removeClass('is-invalid');  
+                                (Boolean(data.landline)) ? _this.find('#landline').addClass('is-invalid') : _this.find('#landline').removeClass('is-invalid');  
+                                (Boolean(data.mobile)) ? _this.find('#mobile').addClass('is-invalid') : _this.find('#mobile').removeClass('is-invalid');    
+                                (Boolean(data.email)) ? _this.find('#email').addClass('is-invalid') : _this.find('#email').removeClass('is-invalid');  
                             }
                         });
 
@@ -448,7 +397,7 @@
                 }
             }
 
-            // PUT: Delete schedule
+            // PUT: Delete
             let softDelete = {
                 init: function() {
                     this.bindForm();
@@ -456,17 +405,17 @@
                 bindForm: function () {
                     $('#delete').on('show.bs.modal', this.submitForm(), function(e){
                         $(this).find('input:hidden[name="id"]').val($(e.relatedTarget).attr('data-id'));
-                        $(this).find('.modal-body p').text('Are you sure you want to delete schedule #' + $(e.relatedTarget).attr('data-id') + '?');
+                        $(this).find('.modal-body p').text('Are you sure you want to delete contact #' + $(e.relatedTarget).attr('data-id') + '?');
                     });
                 },
                 submitForm: function() {
                     $('#delete-form').on('submit', function(e){
-                        
+
                         let _this = $(this);
                         let id = _this.find('input:hidden[name="id"]').val();
                     
                         let jqXHR = $.ajax({
-                            url: baseURL + '/admin/schedules/delete/id/' + id,
+                            url: baseURL + '/admin/contacts/delete/id/' + id,
                             type: 'PUT',
                             dataType: 'json',
                             data: _this.serialize(),
@@ -487,12 +436,12 @@
                                 $('#delete').modal('hide');
 
                                 // Show and append notif msg  
-                                $('#notif').modal('show').find('.modal-body p').text('schedules #' + id + ' has been moved to trash');
+                                $('#notif').modal('show').find('.modal-body p').text('contact #' + id + ' has been moved to trash');
                                     
                                 // Hide notif after (x) number of seconds 
                                 setTimeout(function(){ 
                                     $('#notif').modal('hide');
-                                }, 3000);  
+                                }, 3000);
                             }
                         });
 
@@ -510,7 +459,7 @@
                 }
             }
 
-            getAll.init(); 
+            getAll.init();
             getById.init();
             create.init();
             update.init();
