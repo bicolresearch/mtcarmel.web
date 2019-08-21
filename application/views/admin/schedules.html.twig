@@ -3,7 +3,7 @@
     Location    : application/views/admin/schedules.html.twig
     Purpose     : Mass schedules partial page
     Created     : 07/23/2019 12:25:29 by Scarlet Witch
-    Updated     : 08/13/2019 16:22:57 by Spiderman
+    Updated     : 08/20/2019 15:21:10 by Spiderman
     Changes     : 
 #}
 
@@ -73,13 +73,13 @@
                 <div class="col-12 col-lg-4">
                     <div class="form-group">
                         <label for="time_from">Start Time</label>
-                        <input type="timestamp" class="form-control" id="time_from" name="time_from" value="{{ set_value('time_from') }}" placeholder="">
+                        <input type="timestamp" class="form-control flatpickrTime" id="time_from" name="time_from" value="{{ set_value('time_from') }}" placeholder="">
                     </div>
                 </div>
                 <div class="col-12 col-lg-4">
                     <div class="form-group">
                         <label for="time_to">End Time</label>
-                        <input type="timestamp" class="form-control" id="time_to" name="time_to" value="{{ set_value('time_to') }}" placeholder="">
+                        <input type="timestamp" class="form-control flatpickrTime" id="time_to" name="time_to" value="{{ set_value('time_to') }}" placeholder="">
                     </div>
                 </div>
                 <div class="col-12 col-lg-4">
@@ -125,13 +125,13 @@
                 <div class="col-12 col-lg-4">
                     <div class="form-group">
                         <label for="time_from">Start Time</label>
-                        <input type="timestamp" class="form-control" id="time_from" name="time_from" value="{{ set_value('time_from') }}" placeholder="">
+                        <input type="timestamp" class="form-control flatpickrTime" id="time_from" name="time_from" value="{{ set_value('time_from') }}" placeholder="">
                     </div>
                 </div>
                 <div class="col-12 col-lg-4">
                     <div class="form-group">
                         <label for="time_to">End Time</label>
-                        <input type="timestamp" class="form-control" id="time_to" name="time_to" value="{{ set_value('time_to') }}" placeholder="">
+                        <input type="timestamp" class="form-control flatpickrTime" id="time_to" name="time_to" value="{{ set_value('time_to') }}" placeholder="">
                     </div>
                 </div>
                 <div class="col-12 col-lg-4">
@@ -271,8 +271,8 @@
                                 _this.find('input:hidden[name="id"]').val(data.id);
                                 _this.find('select[name="name"]').append('<option value="' + data.name + '" selected>' + data.name + '</option>');
                                 _this.find('textarea[name="description"]').text(data.description);
-                                _this.find('input[name="time_from"]').val(moment(data.time_from, 'h:mm').format('h:mm A'));
-                                _this.find('input[name="time_to"]').val(moment(data.time_to, 'h:mm').format('h:mm A'));
+                                _this.find('input[name="time_from"]').val(data.time_from);
+                                _this.find('input[name="time_to"]').val(data.time_to);
                                 _this.find('select[name="day"]').append('<option value="' + data.day + '" selected>' + data.day + '</option>');                                    
                             }
                         });
@@ -455,17 +455,14 @@
                 },
                 bindForm: function () {
                     $('#delete').on('show.bs.modal', this.submitForm(), function(e){
-                        let id = $(e.relatedTarget).attr('data-id');
-                        $(this).find('input:hidden[name="id"]').val(id);
-                        $(this).find('.modal-body p').text('Are you sure you want to delete schedule #' + id + '?');
+                        $(this).find('input:hidden[name="id"]').val($(e.relatedTarget).attr('data-id'));
+                        $(this).find('.modal-body p').text('Are you sure you want to delete schedule #' + $(e.relatedTarget).attr('data-id') + '?');
                     });
                 },
                 submitForm: function() {
                     $('#delete-form').on('submit', function(e){
                         
                         let _this = $(this);
-
-                        // Set id
                         let id = _this.find('input:hidden[name="id"]').val();
                     
                         let jqXHR = $.ajax({

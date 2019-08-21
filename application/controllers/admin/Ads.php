@@ -120,7 +120,9 @@ class Ads extends CI_Controller
             ->set_rules('name', 'Name', 'trim|required|xss_clean')
             ->set_rules('description', 'Description', 'trim|required|xss_clean')
             ->set_rules('media_id', 'Logo', 'trim|required|xss_clean')
-            ->set_rules('type_id', 'Advert Type', 'trim|required|xss_clean')
+            ->set_rules('type_id', 'Ad Type', 'trim|required|xss_clean')
+            ->set_rules('url', 'URL', 'trim|xss_clean')
+            ->set_rules('expiration', 'Expiration', 'trim|xss_clean')
             ->set_error_delimiters('<li>', '</li>');
 
         if ($this->form_validation->run()) {
@@ -139,6 +141,8 @@ class Ads extends CI_Controller
                     'description' => $this->input->post('description'),
                     'media_id' => $this->input->post('media_id'),
                     'type_id' => $this->input->post('type_id'),
+                    'url' => $this->input->post('url'),
+                    'expiration' => $this->input->post('expiration'),
                     'user_id' => user('id')
                 ]
             ];
@@ -162,7 +166,9 @@ class Ads extends CI_Controller
                 'message' => validation_errors(),
                 'name' => form_error('name'),
                 'description' => form_error('description'),
-                'type_id' => form_error('type_id')
+                'type_id' => form_error('type_id'),
+                'url' => form_error('url'),
+                'expiration' => form_error('expiration')
             ];
             echo json_encode($view_data);
         }
@@ -180,7 +186,9 @@ class Ads extends CI_Controller
             'name' => $this->input->put('name'),
             'description' => $this->input->put('description'),
             'media_id' => $this->input->put('media_id'),
-            'type_id' => $this->input->put('type_id')
+            'type_id' => $this->input->put('type_id'),
+            'url' => $this->input->put('url'),
+            'expiration' => $this->input->put('expiration')
         );
 
         $this->form_validation
@@ -188,7 +196,9 @@ class Ads extends CI_Controller
             ->set_rules('name', 'Name', 'trim|required|xss_clean')
             ->set_rules('description', 'Description', 'trim|required|xss_clean')
             ->set_rules('media_id', 'Logo', 'trim|required|xss_clean')
-            ->set_rules('type_id', 'Advert Type', 'trim|required|xss_clean')
+            ->set_rules('type_id', 'Ad Type', 'trim|required|xss_clean')
+            ->set_rules('url', 'URL', 'trim|xss_clean')
+            ->set_rules('expiration', 'Expiration', 'trim|xss_clean')
             ->set_error_delimiters('<li>', '</li>');
 
         if ($this->form_validation->run()) {
@@ -207,6 +217,8 @@ class Ads extends CI_Controller
                     'description' => $this->input->put('description'),
                     'media_id' => $this->input->put('media_id'),
                     'type_id' => $this->input->put('type_id'),
+                    'url' => $this->input->put('url'),
+                    'expiration' => $this->input->put('expiration'),
                     'user_id' => user('id')
                 ]
             ];
@@ -233,7 +245,9 @@ class Ads extends CI_Controller
                 'message' => validation_errors(),
                 'name' => form_error('name'),
                 'description' => form_error('description'),
-                'type_id' => form_error('type_id')
+                'type_id' => form_error('type_id'),
+                'url' => form_error('url'),
+                'expiration' => form_error('expiration')
             ];
             echo json_encode($view_data);
         }

@@ -2,8 +2,8 @@
     Filename    : _fonts.scss
     Location    : public/assets/src/scss/_fonts.scss
     Purpose     : Font face kit
-    Created     : 5/23/2019 by Spiderman
-    Updated     : 7/04/2019 by Spiderman
+    Created     : 05/23/2019 12:40:42 by Spiderman
+    Updated     : 08/18/2019 12:40:38 by Spiderman
     Changes     : Add material icons font
 */
 
@@ -168,12 +168,12 @@
   font-family: "mountcarmel";
   font-style: normal;
   font-weight: normal;
-  speak: none;
+  speak-as: none;
 
   display: inline-block;
   text-decoration: inherit;
   width: 1em;
-  margin: 0 12px 0 0;
+  margin: 0;
   text-align: center;
 
   /* For safety - reset parent styles, that can break glyph codes*/

@@ -3,7 +3,7 @@
     Location    : application/views/admin/history.html.twig
     Purpose     : History partial page
     Created     : 07/22/2019 23:25:05 by Scarlet Witch 
-    Updated     : 08/12/2019 22:14:20 by Spiderman
+    Updated     : 08/16/2019 16:22:14 by Spiderman
     Changes     : 
 #}
 
@@ -151,15 +151,15 @@
                             {
                                 "data": "posted_on",
                                 "mRender": function (data) {
-                                    return moment(data).format('lll')
+                                    return (data === null) ?  '' : moment(data).format('lll');
                                 }
                             },
                             {
                                 "data": "updated_on",
                                 "mRender": function (data) {
-                                    return moment(data).format('lll')
+                                    return (data === null) ?  '' : moment(data).format('lll');
                                 }
-                            },                          
+                            },                           
                             {
                                 "searchable": false,
                                 "data": "id",
