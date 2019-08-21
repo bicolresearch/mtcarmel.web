@@ -5,7 +5,7 @@
     Location    : application/controllers/admin/Pastors.php
     Purpose     : Pastors controller
     Created     : 07/23/2019 13:29:54 by Scarlet Witch
-    Updated     : 
+    Updated     : 08/21/2019 23:00:03 by Spiderman
     Changes     : 
 */
 
@@ -23,7 +23,7 @@ class Pastors extends CI_Controller
         if(logged_in()) {
             $view_data = [
                 'page_title' => 'Pastors',
-                'page_subtitle' => 'list of pastors',
+                'page_subtitle' => '',
                 'user' => user()
             ];
     

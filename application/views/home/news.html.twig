@@ -3,7 +3,7 @@
     Location    : application/views/home/news.html.twig
     Purpose     : News partial page
     Created     : 06/03/2019 13:29:55 by Spiderman
-    Updated     : 08/14/2019 20:09:38 by Spiderman
+    Updated     : 08/21/2019 22:40:23 by Spiderman
     Changes     : 
 #}
 
@@ -56,7 +56,7 @@
                                     '   <div class="card-body">' +
                                     '       <div class="media">' +
                                     '           <div class="media-body">' +
-                                    '               <small class="float-right">' + moment(value.posted_on, "YYYY-MM-DD h:mm:ss").fromNow() + '</small>' +
+                                    '               <small class="float-right">' + moment(value.dt_created, "YYYY-MM-DD h:mm:ss").fromNow() + '</small>' +
                                     '               <div class="media-title">' +
                                     '                   <p class="text-center mb-0">' +
                                     '                       <a href="' + baseURL + "/news/id/" + value.id + '" target="_self">' + value.title + '</a>' +
@@ -64,7 +64,7 @@
                                     '               </div>' +
                                     '               <div class="media-article">' +
                                     '                  <div class="cover-photo">' +
-                                    '                     <img class="img-fluid" src="' + apiURL + '/' + value.cover_photo + '" alt="' + value.title + '"/>' +
+                                    '                     <img class="img-fluid" src="' + apiURL + '/' + value.media_path + '" alt="' + value.title + '"/>' +
                                     '                  </div>' +
                                     '                  <div class="media-content fade-out-ellipses p-0">' + value.content + '</div>' +
                                     '               </div>' +

@@ -5,7 +5,7 @@
     Location    : application/controllers/admin/Posts.php
     Purpose     : Posts controller
     Created     : 07/03/2019 15:09:39 by Spiderman
-    Updated     : 08/05/2019 16:30:18 by Spiderman
+    Updated     : 08/21/2019 21:13:17 by Spiderman
     Changes     : 
 */
 
@@ -23,7 +23,7 @@ class Posts extends CI_Controller
         if(logged_in()) {
             $view_data = [
                 'page_title' => 'Posts',
-                'page_subtitle' => 'list of posts',
+                'page_subtitle' => '',
                 'user' => user()
             ];
     

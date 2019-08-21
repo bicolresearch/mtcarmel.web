@@ -3,7 +3,7 @@
     Location    : application/views/admin/live-streams.html.twig
     Purpose     : Live streams partial page
     Created     : 08/20/2019 19:49:51 by Spiderman
-    Updated     : 
+    Updated     : 08/21/2019 02:30:06 by Spiderman
     Changes     : 
 #}
 
@@ -62,9 +62,13 @@
                 <label for="description">Description</label>
                 <textarea class="form-control" id="description" name="description" rows="2" maxlength="255"></textarea>
             </div>
-            <div class="form-group">
+            <div class="form-group">   
                 <label for="video_id">Video Id</label>
-                <input type="text" class="form-control" id="video_id" name="video_id" value="{{ set_value('video_id') }}" placeholder="">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                    <div class="input-group-text" id="btnGroupAddon">https://www.youtube.com/embed/</div></div>
+                    <input type="text" class="form-control" id="video_id" name="video_id" value="{{ set_value('video_id') }}" placeholder="">
+                </div>
             </div>
         </div>
         <div class="modal-footer">
@@ -78,6 +82,7 @@
         <div class="modal-body px-5">
             <div id="ajax-preloader"></div>
             <div id="ajax-response"></div>
+            <input type="hidden" name="id">
             <div class="form-group">
                 <label for="title">Title</label>
                 <input type="text" class="form-control" id="title" name="title" placeholder="">
@@ -132,13 +137,13 @@
                             },
                             {"data": "title"},
                             {
-                                "data": "posted_on",
+                                "data": "dt_created",
                                 "mRender": function (data) {
                                     return (data === null) ?  '' : moment(data).format('lll');
                                 }
                             },
                             {
-                                "data": "updated_on",
+                                "data": "dt_updated",
                                 "mRender": function (data) {
                                     return (data === null) ?  '' : moment(data).format('lll');
                                 }
@@ -215,7 +220,7 @@
                                 _this.find('input:hidden[name="id"]').val(data.id);
                                 _this.find('input[name="title"]').val(data.title);
                                 _this.find('textarea[name="description"]').text(data.description);
-                                 _this.find('input[name="video_id"]').val(data.video_id);
+                                _this.find('input[name="video_id"]').val(data.video_id);
                             }
                         });
 
@@ -250,7 +255,7 @@
                 },
                 autoFocus: function() {
                     $('#create').on('shown.bs.modal', function(){
-                        $(this).find('input[name="name"]').trigger('focus');
+                        $(this).find('input[name="title"]').trigger('focus');
                     }) 
                 },
                 bindForm: function () {
@@ -267,7 +272,7 @@
                         let _this = $(this);
     
                         let jqXHR = $.ajax({
-                            url: baseURL + '/admin/contacts/create',
+                            url: baseURL + '/admin/live_streams/create',
                             type: 'POST',
                             dataType: 'json',
                             data: _this.serialize(),
@@ -297,16 +302,9 @@
                             } else {
                                 // Error msg response
                                 _this.find('#ajax-response').html('<div class="alert alert-danger"><ul>' + data.message + '</ul></div>');
-                                (Boolean(data.name)) ? _this.find('#name').addClass('is-invalid') : _this.find('#name').removeClass('is-invalid');  
+                                (Boolean(data.title)) ? _this.find('#title').addClass('is-invalid') : _this.find('#title').removeClass('is-invalid');  
                                 (Boolean(data.description)) ? _this.find('#description').addClass('is-invalid') : _this.find('#description').removeClass('is-invalid');  
-                                (Boolean(data.address1)) ? _this.find('#address1').addClass('is-invalid') : _this.find('#address1').removeClass('is-invalid');                                        
-                                (Boolean(data.address2)) ? _this.find('#address2').addClass('is-invalid') : _this.find('#address2').removeClass('is-invalid');  
-                                (Boolean(data.city)) ? _this.find('#city').addClass('is-invalid') : _this.find('#city').removeClass('is-invalid');   
-                                (Boolean(data.province)) ? _this.find('#province').addClass('is-invalid') : _this.find('#province').removeClass('is-invalid');   
-                                (Boolean(data.country)) ? _this.find('#country').addClass('is-invalid') : _this.find('#country').removeClass('is-invalid');   
-                                (Boolean(data.landline)) ? _this.find('#landline').addClass('is-invalid') : _this.find('#landline').removeClass('is-invalid');   
-                                (Boolean(data.mobile)) ? _this.find('#mobile').addClass('is-invalid') : _this.find('#mobile').removeClass('is-invalid');   
-                                (Boolean(data.email)) ? _this.find('#email').addClass('is-invalid') : _this.find('#email').removeClass('is-invalid');  
+                                (Boolean(data.video_id)) ? _this.find('#video_id').addClass('is-invalid') : _this.find('#video_id').removeClass('is-invalid');
                             }
                         });
 
@@ -340,7 +338,7 @@
                         let id = _this.find('input:hidden[name="id"]').val();
                     
                         let jqXHR = $.ajax({
-                            url: baseURL + '/admin/contacts/update/id/' + id,
+                            url: baseURL + '/admin/live_streams/update/id/' + id,
                             type: 'PUT',
                             dataType: 'json',
                             data: _this.serialize(),
@@ -361,25 +359,18 @@
                                 $('#update').modal('hide');
 
                                 // Show and append notif msg  
-                                $('#notif').modal('show').find('.modal-body p').text('contacts #' + id + ' has been updated');
+                                $('#notif').modal('show').find('.modal-body p').text('Live stream #' + id + ' has been updated');
                                     
                                 // Hide notif after (x) number of seconds 
                                 setTimeout(function(){ 
                                     $('#notif').modal('hide');
                                 }, 3000);
                             } else {
-                                 // Error msg response
+                                // Error msg response
                                 _this.find('#ajax-response').html('<div class="alert alert-danger"><ul>' + data.message + '</ul></div>');
-                                (Boolean(data.name)) ? _this.find('#name').addClass('is-invalid') : _this.find('#name').removeClass('is-invalid');  
+                                (Boolean(data.title)) ? _this.find('#title').addClass('is-invalid') : _this.find('#title').removeClass('is-invalid');  
                                 (Boolean(data.description)) ? _this.find('#description').addClass('is-invalid') : _this.find('#description').removeClass('is-invalid');  
-                                (Boolean(data.address1)) ? _this.find('#address1').addClass('is-invalid') : _this.find('#address1').removeClass('is-invalid');  
-                                (Boolean(data.address2)) ? _this.find('#address2').addClass('is-invalid') : _this.find('#address2').removeClass('is-invalid');  
-                                (Boolean(data.city)) ? _this.find('#city').addClass('is-invalid') : _this.find('#city').removeClass('is-invalid');  
-                                (Boolean(data.province)) ? _this.find('#province').addClass('is-invalid') : _this.find('#province').removeClass('is-invalid');  
-                                (Boolean(data.country)) ? _this.find('#country').addClass('is-invalid') : _this.find('#country').removeClass('is-invalid');  
-                                (Boolean(data.landline)) ? _this.find('#landline').addClass('is-invalid') : _this.find('#landline').removeClass('is-invalid');  
-                                (Boolean(data.mobile)) ? _this.find('#mobile').addClass('is-invalid') : _this.find('#mobile').removeClass('is-invalid');    
-                                (Boolean(data.email)) ? _this.find('#email').addClass('is-invalid') : _this.find('#email').removeClass('is-invalid');  
+                                (Boolean(data.video_id)) ? _this.find('#video_id').addClass('is-invalid') : _this.find('#video_id').removeClass('is-invalid');
                             }
                         });
 
@@ -405,7 +396,7 @@
                 bindForm: function () {
                     $('#delete').on('show.bs.modal', this.submitForm(), function(e){
                         $(this).find('input:hidden[name="id"]').val($(e.relatedTarget).attr('data-id'));
-                        $(this).find('.modal-body p').text('Are you sure you want to delete contact #' + $(e.relatedTarget).attr('data-id') + '?');
+                        $(this).find('.modal-body p').text('Are you sure you want to delete live stream #' + $(e.relatedTarget).attr('data-id') + '?');
                     });
                 },
                 submitForm: function() {
@@ -415,7 +406,7 @@
                         let id = _this.find('input:hidden[name="id"]').val();
                     
                         let jqXHR = $.ajax({
-                            url: baseURL + '/admin/contacts/delete/id/' + id,
+                            url: baseURL + '/admin/live_streams/delete/id/' + id,
                             type: 'PUT',
                             dataType: 'json',
                             data: _this.serialize(),
@@ -436,7 +427,7 @@
                                 $('#delete').modal('hide');
 
                                 // Show and append notif msg  
-                                $('#notif').modal('show').find('.modal-body p').text('contact #' + id + ' has been moved to trash');
+                                $('#notif').modal('show').find('.modal-body p').text('Live stream #' + id + ' has been moved to trash');
                                     
                                 // Hide notif after (x) number of seconds 
                                 setTimeout(function(){ 

@@ -5,7 +5,7 @@
     Location    : application/controllers/admin/Mass_request.php
     Purpose     : Mass request controller
     Created     : 08/01/2019 19:16:42 by Scarlet Witch
-    Updated     : 
+    Updated     : 08/21/2019 22:59:49 by Spiderman
     Changes     : 
 */
 
@@ -24,7 +24,7 @@ class Mass_request extends CI_Controller
         if(logged_in()) {
             $view_data = [
                 'page_title' => 'Mass request',
-                'page_subtitle' => 'list of mass request',
+                'page_subtitle' => '',
                 'user' => user()
             ];
     

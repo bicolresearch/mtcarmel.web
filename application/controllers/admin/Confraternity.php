@@ -5,8 +5,8 @@
     Location    : application/controllers/admin/Confraternity.php
     Purpose     : Confraternity controller
     Created     : 07/31/2019 16:00:09 by Scarlet Witch
-    Updated     : 08/01/2019 16:21:31 by Scarlet Witch
-    Changes     : update fields
+    Updated     : 08/21/2019 22:58:59 by Spiderman
+    Changes     : 
 */
 
 defined('BASEPATH') or exit('No direct script access allowed');
@@ -23,7 +23,7 @@ class Confraternity extends CI_Controller
         if(logged_in()) {
             $view_data = [
                 'page_title' => 'Confraternity',
-                'page_subtitle' => 'list of confraternity',
+                'page_subtitle' => '',
                 'user' => user()
             ];
     

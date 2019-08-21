@@ -23,7 +23,7 @@ class Ads extends CI_Controller
         if(logged_in()) {
             $view_data = [
                 'page_title' => 'Advertisements',
-                'page_subtitle' => 'list of advertisements',
+                'page_subtitle' => '',
                 'user' => user()
             ];
     
