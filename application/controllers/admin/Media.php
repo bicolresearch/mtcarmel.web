@@ -5,8 +5,8 @@
     Location    : application/controllers/admin/Media.php
     Purpose     : Media controller
     Created     : 07/11/2019 17:03:40 by Spiderman
-    Updated     : 07/17/2019 22:36:37 by Spiderman
-    Changes     : Fix avatar
+    Updated     : 08/21/2019 21:13:31 by Spiderman
+    Changes     : 
 */
 
 defined('BASEPATH') or exit('No direct script access allowed');
@@ -22,8 +22,8 @@ class Media extends CI_Controller
     {
         if(logged_in()) {
             $view_data = [
-                'page_title' => 'Media',
-                'page_subtitle' => 'Media Manager',
+                'page_title' => 'Media Manager',
+                'page_subtitle' => '',
                 'user' => user()
             ];
     

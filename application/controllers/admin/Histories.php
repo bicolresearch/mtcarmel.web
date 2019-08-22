@@ -5,7 +5,7 @@
     Location        : application/controllers/admin/Histories.php
     Purpose         : Histories controller
     Created         : 07/22/2019 23:35:25 by Scarlet Witch 
-    Updated         : 08/12/2019 23:35:35 by Spiderman
+    Updated         : 08/21/2019 22:59:34 by Spiderman
     Changes         : 
 */
 
@@ -23,7 +23,7 @@ class Histories extends CI_Controller
         if(logged_in()) {
             $view_data = [
                 'page_title' => 'Histories',
-                'page_subtitle' => 'list of history',
+                'page_subtitle' => '',
                 'user' => user()
             ];
     

@@ -5,7 +5,7 @@
     Location    : application/controllers/admin/Schedules.php
     Purpose     : Schedules controller
     Created     : 07/23/2019 12:27:08 by Scarlet Witch
-    Updated     : 08/09/2019 14:34:27 by Spiderman
+    Updated     : 08/21/2019 23:00:30 by Spiderman
     Changes     : 
 */
 
@@ -23,7 +23,7 @@ class Schedules extends CI_Controller
         if(logged_in()) {
             $view_data = [
                 'page_title' => 'Mass Schedules',
-                'page_subtitle' => 'list of schedules',
+                'page_subtitle' => '',
                 'user' => user()
             ];
     

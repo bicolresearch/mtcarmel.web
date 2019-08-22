@@ -199,9 +199,9 @@ class Live_streams extends CI_Controller
                 ],
                 'form_params' => [
                     'branch_id' => 1,
-                    'title' => $this->input->post('title'),
-                    'description' => $this->input->post('description'),
-                    'video_id' => $this->input->post('video_id'),
+                    'title' => $this->input->put('title'),
+                    'description' => $this->input->put('description'),
+                    'video_id' => $this->input->put('video_id'),
                     'user_id' => user('id')
                 ]
             ];

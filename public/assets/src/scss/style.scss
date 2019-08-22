@@ -324,6 +324,10 @@ body {
   }
 }
 
+.input-group-text {
+  @include border-radius(0);
+}
+
 .form-control-file.is-invalid {
   border: 1px solid #d9534f;
   padding-right: 1.8125rem;

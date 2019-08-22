@@ -5,7 +5,7 @@
     Location    : application/controllers/admin/Contacts.php
     Purpose     : Contacts controller
     Created     : 07/23/2019 11:53:46 by Scarlet Witch
-    Updated     : 08/13/2019 19:47:01 by Spiderman
+    Updated     : 08/21/2019 22:59:20 by Spiderman
     Changes     : 
 */
 
@@ -23,7 +23,7 @@ class Contacts extends CI_Controller
         if(logged_in()) {
             $view_data = [
                 'page_title' => 'Contacts',
-                'page_subtitle' => 'list of contacts',
+                'page_subtitle' => '',
                 'user' => user()
             ];
     

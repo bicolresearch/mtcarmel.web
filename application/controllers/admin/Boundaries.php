@@ -5,7 +5,7 @@
     Location    : application/controllers/admin/Boundaries.php
     Purpose     : Boundaries controller
     Created     : 07/23/2019 15:20:52 by Scarlet Witch
-    Updated     : 
+    Updated     : 08/21/2019 22:59:13 by Spiderman
     Changes     : 
 */
 
@@ -23,7 +23,7 @@ class Boundaries extends CI_Controller
         if(logged_in()) {
             $view_data = [
                 'page_title' => 'Boundaries',
-                'page_subtitle' => 'list of boundaries',
+                'page_subtitle' => '',
                 'user' => user()
             ];
     

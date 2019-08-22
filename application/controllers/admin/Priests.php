@@ -5,7 +5,7 @@
     Location    : application/controllers/admin/Priests.php
     Purpose     : Priests controller
     Created     : 07/23/2019 13:03:17 by Scarlet Witch
-    Updated     : 
+    Updated     : 08/21/2019 23:00:16 by Spiderman
     Changes     : 
 */
 
@@ -23,7 +23,7 @@ class Priests extends CI_Controller
         if(logged_in()) {
             $view_data = [
                 'page_title' => 'Priests',
-                'page_subtitle' => 'list of priests',
+                'page_subtitle' => '',
                 'user' => user()
             ];
     

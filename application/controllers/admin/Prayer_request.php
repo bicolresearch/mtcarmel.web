@@ -5,7 +5,7 @@
     Location    : application/controllers/admin/Prayer_request.php
     Purpose     : Prayer request controller
     Created     : 08/01/2019 17:56:33 by Scarlet Witch
-    Updated     : 
+    Updated     : 08/21/2019 23:00:08 by Spiderman
     Changes     : 
 */
 
@@ -23,7 +23,7 @@ class Prayer_request extends CI_Controller
         if(logged_in()) {
             $view_data = [
                 'page_title' => 'Prayer requests',
-                'page_subtitle' => 'list of prayer requests',
+                'page_subtitle' => '',
                 'user' => user()
             ];
     
