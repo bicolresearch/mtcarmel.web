@@ -5,7 +5,7 @@
     Location    : application/controllers/admin/Boundaries.php
     Purpose     : Boundaries controller
     Created     : 07/23/2019 15:20:52 by Scarlet Witch
-    Updated     : 08/21/2019 22:59:13 by Spiderman
+    Updated     : 08/22/2019 15:35:34 by Spiderman
     Changes     : 
 */
 
@@ -87,13 +87,13 @@ class Boundaries extends CI_Controller
                 'X-API-KEY' => $this->guzzle->key()
             ],
             'query' => [
-                'id' => $this->uri->segment(5)
+                'id' => $_GET['id']
             ]
         ];
 
         try {
             // GET request
-            $response = $client->get('boundaries/boundaries', $options);
+            $response = $client->get('boundaries/boundary', $options);
 
             $response = json_decode($response->getBody()->getContents());
 
@@ -117,8 +117,8 @@ class Boundaries extends CI_Controller
         }
 
         $this->form_validation
-            ->set_rules('name', 'Name', 'trim|required|xss_clean')
-            ->set_rules('description', 'Description', 'trim|required|xss_clean')
+            ->set_rules('name', 'Cardinal Direction', 'trim|required|xss_clean')
+            ->set_rules('description', 'Direction Details', 'trim|required|xss_clean')
             ->set_error_delimiters('<li>', '</li>');
 
         if ($this->form_validation->run()) {
@@ -162,8 +162,6 @@ class Boundaries extends CI_Controller
                 'description' => form_error('description')
             ];
             echo json_encode($view_data);
-
-            //echo $this->form_validation->get_json();
         }
     }
 
@@ -182,8 +180,8 @@ class Boundaries extends CI_Controller
 
         $this->form_validation
             ->set_data($set_data)
-            ->set_rules('name', 'name', 'trim|required|xss_clean')
-            ->set_rules('description', 'description', 'trim|required|xss_clean')
+            ->set_rules('name', 'Cardinal Direction', 'trim|required|xss_clean')
+            ->set_rules('description', 'Direction Details', 'trim|required|xss_clean')
             ->set_error_delimiters('<li>', '</li>');
 
         if ($this->form_validation->run()) {

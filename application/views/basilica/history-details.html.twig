@@ -3,7 +3,7 @@
     Location    : application/views/basilica/history-details.html.twig
     Purpose     : history partial page
     Created     : 06/03/2019 23:46:05 by Spiderman
-    Updated     : 08/12/2019 23:45:57 by Spiderman
+    Updated     : 08/22/2019 20:33:56 by Spiderman
     Changes     : 
 #}
 
@@ -21,7 +21,7 @@
                 </div>
                 <div class="card-body">
                     <div id="content">
-                        <!-- This is where the historyd content load -->
+                        <!-- This is where the history content load -->
                     </div>
                 </div>
             </div>
@@ -33,7 +33,7 @@
                 </div>
                 <div class="card-body">
                     <div id="details">
-                        <!-- This is where the historyd details load -->
+                        <!-- This is where the history details load -->
                     </div>
                 </div>
             </div>
@@ -58,7 +58,7 @@
                     let _this = $('#history');
 
                     let jqXHR = $.ajax({
-                        url: apiURL + '/history_details/id/1',
+                        url: apiURL + '/history/history/?id=1',
                         type: 'GET',
                         dataType: 'json',
                         data: _this.serialize(),
@@ -71,17 +71,17 @@
 
                     jqXHR.done(function (data) {
                         if (data) {
-                            _this.find('#content').html(data[0].content);
+                            _this.find('#content').html(data.content);
                             _this.find('#details').html(
                                 '<dl class="row">' +
                                 '<dt class="col-sm-6 text-right">Date of Establishment</dt>' +
-                                '<dd class="col-sm-6">' + data[0].date_of_establishment + '</dd>' +
+                                '<dd class="col-sm-6">' + data.date_of_establishment + '</dd>' +
                                 '<dt class="col-sm-6 text-right">Feast Day</dt>' +
-                                '<dd class="col-sm-6">' + data[0].feast_day + '</dd>' +
+                                '<dd class="col-sm-6">' + data.feast_day + '</dd>' +
                                 '<dt class="col-sm-6 text-right">Titular</dt>' +
-                                '<dd class="col-sm-6">' + data[0].titular + '</dd>' +
+                                '<dd class="col-sm-6">' + data.titular + '</dd>' +
                                 '<dt class="col-sm-6 text-right">Diocese</dt>' +
-                                '<dd class="col-sm-6">' + data[0].diocese + '</dd>' +
+                                '<dd class="col-sm-6">' + data.diocese + '</dd>' +
                                 '</dl>'
                             );
                         }

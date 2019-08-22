@@ -5,7 +5,7 @@
     Location    : application/controllers/admin/Priests.php
     Purpose     : Priests controller
     Created     : 07/23/2019 13:03:17 by Scarlet Witch
-    Updated     : 08/21/2019 23:00:16 by Spiderman
+    Updated     : 08/22/2019 23:47:23 by Spiderman
     Changes     : 
 */
 
@@ -87,13 +87,13 @@ class Priests extends CI_Controller
                 'X-API-KEY' => $this->guzzle->key()
             ],
             'query' => [
-                'id' => $this->uri->segment(5)
+                'id' => $_GET['id']
             ]
         ];
 
         try {
             // GET request
-            $response = $client->get('priests/priests', $options);
+            $response = $client->get('priests/priest', $options);
 
             $response = json_decode($response->getBody()->getContents());
 
@@ -138,8 +138,7 @@ class Priests extends CI_Controller
                     'position' => $this->input->post('position'),
                     'rank' => $this->input->post('rank'),                     
                     'user_id' => user('id')
-                ],
-                'debug' => fopen('php://stderr', 'w')
+                ]
             ];
 
             try {
@@ -164,8 +163,6 @@ class Priests extends CI_Controller
                 'rank' => form_error('rank')
             ];
             echo json_encode($view_data);
-
-            //echo $this->form_validation->get_json();
         }
     }
 
@@ -210,7 +207,6 @@ class Priests extends CI_Controller
             ];
 
             try {
-
                 $id = $this->uri->segment(5);
 
                 // PUT request
@@ -259,7 +255,6 @@ class Priests extends CI_Controller
         ];
         
         try {
-
             $id = $this->uri->segment(5);
 
             // PUT request

@@ -3,7 +3,7 @@
     Location    : application/views/admin/boundaries.html.twig
     Purpose     : Boundaries partial page
     Created     : 07/23/2019 15:17:37 by Scarlet Witch
-    Updated     : 08/16/2019 15:58:23 by Spiderman
+    Updated     : 08/22/2019 15:33:50 by Spiderman
     Changes     : 
 #}
 
@@ -34,9 +34,10 @@
                         <thead>
                             <tr>
                                 <th>#</th>
-                                <th>Name</th>
+                                <th>Cardinal Direction</th>
                                 <th>Created</th>
-                                <th>Modified</th>                                                             
+                                <th>Modified</th>      
+                                <th>Modified By</th>                                                             
                                 <th></th>
                                 <th></th>
                             </tr>
@@ -54,11 +55,11 @@
             <div id="ajax-preloader"></div>
             <div id="ajax-response"></div>
             <div class="form-group">
-                <label for="name">Name</label>
+                <label for="name">Cardinal Direction</label>
                 <input type="text" class="form-control" id="name" name="name" value="{{ set_value('name') }}" placeholder="">
             </div>
             <div class="form-group">
-                <label for="description">Description</label>
+                <label for="description">Direction Details</label>
                 <textarea class="form-control" id="description" name="description" rows="2" maxlength="255" placeholder=""></textarea>
             </div>
         </div>
@@ -75,11 +76,11 @@
             <div id="ajax-response"></div>
             <input type="hidden" name="id">
             <div class="form-group">
-                <label for="name">Name</label>
+                <label for="name">Cardinal Direction</label>
                 <input type="text" class="form-control" id="name" name="name" value="{{ set_value('name') }}" placeholder="">
             </div>
             <div class="form-group">
-                <label for="description">Description</label>
+                <label for="description">Direction Details</label>
                 <textarea class="form-control" id="description" name="description" rows="2" maxlength="255" placeholder=""></textarea>
             </div>
         </div>
@@ -120,17 +121,18 @@
                             },
                             {"data": "name"},
                             {
-                                "data": "posted_on",
+                                "data": "dt_created",
                                 "mRender": function (data) {
                                     return (data === null) ?  '' : moment(data).format('lll');
                                 }
                             },
                             {
-                                "data": "updated_on",
+                                "data": "dt_updated",
                                 "mRender": function (data) {
                                     return (data === null) ?  '' : moment(data).format('lll');
                                 }
-                            },                          
+                            },      
+                            {"data": "updated_by"},                    
                             {
                                 "searchable": false,
                                 "data": "id",
@@ -149,7 +151,7 @@
                         "lengthMenu": [[10, 25, 50, 75, 100], [10, 25, 50, 75, 100]],
                         "order": [[0, "desc"]],
                         "columnDefs": [
-                            {"orderable": false, "targets": [4, 5]}
+                            {"orderable": false, "targets": [5, 6]}
                         ]
                     });
                 },
@@ -185,7 +187,7 @@
                         let id = $(e.relatedTarget).attr('data-id');
 
                         let jqXHR = $.ajax({
-                            url: baseURL + '/admin/boundaries/boundary/id/' + id,
+                            url: baseURL + '/admin/boundaries/boundary/?id=' + id,
                             type: 'GET',
                             dataType: 'json',
                             data: _this.serialize(),

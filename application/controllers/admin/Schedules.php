@@ -87,13 +87,13 @@ class Schedules extends CI_Controller
                 'X-API-KEY' => $this->guzzle->key()
             ],
             'query' => [
-                'id' => $this->uri->segment(5)
+                'id' => $_GET['id']
             ]
         ];
 
         try {
             // GET request
-            $response = $client->get('schedules/schedules', $options);
+            $response = $client->get('schedules/schedule', $options);
 
             $response = json_decode($response->getBody()->getContents());
 

@@ -281,7 +281,7 @@
                                 $.get(apiURL + '/media/medium/id/' + _this.find('input:hidden[name="media_id"]').val(), function(data) {
                                     _this.find('#placeholder').replaceWith(
                                         '<div id="placeholder" class="mb-3">' +
-                                        '   <img class="mx-auto d-block" style="max-height: 200px" src="' + apiURL + '/' + data.full_path + '" alt="' + data.name + '" />' +
+                                        '   <img class="mx-auto d-block" style="max-height: 200px" src="' + apiURL + '/' + data.media_path + '" alt="' + data.name + '" />' +
                                         '</div>');
                                 });
                             }

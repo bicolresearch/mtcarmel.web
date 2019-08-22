@@ -5,7 +5,7 @@
     Location    : application/controllers/admin/Contacts.php
     Purpose     : Contacts controller
     Created     : 07/23/2019 11:53:46 by Scarlet Witch
-    Updated     : 08/21/2019 22:59:20 by Spiderman
+    Updated     : 08/22/2019 22:21:28 by Spiderman
     Changes     : 
 */
 
@@ -87,13 +87,13 @@ class Contacts extends CI_Controller
                 'X-API-KEY' => $this->guzzle->key()
             ],
             'query' => [
-                'id' => $this->uri->segment(5)
+                'id' => $_GET['id']
             ]
         ];
 
         try {
             // GET request
-            $response = $client->get('contacts/contacts', $options);
+            $response = $client->get('contacts/contact', $options);
 
             $response = json_decode($response->getBody()->getContents());
 
@@ -153,9 +153,7 @@ class Contacts extends CI_Controller
                     'mobile' => $this->input->post('mobile'),        
                     'email' => $this->input->post('email'),                    
                     'user_id' => user('id')                   
-
-                ],
-                'debug' => fopen('php://stderr', 'w')
+                ]
             ];
 
             try {
@@ -185,11 +183,8 @@ class Contacts extends CI_Controller
                 'landline' => form_error('landline'),
                 'mobile' => form_error('mobile'),
                 'email' => form_error('email')               
-
             ];
             echo json_encode($view_data);
-
-            //echo $this->form_validation->get_json();
         }
     }
 
@@ -211,8 +206,7 @@ class Contacts extends CI_Controller
             'country' => $this->input->put('country'),
             'landline' => $this->input->put('landline'),
             'mobile' => $this->input->put('mobile'),
-            'email' => $this->input->put('email')            
-
+            'email' => $this->input->put('email')
         );
 
         $this->form_validation
@@ -228,7 +222,6 @@ class Contacts extends CI_Controller
             ->set_rules('mobile', 'Mobile', 'trim|required|xss_clean')
             ->set_rules('email', 'Email', 'trim|required|xss_clean')
             ->set_error_delimiters('<li>', '</li>');
-
 
         if ($this->form_validation->run()) {
 
@@ -253,12 +246,10 @@ class Contacts extends CI_Controller
                     'mobile' => $this->input->put('mobile'),
                     'email' => $this->input->put('email'),
                     'user_id' => user('id')
-
                 ]
             ];
 
             try {
-
                 $id = $this->uri->segment(5);
 
                 // PUT request
@@ -287,7 +278,6 @@ class Contacts extends CI_Controller
                 'landline' => form_error('landline'),
                 'mobile' => form_error('mobile'),
                 'email' => form_error('email') 
-
             ];
             echo json_encode($view_data);
         }
@@ -315,7 +305,6 @@ class Contacts extends CI_Controller
         ];
         
         try {
-
             $id = $this->uri->segment(5);
 
             // PUT request

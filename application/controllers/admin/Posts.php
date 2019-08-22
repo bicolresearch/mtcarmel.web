@@ -5,7 +5,7 @@
     Location    : application/controllers/admin/Posts.php
     Purpose     : Posts controller
     Created     : 07/03/2019 15:09:39 by Spiderman
-    Updated     : 08/21/2019 21:13:17 by Spiderman
+    Updated     : 08/22/2019 21:52:27 by Spiderman
     Changes     : 
 */
 
@@ -87,7 +87,7 @@ class Posts extends CI_Controller
                 'X-API-KEY' => $this->guzzle->key()
             ],
             'query' => [
-                'id' => $this->uri->segment(5)
+                'id' => $_GET['id']
             ]
         ];
 

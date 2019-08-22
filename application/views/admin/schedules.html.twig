@@ -3,7 +3,7 @@
     Location    : application/views/admin/schedules.html.twig
     Purpose     : Mass schedules partial page
     Created     : 07/23/2019 12:25:29 by Scarlet Witch
-    Updated     : 08/20/2019 15:21:10 by Spiderman
+    Updated     : 08/22/2019 18:05:14 by Spiderman
     Changes     : 
 #}
 
@@ -253,7 +253,7 @@
                         let id = $(e.relatedTarget).data('id');
     
                         let jqXHR = $.ajax({
-                            url: baseURL + '/admin/schedules/schedule/id/' + id,
+                            url: baseURL + '/admin/schedules/schedule/?id=' + id,
                             type: 'GET',
                             dataType: 'json',
                             data: _this.serialize(),

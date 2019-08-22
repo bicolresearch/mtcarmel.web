@@ -3,7 +3,7 @@
     Location    : application/views/admin/media.twig
     Purpose     : Media partial page
     Created     : 07/22/2019 14:58:18 by Spiderman
-    Updated     : 08/21/2019 22:51:18 by Spiderman
+    Updated     : 08/22/2019 21:55:33 by Spiderman
     Changes     : 
 #}
 
@@ -36,10 +36,9 @@
                                 <th>#</th>
                                 <th></th>
                                 <th>Name</th>
-                                <th>Type</th>
-                                <th>Size</th>
                                 <th>Created</th>
                                 <th>Modified</th>
+                                <th>Modified By</th>
                                 <th></th>
                                 <th></th>
                             </tr>
@@ -136,19 +135,12 @@
                             },
                             {
                                 "searchable": false,
-                                "data": "full_path",
+                                "data": "media_path",
                                 "mRender": function (data) {
                                     return '<img class="mx-auto d-block" height="32px" src="' + apiURL + '/' + data + '" alt="' + data + '" />';
                                 }
                             },
                             {"data": "name"},
-                            {"data": "file_type"},
-                            {
-                                "data": "file_size",
-                                "mRender": function(data) {
-                                    return data + ' ' + 'KB'
-                                }
-                            },
                             {
                                 "data": "dt_created",
                                 "mRender": function (data) {
@@ -161,6 +153,7 @@
                                     return (data === null) ?  '' : moment(data).format('lll');
                                 }
                             }, 
+                            {"data": "updated_by"},
                             {
                                 "searchable": false,
                                 "data": "id",
@@ -179,7 +172,7 @@
                         "lengthMenu": [[10, 25, 50, 75, 100, -1], [10, 25, 50, 75, 100, "All"]],
                         "order": [[0, "desc"]],
                         "columnDefs": [
-                            {"orderable": false, "targets": [1, 7, 8]}
+                            {"orderable": false, "targets": [1, 6, 7]}
                         ]
                     });
                 },
@@ -217,7 +210,7 @@
                         let id = $(e.relatedTarget).attr('data-id');
 
                         let jqXHR = $.ajax({
-                            url: baseURL + '/admin/media/medium/id/' + id,
+                            url: baseURL + '/admin/media/medium/?id=' + id,
                             type: 'GET',
                             dataType: 'json',
                             data: _this.serialize(),
@@ -234,7 +227,7 @@
                                 _this.find('input:hidden[name="id"]').val(data.id);
                                 _this.find('input[name="name"]').val(data.name);
                                 _this.find('textarea[name="description"]').text(data.description);
-                                _this.find('#img-placeholder').html('<img class="mx-auto d-block" style="max-height: 200px" src="' + apiURL + '/' + data.full_path + '" alt="' + data.name + '" />');
+                                _this.find('#img-placeholder').html('<img class="mx-auto d-block" style="max-height: 200px" src="' + apiURL + '/' + data.media_path + '" alt="' + data.name + '" />');
                             }
                         });
 

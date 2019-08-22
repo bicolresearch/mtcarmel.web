@@ -5,7 +5,7 @@
     Location    : application/controllers/admin/Media.php
     Purpose     : Media controller
     Created     : 07/11/2019 17:03:40 by Spiderman
-    Updated     : 08/21/2019 21:13:31 by Spiderman
+    Updated     : 08/22/2019 21:54:56 by Spiderman
     Changes     : 
 */
 
@@ -87,7 +87,7 @@ class Media extends CI_Controller
                 'X-API-KEY' => $this->guzzle->key()
             ],
             'query' => [
-                'id' => $this->uri->segment(5)
+                'id' => $_GET['id']
             ]
         ];
 
@@ -121,7 +121,7 @@ class Media extends CI_Controller
             ->set_rules('description', 'Description', 'trim|required|xss_clean')
             ->set_error_delimiters('<li>', '</li>');
         if(empty($_FILES['userfile']['name'])){
-            $this->form_validation->set_rules('userfile', 'Image', 'required');
+            $this->form_validation->set_rules('userfile', 'File Upload', 'required');
         }
 
         if ($this->form_validation->run()) {

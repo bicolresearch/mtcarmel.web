@@ -1,9 +1,9 @@
 {#
-    Filename    : history.html.twig
-    Location    : application/views/admin/history.html.twig
-    Purpose     : History partial page
+    Filename    : histories.html.twig
+    Location    : application/views/admin/histories.html.twig
+    Purpose     : Histories partial page
     Created     : 07/22/2019 23:25:05 by Scarlet Witch 
-    Updated     : 08/16/2019 16:22:14 by Spiderman
+    Updated     : 08/22/2019 22:49:46 by Spiderman
     Changes     : 
 #}
 
@@ -37,6 +37,7 @@
                                 <th>Titular</th>
                                 <th>Created</th>
                                 <th>Modified</th>
+                                <th>Modified By</th>
                                 <th></th>
                                 <th></th>
                             </tr>
@@ -149,17 +150,18 @@
                             },
                             {"data": "titular"},
                             {
-                                "data": "posted_on",
+                                "data": "dt_created",
                                 "mRender": function (data) {
                                     return (data === null) ?  '' : moment(data).format('lll');
                                 }
                             },
                             {
-                                "data": "updated_on",
+                                "data": "dt_updated",
                                 "mRender": function (data) {
                                     return (data === null) ?  '' : moment(data).format('lll');
                                 }
-                            },                           
+                            },    
+                            {"data": "updated_by"},                       
                             {
                                 "searchable": false,
                                 "data": "id",
@@ -178,7 +180,7 @@
                         "lengthMenu": [[10, 25, 50, 75, 100], [10, 25, 50, 75, 100]],
                         "order": [[0, "desc"]],
                         "columnDefs": [
-                            {"orderable": false, "targets": [4, 5]}
+                            {"orderable": false, "targets": [5, 6]}
                         ]
                     });
                 },
@@ -214,7 +216,7 @@
                         let id = $(e.relatedTarget).attr('data-id');
 
                         let jqXHR = $.ajax({
-                            url: baseURL + '/admin/histories/history/id/' + id,
+                            url: baseURL + '/admin/histories/history/?id=' + id,
                             type: 'GET',
                             dataType: 'json',
                             data: _this.serialize(),
