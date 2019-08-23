@@ -118,8 +118,8 @@ class Priests extends CI_Controller
 
         $this->form_validation
             ->set_rules('name', 'Name', 'trim|required|xss_clean')
-            ->set_rules('position', 'Position', 'trim|required|xss_clean')            
-            ->set_rules('rank', 'Rank', 'trim|required|xss_clean')
+            ->set_rules('position', 'Position', 'trim|xss_clean')
+            ->set_rules('rank', 'Rank', 'trim|xss_clean')
             ->set_error_delimiters('<li>', '</li>');
 
         if ($this->form_validation->run()) {
@@ -182,9 +182,9 @@ class Priests extends CI_Controller
 
         $this->form_validation
             ->set_data($set_data)
-            ->set_rules('name', 'name', 'trim|required|xss_clean')
-            ->set_rules('position', 'position', 'trim|required|xss_clean')
-            ->set_rules('rank', 'rank', 'trim|required|xss_clean')
+            ->set_rules('name', 'Name', 'trim|required|xss_clean')
+            ->set_rules('position', 'Position', 'trim|xss_clean')
+            ->set_rules('rank', 'Rank', 'trim|xss_clean')
             ->set_error_delimiters('<li>', '</li>');
 
         if ($this->form_validation->run()) {

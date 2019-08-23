@@ -3,7 +3,7 @@
     Location    : application/views/admin/schedules.html.twig
     Purpose     : Mass schedules partial page
     Created     : 07/23/2019 12:25:29 by Scarlet Witch
-    Updated     : 08/22/2019 18:05:14 by Spiderman
+    Updated     : 08/23/2019 15:55:40 by Spiderman
     Changes     : 
 #}
 
@@ -122,13 +122,13 @@
                 <textarea class="form-control" id="description" name="description" rows="2" maxlength="255" placeholder=""></textarea>
             </div>
             <div class="row">
-                <div class="col-12 col-lg-4">
+                <div class="col-12 col-lg-4 time_from">
                     <div class="form-group">
                         <label for="time_from">Start Time</label>
                         <input type="timestamp" class="form-control flatpickrTime" id="time_from" name="time_from" value="{{ set_value('time_from') }}" placeholder="">
                     </div>
                 </div>
-                <div class="col-12 col-lg-4">
+                <div class="col-12 col-lg-4 time_to">
                     <div class="form-group">
                         <label for="time_to">End Time</label>
                         <input type="timestamp" class="form-control flatpickrTime" id="time_to" name="time_to" value="{{ set_value('time_to') }}" placeholder="">
@@ -272,7 +272,9 @@
                                 _this.find('select[name="name"]').append('<option value="' + data.name + '" selected>' + data.name + '</option>');
                                 _this.find('textarea[name="description"]').text(data.description);
                                 _this.find('input[name="time_from"]').val(data.time_from);
+                                _this.find('.time_from .input').val(moment(data.time_from, 'H:i:S').format('LT'));
                                 _this.find('input[name="time_to"]').val(data.time_to);
+                                _this.find('.time_to .input').val(moment(data.time_to, 'H:i:S').format('LT'));
                                 _this.find('select[name="day"]').append('<option value="' + data.day + '" selected>' + data.day + '</option>');                                    
                             }
                         });
@@ -417,7 +419,7 @@
                                 $('#update').modal('hide');
 
                                 // Show and append notif msg  
-                                $('#notif').modal('show').find('.modal-body p').text('Schedules #' + id + ' has been updated');
+                                $('#notif').modal('show').find('.modal-body p').text('Schedule #' + id + ' has been updated');
                                     
                                 // Hide notif after (x) number of seconds 
                                 setTimeout(function(){ 
@@ -487,7 +489,7 @@
                                 $('#delete').modal('hide');
 
                                 // Show and append notif msg  
-                                $('#notif').modal('show').find('.modal-body p').text('schedules #' + id + ' has been moved to trash');
+                                $('#notif').modal('show').find('.modal-body p').text('Schedule #' + id + ' has been moved to trash');
                                     
                                 // Hide notif after (x) number of seconds 
                                 setTimeout(function(){ 

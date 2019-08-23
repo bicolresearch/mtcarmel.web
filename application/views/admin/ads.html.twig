@@ -3,7 +3,7 @@
     Location    : application/views/admin/ads.html.twig
     Purpose     : Ads partial page
     Created     : 07/11/2019 17:24:13 by Spiderman
-    Updated     : 08/21/2019 19:54:59 by Spiderman
+    Updated     : 08/23/2019 15:55:26 by Spiderman
     Changes     : 
 #}
 
@@ -272,6 +272,7 @@
                                 _this.find('select[name="type_id"]').append('<option value="' + data.type_id + '" selected>' + data.type_name + '</option>'); 
                                 _this.find('input[name="url"]').val(data.url);
                                 _this.find('input[name="expiration"]').val(data.expiration);
+                                _this.find('input.input').val(moment(data.expiration, 'YYYY-MM-DD').format('MMMM DD, YYYY'));
 
                                 if($('body').attr('data-media-id') == null) {
                                     _this.find('input:hidden[name="media_id"]').val(data.media_id); 
@@ -356,7 +357,7 @@
                                 $('#create').modal('hide');
 
                                 // Show and append notif msg  
-                                $('#notif').modal('show').find('.modal-body p').text('A new ads has been published');
+                                $('#notif').modal('show').find('.modal-body p').text('A new ad has been published');
                                     
                                 // Hide notif after (x) number of seconds 
                                 setTimeout(function(){ 
@@ -425,7 +426,7 @@
                                 $('#update').modal('hide');
 
                                 // Show and append notif msg  
-                                $('#notif').modal('show').find('.modal-body p').text('Ads #' + id + ' has been updated');
+                                $('#notif').modal('show').find('.modal-body p').text('Ad #' + id + ' has been updated');
                                     
                                 // Hide notif after (x) number of seconds 
                                 setTimeout(function(){ 
@@ -464,7 +465,7 @@
                 bindForm: function () {
                     $('#delete').on('show.bs.modal', this.submitForm(), function(e){
                         $(this).find('input:hidden[name="id"]').val($(e.relatedTarget).attr('data-id'));
-                        $(this).find('.modal-body p').text('Are you sure you want to delete ads #' + $(e.relatedTarget).attr('data-id') + '?');
+                        $(this).find('.modal-body p').text('Are you sure you want to delete ad #' + $(e.relatedTarget).attr('data-id') + '?');
                     });
                 },
                 submitForm: function() {
@@ -495,7 +496,7 @@
                                 $('#delete').modal('hide');
 
                                 // Show and append notif msg  
-                                $('#notif').modal('show').find('.modal-body p').text('Ads #' + id + ' has been moved to trash');
+                                $('#notif').modal('show').find('.modal-body p').text('Ad #' + id + ' has been moved to trash');
                                     
                                 // Hide notif after (x) number of seconds 
                                 setTimeout(function(){ 

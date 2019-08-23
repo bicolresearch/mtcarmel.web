@@ -3,7 +3,7 @@
     Location    : application/views/admin/base.html.twig
     Purpose     : Admin base template
     Created     : 06/27/2019 16:45:42 by Spiderman
-    Updated     : 08/22/2019 23:51:46 by Spiderman
+    Updated     : 08/23/2019 15:55:51 by Spiderman
     Changes     : 
 #}
 
@@ -229,6 +229,8 @@
                     this.galleryModal();
                     this.flatPickrTime();
                     this.flatPickrCalendar();
+                    this.flatPickrCalendarFullDate();
+                    this.flatPickrCalendarShortDate();
                     this.adTypeDDL();
                 },
                 activeList: function () {
@@ -377,23 +379,41 @@
                         $('#' + $('body').attr('data-modal-previous') + '-form').find('input:hidden[name="media_id"]').val($('body').attr('data-media-id'));
                     });
                 },
-                flatPickrTime: function () {
+                flatPickrTime: function() {
                     $('.flatpickrTime').flatpickr({
                         enableTime: true,
                         noCalendar: true,
+                        altInput: true,
+                        altFormat: "h:i K",
                         dateFormat: 'H:i:S',
                         time_24hr: false
                     });
                 },
-                flatPickrCalendar: function () {
+                flatPickrCalendar: function() {
                     $('.flatpickrCalendar').flatpickr({
                         enableTime: false,
+                        altInput: true,
+                        altFormat: "F j, Y",
                         dateFormat: "Y-m-d H:i:S",
                         minDate: "today",
                         weekNumbers: true
                     });
                 },
-                adTypeDDL: function () {
+                flatPickrCalendarFullDate: function() {
+                    $('.flatpickrCalendarFullDate').flatpickr({
+                        enableTime: false,
+                        dateFormat: "j F Y",
+                        maxDate: "today"
+                    });
+                },
+                flatPickrCalendarShortDate: function() {
+                    $('.flatPickrCalendarShortDate').flatpickr({
+                        enableTime: false,
+                        dateFormat: "j F",
+                        maxDate: "today"
+                    });
+                },
+                adTypeDDL: function() {
                     
                    let _this = $('#type_id');
 
@@ -406,9 +426,9 @@
                         processData: false
                     });
                     
-                    jqXHR.done(function (data) {
+                    jqXHR.done(function(data) {
                         if(data) {
-                            $.each(data.data, function (key, value) {
+                            $.each(data.data, function(key, value) {
                                 _this.append(
                                     '<option value="' + value.id + '">' + value.name + '</option>'
                                 );
@@ -416,7 +436,7 @@
                         }
                     });
 
-                    jqXHR.fail(function (jqXHR, textStatus, errorThrown) {
+                    jqXHR.fail(function(jqXHR, textStatus, errorThrown) {
                         console.log('The following error occurred: ' + textStatus, errorThrown);
                     });
                 }
