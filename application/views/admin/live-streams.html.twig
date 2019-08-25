@@ -3,7 +3,7 @@
     Location    : application/views/admin/live-streams.html.twig
     Purpose     : Live streams partial page
     Created     : 08/20/2019 19:49:51 by Spiderman
-    Updated     : 08/21/2019 02:30:06 by Spiderman
+    Updated     : 08/23/2019 13:41:08 by Spiderman
     Changes     : 
 #}
 
@@ -249,7 +249,6 @@
 
                         _this.find('form')[0].reset();
                         _this.find('.form-control').removeClass('is-invalid');
-                        _this.find('.custom-select').removeClass('is-invalid');
                         _this.find('#ajax-response').empty();
                     });
                 },
@@ -293,7 +292,7 @@
                                 $('#create').modal('hide');
 
                                 // Show and append notif msg  
-                                $('#notif').modal('show').find('.modal-body p').text('A new contacts has been published');
+                                $('#notif').modal('show').find('.modal-body p').text('A new live stream has been published');
                                     
                                 // Hide notif after (x) number of seconds 
                                 setTimeout(function(){ 

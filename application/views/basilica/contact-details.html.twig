@@ -46,7 +46,7 @@
                     let _this = $('#contacts');
 
                     let jqXHR = $.ajax({
-                        url: apiURL + '/contact_details/id/1',
+                        url: apiURL + '/contacts/contact/?id=1',
                         type: 'GET',
                         dataType: 'json',
                         data: _this.serialize(),
@@ -62,13 +62,13 @@
                             _this.find('#details').html(
                                 '<dl class="row">' +
                                 '<dt class="col-sm-6 text-right">Landline</dt>' +
-                                '<dd class="col-sm-6">' + data[0].landline + '</dd>' +
+                                '<dd class="col-sm-6">' + data.landline + '</dd>' +
                                 '<dt class="col-sm-6 text-right">Mobile</dt>' +
-                                '<dd class="col-sm-6">' + data[0].mobile + '</dd>' +
+                                '<dd class="col-sm-6">' + data.mobile + '</dd>' +
                                 '<dt class="col-sm-6 text-right">Email Address</dt>' +
-                                '<dd class="col-sm-6">' + data[0].email + '</dd>' +
+                                '<dd class="col-sm-6">' + data.email + '</dd>' +
                                 '<dt class="col-sm-6 text-right">Social Media</dt>' +
-                                '<dd class="col-sm-6">' + data[0].social_media + '</dd>' +
+                                '<dd class="col-sm-6">' + data.social_media + '</dd>' +
                                 '</dl>'
                             );
                         }

@@ -3,7 +3,7 @@
     Location    : application/views/admin/base.html.twig
     Purpose     : Admin base template
     Created     : 06/27/2019 16:45:42 by Spiderman
-    Updated     : 08/20/2019 15:06:03 by Spiderman
+    Updated     : 08/23/2019 15:55:51 by Spiderman
     Changes     : 
 #}
 
@@ -46,7 +46,6 @@
                                 <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('admin/schedules') }}">Mass Schedules</a></li>
                                 <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('admin/boundaries') }}">Map Boundaries</a></li>
                                 <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('admin/priests') }}">Carmelite Priests</a></li>
-                                <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('admin/pastors') }}">Carmelite Pastors</a></li>
                                 <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('admin/contacts') }}">Contact Details</a></li>
                                 <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('admin/histories') }}">Histories</a></li>
                                 <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('admin/live_streams') }}">Live Streams</a></li>
@@ -230,6 +229,8 @@
                     this.galleryModal();
                     this.flatPickrTime();
                     this.flatPickrCalendar();
+                    this.flatPickrCalendarFullDate();
+                    this.flatPickrCalendarShortDate();
                     this.adTypeDDL();
                 },
                 activeList: function () {
@@ -297,7 +298,7 @@
                                 "columns": [
                                     {
                                         "searchable": false,
-                                        "data": "full_path",
+                                        "data": "media_path",
                                         "mRender": function(data) {
                                             return '<img class="mx-auto d-block" src="' + apiURL + '/' + data + '" height="32px" alt="' + data + '" />';
                                         }
@@ -370,7 +371,7 @@
                         $.get(apiURL + '/media/medium/id/' + $('body').attr('data-media-id'), function(data) {
                             $('#' + $('body').attr('data-modal-previous') + '-form').find('#placeholder').replaceWith(
                                 '<div id="placeholder" class="mb-3">' +
-                                '   <img class="mx-auto d-block" style="max-height: 200px" src="' + apiURL + '/' + data.full_path + '" alt="' + data.name + '" />' +
+                                '   <img class="mx-auto d-block" style="max-height: 200px" src="' + apiURL + '/' + data.media_path + '" alt="' + data.name + '" />' +
                                 '</div>');
                         });
 
@@ -378,23 +379,41 @@
                         $('#' + $('body').attr('data-modal-previous') + '-form').find('input:hidden[name="media_id"]').val($('body').attr('data-media-id'));
                     });
                 },
-                flatPickrTime: function () {
+                flatPickrTime: function() {
                     $('.flatpickrTime').flatpickr({
                         enableTime: true,
                         noCalendar: true,
+                        altInput: true,
+                        altFormat: "h:i K",
                         dateFormat: 'H:i:S',
                         time_24hr: false
                     });
                 },
-                flatPickrCalendar: function () {
+                flatPickrCalendar: function() {
                     $('.flatpickrCalendar').flatpickr({
                         enableTime: false,
+                        altInput: true,
+                        altFormat: "F j, Y",
                         dateFormat: "Y-m-d H:i:S",
                         minDate: "today",
                         weekNumbers: true
                     });
                 },
-                adTypeDDL: function () {
+                flatPickrCalendarFullDate: function() {
+                    $('.flatpickrCalendarFullDate').flatpickr({
+                        enableTime: false,
+                        dateFormat: "j F Y",
+                        maxDate: "today"
+                    });
+                },
+                flatPickrCalendarShortDate: function() {
+                    $('.flatPickrCalendarShortDate').flatpickr({
+                        enableTime: false,
+                        dateFormat: "j F",
+                        maxDate: "today"
+                    });
+                },
+                adTypeDDL: function() {
                     
                    let _this = $('#type_id');
 
@@ -407,9 +426,9 @@
                         processData: false
                     });
                     
-                    jqXHR.done(function (data) {
+                    jqXHR.done(function(data) {
                         if(data) {
-                            $.each(data.data, function (key, value) {
+                            $.each(data.data, function(key, value) {
                                 _this.append(
                                     '<option value="' + value.id + '">' + value.name + '</option>'
                                 );
@@ -417,7 +436,7 @@
                         }
                     });
 
-                    jqXHR.fail(function (jqXHR, textStatus, errorThrown) {
+                    jqXHR.fail(function(jqXHR, textStatus, errorThrown) {
                         console.log('The following error occurred: ' + textStatus, errorThrown);
                     });
                 }

@@ -3,7 +3,7 @@
     Location    : application/views/admin/contacts.html.twig
     Purpose     : Contacts partial page
     Created     : 07/23/2019 11:49:05 by Scarlet Witch
-    Updated     : 08/16/2019 16:22:22 by Spiderman
+    Updated     : 08/23/2019 13:38:42 by Spiderman
     Changes     : 
 #}
 
@@ -37,6 +37,7 @@
                                 <th>Name</th>
                                 <th>Created</th>
                                 <th>Modified</th> 
+                                <th>Modified By</th> 
                                 <th></th>
                                 <th></th>
                             </tr>
@@ -233,17 +234,18 @@
                             },
                             {"data": "name"},
                             {
-                                "data": "posted_on",
+                                "data": "dt_created",
                                 "mRender": function (data) {
                                     return (data === null) ?  '' : moment(data).format('lll');
                                 }
                             },
                             {
-                                "data": "updated_on",
+                                "data": "dt_updated",
                                 "mRender": function (data) {
                                     return (data === null) ?  '' : moment(data).format('lll');
                                 }
-                            },                        
+                            },     
+                            {"data": "updated_by"},                   
                             {
                                 "searchable": false,
                                 "data": "id",
@@ -262,7 +264,7 @@
                         "lengthMenu": [[10, 25, 50, 75, 100], [10, 25, 50, 75, 100]],
                         "order": [[0, "desc"]],
                         "columnDefs": [
-                            {"orderable": false, "targets": [4, 5]}
+                            {"orderable": false, "targets": [5, 6]}
                         ]
                     });
                 },
@@ -299,7 +301,7 @@
                         let id = $(e.relatedTarget).attr('data-id');
 
                         let jqXHR = $.ajax({
-                            url: baseURL + '/admin/contacts/contact/id/' + id,
+                            url: baseURL + '/admin/contacts/contact/?id=' + id,
                             type: 'GET',
                             dataType: 'json',
                             data: _this.serialize(),
@@ -396,7 +398,7 @@
                                 $('#create').modal('hide');
 
                                 // Show and append notif msg  
-                                $('#notif').modal('show').find('.modal-body p').text('A new contacts has been published');
+                                $('#notif').modal('show').find('.modal-body p').text('A new contact has been published');
                                     
                                 // Hide notif after (x) number of seconds 
                                 setTimeout(function(){ 
@@ -469,7 +471,7 @@
                                 $('#update').modal('hide');
 
                                 // Show and append notif msg  
-                                $('#notif').modal('show').find('.modal-body p').text('contacts #' + id + ' has been updated');
+                                $('#notif').modal('show').find('.modal-body p').text('Contact #' + id + ' has been updated');
                                     
                                 // Hide notif after (x) number of seconds 
                                 setTimeout(function(){ 
@@ -544,7 +546,7 @@
                                 $('#delete').modal('hide');
 
                                 // Show and append notif msg  
-                                $('#notif').modal('show').find('.modal-body p').text('contact #' + id + ' has been moved to trash');
+                                $('#notif').modal('show').find('.modal-body p').text('Contact #' + id + ' has been moved to trash');
                                     
                                 // Hide notif after (x) number of seconds 
                                 setTimeout(function(){ 

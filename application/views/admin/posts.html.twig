@@ -3,7 +3,7 @@
     Location    : application/views/admin/posts.html.twig
     Purpose     : Posts partial page
     Created     : 07/03/2019 19:30:07 by Spiderman
-    Updated     : 08/21/2019 22:33:30 by Spiderman
+    Updated     : 08/23/2019 13:43:28 by Spiderman
     Changes     : 
 #}
 
@@ -223,7 +223,7 @@
                         if (id == null) id = $('body').attr('data-id');
 
                         let jqXHR = $.ajax({
-                            url: baseURL + '/admin/posts/post/id/' + id,
+                            url: baseURL + '/admin/posts/post/?id=' + id,
                             type: 'GET',
                             dataType: 'json',
                             data: _this.serialize(),
@@ -250,7 +250,7 @@
                                 $.get(apiURL + '/media/medium/id/' + _this.find('input:hidden[name="media_id"]').val(), function(data) {
                                     _this.find('#placeholder').replaceWith(
                                         '<div id="placeholder" class="mb-3">' +
-                                        '   <img class="mx-auto d-block" style="max-height: 200px" src="' + apiURL + '/' + data.full_path + '" alt="' + data.name + '" />' +
+                                        '   <img class="mx-auto d-block" style="max-height: 200px" src="' + apiURL + '/' + data.media_path + '" alt="' + data.name + '" />' +
                                         '</div>');
                                 });
                             }

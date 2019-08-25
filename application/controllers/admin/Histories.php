@@ -1,12 +1,12 @@
 <?php
 
 /*
-    Filediocese     : Histories.php
-    Location        : application/controllers/admin/Histories.php
-    Purpose         : Histories controller
-    Created         : 07/22/2019 23:35:25 by Scarlet Witch 
-    Updated         : 08/21/2019 22:59:34 by Spiderman
-    Changes         : 
+    Filename    : Histories.php
+    Location    : application/controllers/admin/Histories.php
+    Purpose     : Histories controller
+    Created     : 07/22/2019 23:35:25 by Scarlet Witch 
+    Updated     : 08/22/2019 22:47:48 by Spiderman
+    Changes     : 
 */
 
 defined('BASEPATH') or exit('No direct script access allowed');
@@ -27,7 +27,7 @@ class Histories extends CI_Controller
                 'user' => user()
             ];
     
-            $this->twig->display('admin/history.html', $view_data);
+            $this->twig->display('admin/histories.html', $view_data);
         } else {
             redirect('auth', 'refresh');
         }
@@ -87,7 +87,7 @@ class Histories extends CI_Controller
                 'X-API-KEY' => $this->guzzle->key()
             ],
             'query' => [
-                'id' => $this->uri->segment(5)
+                'id' => $_GET['id']
             ]
         ];
 
@@ -123,7 +123,6 @@ class Histories extends CI_Controller
             ->set_rules('feast_day', 'Feast_day', 'trim|required|xss_clean')  
             ->set_rules('content', 'Content', 'trim|required|xss_clean')
             ->set_error_delimiters('<li>', '</li>');
-
 
         if ($this->form_validation->run()) {
 
@@ -168,7 +167,6 @@ class Histories extends CI_Controller
                 'date_of_establishment' => form_error('date_of_establishment'),
                 'feast_day' => form_error('feast_day'),
                 'content' => form_error('content')
-
             ];
             echo json_encode($view_data);
         }
@@ -221,7 +219,6 @@ class Histories extends CI_Controller
             ];
 
             try {
-
                 $id = $this->uri->segment(5);
 
                 // PUT request
@@ -272,7 +269,6 @@ class Histories extends CI_Controller
         ];
         
         try {
-
             $id = $this->uri->segment(5);
 
             // PUT request
