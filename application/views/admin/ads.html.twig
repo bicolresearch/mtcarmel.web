@@ -66,8 +66,8 @@
                         <textarea class="form-control" id="description" name="description" rows="2" maxlength="255"></textarea>
                     </div>
                     <div class="form-group">
-                        <label for="type_id">Ad Type</label>
-                        <select class="custom-select" id="type_id" name="type_id">
+                        <label for="ad_type_id">Ad Type</label>
+                        <select class="custom-select" id="ad_type_id" name="type_id">
                             <option value="" selected>&dash;</option>
                             <!-- This is where the ad type load -->
                         </select>
@@ -117,10 +117,9 @@
                         <textarea class="form-control" id="description" name="description" rows="2" maxlength="255"></textarea>
                     </div>
                     <div class="form-group">
-                        <label for="type_id">Ad Type</label>
-                        <select class="custom-select" id="type_id" name="type_id">
-                            <option value="1">Widget</option>
-                            <option value="2">Splash</option>
+                        <label for="ad_type_id">Ad Type</label>
+                        <select class="custom-select" id="ad_type_id" name="type_id">
+                            <!-- This is where the ad type load -->
                         </select>
                     </div>
                     <div class="form-group">
@@ -181,13 +180,13 @@
                             {
                                 "data": "dt_created",
                                 "mRender": function (data) {
-                                    return (data === null) ?  '' : moment(data).format('lll');
+                                    return (data === null) ? '' : moment(data).format('lll');
                                 }
                             },
                             {
                                 "data": "dt_updated",
                                 "mRender": function (data) {
-                                    return (data === null) ?  '' : moment(data).format('lll');
+                                    return (data === null) ? '' : moment(data).format('lll');
                                 }
                             },  
                             {"data": "updated_by"},
@@ -235,7 +234,7 @@
                         _this.find('form')[0].reset();
                         _this.find('.form-control').removeClass('is-invalid');
                         _this.find('.custom-select').removeClass('is-invalid');
-                        _this.find('#type_id > option:selected').remove();
+                        _this.find('#ad_type_id > option:selected').remove();
                         _this.find('#ajax-response').empty();
                     });
                 },
@@ -368,7 +367,7 @@
                                 _this.find('#ajax-response').html('<div class="alert alert-danger"><ul>' + data.message + '</ul></div>');
                                 (Boolean(data.name)) ? _this.find('#name').addClass('is-invalid') : _this.find('#name').removeClass('is-invalid');  
                                 (Boolean(data.description)) ? _this.find('#description').addClass('is-invalid') : _this.find('#description').removeClass('is-invalid');   
-                                (Boolean(data.type_id)) ? _this.find('#type_id').addClass('is-invalid') : _this.find('#type_id').removeClass('is-invalid');
+                                (Boolean(data.type_id)) ? _this.find('#ad_type_id').addClass('is-invalid') : _this.find('#ad_type_id').removeClass('is-invalid');
                                 (Boolean(data.url)) ? _this.find('#url').addClass('is-invalid') : _this.find('#url').removeClass('is-invalid');
                                 (Boolean(data.expiration)) ? _this.find('#expiration').addClass('is-invalid') : _this.find('#expiration').removeClass('is-invalid');
                             }
@@ -437,7 +436,7 @@
                                 _this.find('#ajax-response').html('<div class="alert alert-danger"><ul>' + data.message + '</ul></div>');
                                 (Boolean(data.name)) ? _this.find('#name').addClass('is-invalid') : _this.find('#name').removeClass('is-invalid');  
                                 (Boolean(data.description)) ? _this.find('#description').addClass('is-invalid') : _this.find('#description').removeClass('is-invalid'); 
-                                (Boolean(data.type_id)) ? _this.find('#type_id').addClass('is-invalid') : _this.find('#type_id').removeClass('is-invalid');
+                                (Boolean(data.type_id)) ? _this.find('#ad_type_id').addClass('is-invalid') : _this.find('#ad_type_id').removeClass('is-invalid');
                                 (Boolean(data.url)) ? _this.find('#url').addClass('is-invalid') : _this.find('#url').removeClass('is-invalid');
                                 (Boolean(data.expiration)) ? _this.find('#expiration').addClass('is-invalid') : _this.find('#expiration').removeClass('is-invalid');
                             }

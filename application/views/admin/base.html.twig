@@ -232,6 +232,7 @@
                     this.flatPickrCalendarFullDate();
                     this.flatPickrCalendarShortDate();
                     this.adTypeDDL();
+                    this.clergyTypeDDL();
                 },
                 activeList: function () {
 
@@ -414,11 +415,36 @@
                     });
                 },
                 adTypeDDL: function() {
-                    
-                   let _this = $('#type_id');
+                    let _this = $('#ad_type_id');
 
                     let jqXHR = $.ajax({
                         url: apiURL + '/ad_type',
+                        type: 'GET',
+                        dataType: 'json',
+                        data: _this.serialize(),
+                        cache: false,
+                        processData: false
+                    });
+                    
+                    jqXHR.done(function(data) {
+                        if(data) {
+                            $.each(data.data, function(key, value) {
+                                _this.append(
+                                    '<option value="' + value.id + '">' + value.name + '</option>'
+                                );
+                            });
+                        }
+                    });
+
+                    jqXHR.fail(function(jqXHR, textStatus, errorThrown) {
+                        console.log('The following error occurred: ' + textStatus, errorThrown);
+                    });
+                },
+                clergyTypeDDL: function() {
+                    let _this = $('#clergy_type_id');
+
+                    let jqXHR = $.ajax({
+                        url: apiURL + '/clergy_type',
                         type: 'GET',
                         dataType: 'json',
                         data: _this.serialize(),
