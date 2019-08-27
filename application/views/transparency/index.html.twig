@@ -3,7 +3,7 @@
     Location    : application/views/transparency/index.html.twig
     Purpose     : Transparency partial page
     Created     : 06/03/2019 13:09:07 by Spiderman
-    Updated     : 07/29/2019 14:59:46 by Spiderman
+    Updated     : 08/27/2019 15:30:15 by Spiderman
     Changes     : 
 #}
 
@@ -44,15 +44,14 @@
     <script>
         $(function () {
             
-            let baseURL = location.origin.toLowerCase() + '/mountcarmel.web';
             let apiURL = location.origin.toLowerCase() + '/mountcarmel.api';
             
             let app = {
                 init: function () {
-                    this.donations(); // GET: Donations
-                    this.reloadList(); // Reload donations list
+                    this.displayTable();
+                    this.reloadTable();
                 },
-                donations: function() {
+                displayTable: function() {
                     
                     let _this = $('#transparency');
      
@@ -78,14 +77,14 @@
                             _this.find('button[type="button"]').html('₱' + parseInt(data.total_donations.amount).toFixed(2)).digits();
                                 
                             // Donations List
-                             $.each(data.donations_list, function (key, value) {
+                             $.each(data.donations_list.data, function (key, value) {
                                 _this.find('tbody').append(
                                     '<tr>' +
                                     '   <td>' +
-                                    '       <img class="rounded-circle mr-2" src="' + apiURL + '/' + value.profile_photo + '" width="32" height="32" alt="' + value.first_name + ' ' + value.last_name + '" />' + value.first_name + ' ' + value.last_name +
+                                    '       <img class="rounded-circle mr-2" src="' + apiURL + '/' + value.media_path + '" width="32" height="32" alt="' + value.first_name + ' ' + value.last_name + '" />' + value.first_name + ' ' + value.last_name +
                                     '   </td>' +
                                     '   <td>' + '₱' + value.amount + '</td>' +
-                                    '   <td>' + moment(value.posted_on, "YYYY-MM-DD h:mm:ss").fromNow() + '</td>' +
+                                    '   <td>' + moment(value.dt_created, "YYYY-MM-DD h:mm:ss").fromNow() + '</td>' +
                                     '   <td>' + value.donation_type + '</td>' +
                                     '</tr>'
                                 );
@@ -97,7 +96,7 @@
                         console.log('The following error occurred: ' + textStatus, errorThrown);
                     });
                 },
-                reloadList: function() {
+                reloadTable: function() {
                     // TODO: Implement on click refresh donations list
                     $('#refresh').on('click', function(e){
                         e.preventDefault();

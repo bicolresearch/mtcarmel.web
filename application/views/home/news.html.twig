@@ -33,8 +33,7 @@
                 init: function() {
                     this.news();
                     this.ads();
-                },   
-                // GET: News feeds       
+                },       
                 news: function () {
 
                     let _this = $('#media');
@@ -86,13 +85,12 @@
                         console.log('The following error occurred: ' + textStatus, errorThrown);
                     });
                 },
-                // GET: Advertisements
                 ads: function() {
 
                     let _this = $('#ads');
 
                     let jqXHR = $.ajax({
-                        url: apiURL + '/ads/?type_id=89',
+                        url: apiURL + '/ads/?type_id=111',
                         type: 'GET',
                         dataType: 'json',
                         data: _this.serialize(),

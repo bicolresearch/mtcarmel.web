@@ -140,10 +140,11 @@
                     this.reloadTable();
                 },
                 displayTable: function() {
-                    $('#datatables__default').DataTable({
+                    let table = $('#datatables__default').DataTable({
                         "processing": true,
                         "serverSide": false,
                         "responsive": true,
+                        "deferRender": true,
                         "ajax": {
                             "url": baseURL + "/admin/posts/posts",
                             "type": "GET"
@@ -151,7 +152,7 @@
                         "columns": [
                             {
                                 "searchable": false,
-                                "data": "id"
+                                "data": null
                             },
                             {"data": "title"},
                             {
@@ -183,11 +184,17 @@
                             }
                         ],
                         "lengthMenu": [[10, 25, 50, 75, 100], [10, 25, 50, 75, 100]],
-                        "order": [[0, "desc"]],
+                        "order": [[2, "desc"]],
                         "columnDefs": [
-                            {"orderable": false, "targets": [5, 6]}
+                            {"orderable": false, "targets": [0, 5, 6]}
                         ]
                     });
+
+                    table.on('order.dt search.dt', function() {
+                        table.column(0, {search:'applied', order:'applied'}).nodes().each(function(cell, i) {
+                            cell.innerHTML = i + 1;
+                        });
+                    }).draw();
                 },
                 reloadTable: function() {
                     $('#reload').on('click', function (e) {
