@@ -3,7 +3,7 @@
     Location    : application/views/admin/priests.html.twig
     Purpose     : Priests partial page
     Created     : 07/23/2019 12:49:20 by Scarlet Witch
-    Updated     : 08/23/2019 15:57:30 by Spiderman
+    Updated     : 08/25/2019 13:45:38 by Spiderman
     Changes     :
 #}
 
@@ -54,17 +54,43 @@
         <div class="modal-body px-5">
             <div id="ajax-preloader"></div>
             <div id="ajax-response"></div>
-            <div class="form-group">
-                <label for="name">Name</label>
-                <input type="text" class="form-control" id="name" name="name" value="{{ set_value('name') }}" placeholder="">
-            </div>
-            <div class="form-group">
-                <label for="position">Position</label>
-                <input type="text" class="form-control" id="position" name="position" value="{{ set_value('position') }}" placeholder="">
-            </div>
-            <div class="form-group">
-                <label for="rank">Rank</label>
-                <input type="text" class="form-control" id="rank" name="rank" value="{{ set_value('rank') }}" placeholder="">
+            <input type="hidden" name="media_id">
+            <div class="row">
+                <div class="col-12 col-lg-6">
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" class="form-control" id="name" name="name" value="{{ set_value('name') }}" placeholder="">
+                    </div>
+                    <div class="form-group">
+                        <label for="position">Position</label>
+                        <input type="text" class="form-control" id="position" name="position" value="{{ set_value('position') }}" placeholder="">
+                    </div>
+                    <div class="form-group">
+                        <label for="congregation">Congregation</label>
+                        <input type="text" class="form-control" id="congregation" name="congregation" value="{{ set_value('congregation') }}" placeholder="">
+                    </div>
+                    <div class="form-group">
+                        <label for="rank">Rank</label>
+                        <input type="text" class="form-control" id="rank" name="rank" value="{{ set_value('rank') }}" placeholder="">
+                    </div>
+                    <div class="form-group">
+                        <label for="clergy_type_id">Clergy Type</label>
+                        <select class="custom-select" id="clergy_type_id" name="type_id">
+                            <option value="" selected>&dash;</option>
+                            <!-- This is where the clergy type load -->
+                        </select>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-6">
+                    <div id="placeholder" class="mb-3">
+                        <!-- Image placeholder -->
+                        <img class="mx-auto d-block" style="max-height: 200px" src="{{ base_url('public/assets/images/companylogo.jpg') }}" alt="Image Placeholder" />
+                        <!-- This is where the image preview load -->
+                    </div>
+                    <div class="text-center">
+                        <a class="btn btn-sm btn-brown rounded-pill px-3" href="#gallery" data-toggle="modal"><i class="align-middle" data-feather="grid"></i> Media Gallery</a>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="modal-footer">
@@ -79,17 +105,40 @@
             <div id="ajax-preloader"></div>
             <div id="ajax-response"></div>
             <input type="hidden" name="id">
-            <div class="form-group">
-                <label for="name">Name</label>
-                <input type="text" class="form-control" id="name" name="name" placeholder="">
-            </div>
-            <div class="form-group">
-                <label for="position">Position</label>
-                <input type="text" class="form-control" id="position" name="position" placeholder="">
-            </div>
-            <div class="form-group">
-                <label for="rank">Rank</label>
-                <input type="text" class="form-control" id="rank" name="rank" placeholder="">
+            <input type="hidden" name="media_id">
+            <div class="row">
+                <div class="col-12 col-lg-6">
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" class="form-control" id="name" name="name" placeholder="">
+                    </div>
+                    <div class="form-group">
+                        <label for="position">Position</label>
+                        <input type="text" class="form-control" id="position" name="position" placeholder="">
+                    </div>
+                    <div class="form-group">
+                        <label for="congregation">Congregation</label>
+                        <input type="text" class="form-control" id="congregation" name="congregation" placeholder="">
+                    </div>
+                    <div class="form-group">
+                        <label for="rank">Rank</label>
+                        <input type="text" class="form-control" id="rank" name="rank" placeholder="">
+                    </div>
+                    <div class="form-group">
+                        <label for="clergy_type_id">Clergy Type</label>
+                        <select class="custom-select" id="clergy_type_id" name="type_id">
+                            <!-- This is where the clergy type load -->
+                        </select>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-6">
+                    <div id="placeholder" class="mb-3">
+                        <!-- This is where the image preview load -->
+                    </div>
+                    <div class="text-center">
+                        <a class="btn btn-sm btn-brown rounded-pill px-3" href="#gallery" data-toggle="modal"><i class="align-middle" data-feather="grid"></i> Media Gallery</a>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="modal-footer">
@@ -131,11 +180,16 @@
                             {
                                 "data": "dt_created",
                                 "mRender": function (data) {
-                                    return data
+                                    return (data === null) ? '' : moment(data).format('lll');
                                 }
                             },
-                            {"data": "dt_updated"},                               
-                            {"data": "updated_by"},
+                            {
+                                "data": "dt_updated",
+                                "mRender": function (data) {
+                                    return (data === null) ? '' : moment(data).format('lll');
+                                }
+                            },
+                            {"data": "updated_by"}, 
                             {
                                 "searchable": false,
                                 "data": "id",
@@ -179,6 +233,8 @@
 
                         _this.find('form')[0].reset();
                         _this.find('.form-control').removeClass('is-invalid');
+                        _this.find('.custom-select').removeClass('is-invalid');
+                        _this.find('#clergy_type_id > option:selected').remove();
                         _this.find('#ajax-response').empty();
                     });
                 },
@@ -187,7 +243,11 @@
                         
                         let _this = $(this);
 
+                        // Set data-id attr
                         let id = $(e.relatedTarget).attr('data-id');
+
+                        // If id is null, set data-id attr from body instead
+                        if (id == null) id = $('body').attr('data-id');
 
                         let jqXHR = $.ajax({
                             url: baseURL + '/admin/priests/priest/?id=' + id,
@@ -204,10 +264,25 @@
                         jqXHR.done(function (data) {
                             if (data) {
                                 // Populate form
+                                $('body').attr('data-id', data.id);
                                 _this.find('input:hidden[name="id"]').val(data.id);
                                 _this.find('input[name="name"]').val(data.name);
                                 _this.find('input[name="position"]').val(data.position);
+                                _this.find('input[name="congregation"]').val(data.congregation);
                                 _this.find('input[name="rank"]').val(data.rank);
+                                _this.find('select[name="type_id"]').append('<option value="' + data.type_id + '" selected>' + data.type_name + '</option>'); 
+
+                                if($('body').attr('data-media-id') == null) {
+                                    _this.find('input:hidden[name="media_id"]').val(data.media_id); 
+                                }
+
+                                // Get media by id with data-media-id attr as id paramater
+                                $.get(apiURL + '/media/medium/id/' + _this.find('input:hidden[name="media_id"]').val(), function(data) {
+                                    _this.find('#placeholder').replaceWith(
+                                        '<div id="placeholder" class="mb-3">' +
+                                        '   <img class="mx-auto d-block" style="max-height: 200px" src="' + apiURL + '/' + data.media_path + '" alt="' + data.name + '" />' +
+                                        '</div>');
+                                });
                             }
                         });
 
@@ -290,7 +365,9 @@
                                 _this.find('#ajax-response').html('<div class="alert alert-danger"><ul>' + data.message + '</ul></div>');
                                 (Boolean(data.name)) ? _this.find('#name').addClass('is-invalid') : _this.find('#name').removeClass('is-invalid');  
                                 (Boolean(data.position)) ? _this.find('#position').addClass('is-invalid') : _this.find('#position').removeClass('is-invalid');  
+                                (Boolean(data.congregation)) ? _this.find('#congregation').addClass('is-invalid') : _this.find('#congregation').removeClass('is-invalid');
                                 (Boolean(data.rank)) ? _this.find('#rank').addClass('is-invalid') : _this.find('#rank').removeClass('is-invalid');  
+                                (Boolean(data.type_id)) ? _this.find('#clergy_type_id').addClass('is-invalid') : _this.find('#clergy_type_id').removeClass('is-invalid');
                             }
                         });
 
@@ -345,7 +422,7 @@
                                 $('#update').modal('hide');
 
                                 // Show and append notif msg  
-                                $('#notif').modal('show').find('.modal-body p').text('priests #' + id + ' has been updated');
+                                $('#notif').modal('show').find('.modal-body p').text('Priest #' + id + ' has been updated');
                                 
                                 // Hide notif after (x) number of seconds 
                                 setTimeout(function(){ 
@@ -354,9 +431,11 @@
                             } else {
                                 // Error msg response
                                 _this.find('#ajax-response').html('<div class="alert alert-danger"><ul>' + data.message + '</ul></div>');
-                                (Boolean(data.title)) ? _this.find('#title').addClass('is-invalid') : _this.find('#title').removeClass('is-invalid');  
-                                (Boolean(data.description)) ? _this.find('#description').addClass('is-invalid') : _this.find('#description').removeClass('is-invalid');  
-                                (Boolean(data.video_id)) ? _this.find('#video_id').addClass('is-invalid') : _this.find('#video_id').removeClass('is-invalid');
+                                (Boolean(data.name)) ? _this.find('#name').addClass('is-invalid') : _this.find('#name').removeClass('is-invalid');  
+                                (Boolean(data.position)) ? _this.find('#position').addClass('is-invalid') : _this.find('#position').removeClass('is-invalid');  
+                                (Boolean(data.congregation)) ? _this.find('#congregation').addClass('is-invalid') : _this.find('#congregation').removeClass('is-invalid');
+                                (Boolean(data.rank)) ? _this.find('#rank').addClass('is-invalid') : _this.find('#rank').removeClass('is-invalid');  
+                                (Boolean(data.type_id)) ? _this.find('#clergy_type_id').addClass('is-invalid') : _this.find('#clergy_type_id').removeClass('is-invalid');
                             }
                         });
 
@@ -381,69 +460,56 @@
                 },
                 bindForm: function () {
                     $('#delete').on('show.bs.modal', this.submitForm(), function(e){
-                        $(this).find('#ajax-response').empty();
-                        $(this).find('input:hidden[name="id"]').val($(e.relatedTarget).data('param'));
-                        $(this).find('.modal-body p').text('Are you sure you want to delete priests #' + $(e.relatedTarget).data('param') + '?');
+                        $(this).find('input:hidden[name="id"]').val($(e.relatedTarget).attr('data-id'));
+                        $(this).find('.modal-body p').text('Are you sure you want to delete priest #' + $(e.relatedTarget).attr('data-id') + '?');
                     });
                 },
                 submitForm: function() {
                     $('#delete-form').on('submit', function(e){
-                        let el = $(this);
-                        let btn = el.find('.btn-change-state');
-                        let id = el.find('input:hidden[name="id"]').val();
-                        let data = el.serialize();
+
+                        let _this = $(this);
+                        let id = _this.find('input:hidden[name="id"]').val();
                     
-                        $.ajax({
+                        let jqXHR = $.ajax({
                             url: baseURL + '/admin/priests/delete/id/' + id,
                             type: 'PUT',
                             dataType: 'json',
-                            data: data,
+                            data: _this.serialize(),
                             cache: false,
                             processData: false,
                             beforeSend: function () {
-                                el.find('#ajax-preloader').html(
-                                    '<div class="loader">' +
-                                    '  <svg class="circular" viewBox="25 25 50 50">' +
-                                    '    <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>' +
-                                    '  </svg>' +
-                                    '</div>').show();
-                                btn.attr('disabled', 'disabled');
-                            },
-                            complete: function () {
-                                el.find('#ajax-preloader').html(
-                                    '<div class="loader">' +
-                                    '  <svg class="circular" viewBox="25 25 50 50">' +
-                                    '    <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>' +
-                                    '  </svg>' +
-                                    '</div>').hide('fast');
-                                btn.removeAttr('disabled');
-                            },
-                            success: function (data) {
-                                if (data.status === true) {
-                                    // Reload datatables
-                                    $('#datatables__default').DataTable().ajax.reload(null, false); // user paging is not reset on reload
-
-                                    // Hide this modal
-                                    $('#delete').modal('hide');
-
-                                    // Show and append notif msg  
-                                    $('#notif').modal('show').find('.modal-body p').text('priests #' + id + ' has been moved to trash');
-                                    
-                                    // Hide notif after (x) number of seconds 
-                                    setTimeout(function(){ 
-                                        $('#notif').modal('hide');
-                                    }, 3000);
-                                    
-                                } else {
-                                    // For debugging
-                                    console.log(data.status);
-                                }
-                            },
-                            error: function (jqXHR, textStatus, errorThrown) {
-                                // For debugging
-                                console.log('The following error occurred: ' + textStatus, errorThrown);
+                                _this.find('#ajax-preloader').preloader().show();
+                                _this.find('.btn-change-state').attr('disabled', 'disabled');
                             }
                         });
+
+                        jqXHR.done(function (data) {
+                            if (data.status === true) {
+                                // Reload datatables
+                                $('#datatables__default').DataTable().ajax.reload(null, false); // user paging is not reset on reload
+
+                                // Hide this modal
+                                $('#delete').modal('hide');
+
+                                // Show and append notif msg  
+                                $('#notif').modal('show').find('.modal-body p').text('Priest #' + id + ' has been moved to trash');
+                                
+                                // Hide notif after (x) number of seconds 
+                                setTimeout(function(){ 
+                                    $('#notif').modal('hide');
+                                }, 3000);  
+                            }
+                        });
+
+                        jqXHR.always(function () {
+                            _this.find('#ajax-preloader').preloader().hide();
+                            _this.find('.btn-change-state').removeAttr('disabled');
+                        });
+
+                        jqXHR.fail(function (jqXHR, textStatus, errorThrown) {
+                            console.log('The following error occurred: ' + textStatus, errorThrown);
+                        });                     
+
                         e.preventDefault();
                     });
                 }
