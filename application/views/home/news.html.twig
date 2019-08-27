@@ -3,8 +3,8 @@
     Location    : application/views/home/news.html.twig
     Purpose     : News partial page
     Created     : 06/03/2019 13:29:55 by Spiderman
-    Updated     : 08/21/2019 22:40:23 by Spiderman
-    Changes     : 
+    Updated     : 08/27/2019 11:37:59 by Scarlet Witch
+    Changes     : updated hardcoded type_id from 89 to 111
 #}
 
 {% extends 'base.html.twig' %}
@@ -92,7 +92,7 @@
                     let _this = $('#ads');
 
                     let jqXHR = $.ajax({
-                        url: apiURL + '/ads/?type_id=89',
+                        url: apiURL + '/ads/?type_id=111',
                         type: 'GET',
                         dataType: 'json',
                         data: _this.serialize(),

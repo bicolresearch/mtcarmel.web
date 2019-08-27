@@ -3,8 +3,8 @@
     Location    : application/views/home/index.html.twig
     Purpose     : Home partial page
     Created     : 06/03/2019 22:55:25 by Spiderman
-    Updated     : 08/17/2019 13:10:27 by Spiderman
-    Changes     : Dynamic splash ads
+    Updated     : 08/27/2019 11:36:52 by Scarlet Witch
+    Changes     : updated hardcoded type-id from 90 to 112
 #}
 
 {% extends 'base.html.twig' %}
@@ -51,7 +51,7 @@
                     let _this = $('#splash-ads');
 
                     let jqXHR = $.ajax({
-                        url: apiURL + '/ads/?type_id=90',
+                        url: apiURL + '/ads/?type_id=112',
                         type: 'GET',
                         dataType: 'json',
                         data: _this.serialize(),
