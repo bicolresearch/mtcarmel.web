@@ -163,7 +163,6 @@
                         "processing": true,
                         "serverSide": false,
                         "responsive": true,
-                        "deferRender": true,
                         "ajax": {
                             "url": baseURL + "/admin/confraternity/confraternity",
                             "type": "GET"
@@ -174,8 +173,18 @@
                                 "data": null
                             },
                             {"data": "name"},
-                            {"data": "dt_created"},
-                            {"data": "dt_updated"},                               
+                            {
+                                "data": "dt_created",
+                                "mRender": function (data) {
+                                    return (data === null) ?  '' : moment(data).format('lll');
+                                }
+                            },
+                            {
+                                "data": "dt_updated",
+                                "mRender": function (data) {
+                                    return (data === null) ?  '' : moment(data).format('lll');
+                                }
+                            },                              
                             {"data": "updated_by"},
                             {"data": "status"},
                             {
