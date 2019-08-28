@@ -22,7 +22,7 @@ class Priests extends CI_Controller
     {
         if(logged_in()) {
             $view_data = [
-                'page_title' => 'Priests',
+                'page_title' => 'Carmelites',
                 'page_subtitle' => '',
                 'user' => user()
             ];
