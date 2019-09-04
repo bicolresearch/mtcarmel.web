@@ -70,12 +70,12 @@
                         <input type="text" class="form-control" id="congregation" name="congregation" value="{{ set_value('congregation') }}" placeholder="">
                     </div>
                     <div class="form-group">
-                        <label for="rank">Rank</label>
-                        <input type="text" class="form-control" id="rank" name="rank" value="{{ set_value('rank') }}" placeholder="">
+                        <label for="sequence">Sequence</label>
+                        <input type="text" class="form-control" id="sequence" name="sequence" value="{{ set_value('sequence') }}" placeholder="">
                     </div>
                     <div class="form-group">
-                        <label for="clergy_type_id">Clergy Type</label>
-                        <select class="custom-select" id="clergy_type_id" name="type_id">
+                        <label for="clergy-type-id">Clergy Type</label>
+                        <select class="custom-select" id="clergy-type-id" name="clergy_type_id">
                             <option value="" selected>&dash;</option>
                             <!-- This is where the clergy type load -->
                         </select>
@@ -121,12 +121,12 @@
                         <input type="text" class="form-control" id="congregation" name="congregation" placeholder="">
                     </div>
                     <div class="form-group">
-                        <label for="rank">Rank</label>
-                        <input type="text" class="form-control" id="rank" name="rank" placeholder="">
+                        <label for="sequence">Sequence</label>
+                        <input type="text" class="form-control" id="sequence" name="sequence" placeholder="">
                     </div>
                     <div class="form-group">
-                        <label for="clergy_type_id">Clergy Type</label>
-                        <select class="custom-select" id="clergy_type_id" name="type_id">
+                        <label for="clergy-type-id">Clergy Type</label>
+                        <select class="custom-select" id="clergy-type-id" name="clergy_type_id">
                             <!-- This is where the clergy type load -->
                         </select>
                     </div>
@@ -240,7 +240,7 @@
                         _this.find('form')[0].reset();
                         _this.find('.form-control').removeClass('is-invalid');
                         _this.find('.custom-select').removeClass('is-invalid');
-                        _this.find('#clergy_type_id > option:selected').remove();
+                        _this.find('option:selected').remove();
                         _this.find('#ajax-response').empty();
                     });
                 },
@@ -275,8 +275,8 @@
                                 _this.find('input[name="name"]').val(data.name);
                                 _this.find('input[name="position"]').val(data.position);
                                 _this.find('input[name="congregation"]').val(data.congregation);
-                                _this.find('input[name="rank"]').val(data.rank);
-                                _this.find('select[name="type_id"]').append('<option value="' + data.type_id + '" selected>' + data.type_name + '</option>'); 
+                                _this.find('input[name="sequence"]').val(data.sequence);
+                                _this.find('select[name="clergy_type_id"]').append('<option value="' + data.type_id + '" selected>' + data.type_name + '</option>'); 
 
                                 if($('body').attr('data-media-id') == null) {
                                     _this.find('input:hidden[name="media_id"]').val(data.media_id); 
@@ -372,8 +372,8 @@
                                 (Boolean(data.name)) ? _this.find('#name').addClass('is-invalid') : _this.find('#name').removeClass('is-invalid');  
                                 (Boolean(data.position)) ? _this.find('#position').addClass('is-invalid') : _this.find('#position').removeClass('is-invalid');  
                                 (Boolean(data.congregation)) ? _this.find('#congregation').addClass('is-invalid') : _this.find('#congregation').removeClass('is-invalid');
-                                (Boolean(data.rank)) ? _this.find('#rank').addClass('is-invalid') : _this.find('#rank').removeClass('is-invalid');  
-                                (Boolean(data.type_id)) ? _this.find('#clergy_type_id').addClass('is-invalid') : _this.find('#clergy_type_id').removeClass('is-invalid');
+                                (Boolean(data.sequence)) ? _this.find('#sequence').addClass('is-invalid') : _this.find('#sequence').removeClass('is-invalid');  
+                                (Boolean(data.type_id)) ? _this.find('#clergy-type-id').addClass('is-invalid') : _this.find('#clergy-type-id').removeClass('is-invalid');
                             }
                         });
 
@@ -440,8 +440,8 @@
                                 (Boolean(data.name)) ? _this.find('#name').addClass('is-invalid') : _this.find('#name').removeClass('is-invalid');  
                                 (Boolean(data.position)) ? _this.find('#position').addClass('is-invalid') : _this.find('#position').removeClass('is-invalid');  
                                 (Boolean(data.congregation)) ? _this.find('#congregation').addClass('is-invalid') : _this.find('#congregation').removeClass('is-invalid');
-                                (Boolean(data.rank)) ? _this.find('#rank').addClass('is-invalid') : _this.find('#rank').removeClass('is-invalid');  
-                                (Boolean(data.type_id)) ? _this.find('#clergy_type_id').addClass('is-invalid') : _this.find('#clergy_type_id').removeClass('is-invalid');
+                                (Boolean(data.sequence)) ? _this.find('#sequence').addClass('is-invalid') : _this.find('#sequence').removeClass('is-invalid');  
+                                (Boolean(data.type_id)) ? _this.find('#clergy-type-id').addClass('is-invalid') : _this.find('#clergy-type-id').removeClass('is-invalid');
                             }
                         });
 

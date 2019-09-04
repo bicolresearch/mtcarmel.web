@@ -3,7 +3,7 @@
     Location    : application/views/admin/base.html.twig
     Purpose     : Admin base template
     Created     : 06/27/2019 16:45:42 by Spiderman
-    Updated     : 08/28/2019 19:51:13 by Spiderman
+    Updated     : 09/03/2019 21:31:23 by Spiderman
     Changes     : 
 #}
 
@@ -56,9 +56,9 @@
                                 <i class="align-middle icon-services icon-18"></i> <span class="align-middle">Services</span>
                             </a>
                             <ul id="services" class="sidebar-dropdown list-unstyled collapse">
-                                <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('admin/confraternity') }}">Confraternity</a></li>
-                                <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('admin/prayer_request') }}">Prayer Requests</a></li>
-                                <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('admin/mass_request') }}">Mass Requests</a></li>
+                                <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('admin/confraternities') }}">Confraternities</a></li>
+                                <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('admin/prayer_requests') }}">Prayer Requests</a></li>
+                                <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('admin/mass_requests') }}">Mass Requests</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -98,383 +98,495 @@
         </div>
     </div>
 
-{% block createModal %}
-    <div class="modal fade" id="create" data-backdrop="static" role="dialog" aria-labelledby="createModalTitle" aria-hidden="true">
-        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h3 class="modal-title" id="createModalTitle">Add New</h3>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <i data-feather="x"></i>
-                    </button>
+    {% block createModal %}
+        <div class="modal fade" id="create" data-backdrop="static" role="dialog" aria-labelledby="createModalTitle" aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 class="modal-title" id="createModalTitle">Add New</h3>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <i data-feather="x"></i>
+                        </button>
+                    </div>
+                    {% block createModalForm %}
+                        {# This is where the create form load #}
+                    {% endblock %}
                 </div>
-                {% block createModalForm %}
-                    {# This is where the create form load #}
-                {% endblock %}
             </div>
         </div>
-    </div>
-{% endblock %}
+    {% endblock %}
 
-{% block updateModal %}
-    <div class="modal fade" id="update" data-backdrop="static" role="dialog" aria-labelledby="updateModalTitle" aria-hidden="true">
-        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h3 class="modal-title" id="updateModalTitle">Update</h3>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <i data-feather="x"></i>
-                    </button>
+    {% block updateModal %}
+        <div class="modal fade" id="update" data-backdrop="static" role="dialog" aria-labelledby="updateModalTitle" aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 class="modal-title" id="updateModalTitle">Update</h3>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <i data-feather="x"></i>
+                        </button>
+                    </div>
+                    {% block updateModalForm %}
+                        {# This is where the update form load #}
+                    {% endblock %}
                 </div>
-                {% block updateModalForm %}
-                    {# This is where the update form load #}
-                {% endblock %}
             </div>
         </div>
-    </div>
-{% endblock %}
+    {% endblock %}
 
-{% block deleteModal %}
-    <div class="modal fade" id="delete" data-backdrop="static" role="dialog" aria-labelledby="deleteModalTitle" aria-hidden="true">
-        <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h3 class="modal-title" id="deleteModalTitle">Delete</h3>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <i data-feather="x"></i>
-                    </button>
+    {% block deleteModal %}
+        <div class="modal fade" id="delete" data-backdrop="static" role="dialog" aria-labelledby="deleteModalTitle" aria-hidden="true">
+            <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 class="modal-title" id="deleteModalTitle">Delete</h3>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <i data-feather="x"></i>
+                        </button>
+                    </div>
+                    <form id="delete-form">
+                        <input type="hidden" name="id">
+                        <div id="ajax-preloader"></div>
+                        <div class="modal-body p-5">
+                            <p class="text-center m-0">
+                                <!-- This is where the delete confirmation message load -->
+                            </p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-lg btn-danger rounded-pill px-5 btn-change-state">Delete</button>
+                        </div>
+                    </form>
                 </div>
-                <form id="delete-form">
-                    <input type="hidden" name="id">
+            </div>
+        </div>
+    {% endblock %}
+
+    {% block notif %}
+        <div class="modal fade" id="notif" data-backdrop="static" role="dialog" aria-labelledby="notifModalTitle" aria-hidden="true">
+            <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 class="modal-title" id="notifModalTitle">Notification</h3>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <i data-feather="x"></i>
+                        </button>
+                    </div>
                     <div id="ajax-preloader"></div>
                     <div class="modal-body p-5">
                         <p class="text-center m-0">
-                            <!-- This is where the delete confirmation message load -->
+                            <!-- This is where the notif message load --> 
                         </p>
                     </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-lg btn-danger rounded-pill px-5 btn-change-state">Delete</button>
+                </div>
+            </div>
+        </div>
+    {% endblock %}
+
+    {% block gallery %}
+        <div class="modal fade" id="gallery" data-backdrop="static" role="dialog" aria-labelledby="galleryModalTitle" aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 class="modal-title" id="galleryModalTitle">Media Gallery</h3>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <i data-feather="x"></i>
+                        </button>
                     </div>
-                </form>
-            </div>
-        </div>
-    </div>
-{% endblock %}
-
-{% block notif %}
-    <div class="modal fade" id="notif" data-backdrop="static" role="dialog" aria-labelledby="notifModalTitle" aria-hidden="true">
-        <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h3 class="modal-title" id="notifModalTitle">Notification</h3>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <i data-feather="x"></i>
-                    </button>
-                </div>
-                <div id="ajax-preloader"></div>
-                <div class="modal-body p-5">
-                    <p class="text-center m-0">
-                        <!-- This is where the notif message load --> 
-                    </p>
+                    <div id="ajax-preloader"></div>
+                    <div class="modal-body p-5">
+                        <table id="datatables__modal" class="table" width="100%">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>Name</th>
+                                    <th>Type</th>
+                                    <th>Size</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-{% endblock %}
+    {% endblock %}
 
-{% block gallery %}
-    <div class="modal fade" id="gallery" data-backdrop="static" role="dialog" aria-labelledby="galleryModalTitle" aria-hidden="true">
-        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h3 class="modal-title" id="galleryModalTitle">Media Gallery</h3>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <i data-feather="x"></i>
-                    </button>
-                </div>
-                <div id="ajax-preloader"></div>
-                <div class="modal-body p-5">
-                    <table id="datatables__modal" class="table" width="100%">
-                        <thead>
-                            <tr>
-                                <th></th>
-                                <th>Name</th>
-                                <th>Type</th>
-                                <th>Size</th>
-                            </tr>
-                        </thead>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
-{% endblock %}
+    {% block javascripts %}
+        <script src="{{ base_url('public/assets/js/app.js') }}"></script>
+        <script src="{{ base_url('public/assets/js/utilities.js') }}"></script>
+        <script>
+            $(function () {
 
-{% block javascripts %}
-    <script src="{{ base_url('public/assets/js/app.js') }}"></script>
-    <script src="{{ base_url('public/assets/js/utilities.js') }}"></script>
-    <script>
-        $(function () {
+                let baseURL = location.origin.toLowerCase() + '/mountcarmel.web';
+                let apiURL = location.origin.toLowerCase() + '/mountcarmel.api';
 
-            let baseURL = location.origin.toLowerCase() + '/mountcarmel.web';
-            let apiURL = location.origin.toLowerCase() + '/mountcarmel.api';
+                let app = {
+                    init: function() {
+                        this.activeList();
+                        this.avatar();
+                        this.gallery();
+                        this.createModal();
+                        this.updateModal();
+                        this.galleryModal();
+                        this.flatPickrTime();
+                        this.flatPickrDateTime();
+                        this.flatPickrCalendar();
+                        this.flatPickrCalendarFullDate();
+                        this.flatPickrCalendarShortDate();
+                        this.adTypeDDL();
+                        this.clergyTypeDDL();
+                        this.statusDDL();
+                        this.citiesDDL();
+                        this.provincesDDL();
+                        this.countriesDDL();
+                        this.inputMasking();
+                    },
+                    activeList: function () {
 
-            let app = {
-                init: function() {
-                    this.activeList();
-                    this.avatar();
-                    this.gallery();
-                    this.createModal();
-                    this.updateModal();
-                    this.galleryModal();
-                    this.flatPickrTime();
-                    this.flatPickrCalendar();
-                    this.flatPickrCalendarFullDate();
-                    this.flatPickrCalendarShortDate();
-                    this.adTypeDDL();
-                    this.clergyTypeDDL();
-                },
-                activeList: function () {
+                        let str = location.href.toLowerCase();
 
-                    let str = location.href.toLowerCase();
-
-                    $('.sidebar-nav li a').each(function () {
-                        if (str.indexOf(this.href.toLowerCase()) > -1) {
-                            $('.sidebar-nav li.active').removeClass('active');
-                            $(this).parent().addClass("active");
-                        }
-                    });
-
-                    $('.sidebar-nav li.active').parents().each(function () {
-                        if ($(this).is('li')) {
-                            $(this).addClass('active');
-                        }
-                    });
-                },
-                avatar: function() {
-
-                    let id = $('body').attr('data-user-id');
-
-                    let jqXHR = $.ajax({
-                        url: baseURL + '/admin/profile/id/' + id,
-                        type: 'GET',
-                        dataType: 'json',
-                        data: $('body').serialize(),
-                        cache: false,
-                        processData: false
-                    });
-                    
-                    jqXHR.done(function(data) {
-                        if (data) {
-                            $('body').find('.profile').append('<img class="img-fluid rounded-circle avatar mr-1" src="' + apiURL + '/' + data.avatar + '" alt="' + data.first_name + ' ' + data.last_name + '" />');
-                        }
-                    });
-
-                    jqXHR.fail(function (jqXHR, textStatus, errorThrown) {
-                        console.log('The following error occurred: ' + textStatus, errorThrown);
-                    });
-                },
-                gallery: function() {
-                    $('#gallery').on('show.bs.modal', function(){
-                        
-                        let table;
-
-                        // Check if a table is a DataTable or not
-                        if ($.fn.dataTable.isDataTable('#datatables__modal')) { 
-                            // Initialize datatables
-                            table = $('#datatables__modal').DataTable();                   
-                        } else {
-                            // Initialize datatables
-                            table = $('#datatables__modal').DataTable({
-                                "processing": true,
-                                "serverSide": false,
-                                "responsive": true,
-                                "select": {
-                                    "style": "single"
-                                },
-                                "ajax": {
-                                    "url": baseURL + "/admin/media/media",
-                                    "type": "GET"
-                                },
-                                "columns": [
-                                    {
-                                        "searchable": false,
-                                        "data": "media_path",
-                                        "mRender": function(data) {
-                                            return '<img class="mx-auto d-block" src="' + apiURL + '/' + data + '" height="32px" alt="' + data + '" />';
-                                        }
-                                    },
-                                    {"data": "name"},
-                                    {"data": "file_type"},
-                                    {
-                                        "data": "file_size",
-                                        "mRender": function(data) {
-                                            return data + ' ' + 'KB'
-                                        }
-                                    }
-                                ],
-                                "lengthMenu": [[10], [10]],
-                                "order": [[1, "desc"]],
-                                "columnDefs": [
-                                    {"orderable": false, "targets": []}
-                                ]
-                            });
-
-                            // Selected row
-                            $('#datatables__modal').on('click', 'tr', function() {
-                                // Get the row id value
-                                let data = table.row(this).data();                            
-                                
-                                // Add data-media-id attr to body and set the value with the selected row id
-                                $('body').attr('data-media-id', data.id);
-                            });
-                        }
-                    });
-                },
-                createModal: function() {
-                    $('#create').on('show.bs.modal', function(){
-                        $('body').attr('data-modal-previous', 'create');
-                    }).on('hidden.bs.modal', function(){
-                        $(this).find('input:hidden[name="media_id"]').val('');
-                        $(this).find('#placeholder').replaceWith(
-                            '<div id="placeholder" class="mb-3">' +
-                            '   <img class="mx-auto d-block" style="max-height: 200px" src="' + baseURL + '/public/assets/images/companylogo.jpg' + '" alt="Image Placeholder" />' +
-                            '</div>');
-                        $('body').removeAttr('data-media-id');
-                    });
-                },
-                updateModal: function() {
-                    $('#update').on('show.bs.modal', function(){
-                        $('body').attr('data-modal-previous', 'update');
-                    }).on('hidden.bs.modal', function(){
-                        $(this).find('input:hidden[name="id"]').val('');
-                        $(this).find('input:hidden[name="media_id"]').val('');
-                        $('body').removeAttr('data-media-id');
-                    });
-                },
-                galleryModal: function() {
-                    $('#gallery').on('show.bs.modal', function(){
-
-                        // Open the previous modal
-                        $('#' + $('body').attr('data-modal-previous')).modal('hide');
-
-                    }).on('shown.bs.modal', function(){
-
-                        // Add the class modal-open to body
-                        $('body').addClass('modal-open'); 
-
-                    }).on('hidden.bs.modal', function(e){
-
-                        // Open the previous modal
-                        $('#' + $('body').attr('data-modal-previous')).modal('show');
-                        
-                        // Get media by id with data-media-id attr as id paramater
-                        $.get(apiURL + '/media/medium/id/' + $('body').attr('data-media-id'), function(data) {
-                            $('#' + $('body').attr('data-modal-previous') + '-form').find('#placeholder').replaceWith(
-                                '<div id="placeholder" class="mb-3">' +
-                                '   <img class="mx-auto d-block" style="max-height: 200px" src="' + apiURL + '/' + data.media_path + '" alt="' + data.name + '" />' +
-                                '</div>');
+                        $('.sidebar-nav li a').each(function () {
+                            if (str.indexOf(this.href.toLowerCase()) > -1) {
+                                $('.sidebar-nav li.active').removeClass('active');
+                                $(this).parent().addClass("active");
+                            }
                         });
 
-                        // Set the hidden input media_id value with data-media-id attr
-                        $('#' + $('body').attr('data-modal-previous') + '-form').find('input:hidden[name="media_id"]').val($('body').attr('data-media-id'));
-                    });
-                },
-                flatPickrTime: function() {
-                    $('.flatpickrTime').flatpickr({
-                        enableTime: true,
-                        noCalendar: true,
-                        altInput: true,
-                        altFormat: "h:i K",
-                        dateFormat: 'H:i:S',
-                        time_24hr: false
-                    });
-                },
-                flatPickrCalendar: function() {
-                    $('.flatpickrCalendar').flatpickr({
-                        enableTime: false,
-                        altInput: true,
-                        altFormat: "F j, Y",
-                        dateFormat: "Y-m-d H:i:S",
-                        minDate: "today",
-                        weekNumbers: true
-                    });
-                },
-                flatPickrCalendarFullDate: function() {
-                    $('.flatpickrCalendarFullDate').flatpickr({
-                        enableTime: false,
-                        dateFormat: "j F Y",
-                        maxDate: "today"
-                    });
-                },
-                flatPickrCalendarShortDate: function() {
-                    $('.flatPickrCalendarShortDate').flatpickr({
-                        enableTime: false,
-                        dateFormat: "j F",
-                        maxDate: "today"
-                    });
-                },
-                adTypeDDL: function() {
-                    let _this = $('#ad_type_id');
+                        $('.sidebar-nav li.active').parents().each(function () {
+                            if ($(this).is('li')) {
+                                $(this).addClass('active');
+                            }
+                        });
+                    },
+                    avatar: function() {
 
-                    let jqXHR = $.ajax({
-                        url: apiURL + '/ad_type',
-                        type: 'GET',
-                        dataType: 'json',
-                        data: _this.serialize(),
-                        cache: false,
-                        processData: false
-                    });
-                    
-                    jqXHR.done(function(data) {
-                        if(data) {
-                            $.each(data.data, function(key, value) {
-                                _this.append(
-                                    '<option value="' + value.id + '">' + value.name + '</option>'
-                                );
+                        let id = $('body').attr('data-user-id');
+
+                        let jqXHR = $.ajax({
+                            url: baseURL + '/admin/profile/id/' + id,
+                            type: 'GET',
+                            dataType: 'json',
+                            data: $('body').serialize(),
+                            cache: false,
+                            processData: false
+                        });
+                        
+                        jqXHR.done(function(data) {
+                            if (data) {
+                                $('body').find('.profile').append('<img class="img-fluid rounded-circle avatar mr-1" src="' + apiURL + '/' + data.avatar + '" alt="' + data.first_name + ' ' + data.last_name + '" />');
+                            }
+                        });
+
+                        jqXHR.fail(function (jqXHR, textStatus, errorThrown) {
+                            console.log('The following error occurred: ' + textStatus, errorThrown);
+                        });
+                    },
+                    gallery: function() {
+                        $('#gallery').on('show.bs.modal', function(){
+                            
+                            let table;
+
+                            // Check if a table is a DataTable or not
+                            if ($.fn.dataTable.isDataTable('#datatables__modal')) { 
+                                // Initialize datatables
+                                table = $('#datatables__modal').DataTable();                   
+                            } else {
+                                // Initialize datatables
+                                table = $('#datatables__modal').DataTable({
+                                    "processing": true,
+                                    "serverSide": false,
+                                    "responsive": true,
+                                    "select": {
+                                        "style": "single"
+                                    },
+                                    "ajax": {
+                                        "url": baseURL + "/admin/media/media",
+                                        "type": "GET"
+                                    },
+                                    "columns": [
+                                        {
+                                            "searchable": false,
+                                            "data": "media_path",
+                                            "mRender": function(data) {
+                                                return '<img class="mx-auto d-block" src="' + apiURL + '/' + data + '" height="32px" alt="' + data + '" />';
+                                            }
+                                        },
+                                        {"data": "name"},
+                                        {"data": "file_type"},
+                                        {
+                                            "data": "file_size",
+                                            "mRender": function(data) {
+                                                return data + ' ' + 'KB'
+                                            }
+                                        }
+                                    ],
+                                    "lengthMenu": [[10], [10]],
+                                    "order": [[1, "desc"]],
+                                    "columnDefs": [
+                                        {"orderable": false, "targets": []}
+                                    ]
+                                });
+
+                                // Selected row
+                                $('#datatables__modal').on('click', 'tr', function() {
+                                    // Get the row id value
+                                    let data = table.row(this).data();                            
+                                    
+                                    // Add data-media-id attr to body and set the value with the selected row id
+                                    $('body').attr('data-media-id', data.id);
+                                });
+                            }
+                        });
+                    },
+                    createModal: function() {
+                        $('#create').on('show.bs.modal', function(){
+                            $('body').attr('data-modal-previous', 'create');
+                        }).on('hidden.bs.modal', function(){
+                            $(this).find('input:hidden[name="media_id"]').val('');
+                            $(this).find('#placeholder').replaceWith(
+                                '<div id="placeholder" class="mb-3">' +
+                                '   <img class="mx-auto d-block" style="max-height: 200px" src="' + baseURL + '/public/assets/images/companylogo.jpg' + '" alt="Image Placeholder" />' +
+                                '</div>');
+                            $('body').removeAttr('data-media-id');
+                        });
+                    },
+                    updateModal: function() {
+                        $('#update').on('show.bs.modal', function(){
+                            $('body').attr('data-modal-previous', 'update');
+                        }).on('hidden.bs.modal', function(){
+                            $(this).find('input:hidden[name="id"]').val('');
+                            $(this).find('input:hidden[name="media_id"]').val('');
+                            $('body').removeAttr('data-media-id');
+                        });
+                    },
+                    galleryModal: function() {
+                        $('#gallery').on('show.bs.modal', function(){
+
+                            // Open the previous modal
+                            $('#' + $('body').attr('data-modal-previous')).modal('hide');
+
+                        }).on('shown.bs.modal', function(){
+
+                            // Add the class modal-open to body
+                            $('body').addClass('modal-open'); 
+
+                        }).on('hidden.bs.modal', function(e){
+
+                            // Open the previous modal
+                            $('#' + $('body').attr('data-modal-previous')).modal('show');
+                            
+                            // Get media by id with data-media-id attr as id paramater
+                            $.get(apiURL + '/media/medium/id/' + $('body').attr('data-media-id'), function(data) {
+                                $('#' + $('body').attr('data-modal-previous') + '-form').find('#placeholder').replaceWith(
+                                    '<div id="placeholder" class="mb-3">' +
+                                    '   <img class="mx-auto d-block" style="max-height: 200px" src="' + apiURL + '/' + data.media_path + '" alt="' + data.name + '" />' +
+                                    '</div>');
                             });
-                        }
-                    });
 
-                    jqXHR.fail(function(jqXHR, textStatus, errorThrown) {
-                        console.log('The following error occurred: ' + textStatus, errorThrown);
-                    });
-                },
-                clergyTypeDDL: function() {
-                    let _this = $('#clergy_type_id');
+                            // Set the hidden input media_id value with data-media-id attr
+                            $('#' + $('body').attr('data-modal-previous') + '-form').find('input:hidden[name="media_id"]').val($('body').attr('data-media-id'));
+                        });
+                    },
+                    flatPickrTime: function() {
+                        $('.flatpickrTime').flatpickr({
+                            enableTime: true,
+                            noCalendar: true,
+                            altInput: true,
+                            altFormat: "h:i K",
+                            dateFormat: 'H:i:S',
+                            time_24hr: false
+                        });
+                    },
+                    flatPickrDateTime: function() {
+                        $('.flatpickrDateTime').flatpickr({
+                            enableTime: true,
+                            altInput: true,
+                            altFormat: "F j, Y h:i K",
+                            dateFormat: "Y-m-d H:i:S",
+                            time_24hr: false,
+                            weekNumbers: true
+                        });
+                    },
+                    flatPickrCalendar: function() {
+                        $('.flatpickrCalendar').flatpickr({
+                            enableTime: false,
+                            altInput: true,
+                            altFormat: "F j, Y",
+                            dateFormat: "Y-m-d",
+                            weekNumbers: true
+                        });
+                    },
+                    flatPickrCalendarFullDate: function() {
+                        $('.flatpickrCalendarFullDate').flatpickr({
+                            enableTime: false,
+                            dateFormat: "j F Y",
+                            maxDate: "today"
+                        });
+                    },
+                    flatPickrCalendarShortDate: function() {
+                        $('.flatPickrCalendarShortDate').flatpickr({
+                            enableTime: false,
+                            dateFormat: "j F",
+                            maxDate: "today"
+                        });
+                    },
+                    adTypeDDL: function() {
+                        let _this = $('select[name="type_id"]');
 
-                    let jqXHR = $.ajax({
-                        url: apiURL + '/clergy_type',
-                        type: 'GET',
-                        dataType: 'json',
-                        data: _this.serialize(),
-                        cache: false,
-                        processData: false
-                    });
-                    
-                    jqXHR.done(function(data) {
-                        if(data) {
-                            $.each(data.data, function(key, value) {
-                                _this.append(
-                                    '<option value="' + value.id + '">' + value.name + '</option>'
-                                );
+                        let jqXHR = $.ajax({
+                            url: apiURL + '/ad_type',
+                            type: 'GET',
+                            dataType: 'json',
+                            data: _this.serialize(),
+                            cache: false,
+                            processData: false
+                        });
+                        
+                        jqXHR.done(function(data) {
+                            if(data) {
+                                $.each(data.data, function(key, value) {
+                                    _this.append(
+                                        '<option value="' + value.id + '">' + value.name + '</option>'
+                                    );
+                                });
+                            }
+                        });
+
+                        jqXHR.fail(function(jqXHR, textStatus, errorThrown) {
+                            console.log('The following error occurred: ' + textStatus, errorThrown);
+                        });
+                    },
+                    clergyTypeDDL: function() {
+                        let _this = $('select[name="clergy_type_id"]');
+
+                        let jqXHR = $.ajax({
+                            url: apiURL + '/clergy_type',
+                            type: 'GET',
+                            dataType: 'json',
+                            data: _this.serialize(),
+                            cache: false,
+                            processData: false
+                        });
+                        
+                        jqXHR.done(function(data) {
+                            if(data) {
+                                $.each(data.data, function(key, value) {
+                                    _this.append(
+                                        '<option value="' + value.id + '">' + value.name + '</option>'
+                                    );
+                                });
+                            }
+                        });
+
+                        jqXHR.fail(function(jqXHR, textStatus, errorThrown) {
+                            console.log('The following error occurred: ' + textStatus, errorThrown);
+                        });
+                    },
+                    statusDDL: function() {
+                        let _this = $('select[name="status_id"]');
+
+                        let jqXHR = $.ajax({
+                            url: apiURL + '/status',
+                            type: 'GET',
+                            dataType: 'json',
+                            data: _this.serialize(),
+                            cache: false,
+                            processData: false
+                        });
+                        
+                        jqXHR.done(function(data) {
+                            if(data) {
+                                $.each(data.data, function(key, value) {
+                                    _this.append(
+                                        '<option value="' + value.id + '">' + value.name + '</option>'
+                                    );
+                                });
+                            }
+                        });
+
+                        jqXHR.fail(function(jqXHR, textStatus, errorThrown) {
+                            console.log('The following error occurred: ' + textStatus, errorThrown);
+                        });
+                    },
+                    citiesDDL: function() {  
+                        $('.modal').on('show.bs.modal', function(){
+                            $(this).find('select[name="city"]').select2({
+                                ajax: {
+                                    url: apiURL + '/cities/',
+                                    dataType: 'json',
+                                    data: function(params) {
+                                        var query = {
+                                            q: params.term
+                                        }
+                                        return query;
+                                    },
+                                    processResults: function (data) {
+                                        return {
+                                            results: data
+                                        };
+                                    }
+                                },
                             });
-                        }
-                    });
-
-                    jqXHR.fail(function(jqXHR, textStatus, errorThrown) {
-                        console.log('The following error occurred: ' + textStatus, errorThrown);
-                    });
+                        })
+                    },
+                    provincesDDL: function() {
+                        $('.modal').on('show.bs.modal', function(){
+                            $(this).find('select[name="province"]').select2({
+                                ajax: {
+                                    url: apiURL + '/provinces/',
+                                    dataType: 'json',
+                                    data: function(params) {
+                                        var query = {
+                                            q: params.term
+                                        }
+                                        return query;
+                                    },
+                                    processResults: function (data) {
+                                        return {
+                                            results: data
+                                        };
+                                    }
+                                }
+                            });
+                        });
+                    },
+                    countriesDDL: function() {
+                        $('.modal').on('show.bs.modal', function(){
+                            $(this).find('select[name="country"]').select2({
+                                ajax: {
+                                    url: apiURL + '/countries/',
+                                    dataType: 'json',
+                                    data: function(params) {
+                                        var query = {
+                                            q: params.term
+                                        }
+                                        return query;
+                                    },
+                                    processResults: function (data) {
+                                        return {
+                                            results: data
+                                        };
+                                    }
+                                }
+                            });
+                        });
+                    },
+                    inputMasking: function() {
+                        $('input[name="landline"]').mask('(00) 000-0000', { 
+                            placeholder: "(02) 123-4567"
+                        });
+                        $('input[name="mobile"]').mask('(000) 000-0000', { 
+                            placeholder: "(927) 123-4567"
+                        });
+                    }
                 }
-            }
 
-            app.init();
-        })
-    </script>
-{% endblock %}
+                app.init();
+            })
+        </script>
+    {% endblock %}
 
-{% block custom_scripts %}
-    {# This is where the custom scripts load #}
-{% endblock %}
+    {% block custom_scripts %}
+        {# This is where the custom scripts load #}
+    {% endblock %}
 </body>
 </html>

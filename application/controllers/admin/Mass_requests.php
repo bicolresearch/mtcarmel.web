@@ -1,18 +1,17 @@
 <?php
 
 /*
-    Filename    : Mass_request.php
-    Location    : application/controllers/admin/Mass_request.php
-    Purpose     : Mass request controller
+    Filename    : Mass_requests.php
+    Location    : application/controllers/admin/Mass_requests.php
+    Purpose     : Mass requests controller
     Created     : 08/01/2019 19:16:42 by Scarlet Witch
-    Updated     : 08/21/2019 22:59:49 by Spiderman
+    Updated     : 09/03/2019 19:52:05 by Spiderman
     Changes     : 
 */
 
-
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Mass_request extends CI_Controller
+class Mass_requests extends CI_Controller
 {
     public function __construct()
     {
@@ -23,17 +22,53 @@ class Mass_request extends CI_Controller
     {
         if(logged_in()) {
             $view_data = [
-                'page_title' => 'Mass request',
+                'page_title' => 'Mass Requests',
                 'page_subtitle' => '',
                 'user' => user()
             ];
     
-            $this->twig->display('admin/mass_request.html', $view_data);
+            $this->twig->display('admin/mass_requests.html', $view_data);
         } else {
             redirect('auth', 'refresh');
         }
     }
     
+    // GET request
+    public function mass_requests() 
+    {
+        // Redirect to auth if not ajax request
+        if (!$this->input->is_ajax_request()) {
+            redirect('auth', 'refresh');
+        }
+
+        // Create a client with a base URI
+        $client = $this->guzzle->client();
+
+        $options = [
+            'headers' => [
+                'Content-Type' => 'application/json',
+                'Accept' => 'application/json',
+                'X-API-KEY' => $this->guzzle->key()
+            ]
+        ];
+
+        try {
+            // GET request
+            $response = $client->get('mass_requests', $options);
+
+            $response = json_decode($response->getBody()->getContents());
+
+            // Return $response
+            echo json_encode($response, true);
+
+        } catch (GuzzleHttp\Exception\ClientException $e) {
+            $response = $e->getResponse();
+
+            // Return $response 
+            echo $response->getBody()->getContents();
+        }
+    }
+
     // GET request
     public function mass_request() 
     {
@@ -50,51 +85,15 @@ class Mass_request extends CI_Controller
                 'Content-Type' => 'application/json',
                 'Accept' => 'application/json',
                 'X-API-KEY' => $this->guzzle->key()
-            ]
-        ];
-
-        try {
-            // GET request
-            $response = $client->get('mass_request', $options);
-
-            $response = json_decode($response->getBody()->getContents());
-
-            // Return $response
-            echo json_encode($response, true);
-
-        } catch (GuzzleHttp\Exception\ClientException $e) {
-            $response = $e->getResponse();
-
-            // Return $response 
-            echo $response->getBody()->getContents();
-        }
-    }
-
-    // GET request
-    public function medium() 
-    {
-        // Redirect to auth if not ajax request
-        if (!$this->input->is_ajax_request()) {
-            redirect('auth', 'refresh');
-        }
-
-        // Create a client with a base URI
-        $client = $this->guzzle->client();
-
-        $options = [
-            'headers' => [
-                'Content-Type' => 'application/json',
-                'Accept' => 'application/json',
-                'X-API-KEY' => $this->guzzle->key()
             ],
             'query' => [
-                'id' => $this->uri->segment(5)
+                'id' => $_GET['id']
             ]
         ];
 
         try {
             // GET request
-            $response = $client->get('mass_request/medium', $options);
+            $response = $client->get('mass_requests/mass_request', $options);
 
             $response = json_decode($response->getBody()->getContents());
 
@@ -108,7 +107,6 @@ class Mass_request extends CI_Controller
             echo $response->getBody()->getContents();
         }
     }
-
 
     // POST request
     public function create() 
@@ -119,12 +117,11 @@ class Mass_request extends CI_Controller
         }
 
         $this->form_validation
-            ->set_rules('name', 'name', 'trim|required|xss_clean')   
-            ->set_rules('purpose_mass', 'purpose_mass', 'trim|required|xss_clean')  
-            ->set_rules('dt_offered', 'dt_offered', 'trim|required|xss_clean')   
-            ->set_rules('time_offered', 'time_offered', 'trim|required|xss_clean') 
+            ->set_rules('status_id', 'Status', 'trim|required|xss_clean')
+            ->set_rules('name', 'Name', 'trim|required|xss_clean')   
+            ->set_rules('purpose_id', 'Purpose', 'trim|required|xss_clean')  
+            ->set_rules('dt_offered', 'Date Offered', 'trim|required|xss_clean')   
             ->set_error_delimiters('<li>', '</li>');
-            
 
         if ($this->form_validation->run()) {
 
@@ -138,17 +135,19 @@ class Mass_request extends CI_Controller
                 ],
                 'form_params' => [
                     'branch_id' => 1,
+                    'module_id' => 5,
+                    'sub_module_id' => 3,
+                    'status_id' => $this->input->post('status_id'),
                     'name' => $this->input->post('name'),
-                    'purpose_mass' => $this->input->post('purpose_mass'),
+                    'purpose_id' => $this->input->post('purpose_id'),
                     'dt_offered' => $this->input->post('dt_offered'),
-                    'time_offered' => $this->input->post('time_offered'), 
                     'user_id' => user('id')
                 ]
             ];
 
             try {
                 // POST request
-                $response = $client->post('mass_request/create', $options);  
+                $response = $client->post('mass_requests/create', $options);  
     
                 // Return $response  
                 echo $response->getBody()->getContents();
@@ -163,13 +162,12 @@ class Mass_request extends CI_Controller
             $view_data = [
                 'status' => false,
                 'message' => validation_errors(),
+                'status_id' => form_error('status_id'),
                 'name' => form_error('name'),
-                'purpose_mass' => form_error('purpose_mass'),
-                'dt_offered' => form_error('dt_offered'),
-                'time_offered' => form_error('time_offered')
+                'purpose_id' => form_error('purpose_id'),
+                'dt_offered' => form_error('dt_offered')
             ];
             echo json_encode($view_data);
-            //echo $this->form_validation->get_json();
         }
     }
 
@@ -182,20 +180,18 @@ class Mass_request extends CI_Controller
         }
 
         $set_data = array(
-            'status' => $this->input->put('status'),
+            'status_id' => $this->input->put('status_id'),
             'name' => $this->input->put('name'),
-            'purpose_mass' => $this->input->put('purpose_mass'),
-            'dt_offered' => $this->input->put('dt_offered'),
-            'time_offered' => $this->input->put('time_offered')
+            'purpose_id' => $this->input->put('purpose_id'),
+            'dt_offered' => $this->input->put('dt_offered')
         );
 
         $this->form_validation
             ->set_data($set_data)
-            ->set_rules('status', 'status', 'trim|required|xss_clean')
-            ->set_rules('name', 'name', 'trim|required|xss_clean')
-            ->set_rules('purpose_mass', 'purpose_mass', 'trim|required|xss_clean')  
-            ->set_rules('dt_offered', 'dt_offered', 'trim|required|xss_clean')   
-            ->set_rules('time_offered', 'time_offered', 'trim|required|xss_clean')   
+            ->set_rules('status_id', 'Status', 'trim|required|xss_clean')
+            ->set_rules('name', 'Name', 'trim|required|xss_clean')   
+            ->set_rules('purpose_id', 'Purpose', 'trim|required|xss_clean')  
+            ->set_rules('dt_offered', 'Date Offered', 'trim|required|xss_clean')   
             ->set_error_delimiters('<li>', '</li>');
 
         if ($this->form_validation->run()) {
@@ -209,9 +205,9 @@ class Mass_request extends CI_Controller
                     'X-API-KEY' => $this->guzzle->key()
                 ],
                 'form_params' => [
-                    'status' => $this->input->put('status'),
+                    'status_id' => $this->input->put('status_id'),
                     'name' => $this->input->put('name'),
-                    'purpose_mass' => $this->input->put('purpose_mass'),
+                    'purpose_id' => $this->input->put('purpose_id'),
                     'dt_offered' => $this->input->put('dt_offered'),
                     'time_offered' => $this->input->put('time_offered'),
                     'user_id' => user('id')
@@ -223,7 +219,7 @@ class Mass_request extends CI_Controller
                 $id = $this->uri->segment(5);
 
                 // PUT request
-                $response = $client->put('mass_request/update/id/' . $id, $options);
+                $response = $client->put('mass_requests/update/id/' . $id, $options);
 
                 // Return $response  
                 echo $response->getBody()->getContents();
@@ -238,9 +234,9 @@ class Mass_request extends CI_Controller
             $view_data = [
                 'status' => false,
                 'message' => validation_errors(),
-                'status' => form_error('status'),
+                'status_id' => form_error('status_id'),
                 'name' => form_error('name'),
-                'purpose_mass' => form_error('purpose_mass'),
+                'purpose_id' => form_error('purpose_id'),
                 'dt_offered' => form_error('dt_offered'),
                 'time_offered' => form_error('time_offered')
             ];
@@ -274,7 +270,7 @@ class Mass_request extends CI_Controller
             $id = $this->uri->segment(5);
 
             // PUT request
-            $response = $client->put('mass_request/soft_delete/id/' . $id, $options);
+            $response = $client->put('mass_requests/soft_delete/id/' . $id, $options);
 
             // Return $response  
             echo $response->getBody()->getContents();

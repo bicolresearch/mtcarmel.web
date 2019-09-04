@@ -93,7 +93,7 @@ class Auth extends CI_Controller
                     'branch_id' => 1, // Main branch_id
                     'role_id' => 2, // Default role_id
                     'user_id' => 1, // Default created_by
-                    'media_id' => 14 // Default media_id (if no avatar selected)
+                    'media_id' => 1 // Default media_id (if no avatar selected)
                 ]
             ];
 

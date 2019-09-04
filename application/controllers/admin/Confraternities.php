@@ -1,17 +1,17 @@
 <?php
 
 /*
-    Filename    : Prayer_request.php
-    Location    : application/controllers/admin/Prayer_request.php
-    Purpose     : Prayer request controller
-    Created     : 08/01/2019 17:56:33 by Scarlet Witch
-    Updated     : 08/21/2019 23:00:08 by Spiderman
+    Filename    : Confraternities.php
+    Location    : application/controllers/admin/Confraternities.php
+    Purpose     : Confraternities controller
+    Created     : 07/31/2019 16:00:09 by Scarlet Witch
+    Updated     : 09/01/2019 22:11:20 by Spiderman
     Changes     : 
 */
 
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Prayer_request extends CI_Controller
+class Confraternities extends CI_Controller
 {
     public function __construct()
     {
@@ -22,19 +22,19 @@ class Prayer_request extends CI_Controller
     {
         if(logged_in()) {
             $view_data = [
-                'page_title' => 'Prayer requests',
+                'page_title' => 'Confraternities',
                 'page_subtitle' => '',
                 'user' => user()
             ];
     
-            $this->twig->display('admin/prayer_request.html', $view_data);
+            $this->twig->display('admin/confraternities.html', $view_data);
         } else {
             redirect('auth', 'refresh');
         }
     }
     
     // GET request
-    public function prayer_request() 
+    public function confraternities() 
     {
         // Redirect to auth if not ajax request
         if (!$this->input->is_ajax_request()) {
@@ -54,7 +54,7 @@ class Prayer_request extends CI_Controller
 
         try {
             // GET request
-            $response = $client->get('prayer_request', $options);
+            $response = $client->get('confraternities', $options);
 
             $response = json_decode($response->getBody()->getContents());
 
@@ -70,7 +70,7 @@ class Prayer_request extends CI_Controller
     }
 
     // GET request
-    public function medium() 
+    public function confraternity() 
     {
         // Redirect to auth if not ajax request
         if (!$this->input->is_ajax_request()) {
@@ -87,13 +87,13 @@ class Prayer_request extends CI_Controller
                 'X-API-KEY' => $this->guzzle->key()
             ],
             'query' => [
-                'id' => $this->uri->segment(5)
+                'id' => $_GET['id']
             ]
         ];
 
         try {
             // GET request
-            $response = $client->get('prayer_request/medium', $options);
+            $response = $client->get('confraternities/confraternity', $options);
 
             $response = json_decode($response->getBody()->getContents());
 
@@ -108,7 +108,6 @@ class Prayer_request extends CI_Controller
         }
     }
 
-
     // POST request
     public function create() 
     {
@@ -118,7 +117,17 @@ class Prayer_request extends CI_Controller
         }
 
         $this->form_validation
-            ->set_rules('prayer', 'Prayer', 'trim|required|xss_clean')
+            ->set_rules('status_id', 'Status', 'trim|required|xss_clean')
+            ->set_rules('name', 'Name', 'trim|required|xss_clean')
+            ->set_rules('address_1', 'Address 1', 'trim|required|xss_clean')  
+            ->set_rules('address_2', 'Address 2', 'trim|required|xss_clean')   
+            ->set_rules('city', 'City', 'trim|required|xss_clean')   
+            ->set_rules('province', 'Province', 'trim|required|xss_clean')   
+            ->set_rules('country', 'Country', 'trim|required|xss_clean')   
+            ->set_rules('birthdate', 'Birthdate', 'trim|required|xss_clean') 
+            ->set_rules('landline', 'Landline', 'trim|required|xss_clean') 
+            ->set_rules('mobile', 'Mobile', 'trim|required|xss_clean') 
+            ->set_rules('email', 'Email', 'trim|required|valid_email|xss_clean')
             ->set_error_delimiters('<li>', '</li>');
 
         if ($this->form_validation->run()) {
@@ -133,14 +142,26 @@ class Prayer_request extends CI_Controller
                 ],
                 'form_params' => [
                     'branch_id' => 1,
-                    'prayer' => $this->input->post('prayer'),
+                    'module_id' => 4,
+                    'sub_module_id' => 1,
+                    'status_id' => $this->input->post('status_id'),
+                    'name' => $this->input->post('name'),
+                    'address_1' => $this->input->post('address_1'),
+                    'address_2' => $this->input->post('address_2'),
+                    'city' => $this->input->post('city'),
+                    'province' => $this->input->post('province'),
+                    'country' => $this->input->post('country'),
+                    'birthdate' => $this->input->post('birthdate'),
+                    'landline' => $this->input->post('landline'),
+                    'mobile' => $this->input->post('mobile'),
+                    'email' => $this->input->post('email'),    
                     'user_id' => user('id')
                 ]
             ];
 
             try {
                 // POST request
-                $response = $client->post('prayer_request/create', $options);  
+                $response = $client->post('confraternities/create', $options);  
     
                 // Return $response  
                 echo $response->getBody()->getContents();
@@ -155,10 +176,19 @@ class Prayer_request extends CI_Controller
             $view_data = [
                 'status' => false,
                 'message' => validation_errors(),
-                'prayer' => form_error('prayer')
+                'status_id' => form_error('status_id'),
+                'name' => form_error('name'),
+                'address_1' => form_error('address_1'),
+                'address_2' => form_error('address_2'),
+                'city' => form_error('city'),
+                'province' => form_error('province'),
+                'country' => form_error('country'),
+                'birthdate' => form_error('birthdate'),
+                'landline' => form_error('landline'),
+                'mobile' => form_error('mobile'),
+                'email' => form_error('email')
             ];
             echo json_encode($view_data);
-            //echo $this->form_validation->get_json();
         }
     }
 
@@ -171,14 +201,32 @@ class Prayer_request extends CI_Controller
         }
 
         $set_data = array(
-            'status' => $this->input->put('status'),
-            'prayer' => $this->input->put('prayer')
+            'status_id' => $this->input->put('status_id'),
+            'name' => $this->input->put('name'),
+            'address_1' => $this->input->put('address_1'),
+            'address_2' => $this->input->put('address_2'),
+            'city' => $this->input->put('city'),
+            'province' => $this->input->put('province'),
+            'country' => $this->input->put('country'),
+            'birthdate' => $this->input->put('birthdate'),
+            'landline' => $this->input->put('landline'),
+            'mobile' => $this->input->put('mobile'),
+            'email' => $this->input->put('email')
         );
 
         $this->form_validation
             ->set_data($set_data)
-            ->set_rules('status', 'status', 'trim|required|xss_clean')
-            ->set_rules('prayer', 'prayer', 'trim|required|xss_clean')
+            ->set_rules('status_id', 'Status', 'trim|required|xss_clean')
+            ->set_rules('name', 'Name', 'trim|required|xss_clean')
+            ->set_rules('address_1', 'Address 1', 'trim|required|xss_clean')  
+            ->set_rules('address_2', 'Address 2', 'trim|required|xss_clean')   
+            ->set_rules('city', 'City', 'trim|required|xss_clean')   
+            ->set_rules('province', 'Province', 'trim|required|xss_clean')   
+            ->set_rules('country', 'Country', 'trim|required|xss_clean')   
+            ->set_rules('birthdate', 'Birthdate', 'trim|required|xss_clean') 
+            ->set_rules('landline', 'Landline', 'trim|required|xss_clean') 
+            ->set_rules('mobile', 'Mobile', 'trim|required|xss_clean') 
+            ->set_rules('email', 'Email', 'trim|required|valid_email|xss_clean')
             ->set_error_delimiters('<li>', '</li>');
 
         if ($this->form_validation->run()) {
@@ -192,9 +240,17 @@ class Prayer_request extends CI_Controller
                     'X-API-KEY' => $this->guzzle->key()
                 ],
                 'form_params' => [
-                    'branch_id' => 1,
-                    'status' => $this->input->put('status'),
-                    'prayer' => $this->input->put('prayer'),
+                    'status_id' => $this->input->put('status_id'),
+                    'name' => $this->input->put('name'),
+                    'address_1' => $this->input->put('address_1'),
+                    'address_2' => $this->input->put('address_2'),
+                    'city' => $this->input->put('city'),
+                    'province' => $this->input->put('province'),
+                    'country' => $this->input->put('country'),
+                    'birthdate' => $this->input->put('birthdate'),
+                    'landline' => $this->input->put('landline'),
+                    'mobile' => $this->input->put('mobile'),
+                    'email' => $this->input->put('email'),
                     'user_id' => user('id')
                 ]
             ];
@@ -204,7 +260,7 @@ class Prayer_request extends CI_Controller
                 $id = $this->uri->segment(5);
 
                 // PUT request
-                $response = $client->put('prayer_request/update/id/' . $id, $options);
+                $response = $client->put('confraternities/update/id/' . $id, $options);
 
                 // Return $response  
                 echo $response->getBody()->getContents();
@@ -219,8 +275,17 @@ class Prayer_request extends CI_Controller
             $view_data = [
                 'status' => false,
                 'message' => validation_errors(),
-                'status' => form_error('status'),
-                'prayer' => form_error('prayer')
+                'status_id' => form_error('status_id'),
+                'name' => form_error('name'),
+                'address_1' => form_error('address_1'),
+                'address_2' => form_error('address_2'),
+                'city' => form_error('city'),
+                'province' => form_error('province'),
+                'country' => form_error('country'),
+                'birthdate' => form_error('birthdate'),
+                'landline' => form_error('landline'),
+                'mobile' => form_error('mobile'),
+                'email' => form_error('email')
             ];
             echo json_encode($view_data);
         }
@@ -252,7 +317,7 @@ class Prayer_request extends CI_Controller
             $id = $this->uri->segment(5);
 
             // PUT request
-            $response = $client->put('prayer_request/soft_delete/id/' . $id, $options);
+            $response = $client->put('confraternities/soft_delete/id/' . $id, $options);
 
             // Return $response  
             echo $response->getBody()->getContents();

@@ -120,8 +120,8 @@ class Priests extends CI_Controller
             ->set_rules('name', 'Name', 'trim|required|xss_clean')
             ->set_rules('position', 'Position', 'trim|xss_clean')
             ->set_rules('congregation', 'Congregation', 'trim|xss_clean')
-            ->set_rules('rank', 'Rank', 'trim|xss_clean')
-            ->set_rules('type_id', 'Type', 'trim|xss_clean')
+            ->set_rules('sequence', 'Sequence', 'trim|required|xss_clean')
+            ->set_rules('type_id', 'Clergy Type', 'trim|required|xss_clean')
             ->set_rules('media_id', 'Image', 'trim|required|xss_clean')
             ->set_error_delimiters('<li>', '</li>');
 
@@ -140,8 +140,8 @@ class Priests extends CI_Controller
                     'name' => $this->input->post('name'),
                     'position' => $this->input->post('position'),
                     'congregation' => $this->input->post('Congregation'),
-                    'rank' => $this->input->post('rank'),      
-                    'type_id' => $this->input->post('type_id'),           
+                    'sequence' => $this->input->post('sequence'),      
+                    'type_id' => $this->input->post('clergy_type_id'),           
                     'media_id' => $this->input->post('media_id'),    
                     'user_id' => user('id')
                 ]
@@ -167,7 +167,7 @@ class Priests extends CI_Controller
                 'name' => form_error('name'),
                 'position' => form_error('position'),
                 'congregation' => form_error('congregation'),
-                'rank' => form_error('rank'),
+                'sequence' => form_error('sequence'),
                 'type_id' => form_error('type_id')
             ];
             echo json_encode($view_data);
@@ -186,9 +186,9 @@ class Priests extends CI_Controller
             'name' => $this->input->put('name'),
             'position' => $this->input->put('position'),
             'congregation' => $this->input->put('congregation'),
-            'rank' => $this->input->put('rank'),
-            'type_id' => $this->input->put('type_id'),
-            'media_id' => $this->input->put('media_id'),
+            'sequence' => $this->input->put('sequence'),
+            'type_id' => $this->input->put('clergy_type_id'),
+            'media_id' => $this->input->put('media_id')
         );
 
         $this->form_validation
@@ -196,8 +196,8 @@ class Priests extends CI_Controller
             ->set_rules('name', 'Name', 'trim|required|xss_clean')
             ->set_rules('position', 'Position', 'trim|xss_clean')
             ->set_rules('congregation', 'Congregation', 'trim|xss_clean')
-            ->set_rules('rank', 'Rank', 'trim|xss_clean')
-            ->set_rules('type_id', 'Type', 'trim|required|xss_clean')
+            ->set_rules('sequence', 'Sequence', 'trim|required|xss_clean')
+            ->set_rules('type_id', 'Clergy Type', 'trim|required|xss_clean')
             ->set_rules('media_id', 'Image', 'trim|required|xss_clean')
             ->set_error_delimiters('<li>', '</li>');
 
@@ -216,8 +216,8 @@ class Priests extends CI_Controller
                     'name' => $this->input->put('name'),
                     'position' => $this->input->put('position'),
                     'congregation' => $this->input->put('congregation'),
-                    'rank' => $this->input->put('rank'),
-                    'type_id' => $this->input->put('type_id'),
+                    'sequence' => $this->input->put('sequence'),
+                    'type_id' => $this->input->put('clergy_type_id'),
                     'media_id' => $this->input->put('media_id'),
                     'user_id' => user('id')
                 ]
@@ -245,7 +245,7 @@ class Priests extends CI_Controller
                 'name' => form_error('name'),
                 'position' => form_error('position'),
                 'congregation' => form_error('congregation'),
-                'rank' => form_error('rank'),
+                'sequence' => form_error('sequence'),
                 'type_id' => form_error('type_id')
             ];
             echo json_encode($view_data);

@@ -4,9 +4,9 @@
     Filename    : Home.php
     Location    : application/controllers/Home.php
     Purpose     : Home Controller
-    Created     : 6/03/2019 by Spiderman
-    Updated     : 7/03/2019 by Spiderman
-    Changes     : Removed the sample implementation of guzzle
+    Created     : 07/03/2019 17:14:23 by Spiderman
+    Updated     : 09/04/2019 17:14:38 by Spiderman
+    Changes     : 
 */
 
 defined('BASEPATH') or exit('No direct script access allowed');
@@ -16,7 +16,6 @@ class Home extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->output->enable_profiler(FALSE);
     }
 
     public function index()

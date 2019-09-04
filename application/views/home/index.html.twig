@@ -44,6 +44,7 @@
         $(function () {
 
             let apiURL = location.origin.toLowerCase() + '/mountcarmel.api';
+            let branchID = 1;
 
             let app = {
                 init: function () {
@@ -55,7 +56,7 @@
                     let _this = $('#splash-ads');
 
                     let jqXHR = $.ajax({
-                        url: apiURL + '/ads/?type_id=112',
+                        url: apiURL + '/ads/?branch_id=' + branchID + '&type_id=112',
                         type: 'GET',
                         dataType: 'json',
                         data: _this.serialize(),

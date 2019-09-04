@@ -3,8 +3,8 @@
     Location    : application/views/home/news.html.twig
     Purpose     : News partial page
     Created     : 06/03/2019 13:29:55 by Spiderman
-    Updated     : 08/27/2019 11:37:59 by Scarlet Witch
-    Changes     : updated hardcoded type_id from 89 to 111
+    Updated     : 09/04/2019 13:22:26 by Spiderman
+    Changes     : 
 #}
 
 {% extends 'base.html.twig' %}
@@ -28,6 +28,7 @@
 
             let baseURL = location.origin.toLowerCase() + '/mountcarmel.web';
             let apiURL = location.origin.toLowerCase() + '/mountcarmel.api';
+            let branchID = 1;
 
             let app = {
                 init: function() {
@@ -39,7 +40,7 @@
                     let _this = $('#media');
 
                     let jqXHR = $.ajax({
-                        url: apiURL + '/posts',
+                        url: apiURL + '/posts/?branch_id=' + branchID,
                         type: 'GET',
                         dataType: 'json', 
                         data: _this.serialize(),
@@ -90,7 +91,7 @@
                     let _this = $('#ads');
 
                     let jqXHR = $.ajax({
-                        url: apiURL + '/ads/?type_id=111',
+                        url: apiURL + '/ads/?branch_id=' + branchID + '&type_id=111',
                         type: 'GET',
                         dataType: 'json',
                         data: _this.serialize(),
@@ -101,7 +102,7 @@
                     jqXHR.done(function (data) {
                         if(data) {
                             _this.html(
-                                '<div class="card">' +
+                                '<div class="card sticky-top">' +
                                 '   <div class="card-header">' +
                                 '       <h4 class="card-title text-center">Powered By</h4>' + 
                                 '   </div>' +             
@@ -112,8 +113,10 @@
                             );
                             $.each(data, function (key, value) {
                                 _this.find('.row').append(
-                                   '<div class="col-12 text-center mb-2">' +
-                                        '<img class="img-fluid mx-auto d-block" style="max-height: 200px; display: block;" src="' + apiURL + '/' + value.media_path + '" alt="' + value.name + '"/>' +
+                                    '<div class="col-12 text-center">' +
+                                    '   <a href="' + value.url + '" title="' + value.description + '">' +
+                                    '       <img class="img-fluid mx-auto d-block" style="max-height: 200px; display: block;" src="' + apiURL + '/' + value.media_path + '" alt="' + value.name + '"/>' +
+                                    '   </a>' +
                                     '</div>'
                                 );
                             });

@@ -196,6 +196,23 @@ body {
       }
     }
 
+    /* Ads */
+    #ads {
+      .card-body {
+        .row {
+          div:first-child {
+            margin-top: 10px;
+          }
+          div {
+            margin-bottom: 30px;
+          }
+          div:last-child {
+            margin-bottom: 10px;
+          }
+        }
+      }
+    }
+
     /* Custom card style */
     .card {
       .card-header {
@@ -326,6 +343,43 @@ body {
 
 .input-group-text {
   @include border-radius(0);
+}
+
+/* Select2 JS */
+.select2-container--bootstrap4 {
+  .select2-selection {
+    @include border-radius(0);
+  }
+  .select2-results__option[aria-selected=true],
+  .select2-results__option--highlighted[aria-selected] {
+    background-color: $dark-khaki;
+    color: #fff;
+  }
+  .select2-search--dropdown {
+    padding: 10px;
+    .select2-search__field {
+      @include border-radius(0);
+      border-color: rgba(126, 82, 50, .50);
+      box-shadow: 0 0 0 0.2rem rgba(126, 82, 50, .15);
+    }
+  }
+}
+
+.select2-container--open .select2-dropdown--above,
+.select2-container--open .select2-dropdown--below {
+  @include border-radius(0);
+}
+
+.select2-container .select2-selection--single {
+  .select2-selection__rendered {
+    overflow: unset;
+  }
+}
+
+.select2-container--bootstrap4.select2-container--focus .select2-selection, 
+.select2-container--bootstrap4.select2-container--open .select2-selection,
+.select2-container--bootstrap4 .select2-dropdown {
+  border-color: rgba(126, 82, 50, .50);
 }
 
 .form-control-file.is-invalid {
@@ -654,6 +708,7 @@ a {
   }
 }
 
+/* Quill JS */
 .ql-toolbar.ql-snow {
   padding: 0;
 

@@ -44,8 +44,7 @@
 {% block custom_scripts %}
     <script>
         $(function () {
-
-            let baseURL = location.origin.toLowerCase() + '/mountcarmel.web';            
+       
             let apiURL = location.origin.toLowerCase() + '/mountcarmel.api';  
 
             let app = {
@@ -58,7 +57,7 @@
                     let _this = $('#history');
 
                     let jqXHR = $.ajax({
-                        url: apiURL + '/history/history/?id=1',
+                        url: apiURL + '/histories/history/?id=1',
                         type: 'GET',
                         dataType: 'json',
                         data: _this.serialize(),

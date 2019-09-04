@@ -1,29 +1,15 @@
 {#
-    Filename    : posts.html.twig
-    Location    : application/views/admin/posts.html.twig
-    Purpose     : Posts partial page
-    Created     : 07/03/2019 19:30:07 by Spiderman
-    Updated     : 09/04/2019 19:39:16 by Spiderman
+    Filename    : prayer_requests.html.twig
+    Location    : application/views/admin/prayer_requests.html.twig
+    Purpose     : Prayer requests partial page
+    Created     : 08/01/2019 17:52:29 by Scarlet Witch
+    Updated     : 09/03/2019 04:08:47 by Spiderman
     Changes     : 
 #}
 
 {% extends 'admin/base.html.twig' %}
 
 {% block title %} {{ page_title }} | Mount Carmel {% endblock %}
-
-{% block breadcrumbs %}
-    {# <div class="row">
-        <div class="col-12 col-lg-12">
-            <nav aria-label="breadcrumb">
-                <ol class="breadcrumb p-0">
-                    <li class="breadcrumb-item"><a href="{{ base_url('admin') }}">Dashboard</a></li>
-                    <li class="breadcrumb-item"><a href="{{ base_url('admin/management') }}">Management</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Posts</li>
-                </ol>
-            </nav>
-        </div>
-    </div> #}
-{% endblock %}
 
 {% block contents %}
     <div class="row">
@@ -48,10 +34,11 @@
                         <thead>
                             <tr>
                                 <th>#</th>
-                                <th>Title</th>
+                                <th>Prayer</th>
                                 <th>Created</th>
                                 <th>Modified</th>
                                 <th>Modified By</th>
+                                <th>Status</th>
                                 <th></th>
                                 <th></th>
                             </tr>
@@ -65,27 +52,22 @@
 
 {% block createModalForm %}
     <form id="create-form">
-        <div id="ajax-preloader"></div>
         <div class="modal-body px-5">
-            <input type="hidden" name="content">
-            <input type="hidden" name="media_id">
-            <div class="form-group">
-                <label for="title">Title</label>
-                <input type="text" class="form-control" id="title" name="title" value="{{ set_value('title') }}" placeholder="">
-            </div>
-            <div class="form-group">
-                <label for="content">Content</label>
-                <div id="create-editor" class="mb-3">
-                    <!--  WYSIWYG editor -->
+            <div id="ajax-preloader"></div>
+            <div id="ajax-response"></div>
+            <div class="row">
+                <div class="col-12 col-lg-6">
+                    <div class="form-group">
+                        <label for="status-id">Status</label>
+                        <select class="custom-select" id="status-id" name="status_id">
+                            <!-- This is where the status load -->
+                        </select>
+                    </div>
                 </div>
             </div>
-            <div id="placeholder" class="mb-3">
-                <!-- Image placeholder -->
-                <img class="mx-auto d-block" style="max-height: 200px" src="{{ base_url('public/assets/images/companylogo.jpg') }}" alt="Image Placeholder" />
-                <!-- This is where the image preview load -->
-            </div>
-            <div class="text-center">
-                <a class="btn btn-sm btn-brown rounded-pill px-3" href="#gallery" data-toggle="modal"><i class="align-middle" data-feather="grid"></i> Media Gallery</a>
+            <div class="form-group">
+                <label for="prayer">Prayer Request</label>
+                <textarea class="form-control" id="prayer" name="prayer" rows="10" maxlength="1000"></textarea>
             </div>
         </div>
         <div class="modal-footer">
@@ -99,23 +81,19 @@
         <div id="ajax-preloader"></div>
         <div class="modal-body px-5">
             <input type="hidden" name="id">
-            <input type="hidden" name="content">
-            <input type="hidden" name="media_id">
-            <div class="form-group">
-                <label for="title">Title</label>
-                <input type="text" class="form-control" id="title" name="title" value="{{ set_value('title') }}" placeholder="">
-            </div>
-            <div class="form-group">
-                <label for="content">Content</label>
-                <div id="update-editor" class="mb-3">
-                    <!--  WYSIWYG editor -->
+            <div class="row">
+                <div class="col-12 col-lg-6">
+                    <div class="form-group">
+                        <label for="status-id">Status</label>
+                        <select class="custom-select" id="status-id" name="status_id">
+                            <!-- This is where the status load -->
+                        </select>
+                    </div>
                 </div>
             </div>
-            <div id="placeholder" class="mb-3">
-                <!-- This is where the image preview load -->
-            </div>
-            <div class="text-center">
-                <a class="btn btn-sm btn-brown rounded-pill px-3" href="#gallery" data-toggle="modal"><i class="align-middle" data-feather="grid"></i> Media Gallery</a>
+            <div class="form-group">
+                <label for="prayer">Prayer Request</label>
+                <textarea class="form-control" id="prayer" name="prayer" rows="10" maxlength="1000"></textarea>
             </div>
         </div>
         <div class="modal-footer">
@@ -130,7 +108,6 @@
 
             let baseURL = location.origin.toLowerCase() + '/mountcarmel.web';
             let apiURL = location.origin.toLowerCase() + '/mountcarmel.api';
-            let branchID = 1;
             
             let isProcessing = false;
 
@@ -146,7 +123,7 @@
                         "serverSide": false,
                         "responsive": true,
                         "ajax": {
-                            "url": baseURL + "/admin/posts/posts/?branch_id=" + branchID,
+                            "url": baseURL + "/admin/prayer_requests/prayer_requests",
                             "type": "GET"
                         },
                         "columns": [
@@ -154,39 +131,66 @@
                                 "searchable": false,
                                 "data": null
                             },
-                            {"data": "title"},
-                            {
+                            {"data": "prayer"},
+                           {
                                 "data": "dt_created",
-                                "mRender": function (data) {
+                                "mRender": function(data) {
                                     return (data === null) ?  '' : moment(data).format('lll');
                                 }
                             },
                             {
                                 "data": "dt_updated",
-                                "mRender": function (data) {
+                                "mRender": function(data) {
                                     return (data === null) ?  '' : moment(data).format('lll');
                                 }
-                            },  
+                            },                              
                             {"data": "updated_by"},
                             {
-                                "searchable": false,
-                                "data": "id",
-                                "mRender": function (data) {
-                                    return '<a href="#update" data-toggle="modal" data-id="' + data + '" data-toggle="tooltip" data-placement="top" title="Update"><i class="align-middle material-icons md-22">mode_edit</i></a>';
+                                "data": {
+                                    "status_id": "status_id",
+                                    "status_name": "status_name"
+                                },
+                                "mRender": function(data) {
+                                    let n = parseInt(data.status_id);
+                                    switch(n) {
+                                        case 1: {
+                                            return '<span class="badge badge-pill badge-primary">' + data.status_name + '</span>';
+                                            break;
+                                        }
+                                        case 2: {
+                                            return '<span class="badge badge-pill badge-success">' + data.status_name + '</span>';
+                                            break;
+                                        }
+                                        case 3: {
+                                            return '<span class="badge badge-pill badge-danger">' + data.status_name + '</span>';
+                                            break;
+                                        }
+                                        default: {
+                                            return '<span class="badge badge-pill badge-secondary">' + data.status_name + '</span>';
+                                            break;
+                                        }
+                                    }
                                 }
                             },
                             {
                                 "searchable": false,
                                 "data": "id",
                                 "mRender": function (data) {
-                                    return '<a href="#delete" data-toggle="modal" data-id="' + data + '" data-toggle="tooltip" data-placement="top" title="Delete"><i class="align-middle material-icons md-22">remove_circle_outline</i></a>';
+                                    return '<a href="#update" data-toggle="modal" data-id="' + data + '" title="Update" ><i class="align-middle material-icons md-22">mode_edit</i></a>';
+                                }
+                            },
+                            {
+                                "searchable": false,
+                                "data": "id",
+                                "mRender": function (data) {
+                                    return '<a href="#delete" data-toggle="modal" data-id="' + data + '" title="Delete"><i class="align-middle material-icons md-22">remove_circle_outline</i></a>';
                                 }
                             }
                         ],
                         "lengthMenu": [[10, 25, 50, 75, 100], [10, 25, 50, 75, 100]],
                         "order": [[2, "desc"]],
                         "columnDefs": [
-                            {"orderable": false, "targets": [0, 5, 6]}
+                            {"orderable": false, "targets": [0, 6, 7]}
                         ]
                     });
 
@@ -212,9 +216,13 @@
                 },
                 resetForm: function() {
                     $('#update').on('hidden.bs.modal', function(){
+                        
                         let _this = $(this);
+
                         _this.find('form')[0].reset();
                         _this.find('.form-control').removeClass('is-invalid');
+                        _this.find('.custom-select').removeClass('is-invalid');
+                        _this.find('option:selected').remove();
                         _this.find('#ajax-response').empty();
                     });
                 },
@@ -222,15 +230,10 @@
                     $('#update').on('show.bs.modal', function (e) {
                         
                         let _this = $(this);
-                        
-                        // Set data-id attr
                         let id = $(e.relatedTarget).attr('data-id');
 
-                        // If id is null, set data-id attr from body instead
-                        if (id == null) id = $('body').attr('data-id');
-
                         let jqXHR = $.ajax({
-                            url: baseURL + '/admin/posts/post/?branch_id=' + branchID + '&id=' + id,
+                            url: baseURL + '/admin/prayer_requests/prayer_request/?id='  + id,
                             type: 'GET',
                             dataType: 'json',
                             data: _this.serialize(),
@@ -244,22 +247,9 @@
                         jqXHR.done(function (data) {
                             if (data) {
                                 // Populate form
-                                 $('body').attr('data-id', data.id);
                                 _this.find('input:hidden[name="id"]').val(data.id);
-                                _this.find('input[name="title"]').val(data.title);
-                                _this.find('.ql-editor').html(data.content);
-                                
-                                if($('body').attr('data-media-id') == null) {
-                                    _this.find('input:hidden[name="media_id"]').val(data.media_id); 
-                                }
-
-                                // Get media by id with data-media-id attr as id paramater
-                                $.get(apiURL + '/media/medium/id/' + _this.find('input:hidden[name="media_id"]').val(), function(data) {
-                                    _this.find('#placeholder').replaceWith(
-                                        '<div id="placeholder" class="mb-3">' +
-                                        '   <img class="mx-auto d-block" style="max-height: 200px" src="' + apiURL + '/' + data.media_path + '" alt="' + data.name + '" />' +
-                                        '</div>');
-                                });
+                                _this.find('select[name="status_id"]').append('<option value="' + data.status_id + '" selected>' + data.status_name + '</option>');
+                                _this.find('textarea[name="prayer"]').html(data.prayer);
                             }
                         });
 
@@ -288,33 +278,19 @@
 
                         _this.find('form')[0].reset();
                         _this.find('.form-control').removeClass('is-invalid');
-                        _this.find('#create-editor').css({'border-color':'#ccc', 'border-top':'none'}); 
-                        _this.find('input:hidden[name="content"]').val();
-                        _this.find('.ql-editor').empty();
+                        _this.find('.custom-select').removeClass('is-invalid');
+                        _this.find('#ajax-response').empty();
                     });
                 },
                 autoFocus: function() {
                     $('#create').on('shown.bs.modal', function(){
-                        $(this).find('input[name="title"]').trigger('focus');
-                    });
+                        $(this).find('textarea[name="prayer"]').trigger('focus');
+                    }) 
                 },
                 bindForm: function () {
                     $('#create').on('show.bs.modal', this.submitForm());
                 },
                 submitForm: function() {
-                    
-                    // Initialize quill
-                    let quill = new Quill('#create-editor', {
-                        modules: { 
-                            toolbar: [
-                                [
-                                    'bold', 'italic', 'underline', 'strike', 'link', {'list': 'ordered'}, {'list': 'bullet'}, 'blockquote', 'image', 'video', 'clean'
-                                ]
-                            ] 
-                        },
-                        theme: 'snow',
-                        placeholder: ''
-                    });
 
                     // Prevent multiple ajax request
                     if (isProcessing) return;
@@ -323,10 +299,9 @@
                     $('#create-form').on('submit', function(e){
 
                         let _this = $(this);
-                        let content = _this.find('input:hidden[name="content"]').val(quill.root.innerHTML);
 
                         let jqXHR = $.ajax({
-                            url: baseURL + '/admin/posts/create',
+                            url: baseURL + '/admin/prayer_requests/create',
                             type: 'POST',
                             dataType: 'json',
                             data: _this.serialize(),
@@ -347,16 +322,17 @@
                                 $('#create').modal('hide');
 
                                 // Show and append notif msg  
-                                $('#notif').modal('show').find('.modal-body p').text('A new post has been published');
-                                    
+                                $('#notif').modal('show').find('.modal-body p').text('A new prayer request has been published');
+                                
                                 // Hide notif after (x) number of seconds 
                                 setTimeout(function(){ 
                                     $('#notif').modal('hide');
                                 }, 3000);
                             } else {
                                 // Error msg response
-                                (Boolean(data.title)) ? _this.find('#title').addClass('is-invalid') : _this.find('#title').removeClass('is-invalid');
-                                (quill.editor.isBlank()) ? _this.find('#create-editor').css({'border':'1px solid #f00'}) : _this.find('#create-editor').css({'border-color':'#ccc', 'border-top':'none'});                
+                                _this.find('#ajax-response').html('<div class="alert alert-danger"><ul>' + data.message + '</ul></div>');
+                                (Boolean(data.status_id)) ? _this.find('#status-id').addClass('is-invalid') : _this.find('#status-id').removeClass('is-invalid');    
+                                (Boolean(data.prayer)) ? _this.find('#prayer').addClass('is-invalid') : _this.find('#prayer').removeClass('is-invalid');       
                             }
                         });
 
@@ -383,28 +359,13 @@
                     $('#update').on('show.bs.modal', this.submitForm());
                 },
                 submitForm: function() {
-
-                    // Initialize quill
-                    let quill = new Quill('#update-editor', {
-                        modules: { 
-                            toolbar: [
-                                [
-                                    'bold', 'italic', 'underline', 'strike', 'link', {'list': 'ordered'}, {'list': 'bullet'}, 'blockquote', 'image', 'video', 'clean'
-                                ]
-                            ] 
-                        },
-                        theme: 'snow',
-                        placeholder: 'Compose here'
-                    });
-
                     $('#update-form').on('submit', function(e){
                         
                         let _this = $(this);
                         let id = _this.find('input:hidden[name="id"]').val();
-                        let content = _this.find('input:hidden[name="content"]').val(quill.root.innerHTML);
-                    
+
                         let jqXHR = $.ajax({
-                            url: baseURL + '/admin/posts/update/id/' + id,
+                            url: baseURL + '/admin/prayer_requests/update/id/' + id,
                             type: 'PUT',
                             dataType: 'json',
                             data: _this.serialize(),
@@ -425,16 +386,17 @@
                                 $('#update').modal('hide');
 
                                 // Show and append notif msg  
-                                $('#notif').modal('show').find('.modal-body p').text('Post #' + id + ' has been updated');
-                                    
+                                $('#notif').modal('show').find('.modal-body p').text('Prayer request #' + id + ' has been updated');
+                                
                                 // Hide notif after (x) number of seconds 
                                 setTimeout(function(){ 
-                                        $('#notif').modal('hide');
+                                    $('#notif').modal('hide');
                                 }, 3000);
                             } else {
                                 // Error msg response
-                                (Boolean(data.title)) ? _this.find('#title').addClass('is-invalid') : _this.find('#title').removeClass('is-invalid');
-                                (quill.editor.isBlank()) ? _this.find('#update-editor').css({'border':'1px solid #f00'}) : _this.find('#update-editor').css({'border-color':'#ccc'});   
+                                _this.find('#ajax-response').html('<div class="alert alert-danger"><ul>' + data.message + '</ul></div>');
+                                (Boolean(data.status_id)) ? _this.find('#status-id').addClass('is-invalid') : _this.find('#status-id').removeClass('is-invalid');    
+                                (Boolean(data.prayer)) ? _this.find('#prayer').addClass('is-invalid') : _this.find('#prayer').removeClass('is-invalid'); 
                             }
                         });
 
@@ -460,7 +422,7 @@
                 bindForm: function () {
                     $('#delete').on('show.bs.modal', this.submitForm(), function(e){
                         $(this).find('input:hidden[name="id"]').val($(e.relatedTarget).attr('data-id'));
-                        $(this).find('.modal-body p').text('Are you sure you want to delete post #' + $(e.relatedTarget).attr('data-id') + '?');
+                        $(this).find('.modal-body p').text('Are you sure you want to delete prayer request #' + $(e.relatedTarget).attr('data-id') + '?');
                     });
                 },
                 submitForm: function() {
@@ -468,9 +430,9 @@
                         
                         let _this = $(this);
                         let id = _this.find('input:hidden[name="id"]').val();
-                        
+                    
                         let jqXHR = $.ajax({
-                            url: baseURL + '/admin/posts/delete/id/' + id,
+                            url: baseURL + '/admin/prayer_requests/delete/id/' + id,
                             type: 'PUT',
                             dataType: 'json',
                             data: _this.serialize(),
@@ -491,12 +453,12 @@
                                 $('#delete').modal('hide');
 
                                 // Show and append notif msg  
-                                $('#notif').modal('show').find('.modal-body p').text('Post #' + id + ' has been moved to trash');
-                                    
+                                $('#notif').modal('show').find('.modal-body p').text('Prayer request #' + id + ' has been moved to trash');
+
                                 // Hide notif after (x) number of seconds 
                                 setTimeout(function(){ 
                                     $('#notif').modal('hide');
-                                }, 3000);   
+                                }, 3000);
                             }
                         });
 

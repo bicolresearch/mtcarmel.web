@@ -54,7 +54,7 @@ class Histories extends CI_Controller
 
         try {
             // GET request
-            $response = $client->get('history', $options);
+            $response = $client->get('histories', $options);
 
             $response = json_decode($response->getBody()->getContents());
 
@@ -93,7 +93,7 @@ class Histories extends CI_Controller
 
         try {
             // GET request
-            $response = $client->get('history/history', $options);
+            $response = $client->get('histories/history', $options);
 
             $response = json_decode($response->getBody()->getContents());
 
@@ -147,7 +147,7 @@ class Histories extends CI_Controller
 
             try {
                 // POST request
-                $response = $client->post('history/create', $options);  
+                $response = $client->post('histories/create', $options);  
     
                 // Return $response  
                 echo $response->getBody()->getContents();
@@ -222,7 +222,7 @@ class Histories extends CI_Controller
                 $id = $this->uri->segment(5);
 
                 // PUT request
-                $response = $client->put('history/update/id/' . $id, $options);
+                $response = $client->put('histories/update/id/' . $id, $options);
 
                 // Return $response  
                 echo $response->getBody()->getContents();
@@ -272,7 +272,7 @@ class Histories extends CI_Controller
             $id = $this->uri->segment(5);
 
             // PUT request
-            $response = $client->put('history/soft_delete/id/' . $id, $options);
+            $response = $client->put('histories/soft_delete/id/' . $id, $options);
 
             // Return $response  
             echo $response->getBody()->getContents();

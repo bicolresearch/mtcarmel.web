@@ -1,9 +1,9 @@
 {#
-    Filename    : ads.html.twig
-    Location    : application/views/admin/ads.html.twig
-    Purpose     : Ads partial page
-    Created     : 07/11/2019 17:24:13 by Spiderman
-    Updated     : 08/30/2019 00:49:58 by Spiderman
+    Filename    : confraternities.html.twig
+    Location    : application/views/admin/confraternities.html.twig
+    Purpose     : Confraternities partial page
+    Created     : 07/31/2019 16:00:09 by Scarlet Witch
+    Updated     : 09/02/2019 16:30:39 by Spiderman
     Changes     : 
 #}
 
@@ -30,14 +30,15 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <table id="datatables__default" class="table" width="100%">
+                    <table id="datatables__default" class="table table-striped" width="100%">
                         <thead>
                             <tr>
                                 <th>#</th>
                                 <th>Name</th>
                                 <th>Created</th>
-                                <th>Modified</th>
+                                <th>Modified</th>                                                                                    
                                 <th>Modified By</th>
+                                <th>Status</th>
                                 <th></th>
                                 <th></th>
                             </tr>
@@ -54,43 +55,78 @@
         <div class="modal-body px-5">
             <div id="ajax-preloader"></div>
             <div id="ajax-response"></div>
-            <input type="hidden" name="media_id">
             <div class="row">
                 <div class="col-12 col-lg-6">
                     <div class="form-group">
-                        <label for="name">Name</label>
-                        <input type="text" class="form-control" id="name" name="name" value="{{ set_value('name') }}" />
-                    </div>
-                    <div class="form-group">
-                        <label for="description">Description</label>
-                        <textarea class="form-control" id="description" name="description" rows="2" maxlength="255"></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="ad-type-id">Ad Type</label>
-                        <select class="custom-select" id="ad-type-id" name="type_id">
-                            <option value="" selected>&dash;</option>
-                            <!-- This is where the ad type load -->
+                        <label for="status-id">Status</label>
+                        <select class="custom-select" id="status-id" name="status_id">
+                            <!-- This is where the status load -->
                         </select>
                     </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" class="form-control" id="name" name="name" value="{{ set_value('name') }}" placeholder="">
+            </div>
+            <div class="form-group">
+                <label for="address-1">Address 1</label>
+                <input type="text" class="form-control" id="address-1" name="address_1" value="{{ set_value('address_1') }}" placeholder="">
+            </div>
+            <div class="form-group">
+                <label for="address-2">Address 2</label>
+                <input type="text" class="form-control" id="address-2" name="address_2" value="{{ set_value('address_2') }}" placeholder="">
+            </div>
+            <div class="row">
+                <div class="col-12 col-lg-4">
                     <div class="form-group">
-                        <label for="url">URL</label>
-                        <input type="text" class="form-control" id="url" name="url" value="{{ set_value('url') }}" />
+                        <label for="city">City</label>
+                        <select class="form-control" id="city" name="city">
+                            <option value="" selected>&dash;</option>
+                            <!-- This is where the cities load -->
+                        </select>
                     </div>
+                </div>
+                <div class="col-12 col-lg-4">
                     <div class="form-group">
-                        <label for="expiration">Expiration</label>
-                        <input type="text" class="form-control flatpickrCalendar" id="expiration" name="expiration" value="{{ set_value('expiration') }}" />
+                        <label for="province">Province</label>
+                        <select class="custom-select" id="province" name="province">
+                            <option value="" selected>&dash;</option>
+                            <!-- This is where the provinces load -->
+                        </select>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-4">
+                    <div class="form-group">
+                        <label for="country">Country</label>
+                        <select class="custom-select" id="country" name="country">
+                            <option value="" selected>&dash;</option>
+                            <!-- This is where the countries load -->
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="birthdate">Birthdate</label>
+                <input type="text" class="form-control flatpickrCalendar" id="birthdate" name="birthdate" value="{{ set_value('birthdate') }}" placeholder="">
+            </div>
+            <div class="row">
+                <div class="col-12 col-lg-6">
+                    <div class="form-group">
+                        <label for="landline">Landline</label>
+                        <input type="text" class="form-control" id="landline" name="landline" value="{{ set_value('landline') }}" placeholder="">
                     </div>
                 </div>
                 <div class="col-12 col-lg-6">
-                    <div id="placeholder" class="mb-3">
-                        <!-- Image placeholder -->
-                        <img class="mx-auto d-block" style="max-height: 200px" src="{{ base_url('public/assets/images/companylogo.jpg') }}" alt="Image Placeholder" />
-                        <!-- This is where the image preview load -->
-                    </div>
-                    <div class="text-center">
-                        <a class="btn btn-sm btn-brown rounded-pill px-3" href="#gallery" data-toggle="modal"><i class="align-middle" data-feather="grid"></i> Media Gallery</a>
+                    <div class="form-group">
+                        <label for="mobile">Mobile</label>
+                        <input type="text" class="form-control" id="mobile" name="mobile" value="{{ set_value('mobile') }}" placeholder="">
                     </div>
                 </div>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="text" class="form-control" id="email" name="email" value="{{ set_value('email') }}" placeholder="">
             </div>
         </div>
         <div class="modal-footer">
@@ -105,40 +141,75 @@
             <div id="ajax-preloader"></div>
             <div id="ajax-response"></div>
             <input type="hidden" name="id">
-            <input type="hidden" name="media_id">
             <div class="row">
                 <div class="col-12 col-lg-6">
                     <div class="form-group">
-                        <label for="name">Name</label>
-                        <input type="text" class="form-control" id="name" name="name" value="{{ set_value('name') }}" />
-                    </div>
-                    <div class="form-group">
-                        <label for="description">Description</label>
-                        <textarea class="form-control" id="description" name="description" rows="2" maxlength="255"></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="ad-type-id">Ad Type</label>
-                        <select class="custom-select" id="ad-type-id" name="type_id">
-                            <!-- This is where the ad type load -->
+                        <label for="status-id">Status</label>
+                        <select class="custom-select" id="status-id" name="status_id">
+                            <!-- This is where the status load -->
                         </select>
                     </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" class="form-control" id="name" name="name" placeholder="">
+            </div>
+            <div class="form-group">
+                <label for="address-1">Address 1</label>
+                <input type="text" class="form-control" id="address-1" name="address_1" placeholder="">
+            </div>
+            <div class="form-group">
+                <label for="address-2">Address 2</label>
+                <input type="text" class="form-control" id="address-2" name="address_2" placeholder="">
+            </div>
+            <div class="row">
+                <div class="col-12 col-lg-4">
                     <div class="form-group">
-                        <label for="url">URL</label>
-                        <input type="text" class="form-control" id="url" name="url" />
+                        <label for="city">City</label>
+                        <select class="form-control" id="city" name="city">
+                            <!-- This is where the city load -->
+                        </select>
                     </div>
+                </div>
+                <div class="col-12 col-lg-4">
                     <div class="form-group">
-                        <label for="expiration">Expiration</label>
-                        <input type="text" class="form-control flatpickrCalendar" id="expiration" name="expiration" />
+                        <label for="province">Province</label>
+                        <select class="custom-select" id="province" name="province">
+                            <!-- This is where the province load -->
+                        </select>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-4">
+                    <div class="form-group">
+                        <label for="country">Country</label>
+                        <select class="custom-select" id="country" name="country">
+                            <!-- This is where the country load -->
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="birthdate">Birthdate</label>
+                <input type="text" class="form-control flatpickrCalendar" id="birthdate" name="birthdate" placeholder="">
+            </div>
+            <div class="row">
+                <div class="col-12 col-lg-6">
+                    <div class="form-group">
+                        <label for="landline">Landline</label>
+                        <input type="text" class="form-control" id="landline" name="landline" placeholder="">
                     </div>
                 </div>
                 <div class="col-12 col-lg-6">
-                    <div id="placeholder" class="mb-3">
-                        <!-- This is where the image preview load -->
-                    </div>
-                    <div class="text-center">
-                        <a class="btn btn-sm btn-brown rounded-pill px-3" href="#gallery" data-toggle="modal"><i class="align-middle" data-feather="grid"></i> Media Gallery</a>
+                    <div class="form-group">
+                        <label for="mobile">Mobile</label>
+                        <input type="text" class="form-control" id="mobile" name="mobile" placeholder="">
                     </div>
                 </div>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="text" class="form-control" id="email" name="email" placeholder="">
             </div>
         </div>
         <div class="modal-footer">
@@ -151,10 +222,9 @@
     <script>
         $(function () {
 
-            let baseURL = location.origin.toLowerCase() + '/mountcarmel.web';
-            let apiURL = location.origin.toLowerCase() + '/mountcarmel.api';
-            let branchID = 1;
-            
+            let baseURL = location.origin.toLowerCase() + '/mountcarmel.web';       
+            let apiURL = location.origin.toLowerCase() + '/mountcarmel.api';                
+
             let isProcessing = false;
 
             // GET: Display all
@@ -167,9 +237,9 @@
                     let table = $('#datatables__default').DataTable({
                         "processing": true,
                         "serverSide": false,
-                        "responsive": false,
+                        "responsive": true,
                         "ajax": {
-                            "url": baseURL + "/admin/ads/ads/?branch_id=" + branchID,
+                            "url": baseURL + "/admin/confraternities/confraternities",
                             "type": "GET"
                         },
                         "columns": [
@@ -180,17 +250,44 @@
                             {"data": "name"},
                             {
                                 "data": "dt_created",
-                                "mRender": function (data) {
-                                    return (data === null) ? '' : moment(data).format('lll');
+                                "mRender": function(data) {
+                                    return (data === null) ?  '' : moment(data).format('lll');
                                 }
                             },
                             {
                                 "data": "dt_updated",
-                                "mRender": function (data) {
-                                    return (data === null) ? '' : moment(data).format('lll');
+                                "mRender": function(data) {
+                                    return (data === null) ?  '' : moment(data).format('lll');
                                 }
-                            },  
+                            },                              
                             {"data": "updated_by"},
+                            {
+                                "data": {
+                                    "status_id": "status_id",
+                                    "status_name": "status_name"
+                                },
+                                "mRender": function(data) {
+                                    let n = parseInt(data.status_id);
+                                    switch(n) {
+                                        case 1: {
+                                            return '<span class="badge badge-pill badge-primary">' + data.status_name + '</span>';
+                                            break;
+                                        }
+                                        case 2: {
+                                            return '<span class="badge badge-pill badge-success">' + data.status_name + '</span>';
+                                            break;
+                                        }
+                                        case 3: {
+                                            return '<span class="badge badge-pill badge-danger">' + data.status_name + '</span>';
+                                            break;
+                                        }
+                                        default: {
+                                            return '<span class="badge badge-pill badge-secondary">' + data.status_name + '</span>';
+                                            break;
+                                        }
+                                    }
+                                }
+                            },
                             {
                                 "searchable": false,
                                 "data": "id",
@@ -209,7 +306,7 @@
                         "lengthMenu": [[10, 25, 50, 75, 100], [10, 25, 50, 75, 100]],
                         "order": [[2, "desc"]],
                         "columnDefs": [
-                            {"orderable": false, "targets": [0, 5, 6]}
+                            {"orderable": false, "targets": [0, 6, 7]}
                         ]
                     });
 
@@ -235,7 +332,7 @@
                 },
                 resetForm: function() {
                     $('#update').on('hidden.bs.modal', function(){
-
+                        
                         let _this = $(this);
 
                         _this.find('form')[0].reset();
@@ -245,19 +342,14 @@
                         _this.find('#ajax-response').empty();
                     });
                 },
-                displayForm: function(e) {
-                    $('#update').on('show.bs.modal', function(e){
+                displayForm: function() {
+                    $('#update').on('show.bs.modal', function (e) {
                         
                         let _this = $(this);
-
-                        // Set data-id attr
                         let id = $(e.relatedTarget).attr('data-id');
 
-                        // If id is null, set data-id attr from body instead
-                        if (id == null) id = $('body').attr('data-id');
- 
                         let jqXHR = $.ajax({
-                            url: baseURL + '/admin/ads/ad/?branch_id=' + branchID + '&id=' + id,
+                            url: baseURL + '/admin/confraternities/confraternity/?id=' + id,
                             type: 'GET',
                             dataType: 'json',
                             data: _this.serialize(),
@@ -271,26 +363,19 @@
                         jqXHR.done(function (data) {
                             if (data) {
                                 // Populate form
-                                $('body').attr('data-id', data.id);
-                                _this.find('input:hidden[name="id"]').val(data.id);  
+                                _this.find('input:hidden[name="id"]').val(data.id);                                    
+                                _this.find('select[name="status_id"]').append('<option value="' + data.status_id + '" selected>' + data.status_name + '</option>'); 
                                 _this.find('input[name="name"]').val(data.name);
-                                _this.find('textarea[name="description"]').html(data.description);
-                                _this.find('select[name="type_id"]').append('<option value="' + data.type_id + '" selected>' + data.type_name + '</option>'); 
-                                _this.find('input[name="url"]').val(data.url);
-                                _this.find('input[name="expiration"]').val(data.expiration);
-                                _this.find('input.input').val(moment(data.expiration, 'YYYY-MM-DD').format('MMMM DD, YYYY'));
-
-                                if($('body').attr('data-media-id') == null) {
-                                    _this.find('input:hidden[name="media_id"]').val(data.media_id); 
-                                }
-
-                                // Get media by id with data-media-id attr as id paramater
-                                $.get(apiURL + '/media/medium/id/' + _this.find('input:hidden[name="media_id"]').val(), function(data) {
-                                    _this.find('#placeholder').replaceWith(
-                                        '<div id="placeholder" class="mb-3">' +
-                                        '   <img class="mx-auto d-block" style="max-height: 200px" src="' + apiURL + '/' + data.media_path + '" alt="' + data.name + '" />' +
-                                        '</div>');
-                                });
+                                _this.find('input[name="address_1"]').val(data.address_1);
+                                _this.find('input[name="address_2"]').val(data.address_2);
+                                _this.find('select[name="city"]').append('<option value="' + data.city_code + '" selected>' + data.city_name + '</option>'); 
+                                _this.find('select[name="province"]').append('<option value="' + data.province_code + '" selected>' + data.province_name + '</option>'); 
+                                 _this.find('select[name="country"]').append('<option value="' + data.country_code + '" selected>' + data.country_name + '</option>'); 
+                                _this.find('input[name="birthdate"]').val(data.birthdate);
+                                _this.find('input.input').val(moment(data.birthdate, 'YYYY-MM-DD').format('MMMM DD, YYYY'));
+                                _this.find('input[name="landline"]').val(data.landline);
+                                _this.find('input[name="mobile"]').val(data.mobile);
+                                _this.find('input[name="email"]').val(data.email);
                             }
                         });
 
@@ -342,7 +427,7 @@
                         let _this = $(this);
 
                         let jqXHR = $.ajax({
-                            url: baseURL + '/admin/ads/create',
+                            url: baseURL + '/admin/confraternities/create',
                             type: 'POST',
                             dataType: 'json',
                             data: _this.serialize(),
@@ -363,7 +448,7 @@
                                 $('#create').modal('hide');
 
                                 // Show and append notif msg  
-                                $('#notif').modal('show').find('.modal-body p').text('A new ad has been published');
+                                $('#notif').modal('show').find('.modal-body p').text('A new confraternity has been published');
                                     
                                 // Hide notif after (x) number of seconds 
                                 setTimeout(function(){ 
@@ -372,11 +457,18 @@
                             } else {
                                 // Error msg response
                                 _this.find('#ajax-response').html('<div class="alert alert-danger"><ul>' + data.message + '</ul></div>');
+                                (Boolean(data.status_id)) ? _this.find('#status-id').addClass('is-invalid') : _this.find('#status-id').removeClass('is-invalid'); 
                                 (Boolean(data.name)) ? _this.find('#name').addClass('is-invalid') : _this.find('#name').removeClass('is-invalid');  
-                                (Boolean(data.description)) ? _this.find('#description').addClass('is-invalid') : _this.find('#description').removeClass('is-invalid');   
-                                (Boolean(data.type_id)) ? _this.find('#ad-type-id').addClass('is-invalid') : _this.find('#ad-type-id').removeClass('is-invalid');
-                                (Boolean(data.url)) ? _this.find('#url').addClass('is-invalid') : _this.find('#url').removeClass('is-invalid');
-                                (Boolean(data.expiration)) ? _this.find('#expiration').addClass('is-invalid') : _this.find('#expiration').removeClass('is-invalid');
+                                (Boolean(data.address_1)) ? _this.find('#address-1').addClass('is-invalid') : _this.find('#address-1').removeClass('is-invalid');  
+                                (Boolean(data.address_2)) ? _this.find('#address-2').addClass('is-invalid') : _this.find('#address-2').removeClass('is-invalid');  
+                                (Boolean(data.barangay)) ? _this.find('#barangay').addClass('is-invalid') : _this.find('#barangay').removeClass('is-invalid');  
+                                (Boolean(data.city)) ? _this.find('span[aria-labelledby="select2-city-container"]').css({'border':'1px solid #d9534f'}) : _this.find('span[aria-labelledby="select2-city-container"]').removeAttr('style');  
+                                (Boolean(data.province)) ? _this.find('span[aria-labelledby="select2-province-container"]').css({'border':'1px solid #d9534f'}) : _this.find('span[aria-labelledby="select2-province-container"]').removeAttr('style');
+                                (Boolean(data.country)) ? _this.find('span[aria-labelledby="select2-country-container"]').css({'border':'1px solid #d9534f'}) : _this.find('span[aria-labelledby="select2-country-container"]').removeAttr('style');
+                                (Boolean(data.birthdate)) ? _this.find('#birthdate + .input').addClass('is-invalid') : _this.find('#birthdate + .input').removeClass('is-invalid');  
+                                (Boolean(data.landline)) ? _this.find('#landline').addClass('is-invalid') : _this.find('#landline').removeClass('is-invalid');  
+                                (Boolean(data.mobile)) ? _this.find('#mobile').addClass('is-invalid') : _this.find('#mobile').removeClass('is-invalid'); 
+                                (Boolean(data.email)) ? _this.find('#email').addClass('is-invalid') : _this.find('#email').removeClass('is-invalid');  
                             }
                         });
 
@@ -409,7 +501,7 @@
                         let id = _this.find('input:hidden[name="id"]').val();
 
                         let jqXHR = $.ajax({
-                            url: baseURL + '/admin/ads/update/id/' + id,
+                            url: baseURL + '/admin/confraternities/update/id/' + id,
                             type: 'PUT',
                             dataType: 'json',
                             data: _this.serialize(),
@@ -430,8 +522,8 @@
                                 $('#update').modal('hide');
 
                                 // Show and append notif msg  
-                                $('#notif').modal('show').find('.modal-body p').text('Ad #' + id + ' has been updated');
-                                    
+                                $('#notif').modal('show').find('.modal-body p').text('Confraternity #' + id + ' has been updated');
+                                
                                 // Hide notif after (x) number of seconds 
                                 setTimeout(function(){ 
                                     $('#notif').modal('hide');
@@ -439,12 +531,19 @@
                             } else {
                                 // Error msg response
                                 _this.find('#ajax-response').html('<div class="alert alert-danger"><ul>' + data.message + '</ul></div>');
+                                (Boolean(data.status_id)) ? _this.find('#status-id').addClass('is-invalid') : _this.find('#status-id').removeClass('is-invalid'); 
                                 (Boolean(data.name)) ? _this.find('#name').addClass('is-invalid') : _this.find('#name').removeClass('is-invalid');  
-                                (Boolean(data.description)) ? _this.find('#description').addClass('is-invalid') : _this.find('#description').removeClass('is-invalid'); 
-                                (Boolean(data.type_id)) ? _this.find('#ad-type-id').addClass('is-invalid') : _this.find('#ad-type-id').removeClass('is-invalid');
-                                (Boolean(data.url)) ? _this.find('#url').addClass('is-invalid') : _this.find('#url').removeClass('is-invalid');
-                                (Boolean(data.expiration)) ? _this.find('#expiration').addClass('is-invalid') : _this.find('#expiration').removeClass('is-invalid');
-                            }
+                                (Boolean(data.address_1)) ? _this.find('#address-1').addClass('is-invalid') : _this.find('#address-1').removeClass('is-invalid');  
+                                (Boolean(data.address_2)) ? _this.find('#address-2').addClass('is-invalid') : _this.find('#address-2').removeClass('is-invalid');  
+                                (Boolean(data.barangay)) ? _this.find('#barangay').addClass('is-invalid') : _this.find('#barangay').removeClass('is-invalid');  
+                                (Boolean(data.city)) ? _this.find('span[aria-labelledby="select2-city-container"]').css({'border':'1px solid #d9534f'}) : _this.find('span[aria-labelledby="select2-city-container"]').removeAttr('style');  
+                                (Boolean(data.province)) ? _this.find('span[aria-labelledby="select2-province-container"]').css({'border':'1px solid #d9534f'}) : _this.find('span[aria-labelledby="select2-province-container"]').removeAttr('style');
+                                (Boolean(data.country)) ? _this.find('span[aria-labelledby="select2-country-container"]').css({'border':'1px solid #d9534f'}) : _this.find('span[aria-labelledby="select2-country-container"]').removeAttr('style');
+                                (Boolean(data.birthdate)) ? _this.find('#birthdate + .input').addClass('is-invalid') : _this.find('#birthdate + .input').removeClass('is-invalid');  
+                                (Boolean(data.landline)) ? _this.find('#landline').addClass('is-invalid') : _this.find('#landline').removeClass('is-invalid');  
+                                (Boolean(data.mobile)) ? _this.find('#mobile').addClass('is-invalid') : _this.find('#mobile').removeClass('is-invalid'); 
+                                (Boolean(data.email)) ? _this.find('#email').addClass('is-invalid') : _this.find('#email').removeClass('is-invalid');  
+                            }  
                         });
 
                         jqXHR.always(function () {
@@ -469,7 +568,7 @@
                 bindForm: function () {
                     $('#delete').on('show.bs.modal', this.submitForm(), function(e){
                         $(this).find('input:hidden[name="id"]').val($(e.relatedTarget).attr('data-id'));
-                        $(this).find('.modal-body p').text('Are you sure you want to delete ad #' + $(e.relatedTarget).attr('data-id') + '?');
+                        $(this).find('.modal-body p').text('Are you sure you want to delete confraternity #' + $(e.relatedTarget).attr('data-id') + '?');
                     });
                 },
                 submitForm: function() {
@@ -479,7 +578,7 @@
                         let id = _this.find('input:hidden[name="id"]').val();
                     
                         let jqXHR = $.ajax({
-                            url: baseURL + '/admin/ads/delete/id/' + id,
+                            url: baseURL + '/admin/confraternities/delete/id/' + id,
                             type: 'PUT',
                             dataType: 'json',
                             data: _this.serialize(),
@@ -500,12 +599,12 @@
                                 $('#delete').modal('hide');
 
                                 // Show and append notif msg  
-                                $('#notif').modal('show').find('.modal-body p').text('Ad #' + id + ' has been moved to trash');
+                                $('#notif').modal('show').find('.modal-body p').text('Confraternity #' + id + ' has been moved to trash');
                                     
                                 // Hide notif after (x) number of seconds 
                                 setTimeout(function(){ 
                                     $('#notif').modal('hide');
-                                }, 3000);       
+                                }, 3000);
                             }
                         });
 

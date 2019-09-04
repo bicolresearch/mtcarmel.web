@@ -5,7 +5,7 @@
     Location    : application/controllers/admin/Posts.php
     Purpose     : Posts controller
     Created     : 07/03/2019 15:09:39 by Spiderman
-    Updated     : 08/22/2019 21:52:27 by Spiderman
+    Updated     : 09/04/2019 18:35:48 by Spiderman
     Changes     : 
 */
 
@@ -49,6 +49,9 @@ class Posts extends CI_Controller
                 'Content-Type' => 'application/json',
                 'Accept' => 'application/json',
                 'X-API-KEY' => $this->guzzle->key()
+            ],
+            'query' => [
+                'branch_id' => $_GET['branch_id']
             ]
         ];
 
@@ -87,6 +90,7 @@ class Posts extends CI_Controller
                 'X-API-KEY' => $this->guzzle->key()
             ],
             'query' => [
+                'branch_id' => $_GET['branch_id'],
                 'id' => $_GET['id']
             ]
         ];
@@ -133,7 +137,7 @@ class Posts extends CI_Controller
                     'X-API-KEY' => $this->guzzle->key()
                 ],
                 'form_params' => [
-                    'branch_id' => 1,
+                    'branch_id' => $this->config->item('branch_id'),
                     'title' => $this->input->post('title'),
                     'content' => $this->input->post('content'),
                     'media_id' => $this->input->post('media_id'),
@@ -197,7 +201,6 @@ class Posts extends CI_Controller
                     'X-API-KEY' => $this->guzzle->key()
                 ],
                 'form_params' => [
-                    'branch_id' => 1,
                     'title' => $this->input->put('title'),
                     'content' => $this->input->put('content'),
                     'media_id' => $this->input->put('media_id'),
