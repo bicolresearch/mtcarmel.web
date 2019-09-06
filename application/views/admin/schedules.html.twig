@@ -157,9 +157,9 @@
     <script>
         $(function () {
 
-            let baseURL = $.fn.baseURL();
-            let apiURL = $.fn.apiURL();
-            let branchID = $.fn.branchID();
+            let baseURL = location.origin.toLowerCase() + '/mountcarmel.web';       
+            let apiURL = location.origin.toLowerCase() + '/mountcarmel.api';    
+
             let isProcessing = false;
 
             // GET: Display all
@@ -174,7 +174,7 @@
                         "serverSide": false,
                         "responsive": true,
                         "ajax": {
-                            "url": $.fn.baseURL() + "/admin/schedules/schedules/?branch_id=" + $.fn.branchID(),
+                            "url": baseURL + "/admin/schedules/schedules",
                             "type": "GET"
                         },
                         "columns": [
@@ -248,7 +248,6 @@
                         _this.find('form')[0].reset();
                         _this.find('.form-control').removeClass('is-invalid');
                         _this.find('.custom-select').removeClass('is-invalid');
-                        _this.find('option:selected').remove();
                         _this.find('#ajax-response').empty();
                     });
                 },
@@ -260,7 +259,7 @@
                         let id = $(e.relatedTarget).data('id');
     
                         let jqXHR = $.ajax({
-                            url: baseURL + '/admin/schedules/schedule/?branch_id=' + branchID + '&id=' + id,
+                            url: baseURL + '/admin/schedules/schedule/?id=' + id,
                             type: 'GET',
                             dataType: 'json',
                             data: _this.serialize(),

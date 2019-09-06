@@ -49,9 +49,6 @@ class Live_streams extends CI_Controller
                 'Content-Type' => 'application/json',
                 'Accept' => 'application/json',
                 'X-API-KEY' => $this->guzzle->key()
-            ],
-            'query' => [
-                'branch_id' => $_GET['branch_id']
             ]
         ];
 
@@ -90,7 +87,6 @@ class Live_streams extends CI_Controller
                 'X-API-KEY' => $this->guzzle->key()
             ],
             'query' => [
-                'branch_id' => $_GET['branch_id'],
                 'id' => $_GET['id']
             ]
         ];
@@ -137,7 +133,7 @@ class Live_streams extends CI_Controller
                     'X-API-KEY' => $this->guzzle->key()
                 ],
                 'form_params' => [
-                    'branch_id' => $this->config->item('branch_id'),
+                    'branch_id' => 1,
                     'title' => $this->input->post('title'),
                     'description' => $this->input->post('description'),
                     'video_id' => $this->input->post('video_id'),
@@ -202,6 +198,7 @@ class Live_streams extends CI_Controller
                     'X-API-KEY' => $this->guzzle->key()
                 ],
                 'form_params' => [
+                    'branch_id' => 1,
                     'title' => $this->input->put('title'),
                     'description' => $this->input->put('description'),
                     'video_id' => $this->input->put('video_id'),

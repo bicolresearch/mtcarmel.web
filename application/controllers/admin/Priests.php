@@ -1,17 +1,17 @@
 <?php
 
 /*
-    Filename    : Carmelites.php
-    Location    : application/controllers/admin/Carmelites.php
-    Purpose     : Carmelites controller
+    Filename    : Priests.php
+    Location    : application/controllers/admin/Priests.php
+    Purpose     : Priests controller
     Created     : 07/23/2019 13:03:17 by Scarlet Witch
-    Updated     : 09/06/2019 20:49:46 by Spiderman
+    Updated     : 08/25/2019 14:15:58 by Spiderman
     Changes     : 
 */
 
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Carmelites extends CI_Controller
+class Priests extends CI_Controller
 {
     public function __construct()
     {
@@ -27,14 +27,14 @@ class Carmelites extends CI_Controller
                 'user' => user()
             ];
     
-            $this->twig->display('admin/carmelites.html', $view_data);
+            $this->twig->display('admin/priests.html', $view_data);
         } else {
             redirect('auth', 'refresh');
         }
     }
     
     // GET request
-    public function carmelites() 
+    public function priests() 
     {
         // Redirect to auth if not ajax request
         if (!$this->input->is_ajax_request()) {
@@ -49,15 +49,12 @@ class Carmelites extends CI_Controller
                 'Content-Type' => 'application/json',
                 'Accept' => 'application/json',
                 'X-API-KEY' => $this->guzzle->key()
-            ],
-            'query' => [
-                'branch_id' => $_GET['branch_id']
             ]
         ];
 
         try {
             // GET request
-            $response = $client->get('carmelites', $options);
+            $response = $client->get('priests', $options);
 
             $response = json_decode($response->getBody()->getContents());
 
@@ -73,7 +70,7 @@ class Carmelites extends CI_Controller
     }
 
     // GET request
-    public function carmelite() 
+    public function priest() 
     {
         // Redirect to auth if not ajax request
         if (!$this->input->is_ajax_request()) {
@@ -90,14 +87,13 @@ class Carmelites extends CI_Controller
                 'X-API-KEY' => $this->guzzle->key()
             ],
             'query' => [
-                'branch_id' => $_GET['branch_id'],
                 'id' => $_GET['id']
             ]
         ];
 
         try {
             // GET request
-            $response = $client->get('carmelites/carmelite', $options);
+            $response = $client->get('priests/priest', $options);
 
             $response = json_decode($response->getBody()->getContents());
 
@@ -140,7 +136,7 @@ class Carmelites extends CI_Controller
                     'X-API-KEY' => $this->guzzle->key()
                 ],
                 'form_params' => [
-                    'branch_id' => $this->config->item('branch_id'),
+                    'branch_id' => 1,
                     'name' => $this->input->post('name'),
                     'position' => $this->input->post('position'),
                     'congregation' => $this->input->post('Congregation'),
@@ -153,7 +149,7 @@ class Carmelites extends CI_Controller
 
             try {
                 // POST request
-                $response = $client->post('carmelites/create', $options);  
+                $response = $client->post('priests/create', $options);  
     
                 // Return $response  
                 echo $response->getBody()->getContents();
@@ -216,6 +212,7 @@ class Carmelites extends CI_Controller
                     'X-API-KEY' => $this->guzzle->key()
                 ],
                 'form_params' => [
+                    'branch_id' => 1,
                     'name' => $this->input->put('name'),
                     'position' => $this->input->put('position'),
                     'congregation' => $this->input->put('congregation'),
@@ -230,7 +227,7 @@ class Carmelites extends CI_Controller
                 $id = $this->uri->segment(5);
 
                 // PUT request
-                $response = $client->put('carmelites/update/id/' . $id, $options);
+                $response = $client->put('priests/update/id/' . $id, $options);
 
                 // Return $response  
                 echo $response->getBody()->getContents();
@@ -280,7 +277,7 @@ class Carmelites extends CI_Controller
             $id = $this->uri->segment(5);
 
             // PUT request
-            $response = $client->put('carmelites/soft_delete/id/' . $id, $options);
+            $response = $client->put('priests/soft_delete/id/' . $id, $options);
 
             // Return $response  
             echo $response->getBody()->getContents();

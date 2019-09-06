@@ -3,7 +3,7 @@
     Location    : application/views/admin/boundaries.html.twig
     Purpose     : Boundaries partial page
     Created     : 07/23/2019 15:17:37 by Scarlet Witch
-    Updated     : 09/06/2019 19:15:51 by Spiderman
+    Updated     : 08/23/2019 13:38:20 by Spiderman
     Changes     : 
 #}
 
@@ -94,9 +94,9 @@
     <script>
         $(function () {
 
-            let baseURL = $.fn.baseURL();
-            let apiURL = $.fn.apiURL();
-            let branchID = $.fn.branchID();
+            let baseURL = location.origin.toLowerCase() + '/mountcarmel.web';     
+            let apiURL = location.origin.toLowerCase() + '/mountcarmel.api';   
+
             let isProcessing = false;
 
             // GET: Display all
@@ -111,7 +111,7 @@
                         "serverSide": false,
                         "responsive": true,
                         "ajax": {
-                            "url": baseURL + "/admin/boundaries/boundaries/?branch_id=" + branchID,
+                            "url": baseURL + "/admin/boundaries/boundaries",
                             "type": "GET"
                         },
                         "columns": [
@@ -193,7 +193,7 @@
                         let id = $(e.relatedTarget).attr('data-id');
 
                         let jqXHR = $.ajax({
-                            url: baseURL + '/admin/boundaries/boundary/?branch_id=' + branchID + '&id=' + id,
+                            url: baseURL + '/admin/boundaries/boundary/?id=' + id,
                             type: 'GET',
                             dataType: 'json',
                             data: _this.serialize(),

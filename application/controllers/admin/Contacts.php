@@ -5,7 +5,7 @@
     Location    : application/controllers/admin/Contacts.php
     Purpose     : Contacts controller
     Created     : 07/23/2019 11:53:46 by Scarlet Witch
-    Updated     : 09/06/2019 22:53:19 by Spiderman
+    Updated     : 08/22/2019 22:21:28 by Spiderman
     Changes     : 
 */
 
@@ -49,9 +49,6 @@ class Contacts extends CI_Controller
                 'Content-Type' => 'application/json',
                 'Accept' => 'application/json',
                 'X-API-KEY' => $this->guzzle->key()
-            ],
-            'query' => [
-                'branch_id' => $_GET['branch_id']
             ]
         ];
 
@@ -90,7 +87,6 @@ class Contacts extends CI_Controller
                 'X-API-KEY' => $this->guzzle->key()
             ],
             'query' => [
-                'branch_id' => $_GET['branch_id'],
                 'id' => $_GET['id']
             ]
         ];
@@ -145,7 +141,7 @@ class Contacts extends CI_Controller
                     'X-API-KEY' => $this->guzzle->key()
                 ],
                 'form_params' => [
-                    'branch_id' => $this->config->item('branch_id'),
+                    'branch_id' => 1,
                     'name' => $this->input->post('name'),
                     'description' => $this->input->post('description'),
                     'address1' => $this->input->post('address1'),        
@@ -238,6 +234,7 @@ class Contacts extends CI_Controller
                     'X-API-KEY' => $this->guzzle->key()
                 ],
                 'form_params' => [
+                    'branch_id' => 1,
                     'name' => $this->input->put('name'),
                     'description' => $this->input->put('description'),
                     'address1' => $this->input->put('address1'),

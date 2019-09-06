@@ -59,7 +59,7 @@
                 <div class="col-12 col-lg-6">
                     <div class="form-group">
                         <label for="status-id">Status</label>
-                        <select class="form-control" id="status-id" name="status_id">
+                        <select class="custom-select" id="status-id" name="status_id">
                             <!-- This is where the status load -->
                         </select>
                     </div>
@@ -90,7 +90,7 @@
                 <div class="col-12 col-lg-4">
                     <div class="form-group">
                         <label for="province">Province</label>
-                        <select class="form-control" id="province" name="province">
+                        <select class="custom-select" id="province" name="province">
                             <option value="" selected>&dash;</option>
                             <!-- This is where the provinces load -->
                         </select>
@@ -99,7 +99,7 @@
                 <div class="col-12 col-lg-4">
                     <div class="form-group">
                         <label for="country">Country</label>
-                        <select class="form-control" id="country" name="country">
+                        <select class="custom-select" id="country" name="country">
                             <option value="" selected>&dash;</option>
                             <!-- This is where the countries load -->
                         </select>
@@ -145,7 +145,7 @@
                 <div class="col-12 col-lg-6">
                     <div class="form-group">
                         <label for="status-id">Status</label>
-                        <select class="form-control" id="status-id" name="status_id">
+                        <select class="custom-select" id="status-id" name="status_id">
                             <!-- This is where the status load -->
                         </select>
                     </div>
@@ -175,7 +175,7 @@
                 <div class="col-12 col-lg-4">
                     <div class="form-group">
                         <label for="province">Province</label>
-                        <select class="form-control" id="province" name="province">
+                        <select class="custom-select" id="province" name="province">
                             <!-- This is where the province load -->
                         </select>
                     </div>
@@ -183,7 +183,7 @@
                 <div class="col-12 col-lg-4">
                     <div class="form-group">
                         <label for="country">Country</label>
-                        <select class="form-control" id="country" name="country">
+                        <select class="custom-select" id="country" name="country">
                             <!-- This is where the country load -->
                         </select>
                     </div>
@@ -461,6 +461,7 @@
                                 (Boolean(data.name)) ? _this.find('#name').addClass('is-invalid') : _this.find('#name').removeClass('is-invalid');  
                                 (Boolean(data.address_1)) ? _this.find('#address-1').addClass('is-invalid') : _this.find('#address-1').removeClass('is-invalid');  
                                 (Boolean(data.address_2)) ? _this.find('#address-2').addClass('is-invalid') : _this.find('#address-2').removeClass('is-invalid');  
+                                (Boolean(data.barangay)) ? _this.find('#barangay').addClass('is-invalid') : _this.find('#barangay').removeClass('is-invalid');  
                                 (Boolean(data.city)) ? _this.find('span[aria-labelledby="select2-city-container"]').css({'border':'1px solid #d9534f'}) : _this.find('span[aria-labelledby="select2-city-container"]').removeAttr('style');  
                                 (Boolean(data.province)) ? _this.find('span[aria-labelledby="select2-province-container"]').css({'border':'1px solid #d9534f'}) : _this.find('span[aria-labelledby="select2-province-container"]').removeAttr('style');
                                 (Boolean(data.country)) ? _this.find('span[aria-labelledby="select2-country-container"]').css({'border':'1px solid #d9534f'}) : _this.find('span[aria-labelledby="select2-country-container"]').removeAttr('style');
@@ -534,6 +535,7 @@
                                 (Boolean(data.name)) ? _this.find('#name').addClass('is-invalid') : _this.find('#name').removeClass('is-invalid');  
                                 (Boolean(data.address_1)) ? _this.find('#address-1').addClass('is-invalid') : _this.find('#address-1').removeClass('is-invalid');  
                                 (Boolean(data.address_2)) ? _this.find('#address-2').addClass('is-invalid') : _this.find('#address-2').removeClass('is-invalid');  
+                                (Boolean(data.barangay)) ? _this.find('#barangay').addClass('is-invalid') : _this.find('#barangay').removeClass('is-invalid');  
                                 (Boolean(data.city)) ? _this.find('span[aria-labelledby="select2-city-container"]').css({'border':'1px solid #d9534f'}) : _this.find('span[aria-labelledby="select2-city-container"]').removeAttr('style');  
                                 (Boolean(data.province)) ? _this.find('span[aria-labelledby="select2-province-container"]').css({'border':'1px solid #d9534f'}) : _this.find('span[aria-labelledby="select2-province-container"]').removeAttr('style');
                                 (Boolean(data.country)) ? _this.find('span[aria-labelledby="select2-country-container"]').css({'border':'1px solid #d9534f'}) : _this.find('span[aria-labelledby="select2-country-container"]').removeAttr('style');

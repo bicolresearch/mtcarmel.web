@@ -49,9 +49,6 @@ class Schedules extends CI_Controller
                 'Content-Type' => 'application/json',
                 'Accept' => 'application/json',
                 'X-API-KEY' => $this->guzzle->key()
-            ],
-            'query' => [
-                'branch_id' => $_GET['branch_id']
             ]
         ];
 
@@ -90,7 +87,6 @@ class Schedules extends CI_Controller
                 'X-API-KEY' => $this->guzzle->key()
             ],
             'query' => [
-                'branch_id' => $_GET['branch_id'],
                 'id' => $_GET['id']
             ]
         ];
@@ -139,7 +135,7 @@ class Schedules extends CI_Controller
                     'X-API-KEY' => $this->guzzle->key()
                 ],
                 'form_params' => [
-                    'branch_id' => $this->config->item('branch_id'),
+                    'branch_id' => 1,
                     'name' => $this->input->post('name'),
                     'description' => $this->input->post('description'),
                     'time_from' => $this->input->post('time_from'),
