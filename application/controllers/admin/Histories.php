@@ -5,7 +5,7 @@
     Location    : application/controllers/admin/Histories.php
     Purpose     : Histories controller
     Created     : 07/22/2019 23:35:25 by Scarlet Witch 
-    Updated     : 08/22/2019 22:47:48 by Spiderman
+    Updated     : 09/07/2019 01:21:31 by Spiderman
     Changes     : 
 */
 
@@ -49,6 +49,9 @@ class Histories extends CI_Controller
                 'Content-Type' => 'application/json',
                 'Accept' => 'application/json',
                 'X-API-KEY' => $this->guzzle->key()
+            ],
+            'query' => [
+                'branch_id' => $_GET['branch_id']
             ]
         ];
 
@@ -87,6 +90,7 @@ class Histories extends CI_Controller
                 'X-API-KEY' => $this->guzzle->key()
             ],
             'query' => [
+                'branch_id' => $_GET['branch_id'],
                 'id' => $_GET['id']
             ]
         ];
@@ -118,9 +122,9 @@ class Histories extends CI_Controller
 
         $this->form_validation
             ->set_rules('titular', 'Titular', 'trim|required|xss_clean')
-            ->set_rules('diocese', 'Diocese', 'trim|required|xss_clean')            
-            ->set_rules('date_of_establishment', 'Date_of_establishment', 'trim|required|xss_clean')  
-            ->set_rules('feast_day', 'Feast_day', 'trim|required|xss_clean')  
+            ->set_rules('diocese', 'Diocese', 'trim|required|xss_clean')
+            ->set_rules('date_of_establishment', 'Date of Establishment', 'trim|required|xss_clean')
+            ->set_rules('feast_day', 'Feast Day', 'trim|required|xss_clean')
             ->set_rules('content', 'Content', 'trim|required|xss_clean')
             ->set_error_delimiters('<li>', '</li>');
 
@@ -135,7 +139,7 @@ class Histories extends CI_Controller
                     'X-API-KEY' => $this->guzzle->key()
                 ],
                 'form_params' => [
-                    'branch_id' => 1,
+                    'branch_id' => $this->config->item('branch_id'),
                     'titular' => $this->input->post('titular'),
                     'diocese' => $this->input->post('diocese'),
                     'date_of_establishment' => $this->input->post('date_of_establishment'),   
@@ -190,11 +194,11 @@ class Histories extends CI_Controller
 
         $this->form_validation
             ->set_data($set_data)
-            ->set_rules('titular', 'titular', 'trim|required|xss_clean')
-            ->set_rules('diocese', 'diocese', 'trim|required|xss_clean')
-            ->set_rules('date_of_establishment', 'date_of_establishment', 'trim|required|xss_clean')
-            ->set_rules('feast_day', 'feast_day', 'trim|required|xss_clean')
-            ->set_rules('content', 'content', 'trim|required|xss_clean')
+            ->set_rules('titular', 'Titular', 'trim|required|xss_clean')
+            ->set_rules('diocese', 'Diocese', 'trim|required|xss_clean')
+            ->set_rules('date_of_establishment', 'Date of Establishment', 'trim|required|xss_clean')
+            ->set_rules('feast_day', 'Feast Day', 'trim|required|xss_clean')
+            ->set_rules('content', 'Content', 'trim|required|xss_clean')
             ->set_error_delimiters('<li>', '</li>');
 
         if ($this->form_validation->run()) {
@@ -208,7 +212,6 @@ class Histories extends CI_Controller
                     'X-API-KEY' => $this->guzzle->key()
                 ],
                 'form_params' => [
-                    'branch_id' => 1,
                     'titular' => $this->input->put('titular'),
                     'diocese' => $this->input->put('diocese'),
                     'date_of_establishment' => $this->input->put('date_of_establishment'),

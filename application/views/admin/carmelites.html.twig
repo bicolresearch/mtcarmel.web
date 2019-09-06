@@ -1,9 +1,9 @@
 {#
-    Filename    : priests.html.twig
-    Location    : application/views/admin/priests.html.twig
-    Purpose     : Priests partial page
+    Filename    : carmelites.html.twig
+    Location    : application/views/admin/carmelites.html.twig
+    Purpose     : Carmelites partial page
     Created     : 07/23/2019 12:49:20 by Scarlet Witch
-    Updated     : 08/25/2019 13:45:38 by Spiderman
+    Updated     : 09/06/2019 20:42:04 by Spiderman
     Changes     :
 #}
 
@@ -151,8 +151,9 @@
     <script>
         $(function () {
 
-            let baseURL = location.origin.toLowerCase() + '/mountcarmel.web';          
-            let apiURL = location.origin.toLowerCase() + '/mountcarmel.api';
+            let baseURL = $.fn.baseURL();
+            let apiURL = $.fn.apiURL();
+            let branchID = $.fn.branchID();
 
             let isProcessing = false;
 
@@ -168,7 +169,7 @@
                         "serverSide": false,
                         "responsive": true,
                         "ajax": {
-                            "url": baseURL + "/admin/priests/priests",
+                            "url": baseURL + "/admin/carmelites/carmelites/?branch_id=" + branchID,
                             "type": "GET"
                         },
                         "columns": [
@@ -256,7 +257,7 @@
                         if (id == null) id = $('body').attr('data-id');
 
                         let jqXHR = $.ajax({
-                            url: baseURL + '/admin/priests/priest/?id=' + id,
+                            url: baseURL + '/admin/carmelites/carmelite/?branch_id=' + branchID + '&id=' + id,
                             type: 'GET',
                             dataType: 'json',
                             data: _this.serialize(),
@@ -339,7 +340,7 @@
                         let _this = $(this);
     
                         let jqXHR = $.ajax({
-                            url: baseURL + '/admin/priests/create',
+                            url: baseURL + '/admin/carmelites/create',
                             type: 'POST',
                             dataType: 'json',
                             data: _this.serialize(),
@@ -360,7 +361,7 @@
                                 $('#create').modal('hide');
 
                                 // Show and append notif msg  
-                                $('#notif').modal('show').find('.modal-body p').text('A new priests has been published');
+                                $('#notif').modal('show').find('.modal-body p').text('A new carmelite has been added');
                                 
                                 // Hide notif after (x) number of seconds 
                                 setTimeout(function(){ 
@@ -407,7 +408,7 @@
                         let id = _this.find('input:hidden[name="id"]').val();
                     
                         let jqXHR = $.ajax({
-                            url: baseURL + '/admin/priests/update/id/' + id,
+                            url: baseURL + '/admin/carmelites/update/id/' + id,
                             type: 'PUT',
                             dataType: 'json',
                             data: _this.serialize(),
@@ -428,7 +429,7 @@
                                 $('#update').modal('hide');
 
                                 // Show and append notif msg  
-                                $('#notif').modal('show').find('.modal-body p').text('Priest #' + id + ' has been updated');
+                                $('#notif').modal('show').find('.modal-body p').text('Carmelite #' + id + ' has been updated');
                                 
                                 // Hide notif after (x) number of seconds 
                                 setTimeout(function(){ 
@@ -467,7 +468,7 @@
                 bindForm: function () {
                     $('#delete').on('show.bs.modal', this.submitForm(), function(e){
                         $(this).find('input:hidden[name="id"]').val($(e.relatedTarget).attr('data-id'));
-                        $(this).find('.modal-body p').text('Are you sure you want to delete priest #' + $(e.relatedTarget).attr('data-id') + '?');
+                        $(this).find('.modal-body p').text('Are you sure you want to delete carmelite #' + $(e.relatedTarget).attr('data-id') + '?');
                     });
                 },
                 submitForm: function() {
@@ -477,7 +478,7 @@
                         let id = _this.find('input:hidden[name="id"]').val();
                     
                         let jqXHR = $.ajax({
-                            url: baseURL + '/admin/priests/delete/id/' + id,
+                            url: baseURL + '/admin/carmelites/delete/id/' + id,
                             type: 'PUT',
                             dataType: 'json',
                             data: _this.serialize(),
@@ -498,7 +499,7 @@
                                 $('#delete').modal('hide');
 
                                 // Show and append notif msg  
-                                $('#notif').modal('show').find('.modal-body p').text('Priest #' + id + ' has been moved to trash');
+                                $('#notif').modal('show').find('.modal-body p').text('Carmelite #' + id + ' has been moved to trash');
                                 
                                 // Hide notif after (x) number of seconds 
                                 setTimeout(function(){ 

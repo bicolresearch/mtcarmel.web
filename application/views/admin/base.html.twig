@@ -45,7 +45,7 @@
                                 <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('admin/media') }}">Media</a></li>
                                 <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('admin/schedules') }}">Mass Schedules</a></li>
                                 <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('admin/boundaries') }}">Map Boundaries</a></li>
-                                <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('admin/priests') }}">Carmelites</a></li>
+                                <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('admin/carmelites') }}">Carmelites</a></li>
                                 <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('admin/contacts') }}">Contacts</a></li>
                                 <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('admin/histories') }}">Histories</a></li>
                                 <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('admin/live_streams') }}">Live Streams</a></li>
@@ -216,8 +216,9 @@
         <script>
             $(function () {
 
-                let baseURL = location.origin.toLowerCase() + '/mountcarmel.web';
-                let apiURL = location.origin.toLowerCase() + '/mountcarmel.api';
+                let baseURL = $.fn.baseURL();
+                let apiURL = $.fn.apiURL();
+                let branchID = $.fn.branchID();
 
                 let app = {
                     init: function() {

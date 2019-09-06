@@ -110,9 +110,9 @@
     <script>
         $(function () {
 
-            let baseURL = location.origin.toLowerCase() + '/mountcarmel.web';                 
-            let apiURL = location.origin.toLowerCase() + '/mountcarmel.api';              
-
+            let baseURL = $.fn.baseURL();
+            let apiURL = $.fn.apiURL();
+            let branchID = $.fn.branchID();            
             let isProcessing = false;
 
             // GET: Display all
@@ -127,7 +127,7 @@
                         "serverSide": false,
                         "responsive": true,
                         "ajax": {
-                            "url": baseURL + "/admin/live_streams/live_streams",
+                            "url": baseURL + "/admin/live_streams/live_streams/?branch_id=" + branchID,
                             "type": "GET"
                         },
                         "columns": [
@@ -209,7 +209,7 @@
                         let id = $(e.relatedTarget).attr('data-id');
 
                         let jqXHR = $.ajax({
-                            url: baseURL + '/admin/live_streams/live_stream/?id=' + id,
+                            url: baseURL + '/admin/live_streams/live_stream/?branch_id=' + branchID + '&id=' + id,
                             type: 'GET',
                             dataType: 'json',
                             data: _this.serialize(),

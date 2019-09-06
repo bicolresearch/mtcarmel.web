@@ -1,13 +1,26 @@
 /*
     Filename    : utilities.js
     Location    : public/assets/js/utilities.js
-    Purpose     : Extend JQuery
+    Purpose     : Extend jquery functions
     Created     : 08/04/2019 15:24:21 by Spiderman
-    Updated     : 08/08/2019 18:55:27 by Spiderman
+    Updated     : 09/06/2019 04:05:43 by Spiderman
     Changes     : 
 */
 
+let baseURL = location.origin.toLowerCase() + '/mountcarmel.web';
+let apiURL = location.origin.toLowerCase() + '/mountcarmel.api';
+let branchID = 1;
+
 $.fn.extend({
+    baseURL: function() {
+        return baseURL;
+    },
+    apiURL: function() {
+        return apiURL;
+    },
+    branchID: function() {
+        return branchID
+    },
     preloader: function() {
         return this.html(
             '<div class="loader">' +
