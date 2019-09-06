@@ -151,10 +151,9 @@
     <script>
         $(function () {
 
-            let baseURL = location.origin.toLowerCase() + '/mountcarmel.web';
-            let apiURL = location.origin.toLowerCase() + '/mountcarmel.api';
-            let branchID = 1;
-            
+            let baseURL = $.fn.baseURL();
+            let apiURL = $.fn.apiURL();
+            let branchID = $.fn.branchID();
             let isProcessing = false;
 
             // GET: Display all

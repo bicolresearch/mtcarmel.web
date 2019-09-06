@@ -5,7 +5,7 @@
     Location    : application/controllers/admin/Boundaries.php
     Purpose     : Boundaries controller
     Created     : 07/23/2019 15:20:52 by Scarlet Witch
-    Updated     : 08/22/2019 15:35:34 by Spiderman
+    Updated     : 09/06/2019 19:12:46 by Spiderman
     Changes     : 
 */
 
@@ -49,6 +49,9 @@ class Boundaries extends CI_Controller
                 'Content-Type' => 'application/json',
                 'Accept' => 'application/json',
                 'X-API-KEY' => $this->guzzle->key()
+            ],
+            'query' => [
+                'branch_id' => $_GET['branch_id']
             ]
         ];
 
@@ -87,6 +90,7 @@ class Boundaries extends CI_Controller
                 'X-API-KEY' => $this->guzzle->key()
             ],
             'query' => [
+                'branch_id' => $_GET['branch_id'],
                 'id' => $_GET['id']
             ]
         ];
@@ -137,8 +141,7 @@ class Boundaries extends CI_Controller
                     'description' => $this->input->post('description'),
                     'media_id' => 5,
                     'user_id' => user('id')
-                ],
-                'debug' => fopen('php://stderr', 'w')
+                ]
             ];
 
             try {
@@ -195,10 +198,9 @@ class Boundaries extends CI_Controller
                     'X-API-KEY' => $this->guzzle->key()
                 ],
                 'form_params' => [
-                    'branch_id' => 1,
+                    'branch_id' => $this->config->item('branch_id'),
                     'name' => $this->input->put('name'),
                     'description' => $this->input->put('description'),
-                    'media_id' => 5,
                     'user_id' => user('id')
                 ]
             ];

@@ -215,7 +215,9 @@
         <script>
             $(function () {
 
-                let baseURL = location.origin.toLowerCase() + '/mountcarmel.web';
+                let baseURL = $.fn.baseURL();
+                let apiURL = $.fn.apiURL();
+                let branchID = $.fn.branchID();
 
                 // POST: Login
                 let login = {
@@ -237,7 +239,7 @@
                     autoFocus: function() {
                         $('#loginModal').on('shown.bs.modal', function(){
                             $(this).find('input[name="email"]').trigger('focus');
-                        }) 
+                        });
                     },
                     bindForm: function () {
                         $('#loginModal').on('show.bs.modal', this.submitForm());

@@ -3,7 +3,7 @@
     Location    : application/views/admin/histories.html.twig
     Purpose     : Histories partial page
     Created     : 07/22/2019 23:25:05 by Scarlet Witch 
-    Updated     : 08/23/2019 15:55:06 by Spiderman
+    Updated     : 09/07/2019 01:23:48 by Spiderman
     Changes     : 
 #}
 
@@ -53,7 +53,7 @@
     <form id="create-form">
         <div class="modal-body px-5">
             <div id="ajax-preloader"></div>
-            <input type="hidden" name="id">
+            <div id="ajax-response"></div>
             <input type="hidden" name="content">
             <div class="form-group">
                 <label for="titular">Titular</label>
@@ -88,6 +88,7 @@
     <form id="update-form">
         <div class="modal-body px-5">
             <div id="ajax-preloader"></div>
+            <div id="ajax-response"></div>
             <input type="hidden" name="id">
             <input type="hidden" name="content">
             <div class="form-group">
@@ -123,9 +124,9 @@
     <script>
         $(function () {
 
-            let baseURL = location.origin.toLowerCase() + '/mountcarmel.web';            
-            let apiURL = location.origin.toLowerCase() + '/mountcarmel.api';         
-            
+            let baseURL = $.fn.baseURL();
+            let apiURL = $.fn.apiURL();
+            let branchID = $.fn.branchID();    
             let isProcessing = false;
 
             // GET: Display all
@@ -140,7 +141,7 @@
                         "serverSide": false,
                         "responsive": true,
                         "ajax": {
-                            "url": baseURL + "/admin/histories/histories",
+                            "url": baseURL + "/admin/histories/histories/?branch_id=" + branchID,
                             "type": "GET"
                         },
                         "columns": [
@@ -222,7 +223,7 @@
                         let id = $(e.relatedTarget).attr('data-id');
 
                         let jqXHR = $.ajax({
-                            url: baseURL + '/admin/histories/history/?id=' + id,
+                            url: baseURL + '/admin/histories/history/?branch_id=' + branchID + '&id=' + id,
                             type: 'GET',
                             dataType: 'json',
                             data: _this.serialize(),
@@ -337,6 +338,7 @@
                                 }, 3000);
                             } else {
                                 // Error msg response
+                                _this.find('#ajax-response').html('<div class="alert alert-danger"><ul>' + data.message + '</ul></div>');
                                 (Boolean(data.titular)) ? _this.find('#titular').addClass('is-invalid') : _this.find('#titular').removeClass('is-invalid');
                                 (Boolean(data.diocese)) ? _this.find('#diocese').addClass('is-invalid') : _this.find('#diocese').removeClass('is-invalid');
                                 (Boolean(data.date_of_establishment)) ? _this.find('#date_of_establishment').addClass('is-invalid') : _this.find('#date_of_establishment').removeClass('is-invalid');
@@ -418,6 +420,7 @@
                                     }, 3000);
                                 } else {
                                     // Error msg response
+                                    _this.find('#ajax-response').html('<div class="alert alert-danger"><ul>' + data.message + '</ul></div>');
                                     (Boolean(data.titular)) ? _this.find('#titular').addClass('is-invalid') : _this.find('#titular').removeClass('is-invalid');
                                     (Boolean(data.diocese)) ? _this.find('#diocese').addClass('is-invalid') : _this.find('#diocese').removeClass('is-invalid');
                                     (Boolean(data.date_of_establishment)) ? _this.find('#date_of_establishment').addClass('is-invalid') : _this.find('#date_of_establishment').removeClass('is-invalid');

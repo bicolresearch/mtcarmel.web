@@ -3,7 +3,7 @@
     Location    : application/views/admin/posts.html.twig
     Purpose     : Posts partial page
     Created     : 07/03/2019 19:30:07 by Spiderman
-    Updated     : 09/04/2019 19:39:16 by Spiderman
+    Updated     : 09/06/2019 16:19:09 by Spiderman
     Changes     : 
 #}
 
@@ -128,10 +128,9 @@
     <script>
         $(function () {
 
-            let baseURL = location.origin.toLowerCase() + '/mountcarmel.web';
-            let apiURL = location.origin.toLowerCase() + '/mountcarmel.api';
-            let branchID = 1;
-            
+            let baseURL = $.fn.baseURL();
+            let apiURL = $.fn.apiURL();
+            let branchID = $.fn.branchID();
             let isProcessing = false;
 
             // GET: Display all

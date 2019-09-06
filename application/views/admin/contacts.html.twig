@@ -74,29 +74,27 @@
                 <div class="col-12 col-lg-4">
                     <div class="form-group">
                         <label for="city">City</label>
-                        <select class="custom-select" id="city" name="city">
+                        <select class="form-control" id="city" name="city">
                             <option value="" selected>&dash;</option>
-                            <option value="1">Makati City</option>
-                            <option value="2">Taguig City</option>
-                            <option value="3">Quezon City</option>
+                            <!-- This is where the cities load -->
                         </select>
                     </div>
                 </div>
                 <div class="col-12 col-lg-4">
                     <div class="form-group">
                         <label for="province">Province</label>
-                        <select class="custom-select" id="province" name="province">
+                        <select class="form-control" id="province" name="province">
                             <option value="" selected>&dash;</option>
-                            <option value="1">Metro Manila</option>
+                            <!-- This is where the provinces load -->
                         </select>
                     </div>
                 </div>
                 <div class="col-12 col-lg-4">
                     <div class="form-group">
                         <label for="country">Country</label>
-                        <select class="custom-select" id="country" name="country">
+                        <select class="form-control" id="country" name="country">
                             <option value="" selected>&dash;</option>
-                            <option value="1">Philippines</option>
+                            <!-- This is where the countries load -->
                         </select>
                     </div>
                 </div>
@@ -131,6 +129,7 @@
         <div class="modal-body px-5">
             <div id="ajax-preloader"></div>
             <div id="ajax-response"></div>
+            <input type="hidden" name="id">
             <div class="form-group">
                 <label for="name">Name</label>
                 <input type="text" class="form-control" id="name" name="name" placeholder="">
@@ -151,29 +150,24 @@
                 <div class="col-12 col-lg-4">
                     <div class="form-group">
                         <label for="city">City</label>
-                        <select class="custom-select" id="city" name="city">
-                            <option value="" selected>&dash;</option>
-                            <option value="1">Makati City</option>
-                            <option value="2">Taguig City</option>
-                            <option value="3">Quezon City</option>
+                        <select class="form-control" id="city" name="city">
+                            <!-- This is where the city load -->
                         </select>
                     </div>
                 </div>
                 <div class="col-12 col-lg-4">
                     <div class="form-group">
                         <label for="province">Province</label>
-                        <select class="custom-select" id="province" name="province">
-                            <option value="" selected>&dash;</option>
-                            <option value="1">Metro Manila</option>
+                        <select class="form-control" id="province" name="province">
+                            <!-- This is where the province load -->
                         </select>
                     </div>
                 </div>
                 <div class="col-12 col-lg-4">
                     <div class="form-group">
                         <label for="country">Country</label>
-                        <select class="custom-select" id="country" name="country">
-                            <option value="" selected>&dash;</option>
-                            <option value="1">Philippines</option>
+                        <select class="form-control" id="country" name="country">
+                            <!-- This is where the country load -->
                         </select>
                     </div>
                 </div>
@@ -207,10 +201,10 @@
     <script>
         $(function () {
 
-            let baseURL = location.origin.toLowerCase() + '/mountcarmel.web';                 
-            let apiURL = location.origin.toLowerCase() + '/mountcarmel.api';              
-
-            let isProcessing = false;
+                let baseURL = $.fn.baseURL();
+                let apiURL = $.fn.apiURL();
+                let branchID = $.fn.branchID();
+                let isProcessing = false;
 
             // GET: Display all
             let getAll = {
@@ -224,7 +218,7 @@
                         "serverSide": false,
                         "responsive": true,
                         "ajax": {
-                            "url": baseURL + "/admin/contacts/contacts",
+                            "url": baseURL + "/admin/contacts/contacts/?branch_id=" + branchID,
                             "type": "GET"
                         },
                         "columns": [
@@ -307,7 +301,7 @@
                         let id = $(e.relatedTarget).attr('data-id');
 
                         let jqXHR = $.ajax({
-                            url: baseURL + '/admin/contacts/contact/?id=' + id,
+                            url: baseURL + '/admin/contacts/contact/?branch_id=' + branchID + '&id=' + id,
                             type: 'GET',
                             dataType: 'json',
                             data: _this.serialize(),
@@ -326,9 +320,9 @@
                                 _this.find('textarea[name="description"]').text(data.description);
                                 _this.find('input[name="address1"]').val(data.address1);
                                 _this.find('input[name="address2"]').val(data.address2);                                    
-                                _this.find('input[name="city"]').val(data.city);
-                                _this.find('input[name="province"]').val(data.province);
-                                _this.find('input[name="country"]').val(data.country);
+                                _this.find('select[name="city"]').append('<option value="' + data.city_code + '" selected>' + data.city_name + '</option>'); 
+                                _this.find('select[name="province"]').append('<option value="' + data.province_code + '" selected>' + data.province_name + '</option>'); 
+                                 _this.find('select[name="country"]').append('<option value="' + data.country_code + '" selected>' + data.country_name + '</option>'); 
                                 _this.find('textarea[name="landline"]').text(data.landline);
                                 _this.find('textarea[name="mobile"]').text(data.mobile);
                                 _this.find('input[name="email"]').val(data.email);
@@ -417,9 +411,9 @@
                                 (Boolean(data.description)) ? _this.find('#description').addClass('is-invalid') : _this.find('#description').removeClass('is-invalid');  
                                 (Boolean(data.address1)) ? _this.find('#address1').addClass('is-invalid') : _this.find('#address1').removeClass('is-invalid');                                        
                                 (Boolean(data.address2)) ? _this.find('#address2').addClass('is-invalid') : _this.find('#address2').removeClass('is-invalid');  
-                                (Boolean(data.city)) ? _this.find('#city').addClass('is-invalid') : _this.find('#city').removeClass('is-invalid');   
-                                (Boolean(data.province)) ? _this.find('#province').addClass('is-invalid') : _this.find('#province').removeClass('is-invalid');   
-                                (Boolean(data.country)) ? _this.find('#country').addClass('is-invalid') : _this.find('#country').removeClass('is-invalid');   
+                                (Boolean(data.city)) ? _this.find('span[aria-labelledby="select2-city-container"]').css({'border':'1px solid #d9534f'}) : _this.find('span[aria-labelledby="select2-city-container"]').removeAttr('style');  
+                                (Boolean(data.province)) ? _this.find('span[aria-labelledby="select2-province-container"]').css({'border':'1px solid #d9534f'}) : _this.find('span[aria-labelledby="select2-province-container"]').removeAttr('style');
+                                (Boolean(data.country)) ? _this.find('span[aria-labelledby="select2-country-container"]').css({'border':'1px solid #d9534f'}) : _this.find('span[aria-labelledby="select2-country-container"]').removeAttr('style');
                                 (Boolean(data.landline)) ? _this.find('#landline').addClass('is-invalid') : _this.find('#landline').removeClass('is-invalid');   
                                 (Boolean(data.mobile)) ? _this.find('#mobile').addClass('is-invalid') : _this.find('#mobile').removeClass('is-invalid');   
                                 (Boolean(data.email)) ? _this.find('#email').addClass('is-invalid') : _this.find('#email').removeClass('is-invalid');  
@@ -490,9 +484,9 @@
                                 (Boolean(data.description)) ? _this.find('#description').addClass('is-invalid') : _this.find('#description').removeClass('is-invalid');  
                                 (Boolean(data.address1)) ? _this.find('#address1').addClass('is-invalid') : _this.find('#address1').removeClass('is-invalid');  
                                 (Boolean(data.address2)) ? _this.find('#address2').addClass('is-invalid') : _this.find('#address2').removeClass('is-invalid');  
-                                (Boolean(data.city)) ? _this.find('#city').addClass('is-invalid') : _this.find('#city').removeClass('is-invalid');  
-                                (Boolean(data.province)) ? _this.find('#province').addClass('is-invalid') : _this.find('#province').removeClass('is-invalid');  
-                                (Boolean(data.country)) ? _this.find('#country').addClass('is-invalid') : _this.find('#country').removeClass('is-invalid');  
+                                (Boolean(data.city)) ? _this.find('span[aria-labelledby="select2-city-container"]').css({'border':'1px solid #d9534f'}) : _this.find('span[aria-labelledby="select2-city-container"]').removeAttr('style');  
+                                (Boolean(data.province)) ? _this.find('span[aria-labelledby="select2-province-container"]').css({'border':'1px solid #d9534f'}) : _this.find('span[aria-labelledby="select2-province-container"]').removeAttr('style');
+                                (Boolean(data.country)) ? _this.find('span[aria-labelledby="select2-country-container"]').css({'border':'1px solid #d9534f'}) : _this.find('span[aria-labelledby="select2-country-container"]').removeAttr('style');
                                 (Boolean(data.landline)) ? _this.find('#landline').addClass('is-invalid') : _this.find('#landline').removeClass('is-invalid');  
                                 (Boolean(data.mobile)) ? _this.find('#mobile').addClass('is-invalid') : _this.find('#mobile').removeClass('is-invalid');    
                                 (Boolean(data.email)) ? _this.find('#email').addClass('is-invalid') : _this.find('#email').removeClass('is-invalid');  
