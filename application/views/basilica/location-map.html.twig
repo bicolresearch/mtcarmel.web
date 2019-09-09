@@ -47,8 +47,9 @@
 {% block custom_scripts %}
     <script>
 
-        let baseURL = location.origin.toLowerCase() + '/mountcarmel.web';
-        let apiURL = location.origin.toLowerCase() + '/mountcarmel.api';
+        let baseURL = $.fn.baseURL();
+        let apiURL = $.fn.apiURL();
+        let branchID = $.fn.branchID();
 
         function initMap(listener) {
             let map = new google.maps.Map(document.getElementById('map'), {

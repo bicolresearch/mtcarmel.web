@@ -45,19 +45,19 @@
     <script>
         $(function () {
        
-            let apiURL = location.origin.toLowerCase() + '/mountcarmel.api';  
+            let apiURL = $.fn.apiURL();
+            let branchID = $.fn.branchID();  
 
             let app = {
                 init: function () {
                     this.history();
                 },
-                // GET: history
                 history: function() {
                     
                     let _this = $('#history');
 
                     let jqXHR = $.ajax({
-                        url: apiURL + '/histories/history/?id=1',
+                        url: apiURL + '/histories/history/?branch_id=' + branchID + '&id=1',
                         type: 'GET',
                         dataType: 'json',
                         data: _this.serialize(),

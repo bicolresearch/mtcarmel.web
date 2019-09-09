@@ -43,8 +43,8 @@
     <script>
         $(function () {
 
-            let baseURL = location.origin.toLowerCase() + '/mountcarmel.web';
-            let apiURL = location.origin.toLowerCase() + '/mountcarmel.api';
+            let apiURL = $.fn.apiURL();
+            let branchID = $.fn.branchID();
 
             let app = {
                 init: function () {
@@ -56,7 +56,7 @@
                     let _this = $('#video-container');
 
                     let jqXHR = $.ajax({
-                        url: apiURL + '/live_streams/live_stream/?id=1',
+                        url: apiURL + '/live_streams/live_stream/?branch_id' + branchID + '&id=1',
                         type: 'GET',
                         dataType: 'json',
                         data: _this.serialize(),

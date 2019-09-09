@@ -27,6 +27,10 @@
 {% block custom_scripts %}
     <script>
         $(function () {
+
+            let apiURL = $.fn.apiURL();
+            let branchID = $.fn.branchID();
+
             let app = {
                 calendar: function () {
                     $("#fullcalendar").fullCalendar({
