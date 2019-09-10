@@ -6,13 +6,13 @@ version: 2
 jobs:
   build:
     docker:
-      #- image: circleci/<language>:<version TAG>
+      - image: php:7.1-apache
     steps:
       - checkout
       #- run: <command>
   test:
     docker:
-      #- image: circleci/<language>:<version TAG>
+      - image: php:7.1-apache
     steps:
       - checkout
       #- run: <command>
@@ -20,5 +20,5 @@ workflows:
   version: 2
   build_and_test:
     jobs:
-      - build
-      - test
+      #- build
+      #- test
