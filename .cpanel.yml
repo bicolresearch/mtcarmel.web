@@ -1,3 +1,10 @@
+#    Filename    : .cpanel.yml
+#    Location    : 
+#    Purpose     : For cpanel deployment
+#    Created     : 09/11/2019 02:23:08 by Spiderman
+#    Updated     : 
+#    Changes     : 
+
 ---
 deployment:
   tasks:
