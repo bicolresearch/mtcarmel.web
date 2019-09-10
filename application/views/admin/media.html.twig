@@ -3,7 +3,7 @@
     Location    : application/views/admin/media.twig
     Purpose     : Media partial page
     Created     : 07/22/2019 14:58:18 by Spiderman
-    Updated     : 08/23/2019 13:44:13 by Spiderman
+    Updated     : 09/10/2019 14:28:33 by Spiderman
     Changes     : 
 #}
 
@@ -108,9 +108,9 @@
     <script>
         $(function () {
 
-            let baseURL = location.origin.toLowerCase() + '/mountcarmel.web';
-            let apiURL = location.origin.toLowerCase() + '/mountcarmel.api';                       
-            
+            let baseURL = $.fn.baseURL();
+            let apiURL = $.fn.apiURL();
+            let branchID = $.fn.branchID();            
             let isProcessing = false;
 
             // GET: Display all

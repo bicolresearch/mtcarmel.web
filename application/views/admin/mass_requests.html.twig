@@ -3,7 +3,7 @@
     Location    : application/views/admin/mass_requests.html.twig
     Purpose     : Mass request partial page
     Created     : 08/01/2019 18:53:27 by Scarlet Witch
-    Updated     : 09/04/2019 02:26:26 by Spiderman
+    Updated     : 09/10/2019 14:28:19 by Spiderman
     Changes     : 
 #}
 
@@ -127,9 +127,9 @@
     <script>
         $(function () {
 
-            let baseURL = location.origin.toLowerCase() + '/mountcarmel.web';                       
-            let apiURL = location.origin.toLowerCase() + '/mountcarmel.api';  
-
+            let baseURL = $.fn.baseURL();
+            let apiURL = $.fn.apiURL();
+            let branchID = $.fn.branchID();            
             let isProcessing = false;
 
             // GET: Display all

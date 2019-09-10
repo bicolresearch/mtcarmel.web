@@ -4,9 +4,9 @@
     Filename    : Basilica.php
     Location    : application/controller/Basilica.php
     Purpose     : Basilica Controller
-    Created     : 6/24/2019 by Sherlock Holmes
-    Updated     : 6/27/2019 by Sherlock Holmes
-    Changes     : Changed commenting format
+    Created     : 06/24/2019 00:39:31 by Spiderman
+    Updated     : 09/10/2019 00:39:26 by Spiderman
+    Changes     : 
 */
 
 defined('BASEPATH') or exit('No direct script access allowed');
@@ -38,31 +38,31 @@ class Basilica extends CI_Controller
         $this->twig->display('basilica/location-map.html', $view_data);
     }
 
-    public function carmelite_priests()
+    public function carmelite()
     {
         $view_data = [
             'page_title' => 'Carmelite Priests'
         ];
 
-        $this->twig->display('basilica/carmelite-priests.html', $view_data);
+        $this->twig->display('basilica/carmelite.html', $view_data);
     }
 
-    public function contact_details()
+    public function contact()
     {
         $view_data = [
             'page_title' => 'Contact Details'
         ];
 
-        $this->twig->display('basilica/contact-details.html', $view_data);
+        $this->twig->display('basilica/contact.html', $view_data);
     }
 
-    public function history_details()
+    public function history()
     {
         $view_data = [
             'page_title' => 'History'
         ];
 
-        $this->twig->display('basilica/history-details.html', $view_data);
+        $this->twig->display('basilica/history.html', $view_data);
     }
 
     public function coords()

@@ -3,7 +3,7 @@
     Location    : application/views/admin/prayer_requests.html.twig
     Purpose     : Prayer requests partial page
     Created     : 08/01/2019 17:52:29 by Scarlet Witch
-    Updated     : 09/03/2019 04:08:47 by Spiderman
+    Updated     : 09/10/2019 14:28:53 by Spiderman
     Changes     : 
 #}
 
@@ -106,9 +106,9 @@
     <script>
         $(function () {
 
-            let baseURL = location.origin.toLowerCase() + '/mountcarmel.web';
-            let apiURL = location.origin.toLowerCase() + '/mountcarmel.api';
-            
+            let baseURL = $.fn.baseURL();
+            let apiURL = $.fn.apiURL();
+            let branchID = $.fn.branchID();            
             let isProcessing = false;
 
             // GET: Display all

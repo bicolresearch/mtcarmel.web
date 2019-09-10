@@ -63,9 +63,9 @@ $route['news-details'] = 'home/news_details';
 // Basilica
 $route['mass-schedule'] = 'basilica/mass_schedule';
 $route['location-map'] = 'basilica/location_map';
-$route['carmelite-priests'] = 'basilica/carmelite_priests';
-$route['contact-details'] = 'basilica/contact_details';
-$route['history-details'] = 'basilica/history_details';
+$route['carmelite'] = 'basilica/carmelite';
+$route['contact'] = 'basilica/contact';
+$route['history'] = 'basilica/history';
 
 // Services
 $route['join-us'] = 'services/join_us';

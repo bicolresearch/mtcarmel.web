@@ -3,7 +3,7 @@
     Location    : application/views/base.html.twig
     Purpose     : Base template
     Created     : 06/03/2019 22:09:22 by Spiderman
-    Updated     : 08/17/2019 22:49:52 by Spiderman
+    Updated     : 09/10/2019 00:40:25 by Spiderman
     Changes     : 
 #}
 
@@ -77,9 +77,9 @@
                             <ul id="basilica" class="sidebar-dropdown list-unstyled collapse">
                                 <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('mass-schedule') }}">Mass Schedule</a></li>
                                 <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('location-map') }}">Location Map</a></li>
-                                <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('carmelite-priests') }}">Carmelite Priests</a></li>
-                                <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('contact-details') }}">Contact Details</a></li>
-                                <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('history-details') }}">History</a></li>
+                                <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('carmelite') }}">Carmelite</a></li>
+                                <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('contact') }}">Contact Details</a></li>
+                                <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('history') }}">History</a></li>
                             </ul>
                         </li>
                         <li class="sidebar-item">
@@ -317,7 +317,7 @@
                         $('#signupModal').on('show.bs.modal', this.submitForm());
                     },
                     submitForm: function () {
-                        $('#signup-form').on('submit', function (e) {
+                        $('#signup-form').on('submit', function(e) {
                             
                             let _this = $(this);
 

@@ -3,7 +3,7 @@
     Location    : application/views/admin/confraternities.html.twig
     Purpose     : Confraternities partial page
     Created     : 07/31/2019 16:00:09 by Scarlet Witch
-    Updated     : 09/02/2019 16:30:39 by Spiderman
+    Updated     : 09/10/2019 14:27:26 by Spiderman
     Changes     : 
 #}
 
@@ -222,9 +222,9 @@
     <script>
         $(function () {
 
-            let baseURL = location.origin.toLowerCase() + '/mountcarmel.web';       
-            let apiURL = location.origin.toLowerCase() + '/mountcarmel.api';                
-
+            let baseURL = $.fn.baseURL();
+            let apiURL = $.fn.apiURL();
+            let branchID = $.fn.branchID();            
             let isProcessing = false;
 
             // GET: Display all
