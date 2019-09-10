@@ -3,9 +3,9 @@ deployment:
   tasks:
     - export APPPATH=/home/mountcarmelph/public_html/
     - export CSSPATH=/home/mountcarmelph/public_html/public/assets/css
-    - export FONTSPATH=/home/mountcarmelph/public_html/public/assets/css
-    - export IMAGESPATH=/home/mountcarmelph/public_html/public/assets/css
-    - export JSPATH=/home/mountcarmelph/public_html/public/assets/css
+    - export FONTSPATH=/home/mountcarmelph/public_html/public/assets/fonts
+    - export IMAGESPATH=/home/mountcarmelph/public_html/public/assets/images
+    - export JSPATH=/home/mountcarmelph/public_html/public/assets/js
     - /bin/cp -R application $APPPATH
     - /bin/cp -R public/assets/css $CSSPATH
     - /bin/cp -R public/assets/fonts $FONTSPATH
