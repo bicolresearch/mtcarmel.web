@@ -3,4 +3,7 @@ deployment:
   tasks:
     - export DEPLOYPATH=/home/mountcarmelph/public_html/
     - /bin/cp -R application $DEPLOYPATH
-    - /bin/cp -R public $DEPLOYPATH
+    - /bin/cp -R public/assets/css $DEPLOYPATH
+    - /bin/cp -R public/assets/fonts $DEPLOYPATH
+    - /bin/cp -R public/assets/images $DEPLOYPATH
+    - /bin/cp -R public/assets/js $DEPLOYPATH
