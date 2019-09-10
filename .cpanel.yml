@@ -1,9 +1,13 @@
 ---
 deployment:
   tasks:
-    - export DEPLOYPATH=/home/mountcarmelph/public_html/
-    - /bin/cp -R application $DEPLOYPATH
-    - /bin/cp -R public/assets/css $DEPLOYPATH
-    - /bin/cp -R public/assets/fonts $DEPLOYPATH
-    - /bin/cp -R public/assets/images $DEPLOYPATH
-    - /bin/cp -R public/assets/js $DEPLOYPATH
+    - export APPPATH=/home/mountcarmelph/public_html/
+    - export CSSPATH=/home/mountcarmelph/public_html/public/assets/css
+    - export FONTSPATH=/home/mountcarmelph/public_html/public/assets/css
+    - export IMAGESPATH=/home/mountcarmelph/public_html/public/assets/css
+    - export JSPATH=/home/mountcarmelph/public_html/public/assets/css
+    - /bin/cp -R application $APPPATH
+    - /bin/cp -R public/assets/css $CSSPATH
+    - /bin/cp -R public/assets/fonts $FONTSPATH
+    - /bin/cp -R public/assets/images $IMAGESPATH
+    - /bin/cp -R public/assets/js $JSPATH
