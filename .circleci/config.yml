@@ -1,7 +1,10 @@
-# PHP CircleCI 2.0 configuration file
-#
-# Check https://circleci.com/docs/2.0/language-php/ for more details
-#
+#Filename    : config.yml
+#Location    : .circleci/config.yml
+#Purpose     : Config for circleci continues integration
+#Created     : 09/11/2019 02:27:28 by Spiderman
+#Updated     : 
+#Changes     : 
+
 version: 2
 jobs:
   build:
