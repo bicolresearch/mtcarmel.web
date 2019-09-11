@@ -66,7 +66,7 @@ $autoload['libraries'] = array(
     'authme',
     'datatables',
     'user_agent',
-    'excel',
+    //'excel',
     'fpdf',
     'ciqrcode',
     'twig',
