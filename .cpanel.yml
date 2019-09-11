@@ -2,19 +2,13 @@
 #Location    : 
 #Purpose     : For cpanel deployment
 #Created     : 09/11/2019 02:23:08 by Spiderman
-#Updated     : 
+#Updated     : 09/11/2019 15:13:57 by Spiderman
 #Changes     : 
 
 ---
 deployment:
   tasks:
     - export APPPATH=/home/mountcarmelph/public_html/
-    - export CSSPATH=/home/mountcarmelph/public_html/public/assets/css
-    - export FONTSPATH=/home/mountcarmelph/public_html/public/assets/fonts
-    - export IMAGESPATH=/home/mountcarmelph/public_html/public/assets/images
-    - export JSPATH=/home/mountcarmelph/public_html/public/assets/js
+    - export ASSETSPATH=/home/mountcarmelph/public_html/public/assets
     - /bin/cp -R application $APPPATH
-    - /bin/cp -R public/assets/css $CSSPATH
-    - /bin/cp -R public/assets/fonts $FONTSPATH
-    - /bin/cp -R public/assets/images $IMAGESPATH
-    - /bin/cp -R public/assets/js $JSPATH
+    - /bin/cp -R public/assets/css $ASSETSPATH
