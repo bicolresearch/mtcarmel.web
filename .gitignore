@@ -5,6 +5,6 @@ application/logs/*
 !application/*/.htaccess
 composer.lock
 .idea/*
-/composer.phar
-/application/vendor/*
-/public/assets/node_modules/*
+composer.phar
+!application/vendor/*
+public/assets/node_modules/*
