@@ -1,10 +1,17 @@
 <?php
 
-if (!defined('BASEPATH')) {
-    exit('No direct script access allowed');
-}
+/*
+    Filename    : Excel.php
+    Location    : application/libraries/Excel.php
+    Purpose     : PHPExcel library
+    Created     : 09/11/2019 13:43:45 by Spiderman
+    Updated     : 
+    Changes     : 
+*/
 
-require_once APPPATH . "/third_party/PHPExcel.php";
+if (!defined('BASEPATH')) exit('No direct script access allowed');
+
+require APPPATH . "/vendor/autoload.php";
 
 class Excel extends PHPExcel
 {
@@ -13,7 +20,3 @@ class Excel extends PHPExcel
         parent::__construct();
     }
 }
-
-
-/* End of file: Excel.php */
-/* Location: application/libraries/Excel.php */
