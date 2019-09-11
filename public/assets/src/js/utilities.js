@@ -3,12 +3,12 @@
     Location    : public/assets/js/utilities.js
     Purpose     : Extend jquery functions
     Created     : 08/04/2019 15:24:21 by Spiderman
-    Updated     : 09/06/2019 04:05:43 by Spiderman
+    Updated     : 09/11/2019 14:44:38 by Spiderman
     Changes     : 
 */
 
-let baseURL = location.origin.toLowerCase() + '/mountcarmel.web';
-let apiURL = location.origin.toLowerCase() + '/mountcarmel.api';
+let baseURL = 'https://mountcarmel.ph';
+let apiURL = 'https://api.mountcarmel.ph';
 let branchID = 1;
 
 $.fn.extend({
@@ -32,16 +32,6 @@ $.fn.extend({
     digits: function() {
         return this.each(function(){ 
             $(this).text($(this).text().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,")); 
-        });
-    },
-    check: function() {
-        return this.each(function() {
-            this.checked = true;
-        });
-    },
-    uncheck: function() {
-        return this.each(function() {
-            this.checked = false;
         });
     }
 });
