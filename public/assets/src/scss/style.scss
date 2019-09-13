@@ -3,7 +3,7 @@
     Location    : public/assets/src/scss/style.scss
     Purpose     : Default stylesheet
     Created     : 05/20/2019 22:35:34 by Spiderman
-    Updated     : 08/18/2019 13:04:15 by Spiderman
+    Updated     : 09/13/2019 14:52:28 by Spiderman
     Changes     : 
 */
 
@@ -505,6 +505,16 @@ a {
   }
 }
 
+.card {
+  .card-body {
+    .logo {
+      img {
+        width: 125px;
+      }
+    }
+  }
+}
+
 /* Live streaming indicator */
 .indicator {
   height: 12px;
@@ -637,6 +647,20 @@ a {
   width: 100%;
 }
 
+/* Quill JS */
+.ql-toolbar.ql-snow {
+  padding: 0;
+
+  .ql-formats {
+    padding: 8px 0;
+    margin-left: 7.5px;
+  }
+}
+
+.ql-editor {
+  height: 350px;
+}
+
 /* Responsive */
 @media (max-width: 575.98px) {
   .navbar {
@@ -709,18 +733,4 @@ a {
       display: none;
     }
   }
-}
-
-/* Quill JS */
-.ql-toolbar.ql-snow {
-  padding: 0;
-
-  .ql-formats {
-    padding: 8px 0;
-    margin-left: 7.5px;
-  }
-}
-
-.ql-editor {
-  height: 350px;
 }
