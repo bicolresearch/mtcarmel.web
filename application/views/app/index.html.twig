@@ -1,0 +1,36 @@
+{#
+    Filename    : index.html.twig
+    Location    : application/views/app/index.html.twig
+    Purpose     : App partial page
+    Created     : 09/13/2019 14:14:47 by Spiderman
+    Updated     : 
+    Changes     : 
+#}
+
+{% extends 'base.html.twig' %}
+
+{% block title %} {{ page_title }} | Mount Carmel {% endblock %}
+
+{% block contents %}
+    <div class="row justify-content-center">
+        <div id="bible" class="col-12 col-lg-10">
+            <div class="card">
+                <div class="card-header text-center">
+                    <h3 class="card-title">App Permissions</h3>
+                </div>
+                <div class="card-body">
+                    <div class="col-12 col-lg-12">
+                        <h4>Permissions</h4>                        
+                        <p>This android app has permissions in order to use the main functionality. Here are the list of permissions:</p>
+                        <ul>
+                            <li>[CAMERA] - Camera is used for picture taking on to be uploaded as profile picture or event posting.</li>
+                            <li>[READ_EXTERNAL_STORAGE] - Used to get image or video from the file to be used in profile or event posting.</li>
+                            <li>[ACCESS_COARSE_LOCATION] - Used for navigation from current location to the church location.</li>
+                            <li>[ACCESS_FINE_LOCATION] - Used for navigation from current location to the church location.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
