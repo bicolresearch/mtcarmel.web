@@ -235,6 +235,7 @@
                         this.flatPickrCalendarShortDate();
                         this.adTypeDDL();
                         this.clergyTypeDDL();
+                        this.purposeTypeDDL();
                         this.statusDDL();
                         this.citiesDDL();
                         this.provincesDDL();
@@ -300,7 +301,7 @@
                                         "style": "single"
                                     },
                                     "ajax": {
-                                        "url": baseURL + "/admin/media/media",
+                                        "url": baseURL + "/admin/media/media/?branch_id=" + branchID,
                                         "type": "GET"
                                     },
                                     "columns": [
@@ -376,7 +377,7 @@
                             $('#' + $('body').attr('data-modal-previous')).modal('show');
                             
                             // Get media by id with data-media-id attr as id paramater
-                            $.get(apiURL + '/media/medium/id/' + $('body').attr('data-media-id'), function(data) {
+                            $.get(apiURL + '/media/medium/?branch_id=' + branchID + '&id=' + $('body').attr('data-media-id'), function(data) {
                                 $('#' + $('body').attr('data-modal-previous') + '-form').find('#placeholder').replaceWith(
                                     '<div id="placeholder" class="mb-3">' +
                                     '   <img class="mx-auto d-block" style="max-height: 200px" src="' + apiURL + '/' + data.media_path + '" alt="' + data.name + '" />' +
@@ -461,6 +462,32 @@
 
                         let jqXHR = $.ajax({
                             url: apiURL + '/clergy_type',
+                            type: 'GET',
+                            dataType: 'json',
+                            data: _this.serialize(),
+                            cache: false,
+                            processData: false
+                        });
+                        
+                        jqXHR.done(function(data) {
+                            if(data) {
+                                $.each(data.data, function(key, value) {
+                                    _this.append(
+                                        '<option value="' + value.id + '">' + value.name + '</option>'
+                                    );
+                                });
+                            }
+                        });
+
+                        jqXHR.fail(function(jqXHR, textStatus, errorThrown) {
+                            console.log('The following error occurred: ' + textStatus, errorThrown);
+                        });
+                    },
+                    purposeTypeDDL: function() {
+                        let _this = $('select[name="purpose_id"]');
+
+                        let jqXHR = $.ajax({
+                            url: apiURL + '/purpose_type',
                             type: 'GET',
                             dataType: 'json',
                             data: _this.serialize(),

@@ -3,7 +3,7 @@
     Location    : application/views/admin/posts.html.twig
     Purpose     : Posts partial page
     Created     : 07/03/2019 19:30:07 by Spiderman
-    Updated     : 09/06/2019 16:19:09 by Spiderman
+    Updated     : 09/16/2019 19:14:16 by Spiderman
     Changes     : 
 #}
 
@@ -65,8 +65,9 @@
 
 {% block createModalForm %}
     <form id="create-form">
-        <div id="ajax-preloader"></div>
         <div class="modal-body px-5">
+            <div id="ajax-preloader"></div>
+            <div id="ajax-response"></div>
             <input type="hidden" name="content">
             <input type="hidden" name="media_id">
             <div class="form-group">
@@ -96,8 +97,9 @@
 
 {% block updateModalForm %}
     <form id="update-form">
-        <div id="ajax-preloader"></div>
         <div class="modal-body px-5">
+            <div id="ajax-preloader"></div>
+            <div id="ajax-response"></div>
             <input type="hidden" name="id">
             <input type="hidden" name="content">
             <input type="hidden" name="media_id">
@@ -212,6 +214,7 @@
                 resetForm: function() {
                     $('#update').on('hidden.bs.modal', function(){
                         let _this = $(this);
+
                         _this.find('form')[0].reset();
                         _this.find('.form-control').removeClass('is-invalid');
                         _this.find('#ajax-response').empty();
@@ -253,7 +256,7 @@
                                 }
 
                                 // Get media by id with data-media-id attr as id paramater
-                                $.get(apiURL + '/media/medium/id/' + _this.find('input:hidden[name="media_id"]').val(), function(data) {
+                                $.get(apiURL + '/media/medium/?branch_id=' + branchID + '&id=' + _this.find('input:hidden[name="media_id"]').val(), function(data) {
                                     _this.find('#placeholder').replaceWith(
                                         '<div id="placeholder" class="mb-3">' +
                                         '   <img class="mx-auto d-block" style="max-height: 200px" src="' + apiURL + '/' + data.media_path + '" alt="' + data.name + '" />' +
@@ -290,6 +293,7 @@
                         _this.find('#create-editor').css({'border-color':'#ccc', 'border-top':'none'}); 
                         _this.find('input:hidden[name="content"]').val();
                         _this.find('.ql-editor').empty();
+                        _this.find('#ajax-response').empty();
                     });
                 },
                 autoFocus: function() {
@@ -354,6 +358,7 @@
                                 }, 3000);
                             } else {
                                 // Error msg response
+                                _this.find('#ajax-response').html('<div class="alert alert-danger"><ul>' + data.message + '</ul></div>');
                                 (Boolean(data.title)) ? _this.find('#title').addClass('is-invalid') : _this.find('#title').removeClass('is-invalid');
                                 (quill.editor.isBlank()) ? _this.find('#create-editor').css({'border':'1px solid #f00'}) : _this.find('#create-editor').css({'border-color':'#ccc', 'border-top':'none'});                
                             }
@@ -432,6 +437,7 @@
                                 }, 3000);
                             } else {
                                 // Error msg response
+                                _this.find('#ajax-response').html('<div class="alert alert-danger"><ul>' + data.message + '</ul></div>');
                                 (Boolean(data.title)) ? _this.find('#title').addClass('is-invalid') : _this.find('#title').removeClass('is-invalid');
                                 (quill.editor.isBlank()) ? _this.find('#update-editor').css({'border':'1px solid #f00'}) : _this.find('#update-editor').css({'border-color':'#ccc'});   
                             }

@@ -3,7 +3,7 @@
     Location    : application/views/admin/confraternities.html.twig
     Purpose     : Confraternities partial page
     Created     : 07/31/2019 16:00:09 by Scarlet Witch
-    Updated     : 09/10/2019 14:27:26 by Spiderman
+    Updated     : 09/16/2019 21:39:57 by Spiderman
     Changes     : 
 #}
 
@@ -239,7 +239,7 @@
                         "serverSide": false,
                         "responsive": true,
                         "ajax": {
-                            "url": baseURL + "/admin/confraternities/confraternities",
+                            "url": baseURL + "/admin/confraternities/confraternities/?branch_id=" +  branchID,
                             "type": "GET"
                         },
                         "columns": [
@@ -349,7 +349,7 @@
                         let id = $(e.relatedTarget).attr('data-id');
 
                         let jqXHR = $.ajax({
-                            url: baseURL + '/admin/confraternities/confraternity/?id=' + id,
+                            url: baseURL + '/admin/confraternities/confraternity/?branch_id=' + branchID + '&id=' + id,
                             type: 'GET',
                             dataType: 'json',
                             data: _this.serialize(),

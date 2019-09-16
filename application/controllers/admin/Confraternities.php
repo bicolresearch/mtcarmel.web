@@ -5,7 +5,7 @@
     Location    : application/controllers/admin/Confraternities.php
     Purpose     : Confraternities controller
     Created     : 07/31/2019 16:00:09 by Scarlet Witch
-    Updated     : 09/01/2019 22:11:20 by Spiderman
+    Updated     : 09/16/2019 21:42:27 by Spiderman
     Changes     : 
 */
 
@@ -49,6 +49,9 @@ class Confraternities extends CI_Controller
                 'Content-Type' => 'application/json',
                 'Accept' => 'application/json',
                 'X-API-KEY' => $this->guzzle->key()
+            ],
+            'query' => [
+                'branch_id' => $_GET['branch_id']
             ]
         ];
 
@@ -87,6 +90,7 @@ class Confraternities extends CI_Controller
                 'X-API-KEY' => $this->guzzle->key()
             ],
             'query' => [
+                'branch_id' => $_GET['branch_id'],
                 'id' => $_GET['id']
             ]
         ];
@@ -141,7 +145,7 @@ class Confraternities extends CI_Controller
                     'X-API-KEY' => $this->guzzle->key()
                 ],
                 'form_params' => [
-                    'branch_id' => 1,
+                    'branch_id' => $this->config->item('branch_id'),
                     'module_id' => 4,
                     'sub_module_id' => 1,
                     'status_id' => $this->input->post('status_id'),

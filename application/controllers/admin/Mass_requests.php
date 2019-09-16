@@ -5,7 +5,7 @@
     Location    : application/controllers/admin/Mass_requests.php
     Purpose     : Mass requests controller
     Created     : 08/01/2019 19:16:42 by Scarlet Witch
-    Updated     : 09/03/2019 19:52:05 by Spiderman
+    Updated     : 09/16/2019 22:35:51 by Spiderman
     Changes     : 
 */
 
@@ -49,6 +49,9 @@ class Mass_requests extends CI_Controller
                 'Content-Type' => 'application/json',
                 'Accept' => 'application/json',
                 'X-API-KEY' => $this->guzzle->key()
+            ],
+            'query' => [
+                'branch_id' => $_GET['branch_id']
             ]
         ];
 
@@ -87,6 +90,7 @@ class Mass_requests extends CI_Controller
                 'X-API-KEY' => $this->guzzle->key()
             ],
             'query' => [
+                'branch_id' => $_GET['branch_id'],
                 'id' => $_GET['id']
             ]
         ];
@@ -134,7 +138,7 @@ class Mass_requests extends CI_Controller
                     'X-API-KEY' => $this->guzzle->key()
                 ],
                 'form_params' => [
-                    'branch_id' => 1,
+                    'branch_id' => $this->config->item('branch_id'),
                     'module_id' => 5,
                     'sub_module_id' => 3,
                     'status_id' => $this->input->post('status_id'),

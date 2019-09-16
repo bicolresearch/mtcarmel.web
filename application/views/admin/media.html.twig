@@ -3,7 +3,7 @@
     Location    : application/views/admin/media.twig
     Purpose     : Media partial page
     Created     : 07/22/2019 14:58:18 by Spiderman
-    Updated     : 09/10/2019 14:28:33 by Spiderman
+    Updated     : 09/16/2019 19:04:38 by Spiderman
     Changes     : 
 #}
 
@@ -125,7 +125,7 @@
                         "serverSide": false,
                         "responsive": true,
                         "ajax": {
-                            "url": baseURL + "/admin/media/media",
+                            "url": baseURL + "/admin/media/media/?branch_id=" + branchID,
                             "type": "GET"
                         },
                         "columns": [
@@ -216,7 +216,7 @@
                         let id = $(e.relatedTarget).attr('data-id');
 
                         let jqXHR = $.ajax({
-                            url: baseURL + '/admin/media/medium/?id=' + id,
+                            url: baseURL + '/admin/media/medium/?branch_id=' + branchID + '&id=' + id,
                             type: 'GET',
                             dataType: 'json',
                             data: _this.serialize(),

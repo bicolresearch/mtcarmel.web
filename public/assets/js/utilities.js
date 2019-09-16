@@ -46,7 +46,7 @@
   \*****************************/
 /*! no exports provided */
 /*! all exports used */
-/*! ModuleConcatenation bailout: Module is an entry point */function(t,n,r){"use strict";r.r(n);r(/*! core-js/modules/es6.regexp.replace */60);$.fn.extend({baseURL:function(){return"https://mountcarmel.ph"},apiURL:function(){return"https://api.mountcarmel.ph"},branchID:function(){return 1},preloader:function(){return this.html('<div class="loader">  <svg class="circular" viewBox="25 25 50 50">    <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>  </svg></div>')},digits:function(){return this.each(function(){$(this).text($(this).text().replace(/(\d)(?=(\d\d\d)+(?!\d))/g,"$1,"))})}})},15:
+/*! ModuleConcatenation bailout: Module is an entry point */function(t,n,r){"use strict";r.r(n);r(/*! core-js/modules/es6.regexp.replace */60);$.fn.extend({baseURL:function(){return"http://mountcarmel.ph"},apiURL:function(){return"https://api.mountcarmel.ph"},branchID:function(){return 1},preloader:function(){return this.html('<div class="loader">  <svg class="circular" viewBox="25 25 50 50">    <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>  </svg></div>')},digits:function(){return this.each(function(){$(this).text($(this).text().replace(/(\d)(?=(\d\d\d)+(?!\d))/g,"$1,"))})}})},15:
 /*!****************************************************!*\
   !*** ./node_modules/core-js/modules/_to-length.js ***!
   \****************************************************/

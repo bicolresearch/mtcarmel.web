@@ -3,7 +3,7 @@
     Location    : application/views/admin/prayer_requests.html.twig
     Purpose     : Prayer requests partial page
     Created     : 08/01/2019 17:52:29 by Scarlet Witch
-    Updated     : 09/10/2019 14:28:53 by Spiderman
+    Updated     : 09/16/2019 21:59:31 by Spiderman
     Changes     : 
 #}
 
@@ -78,8 +78,9 @@
 
 {% block updateModalForm %}
     <form id="update-form">
-        <div id="ajax-preloader"></div>
         <div class="modal-body px-5">
+            <div id="ajax-preloader"></div>
+            <div id="ajax-response"></div>
             <input type="hidden" name="id">
             <div class="row">
                 <div class="col-12 col-lg-6">
@@ -123,7 +124,7 @@
                         "serverSide": false,
                         "responsive": true,
                         "ajax": {
-                            "url": baseURL + "/admin/prayer_requests/prayer_requests",
+                            "url": baseURL + "/admin/prayer_requests/prayer_requests/?branch_id=" + branchID,
                             "type": "GET"
                         },
                         "columns": [
@@ -233,7 +234,7 @@
                         let id = $(e.relatedTarget).attr('data-id');
 
                         let jqXHR = $.ajax({
-                            url: baseURL + '/admin/prayer_requests/prayer_request/?id='  + id,
+                            url: baseURL + '/admin/prayer_requests/prayer_request/?branch_id=' + branchID + '&id='  + id,
                             type: 'GET',
                             dataType: 'json',
                             data: _this.serialize(),

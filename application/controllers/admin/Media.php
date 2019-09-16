@@ -5,7 +5,7 @@
     Location    : application/controllers/admin/Media.php
     Purpose     : Media controller
     Created     : 07/11/2019 17:03:40 by Spiderman
-    Updated     : 08/22/2019 21:54:56 by Spiderman
+    Updated     : 09/16/2019 19:02:28 by Spiderman
     Changes     : 
 */
 
@@ -49,6 +49,9 @@ class Media extends CI_Controller
                 'Content-Type' => 'application/json',
                 'Accept' => 'application/json',
                 'X-API-KEY' => $this->guzzle->key()
+            ],
+            'query' => [
+                'branch_id' => $_GET['branch_id']
             ]
         ];
 
@@ -87,6 +90,7 @@ class Media extends CI_Controller
                 'X-API-KEY' => $this->guzzle->key()
             ],
             'query' => [
+                'branch_id' => $_GET['branch_id'],
                 'id' => $_GET['id']
             ]
         ];
@@ -143,7 +147,7 @@ class Media extends CI_Controller
                             'X-API-KEY' => $this->guzzle->key()
                         ],
                         'form_params' => [
-                            'branch_id' => 1,
+                            'branch_id' => $this->config->item('branch_id'),
                             'name' => $this->input->post('name'),
                             'description' => $this->input->post('description'),
                             'file_name' => $data['file_name'],

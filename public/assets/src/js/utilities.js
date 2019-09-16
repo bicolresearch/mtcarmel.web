@@ -7,7 +7,7 @@
     Changes     : 
 */
 
-let baseURL = 'https://mountcarmel.ph';
+let baseURL = 'http://mountcarmel.ph';
 let apiURL = 'https://api.mountcarmel.ph';
 let branchID = 1;
 

@@ -3,7 +3,7 @@
     Location    : application/views/admin/ads.html.twig
     Purpose     : Ads partial page
     Created     : 07/11/2019 17:24:13 by Spiderman
-    Updated     : 08/30/2019 00:49:58 by Spiderman
+    Updated     : 09/16/2019 19:14:26 by Spiderman
     Changes     : 
 #}
 
@@ -284,7 +284,7 @@
                                 }
 
                                 // Get media by id with data-media-id attr as id paramater
-                                $.get(apiURL + '/media/medium/id/' + _this.find('input:hidden[name="media_id"]').val(), function(data) {
+                                $.get(apiURL + '/media/medium/?branch_id=' + branchID + '&id=' + _this.find('input:hidden[name="media_id"]').val(), function(data) {
                                     _this.find('#placeholder').replaceWith(
                                         '<div id="placeholder" class="mb-3">' +
                                         '   <img class="mx-auto d-block" style="max-height: 200px" src="' + apiURL + '/' + data.media_path + '" alt="' + data.name + '" />' +

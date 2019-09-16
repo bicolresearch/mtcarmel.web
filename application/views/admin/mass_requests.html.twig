@@ -3,7 +3,7 @@
     Location    : application/views/admin/mass_requests.html.twig
     Purpose     : Mass request partial page
     Created     : 08/01/2019 18:53:27 by Scarlet Witch
-    Updated     : 09/10/2019 14:28:19 by Spiderman
+    Updated     : 09/16/2019 22:37:13 by Spiderman
     Changes     : 
 #}
 
@@ -144,7 +144,7 @@
                         "serverSide": false,
                         "responsive": true,
                         "ajax": {
-                            "url": baseURL + "/admin/mass_requests/mass_requests",
+                            "url": baseURL + "/admin/mass_requests/mass_requests/?branch_id=" + branchID,
                             "type": "GET"
                         },
                         "columns": [
@@ -254,7 +254,7 @@
                         let id = $(e.relatedTarget).attr('data-id');
 
                         let jqXHR = $.ajax({
-                            url: baseURL + '/admin/mass_requests/mass_request/?id=' + id,
+                            url: baseURL + '/admin/mass_requests/mass_request/?branch_id=' + branchID + '&id=' + id,
                             type: 'GET',
                             dataType: 'json',
                             data: _this.serialize(),
