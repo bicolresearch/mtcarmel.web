@@ -370,7 +370,7 @@
                                 _this.find('input[name="address_2"]').val(data.address_2);
                                 _this.find('select[name="city"]').append('<option value="' + data.city_code + '" selected>' + data.city_name + '</option>'); 
                                 _this.find('select[name="province"]').append('<option value="' + data.province_code + '" selected>' + data.province_name + '</option>'); 
-                                 _this.find('select[name="country"]').append('<option value="' + data.country_code + '" selected>' + data.country_name + '</option>'); 
+                                _this.find('select[name="country"]').append('<option value="' + data.country_code + '" selected>' + data.country_name + '</option>'); 
                                 _this.find('input[name="birthdate"]').val(data.birthdate);
                                 _this.find('input.input').val(moment(data.birthdate, 'YYYY-MM-DD').format('MMMM DD, YYYY'));
                                 _this.find('input[name="landline"]').val(data.landline);

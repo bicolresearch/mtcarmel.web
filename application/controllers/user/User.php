@@ -5,8 +5,8 @@
     Location    : application/controllers/user/User.php
     Purpose     : User Controller
     Created     : 06/27/2019 17:27:57 by Spiderman
-    Updated     : 07/17/2019 22:36:37 by Spiderman
-    Changes     : Fix avatar
+    Updated     : 09/17/2019 20:27:14 by Spiderman
+    Changes     : 
 */
 
 defined('BASEPATH') or exit('No direct script access allowed');
@@ -51,7 +51,8 @@ class User extends CI_Controller
                 'X-API-KEY' => $this->guzzle->key()
             ],
             'query' => [
-                'id' => $this->uri->segment(4)
+                'branch_id' => $_GET['branch_id'],
+                'id' => $_GET['id']
             ]
         ];
     

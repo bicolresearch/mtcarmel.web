@@ -51,22 +51,23 @@ class Admin extends CI_Controller
                 'X-API-KEY' => $this->guzzle->key()
             ],
             'query' => [
-                'id' => $this->uri->segment(4)
+                'branch_id' => $_GET['branch_id'],
+                'id' => $_GET['id']
             ]
         ];
     
         try {
             // GET request
             $response = $client->get('users/user', $options);
-    
+
             $response = json_decode($response->getBody()->getContents());
-    
+
             // Return $response
             echo json_encode($response, true);
-    
+
         } catch (GuzzleHttp\Exception\ClientException $e) {
             $response = $e->getResponse();
-    
+
             // Return $response 
             echo $response->getBody()->getContents();
         }

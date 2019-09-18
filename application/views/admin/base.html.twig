@@ -264,7 +264,7 @@
                         let id = $('body').attr('data-user-id');
 
                         let jqXHR = $.ajax({
-                            url: baseURL + '/admin/profile/id/' + id,
+                            url: baseURL + '/admin/admin/profile/?branch_id=' + branchID + '&id=' + id,
                             type: 'GET',
                             dataType: 'json',
                             data: $('body').serialize(),
@@ -274,7 +274,7 @@
                         
                         jqXHR.done(function(data) {
                             if (data) {
-                                $('body').find('.profile').append('<img class="img-fluid rounded-circle avatar mr-1" src="' + apiURL + '/' + data.avatar + '" alt="' + data.first_name + ' ' + data.last_name + '" />');
+                                $('body').find('.profile').append('<img class="img-fluid rounded-circle avatar mr-1" src="' + apiURL + '/' + data.media_path + '" alt="' + data.first_name + ' ' + data.last_name + '" />');
                             }
                         });
 

@@ -90,7 +90,7 @@ class Auth extends CI_Controller
                     'last_name' => $this->input->post('last_name'),
                     'email' => $this->input->post('email'),
                     'password' => hash('sha512', $this->input->post('password')), 
-                    'branch_id' => 1, // Main branch_id
+                    'branch_id' => $this->config->item('branch_id'), // Main branch_id
                     'role_id' => 2, // Default role_id
                     'user_id' => 1, // Default created_by
                     'media_id' => 1 // Default media_id (if no avatar selected)

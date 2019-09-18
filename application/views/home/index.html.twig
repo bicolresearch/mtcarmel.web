@@ -3,7 +3,7 @@
     Location    : application/views/home/index.html.twig
     Purpose     : Home partial page
     Created     : 06/03/2019 22:55:25 by Spiderman
-    Updated     : 09/06/2019 17:18:56 by Spiderman
+    Updated     : 09/17/2019 21:48:47 by Spiderman
     Changes     : 
 #}
 
@@ -14,6 +14,7 @@
 {% block contents %}
     <div class="row justify-content-center">
         <div id="splash-ads" class="col-12 col-md-12 col-lg-12">
+            <div id="ajax-preloader"></div>
             <div id="carousel" class="carousel slide shadow-lg" data-ride="carousel">
                 <ol class="carousel-indicators">
                     <!-- Splash indicators -->
@@ -56,7 +57,10 @@
                         dataType: 'json',
                         data: _this.serialize(),
                         cache: false,
-                        processData: false
+                        processData: false,
+                        beforeSend: function () {
+                            _this.find('#ajax-preloader').preloader().show();
+                        }
                     });
 
                     jqXHR.done(function (data) {
@@ -74,6 +78,10 @@
                                 _this.find('.carousel').carousel({interval: 10000});
                             });
                         }
+                    });
+
+                    jqXHR.always(function () {
+                        _this.find('#ajax-preloader').preloader().hide();
                     });
 
                     jqXHR.fail(function (jqXHR, textStatus, errorThrown) {

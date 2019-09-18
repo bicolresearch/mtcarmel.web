@@ -3,7 +3,7 @@
     Location    : application/views/user/base.html.twig
     Purpose     : User base template
     Created     : 06/28/2019 17:39:36 by Spiderman
-    Updated     : 
+    Updated     : 09/17/2019 16:30:14 by Spiderman
     Changes     : 
 #}
 
@@ -20,8 +20,8 @@
         <link href="{{ base_url('public/assets/css/style.css') }}" rel="stylesheet">
     {% endblock %}
 </head>
-<body>
-<div class="wrapper" id="user" data-user-id="{{ user.id }}">
+<body data-user-id="{{ user.id }}">
+<div class="wrapper">
     {% block sidebar %}
         <nav class="sidebar sidebar-sticky">
             <div class="sidebar-content js-simplebar">
@@ -76,41 +76,126 @@
 
 {% block javascripts %}
     <script src="{{ base_url('public/assets/js/app.js') }}"></script>
-    <script src="{{ base_url('public/assets/js/pace.min.js') }}"></script>
+    <script src="{{ base_url('public/assets/js/utilities.js') }}"></script>
     <script>
         $(function () {
 
-            let baseURL = location.origin.toLowerCase() + '/mountcarmel.web';
-            let apiURL = location.origin.toLowerCase() + '/mountcarmel.api';
+            let baseURL = $.fn.baseURL();
+            let apiURL = $.fn.apiURL();
+            let branchID = $.fn.branchID();
 
             let app = {
                 init: function() {
+                    this.activeList();
                     this.avatar();
+                    this.citiesDDL();
+                    this.provincesDDL();
+                    this.countriesDDL();
+                    this.inputMasking();
                 },
-                // GET: Avatar
+                activeList: function () {
+
+                    let str = location.href.toLowerCase();
+
+                    $('.sidebar-nav li a').each(function () {
+                        if (str.indexOf(this.href.toLowerCase()) > -1) {
+                            $('.sidebar-nav li.active').removeClass('active');
+                            $(this).parent().addClass("active");
+                        }
+                    });
+
+                    $('.sidebar-nav li.active').parents().each(function () {
+                        if ($(this).is('li')) {
+                            $(this).addClass('active');
+                        }
+                    });
+                },
                 avatar: function() {
 
-                    let el = $('#user');
-                    let id = el.data('user-id');
-                    let data = el.serialize();
+                    let id = $('body').attr('data-user-id');
 
-                    $.ajax({
-                        url: baseURL + '/user/profile/id/' + id,
+                    let jqXHR = $.ajax({
+                        url: baseURL + '/user/user/profile/?branch_id=' + branchID + '&id=' + id,
                         type: 'GET',
                         dataType: 'json',
-                        data: data,
+                        data: $('body').serialize(),
                         cache: false,
-                        processData: false,
-                        success: function (data) {
-                            if (data) {
-                                el.find('.profile').append(
-                                    '<img class="img-fluid rounded-circle mr-1 avatar" src="' + apiURL + '/' + data.avatar + '" alt="' + data.first_name + ' ' + data.last_name + '" />'
-                                );
+                        processData: false
+                    });
+                        
+                    jqXHR.done(function(data) {
+                        if (data) {
+                            $('body').find('.profile').append('<img class="img-fluid rounded-circle avatar mr-1" src="' + apiURL + '/' + data.media_path + '" alt="' + data.first_name + ' ' + data.last_name + '" />');
+                        }
+                    });
+
+                    jqXHR.fail(function (jqXHR, textStatus, errorThrown) {
+                        console.log('The following error occurred: ' + textStatus, errorThrown);
+                    });
+                },
+                citiesDDL: function() {  
+                    $('body').find('select[name="city"]').select2({
+                        ajax: {
+                            url: apiURL + '/cities/',
+                            dataType: 'json',
+                            data: function(params) {
+                                var query = {
+                                    q: params.term
+                                }
+                                return query;
+                            },
+                            processResults: function (data) {
+                                return {
+                                    results: data
+                                };
                             }
                         },
-                        error: function (jqXHR, textStatus, errorThrown) {
-                            console.log('The following error occurred: ' + textStatus, errorThrown);
+                    });
+                },
+                provincesDDL: function() {
+                    $('body').find('select[name="province"]').select2({
+                        ajax: {
+                            url: apiURL + '/provinces/',
+                            dataType: 'json',
+                            data: function(params) {
+                                var query = {
+                                    q: params.term
+                                }
+                                return query;
+                            },
+                            processResults: function (data) {
+                                return {
+                                    results: data
+                                };
+                            }
                         }
+                    });
+                },
+                countriesDDL: function() {
+                    $('body').find('select[name="country"]').select2({
+                        ajax: {
+                            url: apiURL + '/countries/',
+                            dataType: 'json',
+                            data: function(params) {
+                                var query = {
+                                    q: params.term
+                                }
+                                return query;
+                            },
+                            processResults: function (data) {
+                                return {
+                                    results: data
+                                };
+                            }
+                        }
+                    }); 
+                },
+                inputMasking: function() {
+                    $('input[name="landline"]').mask('(00) 000-0000', { 
+                        placeholder: "(02) 123-4567"
+                    });
+                    $('input[name="mobile"]').mask('(000) 000-0000', { 
+                        placeholder: "(927) 123-4567"
                     });
                 }
             }

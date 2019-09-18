@@ -3,14 +3,17 @@
     Location    : application/views/user/index.html.twig
     Purpose     : User template
     Created     : 06/28/2019 23:12:26 by Spiderman
-    Updated     : 07/22/2019 23:12:20 by Spiderman
+    Updated     : 09/17/2019 16:30:03 by Spiderman
     Changes     : 
 #}
 
 {% extends 'user/base.html.twig' %}
+
 {% block title %} {{ page_title }} | Mount Carmel {% endblock %}
+
 {% block contents %}
     <div class="row">
+        <div id="ajax-preloader"></div>
         <div id="profile" class="col-12 col-lg-4">
             <div class="card mb-3">
                 <div class="card-body text-center">   
@@ -23,37 +26,75 @@
                 <div class="card-header">
                     <h3 class="card-title">Personal Information</h3>
                 </div>
-                <div class="card-body">   
-                    <div class="row">
-                        <div class="col-12 col-lg-6">
-                            <div class="form-group">
-                                <label for="first-name">First Name</label>
-                                <input id="first-name" class="form-control" name="first-name" />
+                <form id="update-form">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-12 col-lg-6">
+                                <div class="form-group">
+                                    <label for="first-name">First Name</label>
+                                    <input id="first-name" class="form-control" name="first-name" />
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6">
+                                <div class="form-group">
+                                    <label for="last-name">Last Name</label>
+                                    <input id="last-name" class="form-control" name="last-name" />
+                                </div>
                             </div>
                         </div>
-                        <div class="col-12 col-lg-6">
-                            <div class="form-group">
-                                <label for="last-name">Last Name</label>
-                                <input id="last-name" class="form-control" name="last-name" />
+                        <div class="form-group">
+                            <label for="address-1">Address 1</label>
+                            <input type="text" class="form-control" id="address-1" name="address_1" placeholder="">
+                        </div>
+                        <div class="form-group">
+                            <label for="address-2">Address 2</label>
+                            <input type="text" class="form-control" id="address-2" name="address_2" placeholder="">
+                        </div>
+                        <div class="row">
+                            <div class="col-12 col-lg-4">
+                                <div class="form-group">
+                                    <label for="city">City</label>
+                                    <select class="form-control" id="city" name="city">
+                                        <!-- This is where the city load -->
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-4">
+                                <div class="form-group">
+                                    <label for="province">Province</label>
+                                    <select class="form-control" id="province" name="province">
+                                        <!-- This is where the province load -->
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-4">
+                                <div class="form-group">
+                                    <label for="country">Country</label>
+                                    <select class="form-control" id="country" name="country">
+                                        <!-- This is where the country load -->
+                                    </select>
+                                </div>
                             </div>
                         </div>
-                        <div class="col-12 col-lg-6">
-                            <div class="form-group">
-                                <label for="email">Email</label>
-                                <input id="email" class="form-control" name="email" />
+                        <div class="row">
+                            <div class="col-12 col-lg-6">
+                                <div class="form-group">
+                                    <label for="landline">Landline</label>
+                                    <input type="text" class="form-control" id="landline" name="landline" placeholder="">
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-12 col-lg-6">
-                            <div class="form-group">
-                                <label for="mobile">Mobile</label>
-                                <input id="mobile" class="form-control" name="mobile" />
+                            <div class="col-12 col-lg-6">
+                                <div class="form-group">
+                                    <label for="mobile">Mobile</label>
+                                    <input type="text" class="form-control" id="mobile" name="mobile" placeholder="">
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="card-footer text-center">
-                    <button type="submit" class="btn btn-lg btn-brown rounded-pill px-5 btn-change-state">Save</button>
-                </div>
+                    <div class="card-footer text-center">
+                        <button type="submit" class="btn btn-lg btn-brown rounded-pill px-5 btn-change-state">Save</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -63,50 +104,74 @@
     <script>
         $(function () {
 
-            let baseURL = location.origin.toLowerCase() + '/mountcarmel.web';
-            let apiURL = location.origin.toLowerCase() + '/mountcarmel.api';
+            let baseURL = $.fn.baseURL();
+            let apiURL = $.fn.apiURL();
+            let branchID = $.fn.branchID();
 
-            let app = {
+            // GET: Display by id
+            let getById = {
                 init: function() {
-                    this.info();
+                    this.displayForm();
                 },
-                // GET: User info
-                info: function() {
+                displayForm: function() {
 
-                    let el = $('#user');
-                    let id = el.data('user-id');
-                    let data = el.serialize();
+                    let _this = $('body');
+                    let id = _this.attr('data-user-id');
 
-                    $.ajax({
-                        url: baseURL + '/user/profile/id/' + id,
+                    let jqXHR = $.ajax({
+                        url: baseURL + '/user/user/profile/?branch_id=' + branchID + '&id=' + id,
                         type: 'GET',
                         dataType: 'json',
-                        data: data,
+                        data: _this.serialize(),
                         cache: false,
                         processData: false,
-                        beforeSend: function () {},
-                        complete: function () {},
-                        success: function (data) {
-                            if (data) {
-                                // Populate profile
-                                el.find('#profile .card-body').append(
-                                    '<img class="img-fluid rounded-circle mb-2" src="'+ apiURL +'/'+ data.avatar + '" alt="' + data.first_name + ' ' + data.last_name +'" width="128" height="128" />' +
-                                    '<h4 class="card-title mb-0">' + data.first_name + ' ' + data.last_name + '</h4>' +
-                                    '<div class="text-muted mb-2">' + data.email + '</div>'
-                                );
-                                el.find('#info input[name="first-name"]').val(data.first_name);
-                                el.find('#info input[name="last-name"]').val(data.last_name);
-                                el.find('#info input[name="email"]').val(data.email);
-                            }
-                        },
-                        error: function (jqXHR, textStatus, errorThrown) {
-                            console.log('The following error occurred: ' + textStatus, errorThrown);
+                        beforeSend: function () {
+                            _this.find('#ajax-preloader').preloader().show();
                         }
+                    });
+
+                    jqXHR.done(function (data) {
+                        if (data) {
+                            // Populate form
+                            _this.find('#profile .card-body').append(
+                                '<img class="img-fluid rounded-circle mb-2" src="'+ apiURL +'/'+ data.media_path + '" alt="' + data.first_name + ' ' + data.last_name +'" width="128" height="128" />' +
+                                '<h4 class="card-title mb-0">' + data.first_name + ' ' + data.last_name + '</h4>' +
+                                '<div class="text-muted mb-2">' + data.email + '</div>'
+                            );
+                            _this.find('#info input[name="first-name"]').val(data.first_name);
+                            _this.find('#info input[name="last-name"]').val(data.last_name);
+                            _this.find('input[name="address_1"]').val(data.address_1);
+                            _this.find('input[name="address_2"]').val(data.address_2);
+                            _this.find('select[name="city"]').append('<option value="' + data.city_code + '" selected>' + data.city_name + '</option>'); 
+                            _this.find('select[name="province"]').append('<option value="' + data.province_code + '" selected>' + data.province_name + '</option>'); 
+                            _this.find('select[name="country"]').append('<option value="' + data.country_code + '" selected>' + data.country_name + '</option>'); 
+                            _this.find('#info input[name="email"]').val(data.email);
+                            _this.find('#info input[name="mobile"]').val(data.mobile);
+                        }
+                    });
+
+                    jqXHR.always(function () {
+                        _this.find('#ajax-preloader').preloader().hide();
+                    });
+
+                    jqXHR.fail(function (jqXHR, textStatus, errorThrown) {
+                        console.log('The following error occurred: ' + textStatus, errorThrown);
                     });
                 }
             }
 
-            app.init();
+            // PUT: Update
+            let update = {
+                init: function() {
+                    this.submitForm();
+                },
+                submitForm: function() {
+                    
+                }
+            }
+
+            getById.init();
+            update.init();
         })
     </script>
 {% endblock %}
