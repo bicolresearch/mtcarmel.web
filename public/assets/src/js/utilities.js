@@ -7,8 +7,8 @@
     Changes     : 
 */
 
-let baseURL = 'http://localhost/mountcarmel.web';
-let apiURL = 'http://localhost/mountcarmel.api';
+let baseURL = 'https://mountcarmel.ph';
+let apiURL = 'https://api.mountcarmel.ph';
 let branchID = 1;
 
 $.fn.extend({
