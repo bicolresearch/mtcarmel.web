@@ -3,15 +3,14 @@
     Location    : application/views/user/index.html.twig
     Purpose     : User template
     Created     : 06/28/2019 23:12:26 by Spiderman
-    Updated     : 09/19/2019 15:17:46 by Spiderman
+    Updated     : 09/21/2019 19:41:59 by Spiderman
     Changes     : 
 #}
 
 {% extends 'user/base.html.twig' %}
 
 {% block title %}
-    {{ page_title }}
-    | Mount Carmel
+    {{ page_title }} | Mount Carmel
 {% endblock %}
 
 {% block contents %}
@@ -125,7 +124,7 @@
                     let id = _this.attr('data-user-id');
 
                     let jqXHR = $.ajax({
-                        url: baseURL + '/user/user/profile/?branch_id=' + branchID + '&id=' + id,
+                        url: baseURL + '/user/profile/info/?branch_id=' + branchID + '&id=' + id,
                         type: 'GET',
                         dataType: 'json',
                         data: _this.serialize(),
@@ -177,7 +176,7 @@
                         let id = _this.find('input:hidden[name="id"]').val();
 
                         let jqXHR = $.ajax({
-                            url: baseURL + '/user/user/update/id/' + id,
+                            url: baseURL + '/user/profile/update/id/' + id,
                             type: 'PUT',
                             dataType: 'json',
                             data: _this.serialize(),
@@ -188,7 +187,7 @@
                                 _this.find('.btn-change-state').attr('disabled', 'disabled');
                             }
                         });
-
+                        
                         jqXHR.done(function (data) {
                             if (data.status === true) { // Show and append notif msg
                                 $('#notif').modal('show').find('.modal-body p').text('Personal info has been updated');

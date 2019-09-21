@@ -137,7 +137,7 @@ class Auth extends CI_Controller
                 redirect('admin', 'refresh');
                 break;
             case 2:
-                redirect('user', 'refresh');
+                redirect('user/profile', 'refresh');
                 break;
             default:
                 redirect('home', 'refresh');

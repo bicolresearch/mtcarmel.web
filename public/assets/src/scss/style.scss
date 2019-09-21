@@ -158,6 +158,14 @@ body {
       }
       .dropdown-menu {
         z-index: 2000;
+        .dropdown-item {
+          &:hover,
+          &:active,
+          &:focus {
+            color: #fff;
+            background-color: $dark-khaki;
+          }
+        }
       }
     }
   }

@@ -3,210 +3,250 @@
     Location    : application/views/user/base.html.twig
     Purpose     : User base template
     Created     : 06/28/2019 17:39:36 by Spiderman
-    Updated     : 09/17/2019 16:30:14 by Spiderman
+    Updated     : 09/21/2019 19:42:05 by Spiderman
     Changes     : 
 #}
 
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="Mount Carmel System">
-    <meta name="author" content="Bicol Research">
-    <title>{% block title %}Mount Carmel{% endblock %}</title>
-    {% block stylesheets %}
-        <link href="{{ base_url('public/assets/css/style.css') }}" rel="stylesheet">
-    {% endblock %}
-</head>
-<body data-user-id="{{ user.id }}">
-<div class="wrapper">
-    {% block sidebar %}
-        <nav class="sidebar sidebar-sticky">
-            <div class="sidebar-content js-simplebar">
-                <a class="sidebar-brand" href="{{ base_url('user') }}">
-                    <div class="logo">
-                        <img src="{{ base_url('public/assets/images/brands/mount-carmel-logo.svg') }}" alt="Mount Carmel Logo"/>
-                    </div>
-                    <div class="logo-text">
-                        <div class="title">Mount Carmel</div>
-                        <div class="address">Quezon City, Philippines</div>
-                    </div>
-                </a>
-                <ul class="sidebar-nav">
-                    <li class="sidebar-item active">
-                        <a class="sidebar-link" href="{{ base_url('user') }}">
-                            <i class="align-middle icon-home icon-18"></i> <span class="align-middle">Home</span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
-    {% endblock %}
-    <div class="main">
-        {% block navbar %}
-            <nav class="navbar navbar-expand navbar-light bg-white">
-                <a class="sidebar-toggle d-flex mr-2">
-                    <i class="hamburger align-self-center"></i>
-                </a>
-                <div class="navbar-collapse collapse">
-                    <ul class="navbar-nav ml-auto">
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle mr-0 pr-0 profile" href="javascript:void(0)" data-toggle="dropdown">
-                                <!-- This is where the avatar load -->
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-right">
-                                <a class="dropdown-item" href="{{ base_url('auth/logout') }}" target="_self">Logout</a>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </nav>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="Mount Carmel System">
+        <meta name="author" content="Bicol Research">
+        <title>
+            {% block title %}
+                Mount Carmel
+            {% endblock %}
+        </title>
+        {% block stylesheets %}
+            <link href="{{ base_url('public/assets/css/style.css') }}" rel="stylesheet">
         {% endblock %}
-        <main class="content">
-            <div class="container-fluid p-0">
-                {% block contents %}
-                    {# This is where the partial page load #}
+    </head>
+    <body data-user-id="{{ user.id }}">
+        <div class="wrapper">
+            {% block sidebar %}
+                <nav id="sidebar" class="sidebar sidebar-sticky">
+                    <div class="sidebar-content js-simplebar">
+                        <a class="sidebar-brand" href="{{ base_url('user') }}">
+                            <div class="logo">
+                                <img src="{{ base_url('public/assets/images/brands/mount-carmel-logo.svg') }}" alt="Mount Carmel Logo"/>
+                            </div>
+                            <div class="logo-text">
+                                <div class="title">Mount Carmel</div>
+                                <div class="address">Quezon City, Philippines</div>
+                            </div>
+                        </a>
+                        <ul class="sidebar-nav">
+                            <li class="sidebar-item active">
+                                <a class="sidebar-link" href="{{ base_url('user/profile') }}">
+                                    <i class="align-middle icon-profile icon-18"></i>
+                                    <span class="align-middle">Profile</span>
+                                </a>
+                            </li>
+                            <li class="sidebar-item">
+                                <a href="#request" data-toggle="collapse" class="sidebar-link collapsed">
+                                    <i class="align-middle icon-makearequest icon-18"></i>
+                                    <span class="align-middle">Make a Request</span>
+                                </a>
+                                <ul id="request" class="sidebar-dropdown list-unstyled collapse" data-parent="#sidebar">
+                                    <li class="sidebar-item">
+                                        <a class="sidebar-link" href="#">Prayer Request</a>
+                                        <a class="sidebar-link" href="#">Mass Request</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="sidebar-item">
+                                <a href="#ads" data-toggle="collapse" class="sidebar-link collapsed">
+                                    <i class="align-middle icon-services icon-18"></i>
+                                    <span class="align-middle">Advertise</span>
+                                </a>
+                                <ul id="ads" class="sidebar-dropdown list-unstyled collapse" data-parent="#sidebar">
+                                    <li class="sidebar-item">
+                                        <a class="sidebar-link" href="#">Place an Ad</a>
+                                        <a class="sidebar-link" href="#">Ad Status</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+            {% endblock %}
+            <div class="main">
+                {% block navbar %}
+                    <nav class="navbar navbar-expand navbar-light bg-white">
+                        <a class="sidebar-toggle d-flex mr-2">
+                            <i class="hamburger align-self-center"></i>
+                        </a>
+                        <div class="navbar-collapse collapse">
+                            <ul class="navbar-nav ml-auto">
+                                <li class="nav-item dropdown">
+                                    <a
+                                        class="nav-link dropdown-toggle mr-0 pr-0 profile" href="javascript:void(0)" data-toggle="dropdown"><!-- This is where the avatar load -->
+                                    </a>
+                                    <div class="dropdown-menu dropdown-menu-right">
+                                        <a class="dropdown-item" href="{{ base_url('auth/logout') }}" target="_self">Logout</a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </nav>
                 {% endblock %}
+                <main class="content">
+                    <div class="container-fluid p-0">
+                        {% block contents %}
+                            {# This is where the partial page load #}
+                        {% endblock %}
+                    </div>
+                </main>
             </div>
-        </main>
-    </div>
-</div>
+        </div>
 
-{% block javascripts %}
-    <script src="{{ base_url('public/assets/js/app.js') }}"></script>
-    <script src="{{ base_url('public/assets/js/utilities.js') }}"></script>
-    <script>
-        $(function () {
+        {% block notif %}
+            <div class="modal fade" id="notif" data-backdrop="static" role="dialog" aria-labelledby="notifModalTitle" aria-hidden="true">
+                <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h3 class="modal-title" id="notifModalTitle">Notification</h3>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <i data-feather="x"></i>
+                            </button>
+                        </div>
+                        <div id="ajax-preloader"></div>
+                        <div class="modal-body p-5">
+                            <p
+                                class="text-center m-0"><!-- This is where the notif message load -->
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endblock %}
 
-            let baseURL = $.fn.baseURL();
-            let apiURL = $.fn.apiURL();
-            let branchID = $.fn.branchID();
+        {% block javascripts %}
+            <script src="{{ base_url('public/assets/js/app.js') }}"></script>
+            <script src="{{ base_url('public/assets/js/utilities.js') }}"></script>
+            <script>
+                $(function () {
 
-            let app = {
-                init: function() {
-                    this.activeList();
-                    this.avatar();
-                    this.citiesDDL();
-                    this.provincesDDL();
-                    this.countriesDDL();
-                    this.inputMasking();
-                },
-                activeList: function () {
+                    let baseURL = $.fn.baseURL();
+                    let apiURL = $.fn.apiURL();
+                    let branchID = $.fn.branchID();
 
-                    let str = location.href.toLowerCase();
-
-                    $('.sidebar-nav li a').each(function () {
-                        if (str.indexOf(this.href.toLowerCase()) > -1) {
-                            $('.sidebar-nav li.active').removeClass('active');
-                            $(this).parent().addClass("active");
-                        }
-                    });
-
-                    $('.sidebar-nav li.active').parents().each(function () {
-                        if ($(this).is('li')) {
-                            $(this).addClass('active');
-                        }
-                    });
-                },
-                avatar: function() {
-
-                    let id = $('body').attr('data-user-id');
-
-                    let jqXHR = $.ajax({
-                        url: baseURL + '/user/user/profile/?branch_id=' + branchID + '&id=' + id,
-                        type: 'GET',
-                        dataType: 'json',
-                        data: $('body').serialize(),
-                        cache: false,
-                        processData: false
-                    });
-                        
-                    jqXHR.done(function(data) {
-                        if (data) {
-                            $('body').find('.profile').append('<img class="img-fluid rounded-circle avatar mr-1" src="' + apiURL + '/' + data.media_path + '" alt="' + data.first_name + ' ' + data.last_name + '" />');
-                        }
-                    });
-
-                    jqXHR.fail(function (jqXHR, textStatus, errorThrown) {
-                        console.log('The following error occurred: ' + textStatus, errorThrown);
-                    });
-                },
-                citiesDDL: function() {  
-                    $('body').find('select[name="city"]').select2({
-                        ajax: {
-                            url: apiURL + '/cities/',
-                            dataType: 'json',
-                            data: function(params) {
-                                var query = {
-                                    q: params.term
-                                }
-                                return query;
-                            },
-                            processResults: function (data) {
-                                return {
-                                    results: data
-                                };
-                            }
+                    let app = {
+                        init: function () {
+                            this.activeList();
+                            this.avatar();
+                            this.citiesDDL();
+                            this.provincesDDL();
+                            this.countriesDDL();
+                            this.inputMasking();
                         },
-                    });
-                },
-                provincesDDL: function() {
-                    $('body').find('select[name="province"]').select2({
-                        ajax: {
-                            url: apiURL + '/provinces/',
-                            dataType: 'json',
-                            data: function(params) {
-                                var query = {
-                                    q: params.term
-                                }
-                                return query;
-                            },
-                            processResults: function (data) {
-                                return {
-                                    results: data
-                                };
-                            }
-                        }
-                    });
-                },
-                countriesDDL: function() {
-                    $('body').find('select[name="country"]').select2({
-                        ajax: {
-                            url: apiURL + '/countries/',
-                            dataType: 'json',
-                            data: function(params) {
-                                var query = {
-                                    q: params.term
-                                }
-                                return query;
-                            },
-                            processResults: function (data) {
-                                return {
-                                    results: data
-                                };
-                            }
-                        }
-                    }); 
-                },
-                inputMasking: function() {
-                    $('input[name="landline"]').mask('(00) 000-0000', { 
-                        placeholder: "(02) 123-4567"
-                    });
-                    $('input[name="mobile"]').mask('(000) 000-0000', { 
-                        placeholder: "(927) 123-4567"
-                    });
-                }
-            }
+                        activeList: function () {
 
-            app.init();
-        })
-    </script>
-{% endblock %}
+                            let str = location.href.toLowerCase();
 
-{% block custom_scripts %}
-    {# This is where the custom scripts load #}
-{% endblock %}
-</body>
+                            $('.sidebar-nav li a').each(function () {
+                                if (str.indexOf(this.href.toLowerCase()) > -1) {
+                                    $('.sidebar-nav li.active').removeClass('active');
+                                    $(this).parent().addClass("active");
+                                }
+                            });
+
+                            $('.sidebar-nav li.active').parents().each(function () {
+                                if ($(this).is('li')) {
+                                    $(this).addClass('active');
+                                }
+                            });
+                        },
+                        avatar: function () {
+
+                            let id = $('body').attr('data-user-id');
+
+                            let jqXHR = $.ajax({
+                                url: baseURL + '/user/profile/info/?branch_id=' + branchID + '&id=' + id,
+                                type: 'GET',
+                                dataType: 'json',
+                                data: $('body').serialize(),
+                                cache: false,
+                                processData: false
+                            });
+
+                            jqXHR.done(function (data) {
+                                if (data) {
+                                    $('body').find('.profile').append('<img class="img-fluid rounded-circle avatar mr-1" src="' + apiURL + '/' + data.media_path + '" alt="' + data.first_name + ' ' + data.last_name + '" />');
+                                }
+                            });
+
+                            jqXHR.fail(function (jqXHR, textStatus, errorThrown) {
+                                console.log('The following error occurred: ' + textStatus, errorThrown);
+                            });
+                        },
+                        citiesDDL: function () {
+                            $('body').find('select[name="city"]').select2({
+                                ajax: {
+                                    url: apiURL + '/cities/',
+                                    dataType: 'json',
+                                    data: function (params) {
+                                        var query = {
+                                            q: params.term
+                                        }
+                                        return query;
+                                    },
+                                    processResults: function (data) {
+                                        return {results: data};
+                                    }
+                                }
+                            });
+                        },
+                        provincesDDL: function () {
+                            $('body').find('select[name="province"]').select2({
+                                ajax: {
+                                    url: apiURL + '/provinces/',
+                                    dataType: 'json',
+                                    data: function (params) {
+                                        var query = {
+                                            q: params.term
+                                        }
+                                        return query;
+                                    },
+                                    processResults: function (data) {
+                                        return {results: data};
+                                    }
+                                }
+                            });
+                        },
+                        countriesDDL: function () {
+                            $('body').find('select[name="country"]').select2({
+                                ajax: {
+                                    url: apiURL + '/countries/',
+                                    dataType: 'json',
+                                    data: function (params) {
+                                        var query = {
+                                            q: params.term
+                                        }
+                                        return query;
+                                    },
+                                    processResults: function (data) {
+                                        return {results: data};
+                                    }
+                                }
+                            });
+                        },
+                        inputMasking: function () {
+                            $('input[name="landline"]').mask('(00) 000-0000', {placeholder: "(02) 123-4567"});
+                            $('input[name="mobile"]').mask('(000) 000-0000', {placeholder: "(927) 123-4567"});
+                        }
+                    }
+
+                    app.init();
+                })
+            </script>
+        {% endblock %}
+
+        {% block custom_scripts %}
+            {# This is where the custom scripts load #}
+        {% endblock %}
+    </body>
 </html>

@@ -3,7 +3,7 @@
     Location    : application/views/base.html.twig
     Purpose     : Base template
     Created     : 06/03/2019 22:09:22 by Spiderman
-    Updated     : 09/10/2019 00:40:25 by Spiderman
+    Updated     : 09/21/2019 19:42:18 by Spiderman
     Changes     : 
 #}
 
@@ -23,7 +23,7 @@
 <body>
     <div class="wrapper">
         {% block sidebar %}
-            <nav class="sidebar sidebar-sticky">
+            <nav id="sidebar" class="sidebar sidebar-sticky">
                 <div class="sidebar-content js-simplebar">
                     <a class="sidebar-brand" href="{{ base_url('home') }}">
                         <div class="logo">
@@ -39,7 +39,7 @@
                             <a href="#home" data-toggle="collapse" class="sidebar-link collapsed">
                                 <i class="align-middle icon-home icon-18"></i> <span class="align-middle">Home</span>
                             </a>
-                            <ul id="home" class="sidebar-dropdown list-unstyled collapse">
+                            <ul id="home" class="sidebar-dropdown list-unstyled collapse" data-parent="#sidebar">
                                 <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('news') }}">News &amp; Updates</a></li>
                                 <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('calendar') }}">Calendar</a></li>
                                 <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('live-mass') }}">Live Mass</a></li>
@@ -54,7 +54,7 @@
                             <a href="#services" data-toggle="collapse" class="sidebar-link collapsed">
                                 <i class="align-middle icon-services icon-18"></i> <span class="align-middle">Services</span>
                             </a>
-                            <ul id="services" class="sidebar-dropdown list-unstyled collapse">
+                            <ul id="services" class="sidebar-dropdown list-unstyled collapse" data-parent="#sidebar">
                                 <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('join-us') }}">Join Us!</a></li>
                                 <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('request') }}">Make a Request</a></li>
                                 <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('baptism') }}">Baptism</a></li>
@@ -65,16 +65,16 @@
                                 <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('events') }}">Events</a></li>
                             </ul>
                         </li>
-                        <li class="sidebar-item">
+                        {# <li class="sidebar-item">
                             <a class="sidebar-link" href="{{ base_url('transparency') }}">
                                 <i class="align-middle icon-transparency icon-18"></i> <span class="align-middle">Transparency</span>
                             </a>
-                        </li>
+                        </li> #}
                         <li class="sidebar-item">
                             <a href="#basilica" data-toggle="collapse" class="sidebar-link collapsed">
                                 <i class="align-middle icon-logo icon-18"></i> <span class="align-middle">Basilica</span>
                             </a>
-                            <ul id="basilica" class="sidebar-dropdown list-unstyled collapse">
+                            <ul id="basilica" class="sidebar-dropdown list-unstyled collapse" data-parent="#sidebar">
                                 <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('mass-schedule') }}">Mass Schedule</a></li>
                                 <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('location-map') }}">Location Map</a></li>
                                 <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('carmelite') }}">Carmelite</a></li>
