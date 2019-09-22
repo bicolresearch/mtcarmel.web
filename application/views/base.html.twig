@@ -65,11 +65,13 @@
                                 <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('events') }}">Events</a></li>
                             </ul>
                         </li>
-                        {# <li class="sidebar-item">
+                        {# 
+                        <li class="sidebar-item">
                             <a class="sidebar-link" href="{{ base_url('transparency') }}">
                                 <i class="align-middle icon-transparency icon-18"></i> <span class="align-middle">Transparency</span>
                             </a>
-                        </li> #}
+                        </li> 
+                        #}
                         <li class="sidebar-item">
                             <a href="#basilica" data-toggle="collapse" class="sidebar-link collapsed">
                                 <i class="align-middle icon-logo icon-18"></i> <span class="align-middle">Basilica</span>
@@ -143,9 +145,16 @@
                                 <label for="email">Email</label>
                                 <input type="text" class="form-control" id="email" name="email" value="{{ set_value('email') }}" placeholder="Email" autocomplete="username">
                             </div>
-                            <div class="form-group">
+                            <div class="form-group password">
                                 <label for="password">Password</label>
-                                <input type="password" class="form-control" id="password" name="password" value="{{ set_value('password') }}" placeholder="Password" autocomplete="current-password">
+                                <div class="input-group">
+                                    <input type="password" class="form-control" id="password" name="password" value="{{ set_value('password') }}" placeholder="Password" autocomplete="current-password">
+                                    <div class="input-group-append">
+                                        <span class="input-group-text">
+                                            show
+                                        </span>
+                                    </div>
+                                </div>
                             </div>
                             <a href="javascript:void(0);" target="_blank">Forgot password?</a> <a class="float-right" href="javascript:void(0)" data-toggle="modal" data-target="#signupModal">Signup</a>
                         </div>
@@ -372,6 +381,7 @@
                         this.activeList();
                         this.showLoginModal();
                         this.showSignupModal();
+                        this.showHidePassword();
                     },
                     activeList: function () {
                         let str = location.href.toLowerCase();
@@ -400,7 +410,20 @@
                         }).on('shown.bs.modal', function(){
                             $('body').addClass('modal-open');
                         });
-                    }
+                    },
+                    showHidePassword: function () {
+                        let password = $('.password');
+                        password.find('span').on('click', function (e) {
+                            if (password.find('input').attr('type') === 'text') {
+                                password.find('input').attr('type', 'password');
+                                password.find('span').text('show');
+                            } else if (password.find('input').attr('type') === 'password') {
+                                password.find('input').attr('type', 'text');
+                                password.find('span').text('hide');
+                            }
+                            e.preventDefault();
+                        });
+                    },
                 };
 
                 login.init();

@@ -5,7 +5,7 @@
     Location    : application/controller/Auth.php
     Purpose     : Auth Controller
     Created     : 06/24/2019 00:34:49 by Spiderman
-    Updated     : 07/12/2019 00:34:42 by Spiderman
+    Updated     : 09/22/2019 01:48:29 by Spiderman
     Changes     : Add signup
 */
 
@@ -13,8 +13,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Auth extends CI_Controller
 {
-    private $id = '';
-    private $role_id = '';
+    private $id;
+    private $role_id;
 
     public function __construct()
     {
