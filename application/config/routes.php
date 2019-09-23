@@ -58,7 +58,6 @@ $route['translate_uri_dashes'] = TRUE;
 $route['news'] = 'home/news';
 $route['calendar'] = 'home/calendar';
 $route['live-mass'] = 'home/live_mass';
-$route['news-details'] = 'home/news_details';
 
 // Basilica
 $route['mass-schedule'] = 'basilica/mass_schedule';
@@ -79,10 +78,9 @@ $route['events'] = 'services/events';
 
 // Admin
 $route['admin'] = 'admin/admin/index';
-$route['admin/profile/id/(:num)'] = 'admin/admin/profile';
-$route['admin/posts'] = 'admin/posts/index';
-$route['admin/ads'] = 'admin/ads/index';
 
 // User
 $route['user'] = 'user/user/index';
-$route['user/profile/id/(:num)'] = 'user/user/profile';
+$route['user/news'] = 'user/home/news';
+$route['user/calendar'] = 'user/home/calendar';
+$route['user/live-mass'] = 'user/home/live_mass';

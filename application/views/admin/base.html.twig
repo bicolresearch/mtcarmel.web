@@ -296,7 +296,7 @@
                             let id = $('body').attr('data-user-id');
 
                             let jqXHR = $.ajax({
-                                url: baseURL + '/admin/admin/profile/?branch_id=' + branchID + '&id=' + id,
+                                url: baseURL + '/admin/profile/info/?branch_id=' + branchID + '&id=' + id,
                                 type: 'GET',
                                 dataType: 'json',
                                 data: $('body').serialize(),
