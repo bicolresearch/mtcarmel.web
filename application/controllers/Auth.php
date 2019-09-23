@@ -5,8 +5,8 @@
     Location    : application/controller/Auth.php
     Purpose     : Auth Controller
     Created     : 06/24/2019 00:34:49 by Spiderman
-    Updated     : 09/22/2019 01:48:29 by Spiderman
-    Changes     : Add signup
+    Updated     : 09/23/2019 14:02:48 by Spiderman
+    Changes     : 
 */
 
 defined('BASEPATH') OR exit('No direct script access allowed');
@@ -134,10 +134,10 @@ class Auth extends CI_Controller
     {
         switch ($this->role_id) {
             case 1:
-                redirect('admin', 'refresh');
+                redirect('admin/profile', 'refresh');
                 break;
             case 2:
-                redirect('user/profile', 'refresh');
+                redirect('user/home', 'refresh');
                 break;
             default:
                 redirect('home', 'refresh');

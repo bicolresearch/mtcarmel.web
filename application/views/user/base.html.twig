@@ -3,7 +3,7 @@
     Location    : application/views/user/base.html.twig
     Purpose     : User base template
     Created     : 06/28/2019 17:39:36 by Spiderman
-    Updated     : 09/21/2019 19:42:05 by Spiderman
+    Updated     : 09/23/2019 21:17:44 by Spiderman
     Changes     : 
 #}
 
@@ -29,7 +29,7 @@
             {% block sidebar %}
                 <nav id="sidebar" class="sidebar sidebar-sticky">
                     <div class="sidebar-content js-simplebar">
-                        <a class="sidebar-brand" href="{{ base_url('user') }}">
+                        <a class="sidebar-brand" href="{{ base_url('user/home') }}">
                             <div class="logo">
                                 <img src="{{ base_url('public/assets/images/brands/mount-carmel-logo.svg') }}" alt="Mount Carmel Logo"/>
                             </div>
@@ -40,10 +40,14 @@
                         </a>
                         <ul class="sidebar-nav">
                             <li class="sidebar-item active">
-                                <a class="sidebar-link" href="{{ base_url('user/profile') }}">
-                                    <i class="align-middle icon-profile icon-18"></i>
-                                    <span class="align-middle">Profile</span>
+                                <a href="#home" data-toggle="collapse" class="sidebar-link collapsed">
+                                    <i class="align-middle icon-home icon-18"></i> <span class="align-middle">Home</span>
                                 </a>
+                                <ul id="home" class="sidebar-dropdown list-unstyled collapse" data-parent="#sidebar">
+                                    <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('user/home/news') }}">News &amp; Updates</a></li>
+                                    <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('user/home/calendar') }}">Calendar</a></li>
+                                    <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('user/home/live-mass') }}">Live Mass</a></li>
+                                </ul>
                             </li>
                             <li class="sidebar-item">
                                 <a href="#request" data-toggle="collapse" class="sidebar-link collapsed">
@@ -58,11 +62,11 @@
                                 </ul>
                             </li>
                             <li class="sidebar-item">
-                                <a href="#ads" data-toggle="collapse" class="sidebar-link collapsed">
+                                <a href="#advertisement" data-toggle="collapse" class="sidebar-link collapsed">
                                     <i class="align-middle icon-services icon-18"></i>
                                     <span class="align-middle">Advertise</span>
                                 </a>
-                                <ul id="ads" class="sidebar-dropdown list-unstyled collapse" data-parent="#sidebar">
+                                <ul id="advertisement" class="sidebar-dropdown list-unstyled collapse" data-parent="#sidebar">
                                     <li class="sidebar-item">
                                         <a class="sidebar-link" href="#">Place an Ad</a>
                                         <a class="sidebar-link" href="#">Ad Status</a>
@@ -82,10 +86,12 @@
                         <div class="navbar-collapse collapse">
                             <ul class="navbar-nav ml-auto">
                                 <li class="nav-item dropdown">
-                                    <a
-                                        class="nav-link dropdown-toggle mr-0 pr-0 profile" href="javascript:void(0)" data-toggle="dropdown"><!-- This is where the avatar load -->
+                                    <a class="nav-link dropdown-toggle mr-0 pr-0 profile" href="javascript:void(0)" data-toggle="dropdown">
+                                        <!-- This is where the avatar load -->
                                     </a>
                                     <div class="dropdown-menu dropdown-menu-right">
+                                        <a class="dropdown-item" href="{{ base_url('user/profile') }}" target="_self">My Profile</a>
+                                        <div class="dropdown-divider"></div>
                                         <a class="dropdown-item" href="{{ base_url('auth/logout') }}" target="_self">Logout</a>
                                     </div>
                                 </li>

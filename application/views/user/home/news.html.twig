@@ -1,0 +1,135 @@
+{#
+    Filename    : news.html.twig
+    Location    : application/views/user/home/news.html.twig
+    Purpose     : News partial page
+    Created     : 09/23/2019 17:12:00 by Spiderman
+    Updated     : 
+    Changes     : 
+#}
+
+{% extends 'user/base.html.twig' %}
+
+{% block title %} {{ page_title }} | Mount Carmel {% endblock %}
+
+{% block contents %}
+    <div class="row">
+        <div id="media" class="col-12 col-lg-8">
+            <!-- This is where the news feeds load -->
+        </div>
+        <div id="ads" class="col-12 col-lg-4">
+            <!-- This is where the ads load -->
+        </div>
+    </div>
+{% endblock %}
+
+{% block custom_scripts %}
+    <script>
+        $(function () {
+
+            let baseURL = $.fn.baseURL();
+            let apiURL = $.fn.apiURL();
+            let branchID = $.fn.branchID();
+
+            let app = {
+                init: function() {
+                    this.news();
+                    this.ads();
+                },       
+                news: function () {
+
+                    let _this = $('#media');
+
+                    let jqXHR = $.ajax({
+                        url: apiURL + '/posts/?branch_id=' + branchID,
+                        type: 'GET',
+                        dataType: 'json', 
+                        data: _this.serialize(),
+                        cache: false,
+                        processData: false
+                    });
+
+                    jqXHR.done(function (data) {
+                        if (data) {
+                            $.each(data.data, function (key, value) {
+                                _this.append(
+                                    '<div class="card">' +
+                                    '   <div class="card-body">' +
+                                    '       <div class="media">' +
+                                    '           <div class="media-body">' +
+                                    '               <small class="float-right">' + moment(value.dt_created, "YYYY-MM-DD h:mm:ss").fromNow() + '</small>' +
+                                    '               <div class="media-title">' +
+                                    '                   <p class="text-center mb-0">' +
+                                    '                       <a href="' + baseURL + "/news/id/" + value.id + '" target="_self">' + value.title + '</a>' +
+                                    '                   </p>' +
+                                    '               </div>' +
+                                    '               <div class="media-article">' +
+                                    '                  <div class="cover-photo">' +
+                                    '                     <img class="img-fluid" src="' + apiURL + '/' + value.media_path + '" alt="' + value.title + '"/>' +
+                                    '                  </div>' +
+                                    '                  <div class="media-content fade-out-ellipses p-0">' + value.content + '</div>' +
+                                    '               </div>' +
+                                    '               <div class="read-more">' +
+                                    '                   <p class="text-center mb-0">' +
+                                    '                      <a class="btn btn-lg btn-brown rounded-pill px-5" href="' + baseURL + "/news/id/" + value.id + '" target="_self">Read More</a>' +
+                                    '                   </p>' +
+                                    '               </div>' +
+                                    '           </div>' +
+                                    '       </div>' +
+                                    '   </div>' +
+                                    '</div>'
+                                );
+                            });
+                        }
+                    });
+
+                    jqXHR.fail(function (jqXHR, textStatus, errorThrown) {
+                        console.log('The following error occurred: ' + textStatus, errorThrown);
+                    });
+                },
+                ads: function() {
+
+                    let _this = $('#ads');
+
+                    let jqXHR = $.ajax({
+                        url: apiURL + '/ads/?branch_id=' + branchID + '&type_id=111',
+                        type: 'GET',
+                        dataType: 'json',
+                        data: _this.serialize(),
+                        cache: false,
+                        processData: false
+                    });
+
+                    jqXHR.done(function (data) {
+                        if(data) {
+                            _this.html(
+                                '<div class="card sticky-top">' +
+                                '   <div class="card-header">' +
+                                '       <h4 class="card-title text-center">Powered By</h4>' + 
+                                '   </div>' +             
+                                '   <div class="card-body">' +             
+                                '       <div class="row"></div>' +
+                                '   </div>' +
+                                '</div>'
+                            );
+                            $.each(data, function (key, value) {
+                                _this.find('.row').append(
+                                    '<div class="col-12 text-center">' +
+                                    '   <a href="' + value.url + '" title="' + value.description + '" target="_blank">' +
+                                    '       <img class="img-fluid mx-auto d-block" style="max-height: 200px; display: block;" src="' + apiURL + '/' + value.media_path + '" alt="' + value.name + '"/>' +
+                                    '   </a>' +
+                                    '</div>'
+                                );
+                            });
+                        }
+                    });
+
+                    jqXHR.fail(function (jqXHR, textStatus, errorThrown) {
+                        console.log('The following error occurred: ' + textStatus, errorThrown);
+                    });
+                }
+            };
+
+            app.init();
+        })
+    </script>
+{% endblock %}

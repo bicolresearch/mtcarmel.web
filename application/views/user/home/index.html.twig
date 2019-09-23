@@ -1,0 +1,112 @@
+{#
+    Filename    : index.html.twig
+    Location    : application/views/user/home/index.html.twig
+    Purpose     : Home partial page
+    Created     : 09/23/2019 17:15:37 by Spiderman
+    Updated     : 
+    Changes     : 
+#}
+
+{% extends 'user/base.html.twig' %}
+
+{% block title %} {{ page_title }} | Mount Carmel {% endblock %}
+
+{% block contents %}
+    <div class="row justify-content-center">
+        <div id="splash-ads" class="col-12 col-md-12 col-lg-12">
+            <div id="ajax-preloader"></div>
+            <div id="carousel" class="carousel slide shadow-lg" data-ride="carousel">
+                <ol class="carousel-indicators">
+                    <!-- Splash indicators -->
+                </ol>
+                <div class="carousel-inner">
+                    <!-- Splash ads -->
+                </div>
+                <a class="carousel-control-prev" data-slide="prev" href="#carousel" role="button">
+                    <span aria-hidden="true" class="carousel-control-prev-icon"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" data-slide="next" href="#carousel" role="button">
+                    <span aria-hidden="true" class="carousel-control-next-icon"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block custom_scripts %}
+    <script>
+        $(function () {
+
+            let apiURL = $.fn.apiURL();
+            let branchID = $.fn.branchID();
+
+            let app = {
+                init: function () {
+                    this.ads();
+                    this.linkToAppStore();
+                },
+                ads: function () {
+
+                    let _this = $('#splash-ads');
+
+                    let jqXHR = $.ajax({
+                        url: apiURL + '/ads/?branch_id=' + branchID + '&type_id=112',
+                        type: 'GET',
+                        dataType: 'json',
+                        data: _this.serialize(),
+                        cache: false,
+                        processData: false,
+                        beforeSend: function () {
+                            _this.find('#ajax-preloader').preloader().show();
+                        }
+                    });
+
+                    jqXHR.done(function (data) {
+                        if (data) {
+                            $.each(data, function (key, value) {
+                                _this.find('.carousel-inner').append(
+                                    '<div class="carousel-item">' + 
+                                    '   <a id="linkToAppStore" href="' + value.url + '" title="' + value.name + '" target="_blank">' + 
+                                    '       <img class="d-block img-fluid" src="' + apiURL + '/' + value.media_path + '" alt="' + value.name + '">' + 
+                                    '   </a>' + 
+                                    '</div>');
+                                _this.find('.carousel-indicators').append('<li data-target="#carousel" data-slide-to="' + key + '"></li>');
+                                _this.find('.carousel-inner > .carousel-item').first().addClass('active');
+                                _this.find('.carousel-indicators > li').first().addClass('active');
+                                _this.find('.carousel').carousel({interval: 10000});
+                            });
+                        }
+                    });
+
+                    jqXHR.always(function () {
+                        _this.find('#ajax-preloader').preloader().hide();
+                    });
+
+                    jqXHR.fail(function (jqXHR, textStatus, errorThrown) {
+                        console.log('The following error occurred: ' + textStatus, errorThrown);
+                    });
+                },
+                linkToAppStore: function () {
+                    $('#linkToAppStore').on('click', function (e) {
+                        if (navigator.userAgent.toLowerCase().indexOf('iphone') > -1) {
+                            window.location.href = 'https://itunes.apple.com';
+                        }
+
+                        if (navigator.userAgent.toLowerCase().indexOf("android") > -1) {
+                            window.location.href = 'https://play.google.com/store/apps';
+                        }
+
+                        if (!navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/)) {
+                            window.location.href = location.origin; // Redirect to homepage
+                        }            
+                        e.preventDefault();
+                    });
+                }
+            };
+
+            app.init();
+        })
+    </script>
+{% endblock %}

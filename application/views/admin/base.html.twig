@@ -104,10 +104,12 @@
                         <div class="navbar-collapse collapse">
                             <ul class="navbar-nav ml-auto">
                                 <li class="nav-item dropdown">
-                                    <a
-                                        class="nav-link dropdown-toggle mr-0 pr-0 profile" href="javascript:void(0)" data-toggle="dropdown"><!-- This is where the avatar load -->
+                                    <a class="nav-link dropdown-toggle mr-0 pr-0 profile" href="javascript:void(0)" data-toggle="dropdown">
+                                        <!-- This is where the avatar load -->
                                     </a>
                                     <div class="dropdown-menu dropdown-menu-right">
+                                        <a class="dropdown-item" href="{{ base_url('admin/profile') }}" target="_self">My Profile</a>
+                                        <div class="dropdown-divider"></div>
                                         <a class="dropdown-item" href="{{ base_url('auth/logout') }}" target="_self">Logout</a>
                                     </div>
                                 </li>
@@ -543,60 +545,54 @@
                             });
                         },
                         citiesDDL: function () {
-                            $('.modal').on('show.bs.modal', function () {
-                                $(this).find('select[name="city"]').select2({
-                                    ajax: {
-                                        url: apiURL + '/cities/',
-                                        dataType: 'json',
-                                        data: function (params) {
-                                            var query = {
-                                                q: params.term
-                                            }
-                                            return query;
-                                        },
-                                        processResults: function (data) {
-                                            return {results: data};
+                            $('body').find('select[name="city"]').select2({
+                                ajax: {
+                                    url: apiURL + '/cities/',
+                                    dataType: 'json',
+                                    data: function (params) {
+                                        var query = {
+                                            q: params.term
                                         }
+                                        return query;
+                                    },
+                                    processResults: function (data) {
+                                        return {results: data};
                                     }
-                                });
-                            })
+                                }
+                            });
                         },
                         provincesDDL: function () {
-                            $('.modal').on('show.bs.modal', function () {
-                                $(this).find('select[name="province"]').select2({
-                                    ajax: {
-                                        url: apiURL + '/provinces/',
-                                        dataType: 'json',
-                                        data: function (params) {
-                                            var query = {
-                                                q: params.term
-                                            }
-                                            return query;
-                                        },
-                                        processResults: function (data) {
-                                            return {results: data};
+                            $('body').find('select[name="province"]').select2({
+                                ajax: {
+                                    url: apiURL + '/provinces/',
+                                    dataType: 'json',
+                                    data: function (params) {
+                                        var query = {
+                                            q: params.term
                                         }
+                                        return query;
+                                    },
+                                    processResults: function (data) {
+                                        return {results: data};
                                     }
-                                });
+                                }
                             });
                         },
                         countriesDDL: function () {
-                            $('.modal').on('show.bs.modal', function () {
-                                $(this).find('select[name="country"]').select2({
-                                    ajax: {
-                                        url: apiURL + '/countries/',
-                                        dataType: 'json',
-                                        data: function (params) {
-                                            var query = {
-                                                q: params.term
-                                            }
-                                            return query;
-                                        },
-                                        processResults: function (data) {
-                                            return {results: data};
+                            $('body').find('select[name="country"]').select2({
+                                ajax: {
+                                    url: apiURL + '/countries/',
+                                    dataType: 'json',
+                                    data: function (params) {
+                                        var query = {
+                                            q: params.term
                                         }
+                                        return query;
+                                    },
+                                    processResults: function (data) {
+                                        return {results: data};
                                     }
-                                });
+                                }
                             });
                         },
                         inputMasking: function () {

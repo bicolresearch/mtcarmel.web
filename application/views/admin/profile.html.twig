@@ -1,13 +1,13 @@
 {#
     Filename    : profile.html.twig
-    Location    : application/views/user/profile.html.twig
+    Location    : application/views/admin/profile.html.twig
     Purpose     : Profile partial page
-    Created     : 06/28/2019 23:12:26 by Spiderman
-    Updated     : 09/23/2019 14:00:26 by Spiderman
+    Created     : 09/23/2019 13:59:29 by Spiderman
+    Updated     : 
     Changes     : 
 #}
 
-{% extends 'user/base.html.twig' %}
+{% extends 'admin/base.html.twig' %}
 
 {% block title %}
     {{ page_title }} | Mount Carmel
@@ -124,7 +124,7 @@
                     let id = _this.attr('data-user-id');
 
                     let jqXHR = $.ajax({
-                        url: baseURL + '/user/profile/info/?branch_id=' + branchID + '&id=' + id,
+                        url: baseURL + '/admin/profile/info/?branch_id=' + branchID + '&id=' + id,
                         type: 'GET',
                         dataType: 'json',
                         data: _this.serialize(),
@@ -176,7 +176,7 @@
                         let id = _this.find('input:hidden[name="id"]').val();
 
                         let jqXHR = $.ajax({
-                            url: baseURL + '/user/profile/update/id/' + id,
+                            url: baseURL + '/admin/profile/update/id/' + id,
                             type: 'PUT',
                             dataType: 'json',
                             data: _this.serialize(),
