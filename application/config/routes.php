@@ -84,3 +84,7 @@ $route['user'] = 'user/user/index';
 $route['user/news'] = 'user/home/news';
 $route['user/calendar'] = 'user/home/calendar';
 $route['user/live-mass'] = 'user/home/live_mass';
+$route['user/prayer_request'] = 'user/make_request/prayer_request';
+$route['user/mass_request'] = 'user/make_request/mass_request';
+$route['user/place_ad'] = 'user/ads/place_ad';
+$route['user/ad_status'] = 'user/ads/ad_status';

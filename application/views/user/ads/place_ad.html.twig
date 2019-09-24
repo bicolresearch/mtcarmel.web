@@ -1,0 +1,112 @@
+{#
+    Filename    : place_ad.html.twig
+    Location    : application/views/user/ads/place_ad.html.twig
+    Purpose     : Place an Add page
+    Created     : 09/24/2019 14:00:43 by Spiderman
+    Updated     : 
+    Changes     : 
+#}
+
+{% extends 'user/base.html.twig' %}
+
+{% block title %} {{ page_title }} | Mount Carmel {% endblock %}
+
+{% block contents %}
+    <div class="row justify-content-center">
+        <div class="col-12 col-lg-8">
+            <div class="card mb-3">
+                <div class="card-header">
+                    <h3 class="card-title">Place an Ad</h3>
+                </div>
+                <form id="create-form">
+                    <div class="card-body">
+                        <div id="ajax-preloader"></div>
+                        <div id="ajax-response"></div>
+                        <div class="form-group">
+                            <label for="ad-type-id">Ad Type</label>
+                            <select class="custom-select" id="ad-type-id" name="type_id">
+                                <option value="" selected>&dash;</option>
+                                <!-- This is where the ad type load -->
+                            </select>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 col-lg-8">
+                                <div class="form-group">
+                                    <label for="durations">Durations <span class="durations"><!-- This is where the no. of years load --></span></label>
+                                    <input type="range" class="custom-range" min="0" max="5" id="durations" value="0" aria-describedby="durationsHelpBlock">
+                                    <small id="durationsHelpBlock" class="form-text text-muted">
+                                        Slide to select no. of years for the durations
+                                    </small>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-4">
+                                <div class="form-group">
+                                    <label for="total-readonly">Total</label>
+                                    <input type="text" readonly class="form-control-plaintext" id="total-readonly" name="total_readonly" value="₱ 0.00" />
+                                    <input type="hidden" name="total" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="company-name">Company Name</label>
+                            <input type="text" class="form-control" id="company-name" name="company_name" value="{{ set_value('company_name') }}" />
+                        </div>
+                        <div class="form-group">
+                            <label for="brand-name">Brand Name</label>
+                            <input type="text" class="form-control" id="brand-name" name="brand_name" value="{{ set_value('brand_name') }}" />
+                        </div>
+                        <div class="form-group">
+                            <label for="service-type-id">Product / Service Type</label>
+                            <select class="custom-select" id="service-type-id" name="service_type_id">
+                                <option value="" selected>&dash;</option>
+                                <!-- This is where the product /service type load -->
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="description">Product / Service Description</label>
+                            <textarea class="form-control" id="description" name="description" rows="2" maxlength="255"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="url">URL</label>
+                            <input type="text" class="form-control" id="url" name="url" value="{{ set_value('url') }}" />
+                        </div>
+                    </div>
+                    <div class="card-footer text-center">
+                        <button type="submit" class="btn btn-lg btn-brown rounded-pill px-5 btn-change-state">Place an Ad</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block custom_scripts %}
+    <script>
+        $(function () {
+            let baseURL = $.fn.baseURL();
+            let apiURL = $.fn.apiURL();
+            let branchID = $.fn.branchID();
+
+            let app = {
+                init: function() {
+                    this.adTotal();
+                },
+                adTotal: function() {
+                    $('#create-form').on('change', function() {
+                        let basePrice = 49; // Base price (per day)
+                        let durations = $(this).find('#durations').val(); // No of yrs.
+                        let total = (durations * 365) * basePrice; // Total 
+
+                        durations = '(' + durations + ' Year' + ((parseInt(durations) <= 1) ? '' : 's') + ')'; 
+
+                        $(this).find('.durations').text(durations);
+                        $(this).find('input[name="total_readonly"]').val('₱ ' + total.toFixed(2));
+                        $(this).find('input:hidden[name="total"]').val(total);
+                    });
+                }
+            }
+
+            app.init();
+        })
+    </script>
+{% endblock %}
