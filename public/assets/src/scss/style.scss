@@ -3,7 +3,7 @@
     Location    : public/assets/src/scss/style.scss
     Purpose     : Default stylesheet
     Created     : 05/20/2019 22:35:34 by Spiderman
-    Updated     : 09/13/2019 14:52:28 by Spiderman
+    Updated     : 09/26/2019 01:32:32 by Spiderman
     Changes     : 
 */
 
@@ -354,6 +354,45 @@ body {
 
 .input-group-text {
   @include border-radius(0);
+}
+
+.custom-range:focus::-webkit-slider-thumb {
+  background-color: $dark-khaki;
+  box-shadow: 0 0 0 0.2rem rgba(126, 82, 50, .15);
+}
+
+.custom-range:focus::-moz-range-thumb {
+  background-color: $dark-khaki;
+  box-shadow: 0 0 0 0.2rem rgba(126, 82, 50, .15);
+}
+
+.custom-range:focus::-ms-thumb {
+  background-color: $dark-khaki;
+  box-shadow: 0 0 0 0.2rem rgba(126, 82, 50, .15);
+}
+
+.custom-range::-webkit-slider-thumb {
+  background-color: $sienna;
+}
+
+.custom-range::-moz-range-thumb {
+  background-color: $sienna;
+}
+
+.custom-range::-ms-thumb {
+  background-color: $sienna;
+}
+
+.custom-range::-webkit-slider-runnable-track {
+  background-color: lighten($sienna, 50%);
+}
+
+.custom-range::-moz-range-track {
+  background-color: lighten($sienna, 50%);
+}
+
+.custom-range::-ms-track {
+  background-color: lighten($sienna, 50%);
 }
 
 /* Select2 JS */
