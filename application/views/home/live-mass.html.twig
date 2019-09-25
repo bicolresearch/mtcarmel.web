@@ -14,7 +14,7 @@
         <div id="video-container" class="col-12 col-lg-8">
             <!-- This is where the live stream load -->
         </div>
-        <div class="col-12 col-lg-4">
+        <div id="mass-schedules" class="col-12 col-lg-4">
             <div class="card">
                 <div class="card-header">
                     <h3 class="card-title">Live Mass <i class="indicator indicator-online"></i></h3>
@@ -48,11 +48,10 @@
 
             let app = {
                 init: function () {
-                    this.stream();
+                    this.liveStream();
+                    this.liveMassSchedules();
                 },
-                // GET: Stream
-                stream: function() {
-
+                liveStream: function() {
                     let _this = $('#video-container');
 
                     let jqXHR = $.ajax({
@@ -81,6 +80,10 @@
                     jqXHR.fail(function (jqXHR, textStatus, errorThrown) {
                         console.log('The following error occurred: ' + textStatus, errorThrown);
                     });
+                },
+                // TODO: Get live mass schedules
+                liveMassSchedules: function() {
+                    let _this = $('#mass-schedules');
                 }
             };
 

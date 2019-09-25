@@ -3,7 +3,7 @@
     Location    : application/views/user/profile.html.twig
     Purpose     : Profile partial page
     Created     : 06/28/2019 23:12:26 by Spiderman
-    Updated     : 09/23/2019 14:00:26 by Spiderman
+    Updated     : 09/25/2019 17:22:08 by Spiderman
     Changes     : 
 #}
 
@@ -15,11 +15,10 @@
 
 {% block contents %}
     <div class="row">
-        <div id="ajax-preloader"></div>
         <div id="profile" class="col-12 col-lg-4">
             <div class="card mb-3">
-                <div
-                    class="card-body text-center"><!-- This is where the user profile load -->
+                <div class="card-body text-center">
+                    <!-- This is where the user profile load -->
                 </div>
             </div>
         </div>
@@ -59,24 +58,24 @@
                             <div class="col-12 col-lg-4">
                                 <div class="form-group">
                                     <label for="city">City</label>
-                                    <select
-                                        class="form-control" id="city" name="city"><!-- This is where the city load -->
+                                    <select class="form-control" id="city" name="city">
+                                        <!-- This is where the city load -->
                                     </select>
                                 </div>
                             </div>
                             <div class="col-12 col-lg-4">
                                 <div class="form-group">
                                     <label for="province">Province</label>
-                                    <select
-                                        class="form-control" id="province" name="province"><!-- This is where the province load -->
+                                    <select class="form-control" id="province" name="province">
+                                        <!-- This is where the province load -->
                                     </select>
                                 </div>
                             </div>
                             <div class="col-12 col-lg-4">
                                 <div class="form-group">
                                     <label for="country">Country</label>
-                                    <select
-                                        class="form-control" id="country" name="country"><!-- This is where the country load -->
+                                    <select class="form-control" id="country" name="country">
+                                        <!-- This is where the country load -->
                                     </select>
                                 </div>
                             </div>
@@ -119,7 +118,6 @@
                     this.displayForm();
                 },
                 displayForm: function () {
-
                     let _this = $('body');
                     let id = _this.attr('data-user-id');
 
@@ -129,10 +127,7 @@
                         dataType: 'json',
                         data: _this.serialize(),
                         cache: false,
-                        processData: false,
-                        beforeSend: function () {
-                            _this.find('#ajax-preloader').preloader().show();
-                        }
+                        processData: false
                     });
 
                     jqXHR.done(function (data) {
@@ -149,10 +144,6 @@
                             _this.find('input[name="landline"]').val(data.landline);
                             _this.find('input[name="mobile"]').val(data.mobile);
                         }
-                    });
-
-                    jqXHR.always(function () {
-                        _this.find('#ajax-preloader').preloader().hide();
                     });
 
                     jqXHR.fail(function (jqXHR, textStatus, errorThrown) {

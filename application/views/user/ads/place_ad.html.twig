@@ -3,7 +3,7 @@
     Location    : application/views/user/ads/place_ad.html.twig
     Purpose     : Place an Add page
     Created     : 09/24/2019 14:00:43 by Spiderman
-    Updated     : 
+    Updated     : 09/25/2019 15:28:15 by Spiderman
     Changes     : 
 #}
 
@@ -28,6 +28,26 @@
                                 <option value="" selected>&dash;</option>
                                 <!-- This is where the ad type load -->
                             </select>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 col-lg-6">
+                                <div class="form-group">
+                                    <label for="location-id">Location</label>
+                                    <select class="custom-select" id="location-id" name="location_id">
+                                        <option value="" selected>&dash;</option>
+                                        <!-- This is where the location load -->
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6">
+                                <div class="form-group">
+                                    <label for="branch-id">Branch</label>
+                                    <select class="custom-select" id="branch-id" name="branch_id">
+                                        <option value="" selected>&dash;</option>
+                                        <!-- This is where the branch load -->
+                                    </select>
+                                </div>
+                            </div>
                         </div>
                         <div class="row">
                             <div class="col-12 col-lg-8">
@@ -59,7 +79,7 @@
                             <label for="service-type-id">Product / Service Type</label>
                             <select class="custom-select" id="service-type-id" name="service_type_id">
                                 <option value="" selected>&dash;</option>
-                                <!-- This is where the product /service type load -->
+                                <!-- This is where the product / service type load -->
                             </select>
                         </div>
                         <div class="form-group">

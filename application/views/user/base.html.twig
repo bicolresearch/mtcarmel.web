@@ -3,7 +3,7 @@
     Location    : application/views/user/base.html.twig
     Purpose     : User base template
     Created     : 06/28/2019 17:39:36 by Spiderman
-    Updated     : 09/24/2019 14:06:13 by Spiderman
+    Updated     : 09/25/2019 17:00:13 by Spiderman
     Changes     : 
 #}
 
@@ -147,10 +147,10 @@
                             this.citiesDDL();
                             this.provincesDDL();
                             this.countriesDDL();
+                            this.cascadingBranchLocation();
                             this.inputMasking();
                         },
                         activeList: function () {
-
                             let str = location.href.toLowerCase();
 
                             $('.sidebar-nav li a').each(function () {
@@ -167,21 +167,20 @@
                             });
                         },
                         avatar: function () {
-
-                            let id = $('body').attr('data-user-id');
+                            let _this = $('body');
 
                             let jqXHR = $.ajax({
-                                url: baseURL + '/user/profile/info/?branch_id=' + branchID + '&id=' + id,
+                                url: baseURL + '/user/profile/info/?branch_id=' + branchID + '&id=' + _this.attr('data-user-id'),
                                 type: 'GET',
                                 dataType: 'json',
-                                data: $('body').serialize(),
+                                data: _this.serialize(),
                                 cache: false,
                                 processData: false
                             });
 
                             jqXHR.done(function (data) {
                                 if (data) {
-                                    $('body').find('.profile').append('<img class="img-fluid rounded-circle avatar mr-1" src="' + apiURL + '/' + data.media_path + '" alt="' + data.first_name + ' ' + data.last_name + '" />');
+                                    _this.find('.profile').append('<img class="img-fluid rounded-circle avatar mr-1" src="' + apiURL + '/' + data.media_path + '" alt="' + data.first_name + ' ' + data.last_name + '" />');
                                 }
                             });
 
@@ -192,53 +191,25 @@
                         adTypeDDL: function () {
                             let _this = $('select[name="type_id"]');
 
-                            let jqXHR = $.ajax({
-                                url: apiURL + '/ad_type',
-                                type: 'GET',
-                                dataType: 'json',
-                                data: _this.serialize(),
-                                cache: false,
-                                processData: false
-                            });
-
-                            jqXHR.done(function (data) {
-                                if (data) {
-                                    $.each(data.data, function (key, value) {
-                                        _this.append('<option value="' + value.id + '">' + value.name + '</option>');
-                                    });
-                                }
-                            });
-
-                            jqXHR.fail(function (jqXHR, textStatus, errorThrown) {
-                                console.log('The following error occurred: ' + textStatus, errorThrown);
+                            $.get(apiURL + '/ad_type', function (data) {
+                                $.each(data.data, function (key, value) {
+                                     _this.append('<option value="' + value.id + '">' + value.name + '</option>');
+                                });
                             });
                         },
                         serviceTypeDDL: function () {
                             let _this = $('select[name="service_type_id"]');
 
-                            let jqXHR = $.ajax({
-                                url: apiURL + '/service_type',
-                                type: 'GET',
-                                dataType: 'json',
-                                data: _this.serialize(),
-                                cache: false,
-                                processData: false
-                            });
-
-                            jqXHR.done(function (data) {
-                                if (data) {
-                                    $.each(data.data, function (key, value) {
-                                        _this.append('<option value="' + value.id + '">' + value.name + '</option>');
-                                    });
-                                }
-                            });
-
-                            jqXHR.fail(function (jqXHR, textStatus, errorThrown) {
-                                console.log('The following error occurred: ' + textStatus, errorThrown);
+                            $.get(apiURL + '/service_type', function (data) {
+                                $.each(data.data, function (key, value) {
+                                     _this.append('<option value="' + value.id + '">' + value.name + '</option>');
+                                });
                             });
                         },
                         citiesDDL: function () {
-                            $('body').find('select[name="city"]').select2({
+                            let _this = $('select[name="city"]');
+
+                            _this.select2({
                                 ajax: {
                                     url: apiURL + '/cities/',
                                     dataType: 'json',
@@ -255,7 +226,9 @@
                             });
                         },
                         provincesDDL: function () {
-                            $('body').find('select[name="province"]').select2({
+                            let _this =  $('select[name="province"]');
+
+                            _this.select2({
                                 ajax: {
                                     url: apiURL + '/provinces/',
                                     dataType: 'json',
@@ -272,7 +245,9 @@
                             });
                         },
                         countriesDDL: function () {
-                            $('body').find('select[name="country"]').select2({
+                            let _this = $('select[name="country"]');
+                            
+                            _this.select2({
                                 ajax: {
                                     url: apiURL + '/countries/',
                                     dataType: 'json',
@@ -286,6 +261,28 @@
                                         return {results: data};
                                     }
                                 }
+                            });
+                        },
+                        cascadingBranchLocation: function () {
+                            let location = $('select[name="location_id"]');
+                            let branch = $('select[name="branch_id"]');
+
+                            $.get(apiURL + '/branch_locations', function (data) {
+                                $.each(data.data, function (key, value) {
+                                     location.append('<option value="' + value.id + '">' + value.name + '</option>');
+                                });
+                            });
+
+                            location.on('change', function() {
+                                // Reset/Empty the branch dropdown
+                                branch.find('option').remove();
+                                branch.html('<option value="" selected>&dash;</option>');
+
+                                $.get(apiURL + '/branches/branch_location/?location_id=' + location.find("option:selected").val(), function (data) {
+                                    $.each(data.data, function (key, value) {
+                                        branch.append('<option value="' + value.id + '">' + value.name + '</option>');
+                                    });
+                                });
                             });
                         },
                         inputMasking: function () {

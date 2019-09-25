@@ -3,7 +3,7 @@
     Location    : application/views/admin/base.html.twig
     Purpose     : Admin base template
     Created     : 06/27/2019 16:45:42 by Spiderman
-    Updated     : 09/21/2019 19:41:51 by Spiderman
+    Updated     : 09/25/2019 17:00:04 by Spiderman
     Changes     : 
 #}
 
@@ -292,21 +292,20 @@
                             });
                         },
                         avatar: function () {
-
-                            let id = $('body').attr('data-user-id');
+                            let _this = $('body');
 
                             let jqXHR = $.ajax({
-                                url: baseURL + '/admin/profile/info/?branch_id=' + branchID + '&id=' + id,
+                                url: baseURL + '/admin/profile/info/?branch_id=' + branchID + '&id=' + _this.attr('data-user-id'),
                                 type: 'GET',
                                 dataType: 'json',
-                                data: $('body').serialize(),
+                                data: _this.serialize(),
                                 cache: false,
                                 processData: false
                             });
 
                             jqXHR.done(function (data) {
                                 if (data) {
-                                    $('body').find('.profile').append('<img class="img-fluid rounded-circle avatar mr-1" src="' + apiURL + '/' + data.media_path + '" alt="' + data.first_name + ' ' + data.last_name + '" />');
+                                    _this.find('.profile').append('<img class="img-fluid rounded-circle avatar mr-1" src="' + apiURL + '/' + data.media_path + '" alt="' + data.first_name + ' ' + data.last_name + '" />');
                                 }
                             });
 
@@ -451,101 +450,43 @@
                         adTypeDDL: function () {
                             let _this = $('select[name="type_id"]');
 
-                            let jqXHR = $.ajax({
-                                url: apiURL + '/ad_type',
-                                type: 'GET',
-                                dataType: 'json',
-                                data: _this.serialize(),
-                                cache: false,
-                                processData: false
-                            });
-
-                            jqXHR.done(function (data) {
-                                if (data) {
-                                    $.each(data.data, function (key, value) {
-                                        _this.append('<option value="' + value.id + '">' + value.name + '</option>');
-                                    });
-                                }
-                            });
-
-                            jqXHR.fail(function (jqXHR, textStatus, errorThrown) {
-                                console.log('The following error occurred: ' + textStatus, errorThrown);
+                            $.get(apiURL + '/ad_type', function (data) {
+                                $.each(data.data, function (key, value) {
+                                     _this.append('<option value="' + value.id + '">' + value.name + '</option>');
+                                });
                             });
                         },
                         clergyTypeDDL: function () {
                             let _this = $('select[name="clergy_type_id"]');
-
-                            let jqXHR = $.ajax({
-                                url: apiURL + '/clergy_type',
-                                type: 'GET',
-                                dataType: 'json',
-                                data: _this.serialize(),
-                                cache: false,
-                                processData: false
-                            });
-
-                            jqXHR.done(function (data) {
-                                if (data) {
-                                    $.each(data.data, function (key, value) {
-                                        _this.append('<option value="' + value.id + '">' + value.name + '</option>');
-                                    });
-                                }
-                            });
-
-                            jqXHR.fail(function (jqXHR, textStatus, errorThrown) {
-                                console.log('The following error occurred: ' + textStatus, errorThrown);
+                            
+                            $.get(apiURL + '/clergy_type', function (data) {
+                                $.each(data.data, function (key, value) {
+                                     _this.append('<option value="' + value.id + '">' + value.name + '</option>');
+                                });
                             });
                         },
                         purposeTypeDDL: function () {
                             let _this = $('select[name="purpose_id"]');
 
-                            let jqXHR = $.ajax({
-                                url: apiURL + '/purpose_type',
-                                type: 'GET',
-                                dataType: 'json',
-                                data: _this.serialize(),
-                                cache: false,
-                                processData: false
-                            });
-
-                            jqXHR.done(function (data) {
-                                if (data) {
-                                    $.each(data.data, function (key, value) {
-                                        _this.append('<option value="' + value.id + '">' + value.name + '</option>');
-                                    });
-                                }
-                            });
-
-                            jqXHR.fail(function (jqXHR, textStatus, errorThrown) {
-                                console.log('The following error occurred: ' + textStatus, errorThrown);
+                            $.get(apiURL + '/purpose_type', function (data) {
+                                $.each(data.data, function (key, value) {
+                                     _this.append('<option value="' + value.id + '">' + value.name + '</option>');
+                                });
                             });
                         },
                         statusDDL: function () {
                             let _this = $('select[name="status_id"]');
 
-                            let jqXHR = $.ajax({
-                                url: apiURL + '/status',
-                                type: 'GET',
-                                dataType: 'json',
-                                data: _this.serialize(),
-                                cache: false,
-                                processData: false
-                            });
-
-                            jqXHR.done(function (data) {
-                                if (data) {
-                                    $.each(data.data, function (key, value) {
-                                        _this.append('<option value="' + value.id + '">' + value.name + '</option>');
-                                    });
-                                }
-                            });
-
-                            jqXHR.fail(function (jqXHR, textStatus, errorThrown) {
-                                console.log('The following error occurred: ' + textStatus, errorThrown);
+                            $.get(apiURL + '/status', function (data) {
+                                $.each(data.data, function (key, value) {
+                                     _this.append('<option value="' + value.id + '">' + value.name + '</option>');
+                                });
                             });
                         },
                         citiesDDL: function () {
-                            $('body').find('select[name="city"]').select2({
+                            let _this = $('select[name="city"]');
+
+                            _this.select2({
                                 ajax: {
                                     url: apiURL + '/cities/',
                                     dataType: 'json',
@@ -562,7 +503,9 @@
                             });
                         },
                         provincesDDL: function () {
-                            $('body').find('select[name="province"]').select2({
+                            let _this = $('select[name="province"]');
+
+                            _this.select2({
                                 ajax: {
                                     url: apiURL + '/provinces/',
                                     dataType: 'json',
@@ -579,7 +522,9 @@
                             });
                         },
                         countriesDDL: function () {
-                            $('body').find('select[name="country"]').select2({
+                            let _this = $('select[name="country"]');
+                            
+                            _this.select2({
                                 ajax: {
                                     url: apiURL + '/countries/',
                                     dataType: 'json',
