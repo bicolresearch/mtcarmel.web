@@ -266,12 +266,14 @@
                             this.flatPickrCalendarFullDate();
                             this.flatPickrCalendarShortDate();
                             this.adTypeDDL();
+                            this.serviceTypeDDL();
                             this.clergyTypeDDL();
                             this.purposeTypeDDL();
                             this.statusDDL();
                             this.citiesDDL();
                             this.provincesDDL();
                             this.countriesDDL();
+                            this.cascadingBranchLocation();
                             this.inputMasking();
                         },
                         activeList: function () {
@@ -456,6 +458,15 @@
                                 });
                             });
                         },
+                        serviceTypeDDL: function () {
+                            let _this = $('select[name="service_type_id"]');
+
+                            $.get(apiURL + '/service_type', function (data) {
+                                $.each(data.data, function (key, value) {
+                                     _this.append('<option value="' + value.id + '">' + value.name + '</option>');
+                                });
+                            });
+                        },
                         clergyTypeDDL: function () {
                             let _this = $('select[name="clergy_type_id"]');
                             
@@ -538,6 +549,28 @@
                                         return {results: data};
                                     }
                                 }
+                            });
+                        },
+                        cascadingBranchLocation: function () {
+                            let location = $('select[name="location_id"]');
+                            let branch = $('select[name="branch_id"]');
+
+                            $.get(apiURL + '/branch_locations', function (data) {
+                                $.each(data.data, function (key, value) {
+                                     location.append('<option value="' + value.id + '">' + value.name + '</option>');
+                                });
+                            });
+
+                            location.on('change', function() {
+                                // Reset/Empty the branch dropdown
+                                branch.find('option').remove();
+                                branch.html('<option value="" selected>&dash;</option>');
+
+                                $.get(apiURL + '/branches/branch_location/?location_id=' + location.find("option:selected").val(), function (data) {
+                                    $.each(data.data, function (key, value) {
+                                        branch.append('<option value="' + value.id + '">' + value.name + '</option>');
+                                    });
+                                });
                             });
                         },
                         inputMasking: function () {

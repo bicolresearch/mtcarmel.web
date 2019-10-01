@@ -3,7 +3,7 @@
     Location    : application/views/admin/ads.html.twig
     Purpose     : Ads partial page
     Created     : 07/11/2019 17:24:13 by Spiderman
-    Updated     : 09/16/2019 19:14:26 by Spiderman
+    Updated     : 09/27/2019 18:58:25 by Spiderman
     Changes     : 
 #}
 
@@ -109,36 +109,71 @@
             <div class="row">
                 <div class="col-12 col-lg-6">
                     <div class="form-group">
-                        <label for="name">Name</label>
-                        <input type="text" class="form-control" id="name" name="name" value="{{ set_value('name') }}" />
+                        <label for="status-id">Status</label>
+                        <select class="custom-select" id="status-id" name="status_id">
+                            <!-- This is where the status load -->
+                        </select>
                     </div>
-                    <div class="form-group">
-                        <label for="description">Description</label>
-                        <textarea class="form-control" id="description" name="description" rows="2" maxlength="255"></textarea>
-                    </div>
+                </div>
+                <div class="col-12 col-lg-6">
                     <div class="form-group">
                         <label for="ad-type-id">Ad Type</label>
                         <select class="custom-select" id="ad-type-id" name="type_id">
                             <!-- This is where the ad type load -->
                         </select>
                     </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 col-lg-6">
                     <div class="form-group">
-                        <label for="url">URL</label>
-                        <input type="text" class="form-control" id="url" name="url" />
-                    </div>
-                    <div class="form-group">
-                        <label for="expiration">Expiration</label>
-                        <input type="text" class="form-control flatpickrCalendar" id="expiration" name="expiration" />
+                        <label for="location-id">Location</label>
+                        <select class="custom-select" id="location-id" name="location_id">
+                            <!-- This is where the location load -->
+                        </select>
                     </div>
                 </div>
                 <div class="col-12 col-lg-6">
-                    <div id="placeholder" class="mb-3">
-                        <!-- This is where the image preview load -->
-                    </div>
-                    <div class="text-center">
-                        <a class="btn btn-sm btn-brown rounded-pill px-3" href="#gallery" data-toggle="modal"><i class="align-middle" data-feather="grid"></i> Media Gallery</a>
+                    <div class="form-group">
+                        <label for="branch-id">Branch</label>
+                        <select class="custom-select" id="branch-id" name="branch_id">
+                            <!-- This is where the branch load -->
+                        </select>
                     </div>
                 </div>
+            </div>
+            <div class="form-group">
+                <label for="company-name">Company Name</label>
+                <input type="text" class="form-control" id="company-name" name="company_name" />
+            </div>
+            <div class="form-group">
+                <label for="brand-name">Brand Name</label>
+                <input type="text" class="form-control" id="brand-name" name="name" />
+            </div>
+            <div class="form-group">
+                <label for="service-type-id">Product / Service Type</label>
+                <select class="custom-select" id="service-type-id" name="service_type_id">
+                    <option value="" selected>&dash;</option>
+                    <!-- This is where the product / service type load -->
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="description">Product / Service Description</label>
+                <textarea class="form-control" id="description" name="description" rows="2" maxlength="255"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="url">URL</label>
+                <input type="text" class="form-control" id="url" name="url" />
+            </div>
+            <div class="form-group">
+                <label for="expiration">Expiration</label>
+                <input type="text" class="form-control flatpickrCalendar" id="expiration" name="expiration" />
+            </div>
+            <div id="placeholder" class="mb-3">
+                <!-- This is where the image preview load -->
+            </div>
+            <div class="text-center">
+                <a class="btn btn-sm btn-brown rounded-pill px-3" href="#gallery" data-toggle="modal"><i class="align-middle" data-feather="grid"></i> Media Gallery</a>
             </div>
         </div>
         <div class="modal-footer">
@@ -274,7 +309,10 @@
                                 _this.find('input:hidden[name="id"]').val(data.id);  
                                 _this.find('input[name="name"]').val(data.name);
                                 _this.find('textarea[name="description"]').html(data.description);
+                                _this.find('select[name="status_id"]').append('<option value="' + data.status_id + '" selected>' + data.status_name + '</option>');
                                 _this.find('select[name="type_id"]').append('<option value="' + data.type_id + '" selected>' + data.type_name + '</option>'); 
+                                _this.find('select[name="branch_id"]').append('<option value="' + data.branch_id + '" selected>' + data.branch_name + '</option>');
+                                _this.find('select[name="location_id"]').append('<option value="' + data.location_id + '" selected>' + data.location_name + '</option>');
                                 _this.find('input[name="url"]').val(data.url);
                                 _this.find('input[name="expiration"]').val(data.expiration);
                                 _this.find('input.input').val(moment(data.expiration, 'YYYY-MM-DD').format('MMMM DD, YYYY'));
@@ -288,7 +326,8 @@
                                     _this.find('#placeholder').replaceWith(
                                         '<div id="placeholder" class="mb-3">' +
                                         '   <img class="mx-auto d-block" style="max-height: 200px" src="' + apiURL + '/' + data.media_path + '" alt="' + data.name + '" />' +
-                                        '</div>');
+                                        '</div>'
+                                    );
                                 });
                             }
                         });
