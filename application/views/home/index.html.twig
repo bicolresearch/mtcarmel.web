@@ -3,8 +3,8 @@
     Location    : application/views/home/index.html.twig
     Purpose     : Home partial page
     Created     : 06/03/2019 22:55:25 by Spiderman
-    Updated     : 09/25/2019 18:03:36 by Spiderman
-    Changes     : 
+    Updated     : 10/13/2019 15:23:48 by Scarlet Witch
+    Changes     : added url link for mobile app
 #}
 
 {% extends 'base.html.twig' %}
@@ -86,7 +86,7 @@
                         }
 
                         if (navigator.userAgent.toLowerCase().indexOf("android") > -1) {
-                            window.location.href = 'https://play.google.com/store/apps';
+                            window.location.href = 'https://play.google.com/store/apps/details?id=ph.mountcarmel.mountcarmelsystem';
                         }
 
                         if (!navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/)) {
