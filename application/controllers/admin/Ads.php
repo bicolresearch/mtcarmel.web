@@ -187,22 +187,34 @@ class Ads extends CI_Controller
         }
 
         $set_data = array(
-            'name' => $this->input->put('name'),
+            'branch_id' => $this->input->put('branch_id'),
+            'location_id' => $this->input->put('location_id'),
+            'brand_name' => $this->input->put('brand_name'),
+            'company_name' => $this->input->put('company_name'),
             'description' => $this->input->put('description'),
+            'service_type_id' => $this->input->put('service_type_id'),
             'media_id' => $this->input->put('media_id'),
             'type_id' => $this->input->put('type_id'),
             'url' => $this->input->put('url'),
-            'expiration' => $this->input->put('expiration')
+            'expiration' => $this->input->put('expiration'),
+            //'durations' => $this->input->put('durations'),
+            //'total' => $this->input->put('total'),
+            'status_id' => $this->input->put('status_id')
         );
 
         $this->form_validation
             ->set_data($set_data)
-            ->set_rules('name', 'Name', 'trim|required|xss_clean')
+            ->set_rules('branch_id', 'Branch', 'trim|required|xss_clean')
+            ->set_rules('location_id', 'Location', 'trim|required|xss_clean')
+            ->set_rules('brand_name', 'Brand Name', 'trim|required|xss_clean')
+            ->set_rules('company_name', 'Company Name', 'trim|required|xss_clean')
             ->set_rules('description', 'Description', 'trim|required|xss_clean')
+            ->set_rules('service_type_id', 'Product / Service Type', 'trim|required|xss_clean')
             ->set_rules('media_id', 'Logo', 'trim|required|xss_clean')
             ->set_rules('type_id', 'Ad Type', 'trim|required|xss_clean')
-            ->set_rules('url', 'URL', 'trim|xss_clean')
-            ->set_rules('expiration', 'Expiration', 'trim|xss_clean')
+            ->set_rules('url', 'URL', 'trim|valid_url|xss_clean')
+            //->set_rules('durations', 'Durations', 'trim|required|xss_clean')
+            //->set_rules('expiration', 'Expiration', 'trim|required|xss_clean')
             ->set_error_delimiters('<li>', '</li>');
 
         if ($this->form_validation->run()) {
@@ -216,13 +228,18 @@ class Ads extends CI_Controller
                     'X-API-KEY' => $this->guzzle->key()
                 ],
                 'form_params' => [
-                    'branch_id' => 1,
-                    'name' => $this->input->put('name'),
+                    'branch_id' => $this->input->put('branch_id'),
+                    'brand_name' => $this->input->put('brand_name'),
+                    'company_name' => $this->input->put('company_name'),
                     'description' => $this->input->put('description'),
+                    'service_type_id' => $this->input->put('service_type_id'),
                     'media_id' => $this->input->put('media_id'),
                     'type_id' => $this->input->put('type_id'),
                     'url' => $this->input->put('url'),
                     'expiration' => $this->input->put('expiration'),
+                    //'durations' => $this->input->put('durations'),
+                    //'total' => $this->input->put('total'),
+                    'status_id' => $this->input->put('status_id'),
                     'user_id' => user('id')
                 ]
             ];
@@ -247,11 +264,16 @@ class Ads extends CI_Controller
             $view_data = [
                 'status' => false,
                 'message' => validation_errors(),
-                'name' => form_error('name'),
+                'branch_id' => form_error('branch_id'),
+                'location_id' => form_error('location_id'),
+                'brand_name' => form_error('brand_name'),
+                'company_name' => form_error('company_name'),
                 'description' => form_error('description'),
+                'service_type_id' => form_error('service_type_id'),
                 'type_id' => form_error('type_id'),
                 'url' => form_error('url'),
-                'expiration' => form_error('expiration')
+                //'durations' => form_error('durations'),
+                //'expiration' => form_error('expiration')
             ];
             echo json_encode($view_data);
         }

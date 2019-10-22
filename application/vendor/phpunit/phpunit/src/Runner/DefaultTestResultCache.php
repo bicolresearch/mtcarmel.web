@@ -9,7 +9,6 @@
  */
 namespace PHPUnit\Runner;
 
-use PHPUnit\Util\ErrorHandler;
 use PHPUnit\Util\Filesystem;
 
 /**
@@ -71,7 +70,7 @@ final class DefaultTestResultCache implements \Serializable, TestResultCache
     {
         if ($filepath !== null && \is_dir($filepath)) {
             // cache path provided, use default cache filename in that location
-            $filepath .= \DIRECTORY_SEPARATOR . self::DEFAULT_RESULT_CACHE_FILENAME;
+            $filepath = $filepath . \DIRECTORY_SEPARATOR . self::DEFAULT_RESULT_CACHE_FILENAME;
         }
 
         $this->cacheFilename = $filepath ?? $_ENV['PHPUNIT_RESULT_CACHE'] ?? self::DEFAULT_RESULT_CACHE_FILENAME;
@@ -147,11 +146,7 @@ final class DefaultTestResultCache implements \Serializable, TestResultCache
         }
         // @codeCoverageIgnoreEnd
 
-        $cache = ErrorHandler::invokeIgnoringWarnings(
-            static function () use ($cacheData) {
-                return @\unserialize($cacheData, ['allowed_classes' => [self::class]]);
-            }
-        );
+        $cache = @\unserialize($cacheData, ['allowed_classes' => [self::class]]);
 
         if ($cache === false) {
             return;

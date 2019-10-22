@@ -20,6 +20,5 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |
 */ 
 $config['branch_id'] = 1;
-$config['branch_name'] = 'Basilica';
 $config['api_endpoint'] = 'http://localhost/mountcarmel.api/';
 $config['api_key'] = '365-Days';

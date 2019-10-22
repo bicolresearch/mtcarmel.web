@@ -9,6 +9,9 @@
  */
 namespace PHPUnit\TextUI;
 
+use PHPUnit\Framework\Error\Deprecated;
+use PHPUnit\Framework\Error\Notice;
+use PHPUnit\Framework\Error\Warning;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\Test;
 use PHPUnit\Framework\TestCase;
@@ -220,20 +223,20 @@ final class TestRunner extends BaseTestRunner
 
         unset($listener, $listenerNeeded);
 
-        if (!$arguments['convertDeprecationsToExceptions']) {
-            $result->convertDeprecationsToExceptions(false);
-        }
-
         if (!$arguments['convertErrorsToExceptions']) {
             $result->convertErrorsToExceptions(false);
         }
 
+        if (!$arguments['convertDeprecationsToExceptions']) {
+            Deprecated::$enabled = false;
+        }
+
         if (!$arguments['convertNoticesToExceptions']) {
-            $result->convertNoticesToExceptions(false);
+            Notice::$enabled = false;
         }
 
         if (!$arguments['convertWarningsToExceptions']) {
-            $result->convertWarningsToExceptions(false);
+            Warning::$enabled = false;
         }
 
         if ($arguments['stopOnError']) {

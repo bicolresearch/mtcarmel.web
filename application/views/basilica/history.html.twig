@@ -44,6 +44,7 @@
     <script>
         $(function () {
        
+            let baseURL = $.fn.baseURL();
             let apiURL = $.fn.apiURL();
             let branchID = $.fn.branchID();  
 
@@ -56,7 +57,7 @@
                     let _this = $('#history');
 
                     let jqXHR = $.ajax({
-                        url: apiURL + '/histories/history/?branch_id=' + branchID + '&id=1',
+                        url: apiURL + '/history/?branch_id=' + branchID,
                         type: 'GET',
                         dataType: 'json',
                         data: _this.serialize(),

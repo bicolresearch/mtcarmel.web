@@ -3,7 +3,7 @@
     Location    : application/views/admin/ads.html.twig
     Purpose     : Ads partial page
     Created     : 07/11/2019 17:24:13 by Spiderman
-    Updated     : 09/27/2019 18:58:25 by Spiderman
+    Updated     : 10/21/2019 14:53:09 by Spiderman
     Changes     : 
 #}
 
@@ -58,8 +58,8 @@
             <div class="row">
                 <div class="col-12 col-lg-6">
                     <div class="form-group">
-                        <label for="name">Name</label>
-                        <input type="text" class="form-control" id="name" name="name" value="{{ set_value('name') }}" />
+                        <label for="brand-name">Name</label>
+                        <input type="text" class="form-control" id="brand-name" name="brand_name" value="{{ set_value('brand_name') }}" />
                     </div>
                     <div class="form-group">
                         <label for="description">Description</label>
@@ -148,7 +148,7 @@
             </div>
             <div class="form-group">
                 <label for="brand-name">Brand Name</label>
-                <input type="text" class="form-control" id="brand-name" name="name" />
+                <input type="text" class="form-control" id="brand-name" name="brand_name" />
             </div>
             <div class="form-group">
                 <label for="service-type-id">Product / Service Type</label>
@@ -211,7 +211,7 @@
                                 "searchable": false,
                                 "data": null
                             },
-                            {"data": "name"},
+                            {"data": "brand_name"},
                             {
                                 "data": "dt_created",
                                 "mRender": function (data) {
@@ -307,10 +307,12 @@
                                 // Populate form
                                 $('body').attr('data-id', data.id);
                                 _this.find('input:hidden[name="id"]').val(data.id);  
-                                _this.find('input[name="name"]').val(data.name);
+                                _this.find('input[name="brand_name"]').val(data.brand_name);
+                                _this.find('input[name="company_name"]').val(data.company_name);
                                 _this.find('textarea[name="description"]').html(data.description);
                                 _this.find('select[name="status_id"]').append('<option value="' + data.status_id + '" selected>' + data.status_name + '</option>');
                                 _this.find('select[name="type_id"]').append('<option value="' + data.type_id + '" selected>' + data.type_name + '</option>'); 
+                                _this.find('select[name="service_type_id"]').append('<option value="' + data.service_type_id + '" selected>' + data.service_type_name + '</option>'); 
                                 _this.find('select[name="branch_id"]').append('<option value="' + data.branch_id + '" selected>' + data.branch_name + '</option>');
                                 _this.find('select[name="location_id"]').append('<option value="' + data.location_id + '" selected>' + data.location_name + '</option>');
                                 _this.find('input[name="url"]').val(data.url);
@@ -477,11 +479,11 @@
                             } else {
                                 // Error msg response
                                 _this.find('#ajax-response').html('<div class="alert alert-danger"><ul>' + data.message + '</ul></div>');
-                                (Boolean(data.name)) ? _this.find('#name').addClass('is-invalid') : _this.find('#name').removeClass('is-invalid');  
-                                (Boolean(data.description)) ? _this.find('#description').addClass('is-invalid') : _this.find('#description').removeClass('is-invalid'); 
-                                (Boolean(data.type_id)) ? _this.find('#ad-type-id').addClass('is-invalid') : _this.find('#ad-type-id').removeClass('is-invalid');
-                                (Boolean(data.url)) ? _this.find('#url').addClass('is-invalid') : _this.find('#url').removeClass('is-invalid');
-                                (Boolean(data.expiration)) ? _this.find('#expiration').addClass('is-invalid') : _this.find('#expiration').removeClass('is-invalid');
+                                // (Boolean(data.name)) ? _this.find('#name').addClass('is-invalid') : _this.find('#name').removeClass('is-invalid');  
+                                // (Boolean(data.description)) ? _this.find('#description').addClass('is-invalid') : _this.find('#description').removeClass('is-invalid'); 
+                                // (Boolean(data.type_id)) ? _this.find('#ad-type-id').addClass('is-invalid') : _this.find('#ad-type-id').removeClass('is-invalid');
+                                // (Boolean(data.url)) ? _this.find('#url').addClass('is-invalid') : _this.find('#url').removeClass('is-invalid');
+                                // (Boolean(data.expiration)) ? _this.find('#expiration').addClass('is-invalid') : _this.find('#expiration').removeClass('is-invalid');
                             }
                         });
 

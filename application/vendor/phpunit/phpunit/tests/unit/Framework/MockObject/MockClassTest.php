@@ -19,7 +19,7 @@ final class MockClassTest extends TestCase
     {
         $mockName = 'PHPUnit\TestFixture\MockObject\MockClassGenerated';
 
-        $file = __DIR__ . '/../../../_files/mock-object/MockClassGenerated.tpl';
+        $file = __DIR__ . '/../../../_files/mock-object/MockClassGenerated.tpl.dist';
 
         $mockClass = new MockClass(\file_get_contents($file), $mockName, []);
         $mockClass->generate();
