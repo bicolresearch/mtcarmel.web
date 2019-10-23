@@ -7,4 +7,5 @@ $baseDir = dirname(dirname($vendorDir));
 
 return array(
     'Twig_' => array($vendorDir . '/twig/twig/lib'),
+    'PayMaya' => array($vendorDir . '/paymaya/paymaya-sdk/lib'),
 );

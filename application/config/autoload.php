@@ -66,11 +66,11 @@ $autoload['libraries'] = array(
     'authme',
     'datatables',
     'user_agent',
-    //'excel',
     'fpdf',
     'ciqrcode',
     'twig',
     'guzzle',
+    'paymaya',
     'upload'
 );
 

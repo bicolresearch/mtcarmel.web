@@ -45,6 +45,7 @@
                                 <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('live-mass') }}">Live Mass</a></li>
                             </ul>
                         </li>
+                        {#
                         <li class="sidebar-item">
                             <a class="sidebar-link" href="{{ base_url('help') }}">
                                 <i class="align-middle icon-sendhelp icon-18"></i> <span class="align-middle">Send Help</span>
@@ -64,8 +65,7 @@
                                 <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('passing') }}">Passing</a></li>
                                 <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('events') }}">Events</a></li>
                             </ul>
-                        </li>
-                        {# 
+                        </li> 
                         <li class="sidebar-item">
                             <a class="sidebar-link" href="{{ base_url('transparency') }}">
                                 <i class="align-middle icon-transparency icon-18"></i> <span class="align-middle">Transparency</span>
@@ -221,13 +221,6 @@
     {% block javascripts %}
         <script src="{{ base_url('public/assets/js/app.js') }}"></script>
         <script src="{{ base_url('public/assets/js/utilities.js') }}"></script>
-        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-        <script>
-            (adsbygoogle = window.adsbygoogle || []).push({
-                google_ad_client: "ca-pub-5583187606276610",
-                enable_page_level_ads: true
-            });
-        </script>
         <script>
             $(function () {
 
