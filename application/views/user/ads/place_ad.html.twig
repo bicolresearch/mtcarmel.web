@@ -3,7 +3,7 @@
     Location    : application/views/user/ads/place_ad.html.twig
     Purpose     : Place an Add page
     Created     : 09/24/2019 14:00:43 by Spiderman
-    Updated     : 09/25/2019 15:28:15 by Spiderman
+    Updated     : 10/15/2019 14:41:29 by Spiderman
     Changes     : 
 #}
 
@@ -22,6 +22,8 @@
                     <div class="card-body">
                         <div id="ajax-preloader"></div>
                         <div id="ajax-response"></div>
+                        <input type="hidden" name="total" />
+                        <input type="hidden" name="expiration" />
                         <div class="form-group">
                             <label for="ad-type-id">Ad Type</label>
                             <select class="custom-select" id="ad-type-id" name="type_id">
@@ -53,7 +55,7 @@
                             <div class="col-12 col-lg-8">
                                 <div class="form-group">
                                     <label for="durations">Durations <span class="durations"><!-- This is where the no. of years load --></span></label>
-                                    <input type="range" class="custom-range" min="0" max="5" id="durations" value="0" aria-describedby="durationsHelpBlock">
+                                    <input type="range" class="custom-range" min="0" max="5" id="durations" name="durations" value="0" aria-describedby="durationsHelpBlock">
                                     <small id="durationsHelpBlock" class="form-text text-muted">
                                         Slide to select no. of years for the durations
                                     </small>
@@ -63,7 +65,6 @@
                                 <div class="form-group">
                                     <label for="total-readonly">Total</label>
                                     <input type="text" readonly class="form-control-plaintext" id="total-readonly" name="total_readonly" value="₱ 0.00" />
-                                    <input type="hidden" name="total" />
                                 </div>
                             </div>
                         </div>
@@ -103,12 +104,14 @@
 {% block custom_scripts %}
     <script>
         $(function () {
+
             let baseURL = $.fn.baseURL();
             let apiURL = $.fn.apiURL();
             let branchID = $.fn.branchID();
 
             let app = {
                 init: function() {
+                    this.createAd();
                     this.adTotal();
                 },
                 adTotal: function() {
@@ -116,12 +119,72 @@
                         let basePrice = 49; // Base price (per day)
                         let durations = $(this).find('#durations').val(); // No of yrs.
                         let total = (durations * 365) * basePrice; // Total 
+                        let expiration = moment().add(durations, 'y').format('YYYY-MM-DD hh:mm:ss');
 
                         durations = '(' + durations + ' Year' + ((parseInt(durations) <= 1) ? '' : 's') + ')'; 
 
                         $(this).find('.durations').text(durations);
                         $(this).find('input[name="total_readonly"]').val('₱ ' + total.toFixed(2));
                         $(this).find('input:hidden[name="total"]').val(total);
+                        $(this).find('input:hidden[name="expiration"]').val(expiration);
+                    });
+                },
+                createAd: function() {
+                    $('#create-form').on('submit', function(e){
+
+                        let _this = $(this);
+
+                        let jqXHR = $.ajax({
+                            url: baseURL + '/user/ads/create',
+                            type: 'POST',
+                            dataType: 'json',
+                            data: _this.serialize(),
+                            cache: false,
+                            processData: false,
+                            beforeSend: function () {
+                                _this.find('#ajax-preloader').preloader().show();
+                                _this.find('.btn-change-state').attr('disabled', 'disabled');
+                            }
+                        });
+
+                        jqXHR.done(function (data) {
+                            if (data.status === true) {
+                                // Clear the form
+                                _this.find('.form-control').removeClass('is-invalid');
+                                _this[0].reset();
+
+                                // Show and append notif msg  
+                                $('#notif').modal('show').find('.modal-body p').text('Your Ad is subject for approval.');
+                                    
+                                // Hide notif after (x) number of seconds 
+                                setTimeout(function(){ 
+                                    $('#notif').modal('hide');
+                                }, 3000);
+                            } else {
+                                // Error msg response
+                                _this.find('#ajax-response').html('<div class="alert alert-danger"><ul>' + data.message + '</ul></div>');
+                                (Boolean(data.branch_id)) ? _this.find('#branch-id').addClass('is-invalid') : _this.find('#branch-id').removeClass('is-invalid');
+                                (Boolean(data.location_id)) ? _this.find('#location-id').addClass('is-invalid') : _this.find('#location-id').removeClass('is-invalid');
+                                (Boolean(data.brand_name)) ? _this.find('#brand-name').addClass('is-invalid') : _this.find('#brand-name').removeClass('is-invalid');
+                                (Boolean(data.company_name)) ? _this.find('#company-name').addClass('is-invalid') : _this.find('#company-name').removeClass('is-invalid');    
+                                (Boolean(data.description)) ? _this.find('#description').addClass('is-invalid') : _this.find('#description').removeClass('is-invalid');  
+                                (Boolean(data.service_type_id)) ? _this.find('#service-type-id').addClass('is-invalid') : _this.find('#service-type-id').removeClass('is-invalid'); 
+                                (Boolean(data.type_id)) ? _this.find('#ad-type-id').addClass('is-invalid') : _this.find('#ad-type-id').removeClass('is-invalid');
+                                (Boolean(data.url)) ? _this.find('#url').addClass('is-invalid') : _this.find('#url').removeClass('is-invalid');
+                                (Boolean(data.durations)) ? _this.find('#durations').addClass('is-invalid') : _this.find('#durations').removeClass('is-invalid');
+                            }
+                        });
+
+                        jqXHR.always(function () {
+                            _this.find('#ajax-preloader').preloader().hide();
+                            _this.find('.btn-change-state').removeAttr('disabled');
+                        });
+
+                        jqXHR.fail(function (jqXHR, textStatus, errorThrown) {
+                            console.log('The following error occurred: ' + textStatus, errorThrown);
+                        });
+
+                        e.preventDefault();
                     });
                 }
             }

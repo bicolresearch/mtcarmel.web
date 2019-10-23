@@ -15,11 +15,17 @@ use PHPUnit\Framework\MockObject\Matcher\Invocation;
 /**
  * @method BuilderInvocationMocker method($constraint)
  */
-interface MockObject extends Stub
+interface MockObject /*extends Verifiable*/
 {
     public function __phpunit_setOriginalObject($originalObject): void;
 
+    public function __phpunit_getInvocationMocker(): InvocationMocker;
+
     public function __phpunit_verify(bool $unsetInvocationMocker = true): void;
+
+    public function __phpunit_hasMatchers(): bool;
+
+    public function __phpunit_setReturnValueGeneration(bool $returnValueGeneration): void;
 
     public function expects(Invocation $matcher): BuilderInvocationMocker;
 }

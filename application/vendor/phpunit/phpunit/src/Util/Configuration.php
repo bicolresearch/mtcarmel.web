@@ -864,11 +864,6 @@ final class Configuration
                         $result['executionOrder'] = TestSuiteSorter::ORDER_REVERSED;
 
                         break;
-
-                    case 'size':
-                        $result['executionOrder'] = TestSuiteSorter::ORDER_SIZE;
-
-                        break;
                 }
             }
         }

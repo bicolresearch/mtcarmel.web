@@ -3,8 +3,9 @@
     Location    : application/views/home/index.html.twig
     Purpose     : Home partial page
     Created     : 06/03/2019 22:55:25 by Spiderman
-    Updated     : 10/13/2019 15:23:48 by Scarlet Witch
-    Changes     : added url link for mobile app
+    Updated     : 10/22/2019 15:26:30 by Spiderman 
+
+    Changes     : 
 #}
 
 {% extends 'base.html.twig' %}
@@ -32,12 +33,54 @@
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="branches" tabindex="-1" data-backdrop="static" role="dialog" aria-labelledby="signupModalModalTitle" aria-hidden="true">
+        <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title" id="signupModalTitle">Carmel Branch Locations</h3>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <i data-feather="x"></i>
+                    </button>
+                </div>
+                <form>
+                    <div class="modal-body px-5">
+                        <div class="logo text-center mb-4">
+                            <img src="{{ base_url('public/assets/images/brands/mount-carmel-logo.svg') }}" alt="Mount Carmel Logo"/>
+                        </div>
+                        <div id="ajax-preloader"></div>
+                        <div class="form-group">
+                            <label for="location-id">Location</label>
+                            <select class="custom-select" id="location-id" name="location_id">
+                                <option value="" selected>&dash;</option>
+                                <!-- This is where the locations load -->
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="branch-id">Branch</label>
+                            <select class="custom-select" id="branch-id" name="branch_id">
+                                <option value="" selected>&dash;</option>
+                                <!-- This is where the branches load -->
+                            </select>
+                        </div>       
+                        <hr>
+                        <div id="current-branch">
+                            <p class="text-center">
+                                <!-- This is where the current branch load -->
+                            </p> 
+                        </div>     
+                    </div> 
+                </form>
+            </div>
+        </div>
+    </div>
 {% endblock %}
 
 {% block custom_scripts %}
     <script>
         $(function () {
 
+            let baseURL = $.fn.baseURL();
             let apiURL = $.fn.apiURL();
             let branchID = $.fn.branchID();
 
@@ -45,6 +88,9 @@
                 init: function () {
                     this.ads();
                     this.linkToAppStore();
+                    this.cascadingBranchLocation();
+                    this.currentBranch();
+                    this.branchModal();
                 },
                 ads: function () {
                     let _this = $('#splash-ads');
@@ -63,8 +109,8 @@
                             $.each(data, function (key, value) {
                                 _this.find('.carousel-inner').append(
                                     '<div class="carousel-item">' + 
-                                    '   <a href="' + value.url + '" title="' + value.name + '" target="_blank">' + 
-                                    '       <img class="d-block img-fluid" src="' + apiURL + '/' + value.media_path + '" alt="' + value.name + '">' + 
+                                    '   <a href="' + value.url + '" title="' + value.brand_name + '" target="_blank">' + 
+                                    '       <img class="d-block img-fluid" src="' + apiURL + '/' + value.media_path + '" alt="' + value.brand_name + '">' + 
                                     '   </a>' + 
                                     '</div>');
                                 _this.find('.carousel-indicators').append('<li data-target="#carousel" data-slide-to="' + key + '"></li>');
@@ -80,7 +126,7 @@
                     });
                 },
                 linkToAppStore: function () {
-                    $('#linkToAppStore').on('click', function (e) {
+                    $('.linkToAppStore').on('click', function (e) {
                         if (navigator.userAgent.toLowerCase().indexOf('iphone') > -1) {
                             window.location.href = 'https://itunes.apple.com';
                         }
@@ -94,6 +140,44 @@
                         }            
                         e.preventDefault();
                     });
+                },
+                cascadingBranchLocation: function () {
+                    let location = $('select[name="location_id"]');
+                    let branch = $('select[name="branch_id"]');
+
+                    $.get(apiURL + '/branch_locations', function (data) {
+                        $.each(data.data, function (key, value) {
+                             location.append('<option value="' + value.id + '">' + value.name + '</option>');
+                        });
+                    });
+
+                    location.on('change', function() {
+                        // Reset/Empty the branch dropdown
+                        branch.find('option').remove();
+                        branch.html('<option value="" selected>&dash;</option>');
+
+                        $.get(apiURL + '/branches/branch_location/?location_id=' + location.find("option:selected").val(), function (data) {
+                            $.each(data.data, function (key, value) {
+                                branch.append('<option value="' + value.id + '">' + '(' + value.order_name + ')' + ' ' + value.name + '</option>');
+                                
+                                // Redirect to selected branch
+                                branch.on('change', function() {
+                                    window.location.replace(value.url);
+                                });
+                            });
+                        });
+                    });
+                },
+                currentBranch: function () {
+                    $.get(apiURL + '/branches/branch/?id=' + branchID, function (data) {
+                        $('#current-branch').find('p').append(
+                            'You are currently in: <br/>' +
+                            '<a href="' + data.url + '" target="_self">' + data.name + '</a>'
+                        );
+                    });
+                },
+                branchModal: function() {
+                    $('#branches').modal();
                 }
             };
 

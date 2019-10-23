@@ -113,6 +113,21 @@ body {
         }
       }
     }
+
+    .sidebar-bottom {
+      background-color: $dark-olive;
+      padding: 0;
+      font-size: inherit;
+      a {
+        color: #fff;
+        text-decoration: none;
+        padding: 12px 24px;
+        display: block;
+        span {
+          margin-left: 10px;
+        }
+      }
+    }
   }
 }
 

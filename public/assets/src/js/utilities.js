@@ -3,7 +3,7 @@
     Location    : public/assets/js/utilities.js
     Purpose     : Extend jquery functions
     Created     : 08/04/2019 15:24:21 by Spiderman
-    Updated     : 09/11/2019 14:44:38 by Spiderman
+    Updated     : 10/22/2019 17:59:05 by Spiderman
     Changes     : 
 */
 

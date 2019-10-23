@@ -15,16 +15,8 @@ use PHPUnit\Framework\MockObject\IncompatibleReturnValueException;
 use PHPUnit\Framework\MockObject\Matcher;
 use PHPUnit\Framework\MockObject\Matcher\Invocation;
 use PHPUnit\Framework\MockObject\RuntimeException;
-use PHPUnit\Framework\MockObject\Stub\ConsecutiveCalls;
-use PHPUnit\Framework\MockObject\Stub\Exception;
+use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\MockObject\Stub\MatcherCollection;
-use PHPUnit\Framework\MockObject\Stub\ReturnArgument;
-use PHPUnit\Framework\MockObject\Stub\ReturnCallback;
-use PHPUnit\Framework\MockObject\Stub\ReturnReference;
-use PHPUnit\Framework\MockObject\Stub\ReturnSelf;
-use PHPUnit\Framework\MockObject\Stub\ReturnStub;
-use PHPUnit\Framework\MockObject\Stub\ReturnValueMap;
-use PHPUnit\Framework\MockObject\Stub\Stub;
 
 /**
  * @internal This class is not covered by the backward compatibility promise for PHPUnit
@@ -80,13 +72,13 @@ final class InvocationMocker implements MethodNameMatch
         if (\count($nextValues) === 0) {
             $this->ensureTypeOfReturnValues([$value]);
 
-            $stub = new ReturnStub($value);
+            $stub = new Stub\ReturnStub($value);
         } else {
             $values = \array_merge([$value], $nextValues);
 
             $this->ensureTypeOfReturnValues($values);
 
-            $stub = new ConsecutiveCalls($values);
+            $stub = new Stub\ConsecutiveCalls($values);
         }
 
         return $this->will($stub);
@@ -97,21 +89,21 @@ final class InvocationMocker implements MethodNameMatch
      */
     public function willReturnReference(&$reference): self
     {
-        $stub = new ReturnReference($reference);
+        $stub = new Stub\ReturnReference($reference);
 
         return $this->will($stub);
     }
 
     public function willReturnMap(array $valueMap): self
     {
-        $stub = new ReturnValueMap($valueMap);
+        $stub = new Stub\ReturnValueMap($valueMap);
 
         return $this->will($stub);
     }
 
     public function willReturnArgument($argumentIndex): self
     {
-        $stub = new ReturnArgument($argumentIndex);
+        $stub = new Stub\ReturnArgument($argumentIndex);
 
         return $this->will($stub);
     }
@@ -121,28 +113,28 @@ final class InvocationMocker implements MethodNameMatch
      */
     public function willReturnCallback($callback): self
     {
-        $stub = new ReturnCallback($callback);
+        $stub = new Stub\ReturnCallback($callback);
 
         return $this->will($stub);
     }
 
     public function willReturnSelf(): self
     {
-        $stub = new ReturnSelf;
+        $stub = new Stub\ReturnSelf;
 
         return $this->will($stub);
     }
 
     public function willReturnOnConsecutiveCalls(...$values): self
     {
-        $stub = new ConsecutiveCalls($values);
+        $stub = new Stub\ConsecutiveCalls($values);
 
         return $this->will($stub);
     }
 
     public function willThrowException(\Throwable $exception): self
     {
-        $stub = new Exception($exception);
+        $stub = new Stub\Exception($exception);
 
         return $this->will($stub);
     }
@@ -276,10 +268,9 @@ final class InvocationMocker implements MethodNameMatch
             if (!$configuredMethod->mayReturn($value)) {
                 throw new IncompatibleReturnValueException(
                     \sprintf(
-                        'Method %s may not return value of type %s, its return declaration is "%s"',
+                        'Method %s may not return value of type %s',
                         $configuredMethod->getName(),
-                        \is_object($value) ? \get_class($value) : \gettype($value),
-                        $configuredMethod->getReturnTypeDeclaration()
+                        \gettype($value)
                     )
                 );
             }

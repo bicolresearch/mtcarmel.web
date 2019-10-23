@@ -100,7 +100,7 @@ final class InvocationMockerTest extends TestCase
         $invocationMocker = $mock->method('methodWithBoolReturnTypeDeclaration');
 
         $this->expectException(IncompatibleReturnValueException::class);
-        $this->expectExceptionMessage('Method methodWithBoolReturnTypeDeclaration may not return value of type integer, its return declaration is ": bool"');
+        $this->expectExceptionMessage('Method methodWithBoolReturnTypeDeclaration may not return value of type integer');
         $invocationMocker->willReturn(1);
     }
 
@@ -112,7 +112,7 @@ final class InvocationMockerTest extends TestCase
         $invocationMocker = $mock->method(new \PHPUnit\Framework\Constraint\IsEqual('methodWithBoolReturnTypeDeclaration'));
 
         $this->expectException(IncompatibleReturnValueException::class);
-        $this->expectExceptionMessage('Method methodWithBoolReturnTypeDeclaration may not return value of type integer, its return declaration is ": bool"');
+        $this->expectExceptionMessage('Method methodWithBoolReturnTypeDeclaration may not return value of type integer');
         $invocationMocker->willReturn(1);
     }
 
@@ -124,20 +124,8 @@ final class InvocationMockerTest extends TestCase
         $invocationMocker = $mock->method('methodWithBoolReturnTypeDeclaration');
 
         $this->expectException(IncompatibleReturnValueException::class);
-        $this->expectExceptionMessage('Method methodWithBoolReturnTypeDeclaration may not return value of type integer, its return declaration is ": bool"');
+        $this->expectExceptionMessage('Method methodWithBoolReturnTypeDeclaration may not return value of type integer');
         $invocationMocker->willReturn(true, 1);
-    }
-
-    public function testWillReturnFailsWhenTryingToReturnSingleIncompatibleClass(): void
-    {
-        $mock = $this->getMockBuilder(ClassWithAllPossibleReturnTypes::class)
-            ->getMock();
-
-        $invocationMocker = $mock->method('methodWithClassReturnTypeDeclaration');
-
-        $this->expectException(IncompatibleReturnValueException::class);
-        $this->expectExceptionMessage('Method methodWithClassReturnTypeDeclaration may not return value of type Foo, its return declaration is ": stdClass"');
-        $invocationMocker->willReturn(new Foo());
     }
 
     public function testWillReturnAllowsMatchersForMultipleMethodsWithDifferentReturnTypes(): void
@@ -199,7 +187,7 @@ final class InvocationMockerTest extends TestCase
         $method = $out->method('methodWithVoidReturnTypeDeclaration');
 
         $this->expectException(IncompatibleReturnValueException::class);
-        $this->expectExceptionMessage('Method methodWithVoidReturnTypeDeclaration may not return value of type boolean, its return declaration is ": void"');
+        $this->expectExceptionMessage('Method methodWithVoidReturnTypeDeclaration may not return value of type boolean');
         $method->willReturn(true);
     }
 }

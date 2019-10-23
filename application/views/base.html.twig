@@ -3,7 +3,7 @@
     Location    : application/views/base.html.twig
     Purpose     : Base template
     Created     : 06/03/2019 22:09:22 by Spiderman
-    Updated     : 09/21/2019 19:42:18 by Spiderman
+    Updated     : 10/23/2019 11:21:33 by Spiderman
     Changes     : 
 #}
 
@@ -13,9 +13,9 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="Mount Carmel System">
+    <meta name="description" content="Carmel PH">
     <meta name="author" content="Bicol Research">
-    <title>{% block title %}Mount Carmel{% endblock %}</title>
+    <title>{% block title %} Carmel {% endblock %}</title>
     {% block stylesheets %}
         <link href="{{ base_url('public/assets/css/style.css') }}" rel="stylesheet">
     {% endblock %}
@@ -27,11 +27,13 @@
                 <div class="sidebar-content js-simplebar">
                     <a class="sidebar-brand" href="{{ base_url('home') }}">
                         <div class="logo">
-                            <img src="{{ base_url('public/assets/images/brands/mount-carmel-logo.svg') }}" alt="Mount Carmel Logo"/>
+                            <img src="{{ base_url('public/assets/images/brands/mount-carmel-logo.svg') }}" alt="Carmel Logo"/>
                         </div>
                         <div class="logo-text">
-                            <div class="title">Mount Carmel</div>
-                            <div class="address">Quezon City, Philippines</div>
+                            <div class="title">Carmel PH</div>
+                            <div class="address">
+                                <!-- This is where the branch location load -->
+                            </div>
                         </div>
                     </a>
                     <ul class="sidebar-nav">
@@ -45,8 +47,7 @@
                                 <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('live-mass') }}">Live Mass</a></li>
                             </ul>
                         </li>
-                        {#
-                        <li class="sidebar-item">
+                        {# <li class="sidebar-item">
                             <a class="sidebar-link" href="{{ base_url('help') }}">
                                 <i class="align-middle icon-sendhelp icon-18"></i> <span class="align-middle">Send Help</span>
                             </a>
@@ -65,13 +66,12 @@
                                 <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('passing') }}">Passing</a></li>
                                 <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('events') }}">Events</a></li>
                             </ul>
-                        </li> 
+                        </li>
                         <li class="sidebar-item">
                             <a class="sidebar-link" href="{{ base_url('transparency') }}">
                                 <i class="align-middle icon-transparency icon-18"></i> <span class="align-middle">Transparency</span>
                             </a>
-                        </li> 
-                        #}
+                        </li> #}
                         <li class="sidebar-item">
                             <a href="#basilica" data-toggle="collapse" class="sidebar-link collapsed">
                                 <i class="align-middle icon-logo icon-18"></i> <span class="align-middle">Basilica</span>
@@ -90,6 +90,11 @@
                             </a>
                         </li>
                     </ul>
+                    <div class="sidebar-bottom d-none d-lg-block">
+                        <a class="linkToAppStore" href="https://play.google.com/store/apps/details?id=ph.mountcarmel.mountcarmelsystem" target="_blank">
+                            <i class="align-middle" data-feather="download-cloud"></i> <span class="align-middle">Download APP</span>
+                        </a>
+                    </div>
                 </div>
             </nav>
         {% endblock %}
@@ -382,6 +387,8 @@
                         this.showLoginModal();
                         this.showSignupModal();
                         this.showHidePassword();
+                        this.linkToAppStore();
+                        this.branchLocation();
                     },
                     activeList: function () {
                         let str = location.href.toLowerCase();
@@ -424,6 +431,27 @@
                             e.preventDefault();
                         });
                     },
+                    linkToAppStore: function () {
+                        $('.linkToAppStore').on('click', function (e) {
+                            if (navigator.userAgent.toLowerCase().indexOf('iphone') > -1) {
+                                window.location.href = 'https://itunes.apple.com';
+                            }
+
+                            if (navigator.userAgent.toLowerCase().indexOf("android") > -1) {
+                                window.location.href = 'https://play.google.com/store/apps/details?id=ph.mountcarmel.mountcarmelsystem';
+                            }
+
+                            if (!navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/)) {
+                                window.location.href = baseURL; // Redirect to homepage
+                            }            
+                            e.preventDefault();
+                        });
+                    },
+                    branchLocation: function () {
+                        $.get(apiURL + '/branches/branch/?id=' + branchID, function (data) {
+                            $('.logo-text').find('.address').append(data.location_name);
+                        });
+                    }
                 };
 
                 login.init();
