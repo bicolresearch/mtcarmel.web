@@ -1,0 +1,186 @@
+{#
+    Filename    : history.html.twig
+    Location    : application/views/admin/history.html.twig
+    Purpose     : History partial page
+    Created     : 10/24/2019 17:52:33 by Spiderman
+    Updated     : 10/25/2019 19:00:57 by Spiderman
+    Changes     : 
+#}
+
+{% extends 'admin/base.html.twig' %}
+
+{% block title %} {{ page_title }} | Carmel {% endblock %}
+
+{% block contents %}
+    <div id="history" class="row">
+        <div class="col-12 col-lg-12">
+            <div class="card mb-3">
+                <div class="card-header">
+                    <h3 class="card-title">{{ page_title }}</h3>
+                </div>
+                <form id="update-form">
+                    <div class="card-body">
+                        <div id="ajax-preloader"></div>
+                        <div id="ajax-response"></div>
+                        <input type="hidden" name="id">
+                        <input type="hidden" name="content">
+                        <div class="form-group">
+                            <label for="titular">Titular</label>
+                            <input type="text" class="form-control" id="titular" name="titular" placeholder="">
+                        </div>
+                        <div class="form-group">
+                            <label for="diocese">Diocese</label>
+                            <input type="text" class="form-control" id="diocese" name="diocese" placeholder="">
+                        </div>
+                        <div class="form-group">
+                            <label for="date_of_establishment">Date of Establishment</label>
+                            <input type="text" class="form-control flatpickrCalendarFullDate" id="date_of_establishment" name="date_of_establishment" placeholder="">
+                        </div>
+                        <div class="form-group">
+                            <label for="feast_day">Feast Day</label>
+                            <input type="text" class="form-control flatPickrCalendarShortDate" id="feast_day" name="feast_day" placeholder="">
+                        </div>
+                        <div class="form-group">
+                            <label for="content">History</label>
+                            <div id="update-editor">
+                                <!--  WYSIWYG editor -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer text-center">
+                        <button type="submit" class="btn btn-lg btn-brown rounded-pill px-5 btn-change-state">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block custom_scripts %}
+    <script>
+        $(function () {
+
+            let baseURL = $.fn.baseURL();
+            let apiURL = $.fn.apiURL();
+            let branchID = $.fn.branchID();    
+            let isProcessing = false;
+
+            // GET: Display by id
+            let getById = {
+                init: function() {
+                    this.displayForm();
+                },
+                displayForm: function() {               
+                    let _this = $('#history');
+
+                    let jqXHR = $.ajax({
+                        url: baseURL + '/admin/history/history/?branch_id=' + branchID,
+                        type: 'GET',
+                        dataType: 'json',
+                        data: _this.serialize(),
+                        cache: false,
+                        processData: false,
+                        beforeSend: function () {
+                            _this.find('#ajax-preloader').preloader().show();
+                        }
+                    });
+
+                    jqXHR.done(function (data) {
+                        if (data) {
+                            // Populate form
+                            _this.find('input:hidden[name="id"]').val(data.id);
+                            _this.find('input[name="titular"]').val(data.titular);
+                            _this.find('input[name="diocese"]').val(data.diocese);
+                            _this.find('input[name="date_of_establishment"]').val(data.date_of_establishment);
+                            _this.find('input[name="feast_day"]').val(data.feast_day);
+                            _this.find('.ql-editor').html(data.content);
+                        }
+                    });
+
+                    jqXHR.always(function () {
+                        _this.find('#ajax-preloader').preloader().hide();
+                    });
+
+                    jqXHR.fail(function (jqXHR, textStatus, errorThrown) {
+                        console.log('The following error occurred: ' + textStatus, errorThrown);
+                    });
+                }
+            }
+
+            // PUT: Update
+            let update = {
+                init: function () {
+                    this.submitForm();
+                },
+                submitForm: function () {
+                    // Initialize quill
+                    let quill = new Quill('#update-editor', {
+                        modules: { 
+                            toolbar: [
+                                [
+                                    'bold', 'italic', 'underline', 'strike', 'link', {'list': 'ordered'}, {'list': 'bullet'},'blockquote','image', 'video','clean'
+                                ]
+                            ] 
+                        },
+                        theme: 'snow',
+                        placeholder: ''
+                    });
+
+                    $('#update-form').on('submit', function(e){
+
+                        let _this = $(this);
+                        let id = _this.find('input:hidden[name="id"]').val();
+                        let content = _this.find('input:hidden[name="content"]').val(quill.root.innerHTML);
+                    
+                        let jqXHR = $.ajax({
+                            url: baseURL + '/admin/history/update/id/' + id,
+                            type: 'PUT',
+                            dataType: 'json',
+                            data: _this.serialize(),
+                            cache: false,
+                            processData: false,
+                            beforeSend: function () {
+                                _this.find('#ajax-preloader').preloader().show();
+                                _this.find('.btn-change-state').attr('disabled', 'disabled');
+                            }
+                        });
+
+                        jqXHR.done(function (data) {
+                                if (data.status === true) {
+                                    // Show and append notif msg  
+                                    $('#notif').modal('show').find('.modal-body p').text('History has been updated');
+                                    
+                                    // Hide notif after (x) number of seconds 
+                                    setTimeout(function(){ 
+                                        $('#notif').modal('hide');
+                                    }, 3000);
+                                } else {
+                                    // Error msg response
+                                    _this.find('#ajax-response').html('<div class="alert alert-danger"><ul>' + data.message + '</ul></div>');
+                                    (Boolean(data.titular)) ? _this.find('#titular').addClass('is-invalid') : _this.find('#titular').removeClass('is-invalid');
+                                    (Boolean(data.diocese)) ? _this.find('#diocese').addClass('is-invalid') : _this.find('#diocese').removeClass('is-invalid');
+                                    (Boolean(data.date_of_establishment)) ? _this.find('#date_of_establishment').addClass('is-invalid') : _this.find('#date_of_establishment').removeClass('is-invalid');
+                                    (Boolean(data.feast_day)) ? _this.find('#feast_day').addClass('is-invalid') : _this.find('#feast_day').removeClass('is-invalid');
+                                    (quill.editor.isBlank()) ? _this.find('#update-editor').css({'border':'1px solid #f00'}) : _this.find('#update-editor').css({'border-color':'#ccc'});   
+                                }
+                        });
+
+                        jqXHR.always(function () {
+                            _this.find('#ajax-preloader').preloader().hide();
+                            _this.find('.btn-change-state').removeAttr('disabled');
+                        });
+
+                        jqXHR.fail(function (jqXHR, textStatus, errorThrown) {
+                            console.log('The following error occurred: ' + textStatus, errorThrown);
+                        });
+
+                        e.preventDefault();
+                    });
+                }
+            }
+
+            getById.init();
+            update.init();
+        })
+    </script>
+{% endblock %}

@@ -3,14 +3,17 @@
     Location    : application/views/basilica/mass-schedule.html.twig
     Purpose     : Mass schedule partial page
     Created     : 06/03/2019 14:55:43 by Spiderman
-    Updated     : 09/09/2019 14:55:37 by Spiderman
+    Updated     : 10/29/2019 20:21:05 by Spiderman
     Changes     : 
 #}
 
 {% extends 'base.html.twig' %}
-{% block title %} {{ page_title }} | Mount Carmel {% endblock %}
+
+{% block title %} {{ page_title }} | Carmel {% endblock %}
+
 {% block contents %}
-    <div class="row">
+    <div id="schedules" class="row">
+        <div id="ajax-preloader"></div>
         <!-- Holy Mass -->
         <div class="col-12 col-lg-3">
             <div class="card">
@@ -18,27 +21,9 @@
                     <h3 class="card-title">Holy Mass</h3>
                 </div>
                 <div class="card-body">
-                    <h4>Sundays</h4>
-                    <ul class="card-text list-unstyled">
-                        <li>06:00 AM - 07:00 AM (Filipino)</li>
-                        <li>07:15 AM - 08:15 AM</li>
-                        <li>08:30 AM - 09:30 AM</li>
-                        <li>09:45 AM - 10:45 AM</li>
-                        <li>11:00 AM - 12:00 PM</li>
-                        <li>12:15 PM - 01:15 PM</li>
-                        <li>03:45 PM - 04:45 PM (Filipino)</li>
-                        <li>05:00 PM - 06:00 PM</li>
-                        <li>06:15 PM - 07:15 PM</li>
-                        <li>07:30 PM - 08:30 PM</li>
-                    </ul>
-
-                    <h4>Weekdays</h4>
-                    <ul class="card-text list-unstyled">
-                        <li>06:00 AM - 07:00 AM</li>
-                        <li>07:00 AM - 08:00 AM</li>
-                        <li>12:15 PM - 01:15 PM (Filipino)</li>
-                        <li>06:00 PM - 07:00 PM</li>
-                    </ul>
+                    <div id="holy-mass">
+                        <!-- This is where the holy mass schedules load -->
+                    </div>
                 </div>
             </div>
         </div>
@@ -49,22 +34,9 @@
                     <h3 class="card-title">Confessions</h3>
                 </div>
                 <div class="card-body">
-                    <h4>Sundays</h4>
-                    <ul class="card-text list-unstyled">
-                        <li>02:00 PM - 04:00 PM</li>
-                    </ul>
-
-                    <h4>Saturdays</h4>
-                    <ul class="card-text list-unstyled">
-                        <li>06:30 AM - 07:00 AM</li>
-                        <li>05:00 PM - 06:00 PM</li>
-                    </ul>
-
-                    <h4>Weekdays</h4>
-                    <ul class="card-text list-unstyled">
-                        <li>06:30 AM - 07:00 AM</li>
-                        <li>06:30 PM - 07:00 PM</li>
-                    </ul>
+                    <div id="confessions">
+                        <!-- This is where the confessions schedules load -->
+                    </div>
                 </div>
             </div>
         </div>
@@ -76,11 +48,9 @@
                     <h4 class="card-subtitle">of cars and religious items</h4>
                 </div>
                 <div class="card-body">
-                    <h4>Everyday</h4>
-                    <ul class="card-text list-unstyled">
-                        <li>09:00 AM - 11:00 AM</li>
-                        <li>03:00 PM - 04:00 PM</li>
-                    </ul>
+                    <div id="blessings">
+                        <!-- This is where the blessing schedules load -->
+                    </div>
                 </div>
             </div>
         </div>
@@ -91,24 +61,207 @@
                     <h3 class="card-title">Live Mass</h3>
                 </div>
                 <div class="card-body">
-                    <h4>Sundays</h4>
-                    <ul class="card-text list-unstyled">
-
-                        <li>06:00 AM - 07:00 AM  (Filipino)</li>
-                        <li>07:00 AM - 08:00 AM</li>
-                        <li>06:00 PM - 07:00 PM</li>
-                        <li>07:00 PM - 08:00 PM</li>
-                    </ul>
-
-                    <h4>Saturdays</h4>
-                    <ul class="card-text list-unstyled">
-                        <li>06:00 AM - 07:00 AM</li>
-                        <li>07:00 AM - 08:00 AM</li>
-                        <li>06:00 PM - 07:00 PM</li>
-                        <li>07:00 PM - 08:00 PM</li>
-                    </ul>
+                    <div id="live-mass">
+                        <!-- This is where the live mass schedules load -->
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+{% endblock %}
+
+{% block custom_scripts %}
+    <script>
+        $(function () {
+
+            let baseURL = $.fn.baseURL();
+            let apiURL = $.fn.apiURL();
+            let branchID = $.fn.branchID();
+
+            let app = {
+                init: function () {
+                    this.holyMass();
+                    this.confessions();
+                    this.blessings();
+                    this.liveMass();
+                },
+                holyMass: function() {
+                    let _this = $('#schedules');
+
+                    let jqXHR = $.ajax({
+                        url: apiURL + '/schedules/?branch_id=' + branchID + '&type_id=99',
+                        type: 'GET',
+                        dataType: 'json',
+                        data: _this.serialize(),
+                        cache: false,
+                        processData: false,
+                        beforeSend: function () {
+                            _this.find('#ajax-preloader').preloader().show();
+                        }
+                    });
+
+                    jqXHR.done(function (data) {
+                        if (data) {
+                            _this.find('#holy-mass').append(
+                                '<h4>Sundays</h4>' +
+                                '<ul class="card-text list-unstyled sundays"></ul>' +
+                                '<h4>Weekdays</h4>' +
+                                '<ul class="card-text list-unstyled weekdays"></ul>'
+                            );
+
+                            $.each(data, function (key, value) {
+                                if (value.day === 'Sundays') {
+                                    _this.find('#holy-mass .sundays').append('<li>' + moment(value.time_from, 'hh:mm:ss').format('LT') + ' - ' + moment(value.time_to, 'hh:mm:ss').format('LT') + ' ' + '(' + value.language + ')' + '</li>');
+                                }
+
+                                if (value.day === 'Weekdays') {
+                                   _this.find('#holy-mass .weekdays').append('<li>' + moment(value.time_from, 'hh:mm:ss').format('LT') + ' - ' + moment(value.time_to, 'hh:mm:ss').format('LT') + ' ' + '(' + value.language + ')' + '</li>');
+                                }
+                            });
+                        }
+                    });
+
+                    jqXHR.always(function () {
+                        _this.find('#ajax-preloader').preloader().hide();
+                    });
+
+                    jqXHR.fail(function (jqXHR, textStatus, errorThrown) {
+                        console.log('The following error occurred: ' + jqXHR.status, errorThrown);
+                    });
+                },
+                confessions: function() {
+                    let _this = $('#schedules');
+
+                    let jqXHR = $.ajax({
+                        url: apiURL + '/schedules/?branch_id=' + branchID + '&type_id=100',
+                        type: 'GET',
+                        dataType: 'json',
+                        data: _this.serialize(),
+                        cache: false,
+                        processData: false,
+                        beforeSend: function () {
+                            _this.find('#ajax-preloader').preloader().show();
+                        }
+                    });
+
+                    jqXHR.done(function (data) {
+                        if (data) {
+                            _this.find('#confessions').append(
+                                '<h4>Saturdays</h4>' +
+                                '<ul class="card-text list-unstyled saturdays"></ul>' +
+                                '<h4>Sundays</h4>' +
+                                '<ul class="card-text list-unstyled sundays"></ul>' +
+                                '<h4>Weekdays</h4>' +
+                                '<ul class="card-text list-unstyled weekdays"></ul>'
+                            );
+
+                            $.each(data, function (key, value) {
+                                if (value.day === 'Saturdays') {
+                                    _this.find('#confessions .saturdays').append('<li>' + moment(value.time_from, 'hh:mm:ss').format('LT') + ' - ' + moment(value.time_to, 'hh:mm:ss').format('LT') + ' ' + '(' + value.language + ')' + '</li>');
+                                } 
+
+                                if (value.day === 'Sundays') {
+                                    _this.find('#confessions .sundays').append('<li>' + moment(value.time_from, 'hh:mm:ss').format('LT') + ' - ' + moment(value.time_to, 'hh:mm:ss').format('LT') + ' ' + '(' + value.language + ')' + '</li>');
+                                }
+
+                                if (value.day === 'Weekdays') {
+                                    _this.find('#confessions .weekdays').append('<li>' + moment(value.time_from, 'hh:mm:ss').format('LT') + ' - ' + moment(value.time_to, 'hh:mm:ss').format('LT') + ' ' + '(' + value.language + ')' + '</li>');
+                                }
+                            });
+                        }
+                    });
+
+                    jqXHR.always(function () {
+                        _this.find('#ajax-preloader').preloader().hide();
+                    });
+
+                    jqXHR.fail(function (jqXHR, textStatus, errorThrown) {
+                        console.log('The following error occurred: ' + jqXHR.status, errorThrown);
+                    });
+                },
+                blessings: function() {
+                    let _this = $('#schedules');
+
+                    let jqXHR = $.ajax({
+                        url: apiURL + '/schedules/?branch_id=' + branchID + '&type_id=101',
+                        type: 'GET',
+                        dataType: 'json',
+                        data: _this.serialize(),
+                        cache: false,
+                        processData: false,
+                        beforeSend: function () {
+                            _this.find('#ajax-preloader').preloader().show();
+                        }
+                    });
+
+                    jqXHR.done(function (data) {
+                        if (data) {
+                            _this.find('#blessings').append(
+                                '<h4>Everyday</h4>' +
+                                '<ul class="card-text list-unstyled everyday"></ul>'
+                            );
+
+                            $.each(data, function (key, value) {
+                                _this.find('#blessings .everyday').append('<li>' + moment(value.time_from, 'hh:mm:ss').format('LT') + ' - ' + moment(value.time_to, 'hh:mm:ss').format('LT') + ' ' + '(' + value.language + ')' + '</li>');
+                            });
+                        }
+                    });
+
+                    jqXHR.always(function () {
+                        _this.find('#ajax-preloader').preloader().hide();
+                    });
+
+                    jqXHR.fail(function (jqXHR, textStatus, errorThrown) {
+                        console.log('The following error occurred: ' + jqXHR.status, errorThrown);
+                    });
+                },
+                liveMass: function() {
+                    let _this = $('#schedules');
+
+                    let jqXHR = $.ajax({
+                        url: apiURL + '/schedules/?branch_id=' + branchID + '&type_id=102',
+                        type: 'GET',
+                        dataType: 'json',
+                        data: _this.serialize(),
+                        cache: false,
+                        processData: false,
+                        beforeSend: function () {
+                            _this.find('#ajax-preloader').preloader().show();
+                        }
+                    });
+
+                    jqXHR.done(function (data) {
+                        if (data) {
+                            _this.find('#live-mass').append(
+                                '<h4>Saturdays</h4>' +
+                                '<ul class="card-text list-unstyled saturdays"></ul>' +
+                                '<h4>Sundays</h4>' +
+                                '<ul class="card-text list-unstyled sundays"></ul>'
+                            );
+
+                            $.each(data, function (key, value) {
+                                if (value.day === 'Saturdays') {
+                                    _this.find('#live-mass .saturdays').append('<li>' + moment(value.time_from, 'hh:mm:ss').format('LT') + ' - ' + moment(value.time_to, 'hh:mm:ss').format('LT') + ' ' + '(' + value.language + ')' + '</li>');
+                                }
+
+                                if (value.day === 'Sundays') {
+                                    _this.find('#live-mass .sundays').append('<li>' + moment(value.time_from, 'hh:mm:ss').format('LT') + ' - ' + moment(value.time_to, 'hh:mm:ss').format('LT') + ' ' + '(' + value.language + ')' + '</li>');
+                                }
+                            });
+                        }
+                    });
+
+                    jqXHR.always(function () {
+                        _this.find('#ajax-preloader').preloader().hide();
+                    });
+
+                    jqXHR.fail(function (jqXHR, textStatus, errorThrown) {
+                        console.log('The following error occurred: ' + jqXHR.status, errorThrown);
+                    });
+                }
+            }
+
+            app.init();
+        })
+    </script>
 {% endblock %}

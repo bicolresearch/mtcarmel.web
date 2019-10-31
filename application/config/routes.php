@@ -62,7 +62,7 @@ $route['live-mass'] = 'home/live_mass';
 // Basilica
 $route['mass-schedule'] = 'basilica/mass_schedule';
 $route['location-map'] = 'basilica/location_map';
-$route['carmelite'] = 'basilica/carmelite';
+$route['carmelites'] = 'basilica/carmelites';
 $route['contact'] = 'basilica/contact';
 $route['history'] = 'basilica/history';
 

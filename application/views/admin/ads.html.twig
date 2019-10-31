@@ -3,17 +3,17 @@
     Location    : application/views/admin/ads.html.twig
     Purpose     : Ads partial page
     Created     : 07/11/2019 17:24:13 by Spiderman
-    Updated     : 10/21/2019 14:53:09 by Spiderman
+    Updated     : 10/25/2019 19:06:20 by Spiderman
     Changes     : 
 #}
 
 {% extends 'admin/base.html.twig' %}
 
-{% block title %} {{ page_title }} | Mount Carmel {% endblock %}
+{% block title %} {{ page_title }} | Carmel {% endblock %}
 
 {% block contents %}
-    <div class="row">
-        <div id="media" class="col-12 col-lg-12">
+    <div id="adverts" class="row">
+        <div class="col-12 col-lg-12">
             <div class="card">
                 <div class="card-header">
                     <div class="clearfix">
@@ -58,13 +58,14 @@
             <div class="row">
                 <div class="col-12 col-lg-6">
                     <div class="form-group">
-                        <label for="brand-name">Name</label>
-                        <input type="text" class="form-control" id="brand-name" name="brand_name" value="{{ set_value('brand_name') }}" />
+                        <label for="status-id">Status</label>
+                        <select class="custom-select" id="status-id" name="status_id">
+                            <option value="" selected>&dash;</option>
+                            <!-- This is where the status load -->
+                        </select>
                     </div>
-                    <div class="form-group">
-                        <label for="description">Description</label>
-                        <textarea class="form-control" id="description" name="description" rows="2" maxlength="255"></textarea>
-                    </div>
+                </div>
+                <div class="col-12 col-lg-6">
                     <div class="form-group">
                         <label for="ad-type-id">Ad Type</label>
                         <select class="custom-select" id="ad-type-id" name="type_id">
@@ -72,25 +73,82 @@
                             <!-- This is where the ad type load -->
                         </select>
                     </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 col-lg-6">
                     <div class="form-group">
-                        <label for="url">URL</label>
-                        <input type="text" class="form-control" id="url" name="url" value="{{ set_value('url') }}" />
-                    </div>
-                    <div class="form-group">
-                        <label for="expiration">Expiration</label>
-                        <input type="text" class="form-control flatpickrCalendar" id="expiration" name="expiration" value="{{ set_value('expiration') }}" />
+                        <label for="location-id">Location</label>
+                        <select class="custom-select" id="location-id" name="location_id">
+                            <option value="" selected>&dash;</option>
+                            <!-- This is where the location load -->
+                        </select>
                     </div>
                 </div>
                 <div class="col-12 col-lg-6">
-                    <div id="placeholder" class="mb-3">
-                        <!-- Image placeholder -->
-                        <img class="mx-auto d-block" style="max-height: 200px" src="{{ base_url('public/assets/images/companylogo.jpg') }}" alt="Image Placeholder" />
-                        <!-- This is where the image preview load -->
-                    </div>
-                    <div class="text-center">
-                        <a class="btn btn-sm btn-brown rounded-pill px-3" href="#gallery" data-toggle="modal"><i class="align-middle" data-feather="grid"></i> Media Gallery</a>
+                    <div class="form-group">
+                        <label for="branch-id">Branch</label>
+                        <select class="custom-select" id="branch-id" name="branch_id">
+                            <option value="" selected>&dash;</option>
+                            <!-- This is where the branch load -->
+                        </select>
                     </div>
                 </div>
+            </div>
+            <div class="row ad-computation">
+                <div class="col-12 col-lg-8">
+                    <div class="form-group">
+                        <label for="durations">Durations <span class="durations"><!-- This is where the no. of years load --></span></label>
+                        <input type="range" class="custom-range" min="0" max="5" id="durations" name="durations" value="0" aria-describedby="durationsHelpBlock">
+                        <small id="durationsHelpBlock" class="form-text text-muted">
+                            Slide to select no. of years for the durations
+                        </small>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-4">
+                    <div class="form-group">
+                        <label for="total-readonly">Total</label>
+                        <input type="text" readonly class="form-control-plaintext" id="total-readonly" name="total_readonly" value="₱ 0.00" />
+                        <input type="hidden" name="total" />
+                    </div>
+                </div>
+                <div class="col-12 col-lg-12">
+                    <div class="form-group">
+                        <label for="expiration">Expiration</label>
+                        <input type="text" class="form-control" id="expiration" name="expiration" readonly/>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="company-name">Company Name</label>
+                <input type="text" class="form-control" id="company-name" name="company_name" />
+            </div>
+            <div class="form-group">
+                <label for="brand-name">Brand Name</label>
+                <input type="text" class="form-control" id="brand-name" name="brand_name" />
+            </div>
+            <div class="form-group">
+                <label for="service-type-id">Product / Service Type</label>
+                <select class="custom-select" id="service-type-id" name="service_type_id">
+                    <option value="" selected>&dash;</option>
+                    <!-- This is where the product / service type load -->
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="description">Product / Service Description</label>
+                <textarea class="form-control" id="description" name="description" rows="2" maxlength="255"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="url">URL</label>
+                <input type="text" class="form-control" id="url" name="url" />
+            </div>
+            <div id="placeholder" class="mb-3">
+                <!-- Image placeholder -->
+                <img class="mx-auto d-block" style="max-height: 200px" src="{{ base_url('public/assets/images/companylogo.jpg') }}" alt="Image Placeholder" />
+                <!-- This is where the image preview load -->
+            </div>
+            <div class="text-center">
+                <a class="btn btn-sm btn-brown rounded-pill px-3" href="#gallery" data-toggle="modal"><i class="align-middle" data-feather="grid"></i> Media Gallery</a>
             </div>
         </div>
         <div class="modal-footer">
@@ -142,6 +200,30 @@
                     </div>
                 </div>
             </div>
+            <div class="row ad-computation">
+                <div class="col-12 col-lg-8">
+                    <div class="form-group">
+                        <label for="durations">Durations <span class="durations"><!-- This is where the no. of years load --></span></label>
+                        <input type="range" class="custom-range" min="0" max="5" id="durations" name="durations" value="0" aria-describedby="durationsHelpBlock">
+                        <small id="durationsHelpBlock" class="form-text text-muted">
+                            Slide to select no. of years for the durations
+                        </small>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-4">
+                    <div class="form-group">
+                        <label for="total-readonly">Total</label>
+                        <input type="text" readonly class="form-control-plaintext" id="total-readonly" name="total_readonly" value="₱ 0.00" />
+                    </div>
+                </div>
+                <div class="col-12 col-lg-12">
+                    <div class="form-group">
+                        <label for="expiration">Expiration</label>
+                        <input type="text" class="form-control" id="expiration" name="expiration" readonly/>
+                        <input type="hidden" name="total" />
+                    </div>
+                </div>
+            </div>
             <div class="form-group">
                 <label for="company-name">Company Name</label>
                 <input type="text" class="form-control" id="company-name" name="company_name" />
@@ -153,7 +235,6 @@
             <div class="form-group">
                 <label for="service-type-id">Product / Service Type</label>
                 <select class="custom-select" id="service-type-id" name="service_type_id">
-                    <option value="" selected>&dash;</option>
                     <!-- This is where the product / service type load -->
                 </select>
             </div>
@@ -164,10 +245,6 @@
             <div class="form-group">
                 <label for="url">URL</label>
                 <input type="text" class="form-control" id="url" name="url" />
-            </div>
-            <div class="form-group">
-                <label for="expiration">Expiration</label>
-                <input type="text" class="form-control flatpickrCalendar" id="expiration" name="expiration" />
             </div>
             <div id="placeholder" class="mb-3">
                 <!-- This is where the image preview load -->
@@ -316,8 +393,11 @@
                                 _this.find('select[name="branch_id"]').append('<option value="' + data.branch_id + '" selected>' + data.branch_name + '</option>');
                                 _this.find('select[name="location_id"]').append('<option value="' + data.location_id + '" selected>' + data.location_name + '</option>');
                                 _this.find('input[name="url"]').val(data.url);
+                                _this.find('input[name="durations"]').val(data.durations);
+                                _this.find('.durations').text('(' + data.durations + ' Year' + ((parseInt(data.durations) <= 1) ? '' : 's') + ')');
+                                _this.find('input:hidden[name="total"]').val(data.total);
+                                _this.find('input[name="total_readonly"]').val('₱ ' + parseInt(data.total).toFixed(2));
                                 _this.find('input[name="expiration"]').val(data.expiration);
-                                _this.find('input.input').val(moment(data.expiration, 'YYYY-MM-DD').format('MMMM DD, YYYY'));
 
                                 if($('body').attr('data-media-id') == null) {
                                     _this.find('input:hidden[name="media_id"]').val(data.media_id); 
@@ -470,7 +550,7 @@
                                 $('#update').modal('hide');
 
                                 // Show and append notif msg  
-                                $('#notif').modal('show').find('.modal-body p').text('Ad #' + id + ' has been updated');
+                                $('#notif').modal('show').find('.modal-body p').text('Ad has been updated');
                                     
                                 // Hide notif after (x) number of seconds 
                                 setTimeout(function(){ 
@@ -509,7 +589,7 @@
                 bindForm: function () {
                     $('#delete').on('show.bs.modal', this.submitForm(), function(e){
                         $(this).find('input:hidden[name="id"]').val($(e.relatedTarget).attr('data-id'));
-                        $(this).find('.modal-body p').text('Are you sure you want to delete ad #' + $(e.relatedTarget).attr('data-id') + '?');
+                        $(this).find('.modal-body p').text('Are you sure you want to delete this Ad?');
                     });
                 },
                 submitForm: function() {
@@ -540,7 +620,7 @@
                                 $('#delete').modal('hide');
 
                                 // Show and append notif msg  
-                                $('#notif').modal('show').find('.modal-body p').text('Ad #' + id + ' has been moved to trash');
+                                $('#notif').modal('show').find('.modal-body p').text('Ad has been moved to trash');
                                     
                                 // Hide notif after (x) number of seconds 
                                 setTimeout(function(){ 
@@ -563,11 +643,34 @@
                 }
             }
 
+            let app = {
+                init: function() {
+                    this.adTotal();
+                },
+                adTotal: function() {
+                    $('.ad-computation').on('change', function() {
+                        let _this = $(this);
+                        let basePrice = 49; // Base price (per day)
+                        let durations = $(this).find('#durations').val(); // No of yrs.
+                        let total = (durations * 365) * basePrice; // Total 
+                        let expiration = moment().add(durations, 'y').format('YYYY-MM-DD hh:mm:ss');
+
+                        durations = '(' + durations + ' Year' + ((parseInt(durations) <= 1) ? '' : 's') + ')'; 
+
+                        _this.find('.durations').text(durations);
+                        _this.find('input[name="expiration"]').val(expiration);
+                        _this.find('input[name="total_readonly"]').val('₱ ' + total.toFixed(2));
+                        _this.find('input:hidden[name="total"]').val(total);
+                    });
+                }
+            }
+
             getAll.init();
             getById.init();
             create.init();
             update.init();
             softDelete.init();
+            app.init();
         })
     </script>
 {% endblock %}

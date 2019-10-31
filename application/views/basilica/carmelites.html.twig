@@ -1,9 +1,10 @@
+
 {#
-    Filename    : contact.html.twig
-    Location    : application/views/basilica/contact.html.twig
-    Purpose     : Contact partial page
-    Created     : 06/03/2019 23:53:54 by Spiderman
-    Updated     : 10/25/2019 17:48:12 by Spiderman
+    Filename    : carmelites.html.twig
+    Location    : application/views/basilica/carmelite.html.twig
+    Purpose     : Carmelites partial page
+    Created     : 06/03/2019 12:31:51 by Spiderman
+    Updated     : 10/31/2019 14:30:35 by Spiderman
     Changes     : 
 #}
 
@@ -12,7 +13,7 @@
 {% block title %} {{ page_title }} | Carmel {% endblock %}
 
 {% block contents %}
-    <div id="contact" class="row justify-content-center">
+    <div id="carmelites" class="row justify-content-center">
         <div id="ajax-preloader"></div>
         <div class="col-12 col-lg-10">
             <div class="card">
@@ -20,8 +21,8 @@
                     <h3 class="card-title text-center">{{ page_title }}</h3>
                 </div>
                 <div class="card-body">
-                    <div id="details">
-                        <!-- This is where the contact details load -->
+                    <div id="ministers">
+                        <!-- This is where the active ministers load -->
                     </div>
                 </div>
             </div>
@@ -38,15 +39,14 @@
             let branchID = $.fn.branchID();  
 
             let app = {
-                init: function () {
-                    this.contact();
+                init: function() {
+                    this.carmelites();
                 },
-                contact: function() {
-
-                    let _this = $('#contact');
-
+                carmelites: function() {
+                    let _this = $('#carmelites'); 
+                        
                     let jqXHR = $.ajax({
-                        url: apiURL + '/contact/?branch_id=' + branchID,
+                        url: apiURL + '/carmelites/?branch_id=' + branchID,
                         type: 'GET',
                         dataType: 'json',
                         data: _this.serialize(),
@@ -59,18 +59,19 @@
 
                     jqXHR.done(function (data) {
                         if (data) {
-                            _this.find('#details').html(
-                                '<dl class="row">' +
-                                '<dt class="col-sm-6 text-right">Address</dt>' +
-                                '<dd class="col-sm-6">' + data.address1 + ', ' + data.address2 + '<br/>' + data.city_name + ', ' + data.province_name + ', ' + data.country_name + '</dd>' +
-                                '<dt class="col-sm-6 text-right">Landline</dt>' +
-                                '<dd class="col-sm-6">' + data.landline + '</dd>' +
-                                '<dt class="col-sm-6 text-right">Mobile</dt>' +
-                                '<dd class="col-sm-6">' + data.mobile + '</dd>' +
-                                '<dt class="col-sm-6 text-right">Email Address</dt>' +
-                                '<dd class="col-sm-6">' + data.email + '</dd>' +
-                                '</div>'
-                            );
+                            _this.find('#ministers').html('<div class="row"></div>');
+                            $.each(data.data, function (key, value) {
+                                _this.find('#ministers .row').append(   
+                                    '<div class="col-12 col-md-6 text-center">' +
+                                    '    <figure class="figure">' +
+                                    '        <img class="figure-img img-fluid rounded-circle" src="' + apiURL + '/' + value.media_path + '" alt="' + value.name + '">' +
+                                    '        <figcaption class="figure-caption">' +
+                                    '            <span class="figure-title text-uppercase">' + value.name + ', ' + value.congregation + '</span><br/>' + value.position +                                
+                                    '        </figcaption>' +
+                                    '    </figure>' +
+                                    '</div>'
+                                );
+                            });
                         }
                     });
 
@@ -82,7 +83,7 @@
                         console.log('The following error occurred: ' + jqXHR.status, errorThrown);
                     });
                 }
-            };
+            }
 
             app.init();
         })

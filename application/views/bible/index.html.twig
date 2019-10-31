@@ -3,20 +3,21 @@
     Location    : application/views/bible/index.html.twig
     Purpose     : Bible partial page
     Created     : 06/03/2019 14:15:26 by Spiderman
-    Updated     : 09/13/2019 14:15:36 by Spiderman
+    Updated     : 10/25/2019 19:27:28 by Spiderman
     Changes     : 
 #}
 
 {% extends 'base.html.twig' %}
 
-{% block title %} {{ page_title }} | Mount Carmel {% endblock %}
+{% block title %} {{ page_title }} | Carmel {% endblock %}
 
 {% block contents %}
-    <div class="row justify-content-center">
-        <div id="bible" class="col-12 col-lg-10">
+    <div id="bible" class="row justify-content-center">
+        <div class="col-12 col-lg-10">
             <div class="card">
                 <div class="card-header text-center">
-                    <h3 class="card-title">Bible - Revised Standard Version</h3>
+                    <h5 class="card-title mb-2">{{ page_title }}</h5>
+                    <h4 class="card-subtitle">{{ page_subtitle }}</h4>
                 </div>
                 <div class="card-body">
                 </div>

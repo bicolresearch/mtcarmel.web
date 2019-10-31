@@ -3,7 +3,7 @@
     Location    : application/views/base.html.twig
     Purpose     : Base template
     Created     : 06/03/2019 22:09:22 by Spiderman
-    Updated     : 10/23/2019 11:21:33 by Spiderman
+    Updated     : 10/25/2019 19:28:34 by Spiderman
     Changes     : 
 #}
 
@@ -13,9 +13,11 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="Carmel PH">
+    <meta name="description" content="Carmel">
     <meta name="author" content="Bicol Research">
-    <title>{% block title %} Carmel {% endblock %}</title>
+    <title>
+        {% block title %} Carmel {% endblock %}
+    </title>
     {% block stylesheets %}
         <link href="{{ base_url('public/assets/css/style.css') }}" rel="stylesheet">
     {% endblock %}
@@ -79,8 +81,8 @@
                             <ul id="basilica" class="sidebar-dropdown list-unstyled collapse" data-parent="#sidebar">
                                 <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('mass-schedule') }}">Mass Schedule</a></li>
                                 <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('location-map') }}">Location Map</a></li>
-                                <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('carmelite') }}">Carmelite</a></li>
-                                <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('contact') }}">Contact Details</a></li>
+                                <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('carmelites') }}">Carmelites</a></li>
+                                <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('contact') }}">Contact Us</a></li>
                                 <li class="sidebar-item"><a class="sidebar-link" href="{{ base_url('history') }}">History</a></li>
                             </ul>
                         </li>
@@ -434,7 +436,7 @@
                     linkToAppStore: function () {
                         $('.linkToAppStore').on('click', function (e) {
                             if (navigator.userAgent.toLowerCase().indexOf('iphone') > -1) {
-                                window.location.href = 'https://itunes.apple.com';
+                                window.location.href = basseURL;
                             }
 
                             if (navigator.userAgent.toLowerCase().indexOf("android") > -1) {
@@ -442,7 +444,7 @@
                             }
 
                             if (!navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/)) {
-                                window.location.href = baseURL; // Redirect to homepage
+                                window.location.href = 'https://play.google.com/store/apps/details?id=ph.mountcarmel.mountcarmelsystem';
                             }            
                             e.preventDefault();
                         });

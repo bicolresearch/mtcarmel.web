@@ -3,27 +3,29 @@
     Location    : application/views/admin/profile.html.twig
     Purpose     : Profile partial page
     Created     : 09/25/2019 18:05:24 by Spiderman
-    Updated     : 
+    Updated     : 10/25/2019 19:02:29 by Spiderman
     Changes     : 
 #}
 
 {% extends 'admin/base.html.twig' %}
 
-{% block title %} {{ page_title }} | Mount Carmel {% endblock %}
+{% block title %} {{ page_title }} | Carmel {% endblock %}
 
 {% block contents %}
-    <div class="row">
-        <div id="profile" class="col-12 col-lg-4">
+    <div id="profile" class="row">
+        <div class="col-12 col-lg-4">
             <div class="card mb-3">
-                <div
-                    class="card-body text-center"><!-- This is where the user profile load -->
+                <div class="card-body text-center">
+                    <div id="avatar">
+                        <!-- This is where the user profile load -->
+                    </div>
                 </div>
             </div>
         </div>
-        <div id="info" class="col-12 col-lg-8">
+        <div class="col-12 col-lg-8">
             <div class="card mb-3">
                 <div class="card-header">
-                    <h3 class="card-title">Personal Information</h3>
+                    <h3 class="card-title">{{ page_title }}</h3>
                 </div>
                 <form id="update-form">
                     <div class="card-body">
@@ -117,8 +119,8 @@
                 },
                 displayForm: function () {
 
-                    let _this = $('body');
-                    let id = _this.attr('data-user-id');
+                    let _this = $('#profile');
+                    let id = $('body').attr('data-user-id');
 
                     let jqXHR = $.ajax({
                         url: baseURL + '/admin/profile/info/?branch_id=' + branchID + '&id=' + id,
@@ -130,8 +132,9 @@
                     });
 
                     jqXHR.done(function (data) {
-                        if (data) { // Populate form
-                            _this.find('#profile .card-body').append('<img class="img-fluid rounded-circle mb-2" src="' + apiURL + '/' + data.media_path + '" alt="' + data.first_name + ' ' + data.last_name + '" width="128" height="128" />' + '<h4 class="card-title mb-0">' + data.first_name + ' ' + data.last_name + '</h4>' + '<div class="text-muted mb-2">' + data.email + '</div>');
+                        if (data) { 
+                            // Populate form
+                            _this.find('#avatar').append('<img class="img-fluid rounded-circle mb-2" src="' + apiURL + '/' + data.media_path + '" alt="' + data.first_name + ' ' + data.last_name + '" width="128" height="128" />' + '<h4 class="card-title mb-0">' + data.first_name + ' ' + data.last_name + '</h4>' + '<div class="text-muted mb-2">' + data.email + '</div>');
                             _this.find('input:hidden[name="id"]').val(data.id);
                             _this.find('input[name="first_name"]').val(data.first_name);
                             _this.find('input[name="last_name"]').val(data.last_name);
@@ -154,10 +157,7 @@
             // PUT: Update
             let update = {
                 init: function () {
-                    this.bindForm();
-                },
-                bindForm: function () {
-                    $('#info').on('show.bs.modal', this.submitForm());
+                    this.submitForm();
                 },
                 submitForm: function () {
                     $('#update-form').on('submit', function (e) {

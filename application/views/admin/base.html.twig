@@ -13,10 +13,10 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <meta name="description" content="Mount Carmel System">
+        <meta name="description" content="Carmel">
         <meta name="author" content="Bicol Research">
         <title>
-            {% block title %} Mount Carmel {% endblock %}
+            {% block title %} Carmel {% endblock %}
         </title>
         {% block stylesheets %}
             <link href="{{ base_url('public/assets/css/style.css') }}" rel="stylesheet">
@@ -32,8 +32,10 @@
                                 <img src="{{ base_url('public/assets/images/brands/mount-carmel-logo.svg') }}" alt="Mount Carmel Logo"/>
                             </div>
                             <div class="logo-text">
-                                <div class="title">Mount Carmel</div>
-                                <div class="address">Quezon City, Philippines</div>
+                                <div class="title">Carmel PH</div>
+                                <div class="address">
+                                    <!-- This is where the branch location load -->
+                                </div>
                             </div>
                         </a>
                         <ul class="sidebar-nav">
@@ -62,10 +64,10 @@
                                         <a class="sidebar-link" href="{{ base_url('admin/carmelites') }}">Carmelites</a>
                                     </li>
                                     <li class="sidebar-item">
-                                        <a class="sidebar-link" href="{{ base_url('admin/contacts') }}">Contacts</a>
+                                        <a class="sidebar-link" href="{{ base_url('admin/contact') }}">Contact</a>
                                     </li>
                                     <li class="sidebar-item">
-                                        <a class="sidebar-link" href="{{ base_url('admin/histories') }}">Histories</a>
+                                        <a class="sidebar-link" href="{{ base_url('admin/history') }}">History</a>
                                     </li>
                                     <li class="sidebar-item">
                                         <a class="sidebar-link" href="{{ base_url('admin/live_streams') }}">Live Streams</a>
@@ -273,6 +275,7 @@
                             this.countriesDDL();
                             this.cascadingBranchLocation();
                             this.inputMasking();
+                            this.branchLocation();
                         },
                         activeList: function () {
 
@@ -574,6 +577,11 @@
                         inputMasking: function () {
                             $('input[name="landline"]').mask('(00) 000-0000', {placeholder: "(02) 123-4567"});
                             $('input[name="mobile"]').mask('(000) 000-0000', {placeholder: "(927) 123-4567"});
+                        },
+                        branchLocation: function () {
+                            $.get(apiURL + '/branches/branch/?id=' + branchID, function (data) {
+                                $('.logo-text').find('.address').append(data.location_name);
+                            });
                         }
                     }
 

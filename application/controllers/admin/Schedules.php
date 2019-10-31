@@ -5,7 +5,7 @@
     Location    : application/controllers/admin/Schedules.php
     Purpose     : Schedules controller
     Created     : 07/23/2019 12:27:08 by Scarlet Witch
-    Updated     : 08/21/2019 23:00:30 by Spiderman
+    Updated     : 10/25/2019 18:46:31 by Spiderman
     Changes     : 
 */
 
@@ -212,7 +212,6 @@ class Schedules extends CI_Controller
                     'X-API-KEY' => $this->guzzle->key()
                 ],
                 'form_params' => [
-                    'branch_id' => 1,
                     'name' => $this->input->put('name'),
                     'description' => $this->input->put('description'),
                     'time_from' => $this->input->put('time_from'),

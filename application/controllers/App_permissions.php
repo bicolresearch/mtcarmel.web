@@ -6,7 +6,7 @@
     Location    : application/controller/App_permissions.php
     Purpose     : App Permissions Controller
     Created     : 09/13/2019 14:08:19 by Spiderman
-    Updated     : 
+    Updated     : 10/25/2019 18:56:57 by Spiderman
     Changes     : 
 */
 
@@ -18,7 +18,6 @@ class App_permissions extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->output->enable_profiler(FALSE);
     }
 
     public function index()

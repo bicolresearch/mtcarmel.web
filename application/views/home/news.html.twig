@@ -3,16 +3,17 @@
     Location    : application/views/home/news.html.twig
     Purpose     : News partial page
     Created     : 06/03/2019 13:29:55 by Spiderman
-    Updated     : 09/04/2019 13:22:26 by Spiderman
+    Updated     : 10/25/2019 18:27:10 by Spiderman
     Changes     : 
 #}
 
 {% extends 'base.html.twig' %}
 
-{% block title %} {{ page_title }} | Mount Carmel {% endblock %}
+{% block title %} {{ page_title }} | Carmel {% endblock %}
 
 {% block contents %}
-    <div class="row">
+    <div id="news" class="row">
+        <div id="ajax-preloader"></div>
         <div id="media" class="col-12 col-lg-8">
             <!-- This is where the news feeds load -->
         </div>
@@ -36,7 +37,7 @@
                     this.ads();
                 },       
                 news: function () {
-                    let _this = $('#media');
+                    let _this = $('#news');
 
                     let jqXHR = $.ajax({
                         url: apiURL + '/posts/?branch_id=' + branchID,
@@ -44,13 +45,16 @@
                         dataType: 'json', 
                         data: _this.serialize(),
                         cache: false,
-                        processData: false
+                        processData: false,
+                        beforeSend: function () {
+                            _this.find('#ajax-preloader').preloader().show();
+                        }
                     });
 
                     jqXHR.done(function (data) {
                         if (data) {
                             $.each(data.data, function (key, value) {
-                                _this.append(
+                                _this.find('#media').append(
                                     '<div class="card">' +
                                     '   <div class="card-body">' +
                                     '       <div class="media">' +
@@ -81,12 +85,16 @@
                         }
                     });
 
+                    jqXHR.always(function () {
+                        _this.find('#ajax-preloader').preloader().hide();
+                    });
+
                     jqXHR.fail(function (jqXHR, textStatus, errorThrown) {
-                        console.log('The following error occurred: ' + textStatus, errorThrown);
+                        console.log('The following error occurred: ' + jqXHR.status, errorThrown);
                     });
                 },
                 ads: function() {
-                    let _this = $('#ads');
+                    let _this = $('#news');
 
                     let jqXHR = $.ajax({
                         url: apiURL + '/ads/?branch_id=' + branchID + '&type_id=111',
@@ -94,12 +102,15 @@
                         dataType: 'json',
                         data: _this.serialize(),
                         cache: false,
-                        processData: false
+                        processData: false,
+                        beforeSend: function () {
+                            _this.find('#ajax-preloader').preloader().show();
+                        }
                     });
 
                     jqXHR.done(function (data) {
                         if(data) {
-                            _this.html(
+                            _this.find('#ads').html(
                                 '<div class="card sticky-top">' +
                                 '   <div class="card-header">' +
                                 '       <h4 class="card-title text-center">Made Possible By</h4>' + 
@@ -110,7 +121,7 @@
                                 '</div>'
                             );
                             $.each(data, function (key, value) {
-                                _this.find('.row').append(
+                                _this.find('#ads .row').append(
                                     '<div class="col-12 text-center">' +
                                     '   <a href="' + value.url + '" title="' + value.description + '" target="_blank">' +
                                     '       <img class="img-fluid mx-auto d-block" style="max-height: 200px; display: block;" src="' + apiURL + '/' + value.media_path + '" alt="' + value.name + '"/>' +
@@ -121,8 +132,12 @@
                         }
                     });
 
+                    jqXHR.always(function () {
+                        _this.find('#ajax-preloader').preloader().hide();
+                    });
+
                     jqXHR.fail(function (jqXHR, textStatus, errorThrown) {
-                        console.log('The following error occurred: ' + textStatus, errorThrown);
+                        console.log('The following error occurred: ' + jqXHR.status, errorThrown);
                     });
                 }
             };

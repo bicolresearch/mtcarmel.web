@@ -136,7 +136,7 @@ class Boundaries extends CI_Controller
                     'X-API-KEY' => $this->guzzle->key()
                 ],
                 'form_params' => [
-                    'branch_id' => 1,
+                    'branch_id' => $this->config->item('branch_id'),
                     'name' => $this->input->post('name'),
                     'description' => $this->input->post('description'),
                     'media_id' => 5,
@@ -198,7 +198,6 @@ class Boundaries extends CI_Controller
                     'X-API-KEY' => $this->guzzle->key()
                 ],
                 'form_params' => [
-                    'branch_id' => $this->config->item('branch_id'),
                     'name' => $this->input->put('name'),
                     'description' => $this->input->put('description'),
                     'user_id' => user('id')

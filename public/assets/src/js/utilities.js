@@ -3,23 +3,23 @@
     Location    : public/assets/js/utilities.js
     Purpose     : Extend jquery functions
     Created     : 08/04/2019 15:24:21 by Spiderman
-    Updated     : 10/22/2019 17:59:05 by Spiderman
+    Updated     : 10/31/2019 15:12:57 by Spiderman
     Changes     : 
 */
 
-let baseURL = 'http://localhost/mountcarmel.web';
-let apiURL = 'http://localhost/mountcarmel.api';
 let branchID = 1;
+let baseURL = 'https://carmel.ph';
+let apiURL = 'https://carmel.ph/api';
 
 $.fn.extend({
+    branchID: function() {
+        return branchID
+    },
     baseURL: function() {
         return baseURL;
     },
     apiURL: function() {
         return apiURL;
-    },
-    branchID: function() {
-        return branchID
     },
     preloader: function() {
         return this.html(

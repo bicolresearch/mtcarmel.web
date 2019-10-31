@@ -1,19 +1,18 @@
 <?php
 
 /*
-    Filename    : Profile.php
-    Location    : application/controllers/user/Profile.php
-    Purpose     : Profile Controller
-    Created     : 09/23/2019 13:57:24 by Spiderman
-    Updated     : 10/25/2019 18:46:04 by Spiderman
+    Filename    : 10/24/2019 21:12:46 by Spiderman
+    Location    : application/controllers/admin/Contact.php
+    Purpose     : Contact controller
+    Created     : 07/23/2019 11:53:46 by Scarlet Witch
+    Updated     : 10/24/2019 21:08:54 by Spiderman
     Changes     : 
 */
 
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Profile extends CI_Controller
+class Contact extends CI_Controller
 {
-
     public function __construct()
     {
         parent::__construct();
@@ -23,28 +22,28 @@ class Profile extends CI_Controller
     {
         if(logged_in()) {
             $view_data = [
-                'page_title' => 'Personal Information',
+                'page_title' => 'Contact',
                 'page_subtitle' => '',
                 'user' => user()
             ];
-
-            $this->twig->display('admin/profile.html', $view_data);
+    
+            $this->twig->display('admin/contact.html', $view_data);
         } else {
             redirect('auth', 'refresh');
         }
     }
-
+    
     // GET request
-    public function info() 
+    public function contact() 
     {
         // Redirect to auth if not ajax request
         if (!$this->input->is_ajax_request()) {
-           redirect('auth', 'refresh');
+            redirect('auth', 'refresh');
         }
-    
+
         // Create a client with a base URI
         $client = $this->guzzle->client();
-    
+
         $options = [
             'headers' => [
                 'Content-Type' => 'application/json',
@@ -52,23 +51,22 @@ class Profile extends CI_Controller
                 'X-API-KEY' => $this->guzzle->key()
             ],
             'query' => [
-                'branch_id' => $_GET['branch_id'],
-                'id' => $_GET['id']
+                'branch_id' => $_GET['branch_id']
             ]
         ];
-    
+
         try {
             // GET request
-            $response = $client->get('users/user', $options);
-    
+            $response = $client->get('contact', $options);
+
             $response = json_decode($response->getBody()->getContents());
-    
+
             // Return $response
             echo json_encode($response, true);
-    
+
         } catch (GuzzleHttp\Exception\ClientException $e) {
             $response = $e->getResponse();
-    
+
             // Return $response 
             echo $response->getBody()->getContents();
         }
@@ -83,28 +81,30 @@ class Profile extends CI_Controller
         }
 
         $set_data = array(
-            'first_name' => $this->input->put('first_name'),
-            'last_name' => $this->input->put('last_name'),
-            'address_1' => $this->input->put('address_1'),
-            'address_2' => $this->input->put('address_2'),
+            'name' => $this->input->put('name'),
+            'description' => $this->input->put('description'),
+            'address1' => $this->input->put('address1'),
+            'address2' => $this->input->put('address2'),
             'city' => $this->input->put('city'),
             'province' => $this->input->put('province'),
             'country' => $this->input->put('country'),
             'landline' => $this->input->put('landline'),
-            'mobile' => $this->input->put('mobile')
+            'mobile' => $this->input->put('mobile'),
+            'email' => $this->input->put('email')
         );
 
         $this->form_validation
             ->set_data($set_data)
-            ->set_rules('first_name', 'First Name', 'trim|required|xss_clean')
-            ->set_rules('last_name', 'Last Name', 'trim|required|xss_clean')
-            ->set_rules('address_1', 'Address 1', 'trim|required|xss_clean')  
-            ->set_rules('address_2', 'Address 2', 'trim|required|xss_clean')   
-            ->set_rules('city', 'City', 'trim|required|xss_clean')   
-            ->set_rules('province', 'Province', 'trim|required|xss_clean')   
-            ->set_rules('country', 'Country', 'trim|required|xss_clean')   
-            ->set_rules('landline', 'Landline', 'trim|required|xss_clean') 
-            ->set_rules('mobile', 'Mobile', 'trim|required|xss_clean') 
+            ->set_rules('name', 'Name', 'trim|required|xss_clean')
+            ->set_rules('description', 'Description', 'trim|required|xss_clean')
+            ->set_rules('address1', 'Address1', 'trim|required|xss_clean')
+            ->set_rules('address2', 'Address2', 'trim|required|xss_clean')
+            ->set_rules('city', 'City', 'trim|required|xss_clean')            
+            ->set_rules('province', 'Province', 'trim|required|xss_clean')
+            ->set_rules('country', 'Country', 'trim|required|xss_clean')
+            ->set_rules('landline', 'Landline', 'trim|required|xss_clean')
+            ->set_rules('mobile', 'Mobile', 'trim|required|xss_clean')
+            ->set_rules('email', 'Email', 'trim|required|xss_clean')
             ->set_error_delimiters('<li>', '</li>');
 
         if ($this->form_validation->run()) {
@@ -118,25 +118,25 @@ class Profile extends CI_Controller
                     'X-API-KEY' => $this->guzzle->key()
                 ],
                 'form_params' => [
-                    'first_name' => $this->input->put('first_name'),
-                    'last_name' => $this->input->put('last_name'),
-                    'address_1' => $this->input->put('address_1'),
-                    'address_2' => $this->input->put('address_2'),
+                    'name' => $this->input->put('name'),
+                    'description' => $this->input->put('description'),
+                    'address1' => $this->input->put('address1'),
+                    'address2' => $this->input->put('address2'),
                     'city' => $this->input->put('city'),
                     'province' => $this->input->put('province'),
                     'country' => $this->input->put('country'),
                     'landline' => $this->input->put('landline'),
                     'mobile' => $this->input->put('mobile'),
+                    'email' => $this->input->put('email'),
                     'user_id' => user('id')
                 ]
             ];
 
             try {
-                // Get the id parameter
                 $id = $this->uri->segment(5);
 
                 // PUT request
-                $response = $client->put('users/update/id/' . $id, $options);
+                $response = $client->put('contact/update/id/' . $id, $options);
 
                 // Return $response  
                 echo $response->getBody()->getContents();
@@ -151,17 +151,19 @@ class Profile extends CI_Controller
             $view_data = [
                 'status' => false,
                 'message' => validation_errors(),
-                'first_name' => form_error('first_name'),
-                'last_name' => form_error('last_name'),
-                'address_1' => form_error('address_1'),
-                'address_2' => form_error('address_2'),
+                'name' => form_error('name'),
+                'description' => form_error('description'),
+                'address1' => form_error('address1'),
+                'address2' => form_error('address2'),
                 'city' => form_error('city'),
                 'province' => form_error('province'),
                 'country' => form_error('country'),
                 'landline' => form_error('landline'),
-                'mobile' => form_error('mobile')
+                'mobile' => form_error('mobile'),
+                'email' => form_error('email') 
             ];
+
             echo json_encode($view_data);
         }
-    }       
+    } 
 }

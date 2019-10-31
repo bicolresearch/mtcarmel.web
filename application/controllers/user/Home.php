@@ -5,7 +5,7 @@
     Location    : application/controllers/user/Home.php
     Purpose     : Home Controller
     Created     : 09/23/2019 17:07:32 by Spiderman
-    Updated     : 09/26/2019 13:51:02 by Spiderman
+    Updated     : 10/25/2019 18:48:13 by Spiderman
     Changes     : 
 */
 
@@ -23,6 +23,7 @@ class Home extends CI_Controller
         if(logged_in()) {
             $view_data = [
                 'page_title' => 'Homepage',
+                'page_subtitle' => '',
                 'user' => user()
             ];
         
@@ -37,6 +38,7 @@ class Home extends CI_Controller
         if(logged_in()) {
             $view_data = [
                 'page_title' => 'News & Updates',
+                'page_subtitle' => '',
                 'user' => user()
             ];
     
@@ -51,6 +53,7 @@ class Home extends CI_Controller
         if(logged_in()) {
             $view_data = [
                 'page_title' => 'Calendar',
+                'page_subtitle' => '',
                 'user' => user()
             ];
     
@@ -65,6 +68,7 @@ class Home extends CI_Controller
         if(logged_in()) {
             $view_data = [
                 'page_title' => 'Live Mass',
+                'page_subtitle' => 'Schedules',
                 'user' => user()
             ];
     

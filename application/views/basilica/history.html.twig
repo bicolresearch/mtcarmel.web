@@ -1,22 +1,23 @@
 {#
-    Filename    : history-details.html.twig
-    Location    : application/views/basilica/history-details.html.twig
-    Purpose     : history partial page
+    Filename    : history.html.twig
+    Location    : application/views/basilica/history.html.twig
+    Purpose     : History partial page
     Created     : 06/03/2019 23:46:05 by Spiderman
-    Updated     : 09/25/2019 17:46:30 by Spiderman
+    Updated     : 10/25/2019 13:51:09 by Spiderman
     Changes     : 
 #}
 
 {% extends 'base.html.twig' %}
 
-{% block title %} {{ page_title }} | Mount Carmel {% endblock %}
+{% block title %} {{ page_title }} | Carmel {% endblock %}
 
 {% block contents %}
     <div id="history" class="row">
+        <div id="ajax-preloader"></div>
         <div class="col-12 col-lg-8">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title text-center">History</h3>
+                    <h3 class="card-title text-center">{{ page_title }}</h3>
                 </div>
                 <div class="card-body">
                     <div id="content">
@@ -28,7 +29,7 @@
         <div class="col-12 col-lg-4">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title text-center">Details</h3>
+                    <h3 class="card-title text-center">{{ page_subtitle }}</h3>
                 </div>
                 <div class="card-body">
                     <div id="details">
@@ -91,7 +92,7 @@
                     });
 
                     jqXHR.fail(function (jqXHR, textStatus, errorThrown) {
-                        console.log('The following error occurred: ' + textStatus, errorThrown);
+                        console.log('The following error occurred: ' + jqXHR.status, errorThrown);
                     });
                 }
             };

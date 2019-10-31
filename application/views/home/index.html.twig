@@ -3,14 +3,13 @@
     Location    : application/views/home/index.html.twig
     Purpose     : Home partial page
     Created     : 06/03/2019 22:55:25 by Spiderman
-    Updated     : 10/22/2019 15:26:30 by Spiderman 
-
+    Updated     : 10/25/2019 16:11:59 by Spiderman
     Changes     : 
 #}
 
 {% extends 'base.html.twig' %}
 
-{% block title %} {{ page_title }} | Mount Carmel {% endblock %}
+{% block title %} {{ page_title }} | Carmel {% endblock %}
 
 {% block contents %}
     <div class="row justify-content-center">
@@ -87,7 +86,6 @@
             let app = {
                 init: function () {
                     this.ads();
-                    this.linkToAppStore();
                     this.cascadingBranchLocation();
                     this.currentBranch();
                     this.branchModal();
@@ -118,27 +116,11 @@
                                 _this.find('.carousel-indicators > li').first().addClass('active');
                                 _this.find('.carousel').carousel({interval: 10000});
                             });
-                        }
+                        } 
                     });
 
                     jqXHR.fail(function (jqXHR, textStatus, errorThrown) {
-                        console.log('The following error occurred: ' + textStatus, errorThrown);
-                    });
-                },
-                linkToAppStore: function () {
-                    $('.linkToAppStore').on('click', function (e) {
-                        if (navigator.userAgent.toLowerCase().indexOf('iphone') > -1) {
-                            window.location.href = 'https://itunes.apple.com';
-                        }
-
-                        if (navigator.userAgent.toLowerCase().indexOf("android") > -1) {
-                            window.location.href = 'https://play.google.com/store/apps/details?id=ph.mountcarmel.mountcarmelsystem';
-                        }
-
-                        if (!navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/)) {
-                            window.location.href = location.origin; // Redirect to homepage
-                        }            
-                        e.preventDefault();
+                        console.log('The following error occurred: ' + jqXHR.status, errorThrown);
                     });
                 },
                 cascadingBranchLocation: function () {

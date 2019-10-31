@@ -3,18 +3,21 @@
     Location    : application/views/basilica/location-map.html.twig
     Purpose     : Location map partial page
     Created     : 06/03/2019 13:07:29 by Spiderman
-    Updated     : 07/17/2019 13:07:20 by Spiderman
+    Updated     : 10/29/2019 20:20:47 by Spiderman
     Changes     : 
 #}
 
 {% extends 'base.html.twig' %}
-{% block title %} {{ page_title }} | Mount Carmel {% endblock %}
+
+{% block title %} {{ page_title }} | Carmel {% endblock %}
+
 {% block contents %}
-    <div class="row">
+    <div id="location-map" class="row">
+        <div id="ajax-preloader"></div>
         <div class="col-12 col-lg-8">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title text-center">Location Map</h3>
+                    <h3 class="card-title text-center">{{ page_title }}</h3>
                 </div>
                 <div class="card-body">
                     <div id="map">
@@ -26,19 +29,12 @@
         <div class="col-12 col-lg-4">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title text-center">Boundaries</h3>
+                    <h3 class="card-title text-center">{{ page_subtitle }}</h3>
                 </div>
                 <div class="card-body">
-                    <dl class="row">
-                        <dt class="col-sm-6 text-right">North</dt>
-                        <dd class="col-sm-6">E. Rodriguez Avenue (formerly España Extension)</dd>
-                        <dt class="col-sm-6 text-right">South</dt>
-                        <dd class="col-sm-6">Ermitaño Creek</dd>
-                        <dt class="col-sm-6 text-right">West</dt>
-                        <dd class="col-sm-6">San Juan River</dd>
-                        <dt class="col-sm-6 text-right">East</dt>
-                        <dd class="col-sm-6">Balete Drive through N. Domingo and Horseshoe Drive until Ermitaño Creek</dd>
-                    </dl>
+                    <div id="boundaries">
+                        <!-- This is where the map boundaries load -->
+                    </div>
                 </div>
             </div>
         </div>
@@ -52,78 +48,118 @@
         let branchID = $.fn.branchID();
 
         function initMap(listener) {
-            let map = new google.maps.Map(document.getElementById('map'), {
-                zoom: 14,
-                center: {lat: 14.614253, lng: 121.030581},
-                mapTypeId: 'roadmap',
-                mapTypeControl: true,
-                mapTypeControlOptions: {
-                    style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
-                    position: google.maps.ControlPosition.LEFT_TOP
-                },
-                zoomControl: true,
-                zoomControlOptions: {
-                    position: google.maps.ControlPosition.RIGHT_BOTTOM
-                },
-                scaleControl: true,
-                streetViewControl: true,
-                streetViewControlOptions: {
-                    position: google.maps.ControlPosition.RIGHT_BOTTOM
-                },
-                fullscreenControl: true,
-                fullscreenControlOptions: {
-                    position: google.maps.ControlPosition.RIGHT_BOTTOM
-                }
-            });
 
-            let marker = new google.maps.Marker({
-                position: map.center,
-                map: map,
-                title: 'Click to zoom'
-            });
-
-            map.addListener('center_changed', function () {
-                // 3 seconds after the center of the map has changed, pan back to the
-                // marker.
-                window.setTimeout(function () {
-                    map.panTo(marker.getPosition());
-                }, 3000);
-            });
-
-            marker.addListener('click', function () {
-                map.setZoom(17);
-                map.setCenter(marker.getPosition());
-            });
-
-            let el = $('#map'); 
-            let boundaries = el.serialize();
-
-            $.ajax({
-                url: baseURL + '/basilica/coords',
-                type: 'GET',
-                dataType: 'json',
-                data: boundaries,
-                cache: false,
-                processData: false,
-                success: function (data) {
-                    if (data) {
-                        // Construct the polygon.
-                        let mountCarmel = new google.maps.Polygon({
-                            paths: data,
-                            strokeColor: '#7E5232',
-                            strokeOpacity: 0.75,
-                            strokeWeight: 3,
-                            fillColor: '#7E5232',
-                            fillOpacity: 0.25
-                        });
-                        mountCarmel.setMap(map);
+            $.get(apiURL + '/maps/?branch_id=' + branchID, function (data) {
+                
+                let map = new google.maps.Map(document.getElementById('map'), {
+                    zoom: 14,
+                    center: {
+                        lat: parseFloat(data.map_center[0].lat_center),
+                        lng: parseFloat(data.map_center[0].lng_center)
+                    },
+                    mapTypeId: 'roadmap',
+                    mapTypeControl: true,
+                    mapTypeControlOptions: {
+                        style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
+                        position: google.maps.ControlPosition.LEFT_TOP
+                    },
+                    zoomControl: true,
+                    zoomControlOptions: {
+                        position: google.maps.ControlPosition.RIGHT_BOTTOM
+                    },
+                    scaleControl: true,
+                    streetViewControl: true,
+                    streetViewControlOptions: {
+                        position: google.maps.ControlPosition.RIGHT_BOTTOM
+                    },
+                    fullscreenControl: true,
+                    fullscreenControlOptions: {
+                        position: google.maps.ControlPosition.RIGHT_BOTTOM
                     }
-                },
-                error: function (jqXHR, textStatus, errorThrown) {
-                    console.log('The following error occurred: ' + textStatus, errorThrown);
+                });
+
+                let marker = new google.maps.Marker({
+                    position: map.center,
+                    map: map,
+                    title: 'Click to zoom'
+                });
+
+                map.addListener('center_changed', function () {
+                    // 3 seconds after the center of the map has changed, pan back to the marker.
+                    window.setTimeout(function () {
+                        map.panTo(marker.getPosition());
+                    }, 3000);
+                });
+
+                marker.addListener('click', function () {
+                    map.setZoom(17);
+                    map.setCenter(marker.getPosition());
+                });
+
+                var arr = data.map_boundaries;
+                
+                var coords = [];
+
+                for (var i = 0; i < arr.length; i++) {
+                    coords[i] = new google.maps.LatLng({lat: parseFloat(arr[i].lat), lng: parseFloat(arr[i].lng)});
                 }
+
+                let poly = new google.maps.Polygon({
+                    paths: coords,
+                    strokeColor: '#7E5232',
+                    strokeOpacity: 0.75,
+                    strokeWeight: 3,
+                    fillColor: '#7E5232',
+                    fillOpacity: 0.25
+                });
+
+                poly.setMap(map);
             });
         }
+
+        let locationBoundaries = {
+            init: function() {
+                this.boundaries();
+            },
+            boundaries: function() {
+                let _this = $('#location-map'); 
+                    
+                let jqXHR = $.ajax({
+                    url: apiURL + '/boundaries/?branch_id=' + branchID,
+                    type: 'GET',
+                    dataType: 'json',
+                    data: _this.serialize(),
+                    cache: false,
+                    processData: false,
+                    beforeSend: function () {
+                        _this.find('#ajax-preloader').preloader().show();
+                    }
+                });
+
+                jqXHR.done(function (data) {
+                    if (data) {
+                        _this.find('#boundaries').html('<dl class="row"></dl>');
+                        $.each(data.data, function (key, value) {
+                            _this.find('#boundaries .row').append(   
+                                '<dt class="col-sm-6 text-right">' + value.name + '</dt>' +
+                                '<dd class="col-sm-6">' + value.description + '</dd>'
+                            );
+                        });
+                    }
+                });
+
+                jqXHR.always(function () {
+                    _this.find('#ajax-preloader').preloader().hide();
+                });
+
+                jqXHR.fail(function (jqXHR, textStatus, errorThrown) {
+                    console.log('The following error occurred: ' + jqXHR.status, errorThrown);
+                });
+            }
+        }
+
+        locationBoundaries.init();
+
     </script>
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD-UCm_ZdIOo6RUyU7TBmgNjH1GHgaDrig&callback=initMap"></script>
 {% endblock %}

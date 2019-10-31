@@ -201,7 +201,6 @@ class Prayer_requests extends CI_Controller
                     'X-API-KEY' => $this->guzzle->key()
                 ],
                 'form_params' => [
-                    'branch_id' => 1,
                     'status_id' => $this->input->put('status_id'),
                     'prayer' => $this->input->put('prayer'),
                     'user_id' => user('id')

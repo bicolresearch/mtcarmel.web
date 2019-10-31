@@ -24,6 +24,7 @@ class Profile extends CI_Controller
         if(logged_in()) {
             $view_data = [
                 'page_title' => 'Profile',
+                'page_subtitle' => '',
                 'user' => user()
             ];
 

@@ -5,7 +5,7 @@
     Location    : application/controllers/admin/User.php
     Purpose     : User controller
     Created     : 09/23/2019 21:57:47 by Spiderman
-    Updated     : 
+    Updated     : 10/25/2019 18:48:53 by Spiderman
     Changes     : 
 */
 
@@ -24,6 +24,7 @@ class User extends CI_Controller
         if(logged_in()) {
             $view_data = [
                 'page_title' => 'User',
+                'page_subtitle' => '',
                 'user' => user()
             ];
     

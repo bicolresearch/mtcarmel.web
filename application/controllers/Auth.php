@@ -44,7 +44,7 @@ class Auth extends CI_Controller
             ->set_error_delimiters('<li>', '</li>');
 
         if ($this->form_validation->run()) {
-            if($this->authme->login(set_value('email'), set_value('password'))) {
+            if($this->authme->login(set_value('email'), set_value('password'), $this->config->item('branch_id'))) {
                 $response = [
                     'status' => true
                 ];

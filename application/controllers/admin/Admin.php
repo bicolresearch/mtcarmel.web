@@ -5,7 +5,7 @@
     Location    : application/controllers/admin/Admin.php
     Purpose     : Admin controller
     Created     : 06/27/2019 15:11:03 by Spiderman
-    Updated     : 09/23/2019 21:54:25 by Spiderman
+    Updated     : 10/25/2019 18:40:16 by Spiderman
     Changes     : 
 */
 
@@ -24,6 +24,7 @@ class Admin extends CI_Controller
         if(logged_in()) {
             $view_data = [
                 'page_title' => 'Admin',
+                'page_subtitle' => '',
                 'user' => user()
             ];
     

@@ -5,8 +5,8 @@
     Location    : application/libraries/Authme.php
     Purpose     : Authme authentication library with guzzle
     Created     : 06/28/2019 17:03:40 by Spiderman
-    Updated     : 07/12/2019 17:36:15 by Spiderman
-    Changes     : Implement guzzle in authme library
+    Updated     : 10/25/2019 15:13:17 by Spiderman
+    Changes     : 
 */
 
 if (!defined('BASEPATH')) exit('No direct script access allowed');
@@ -28,7 +28,7 @@ class Authme
     }
 
     // GET request
-    public function login($username, $password)
+    public function login($username, $password, $branch_id)
     {
         // Redirect to home if not ajax request
         if (!$this->CI->input->is_ajax_request()) {
@@ -48,7 +48,7 @@ class Authme
 
         try {
             // GET request
-            $response = $client->get('auth/login/username/' . $username . '/password/' . hash('sha512', $password), $options);
+            $response = $client->get('auth/login/username/' . $username . '/password/' . hash('sha512', $password) . '/branch_id/'. $branch_id, $options);
 
             $user = json_decode($response->getBody()->getContents());
 
