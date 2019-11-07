@@ -3,8 +3,8 @@
     Location    : application/views/home/index.html.twig
     Purpose     : Home partial page
     Created     : 06/03/2019 22:55:25 by Spiderman
-    Updated     : 10/25/2019 16:11:59 by Spiderman
-    Changes     : 
+    Updated     : 11/06/2019 11:30:02 by Scarlet Witch
+    Changes     : updated the Redirect to selected branch added the selected branch
 #}
 
 {% extends 'base.html.twig' %}
@@ -141,15 +141,18 @@
                         $.get(apiURL + '/branches/branch_location/?location_id=' + location.find("option:selected").val(), function (data) {
                             $.each(data.data, function (key, value) {
                                 branch.append('<option value="' + value.id + '">' + '(' + value.order_name + ')' + ' ' + value.name + '</option>');
-                                
+                            
                                 // Redirect to selected branch
                                 branch.on('change', function() {
-                                    window.location.replace(value.url);
+                                    $.get(apiURL + '/branches/branch/?id=' + branch.find("option:selected").val(), function (data) {
+                                    window.location.replace(data.url);
+                                    });                                                                     
                                 });
-                            });
+                            });                            
                         });
                     });
                 },
+                
                 currentBranch: function () {
                     $.get(apiURL + '/branches/branch/?id=' + branchID, function (data) {
                         $('#current-branch').find('p').append(
